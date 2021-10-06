@@ -144,9 +144,6 @@ xs2a_button_redirect_text_color
 ### Example (Kotlin)
 <details>
     <summary>Style file</summary>
-    
-    Android Studio may mark the style-items as undefined.
-    The project will still compile and the style will still be applied.
 
 `res/values/styles.xml`
 ```xml
