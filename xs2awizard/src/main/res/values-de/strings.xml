@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="captcha_image_description">Captcha Bild</string>
+    <string name="image_description">Bild</string>
+    <string name="logo_image_description">Logo</string>
+    <string name="flicker_faster">Schneller</string>
+    <string name="flicker_slower">Langsamer</string>
+    <string name="flicker_bigger">Größer</string>
+    <string name="flicker_smaller">Kleiner</string>
+    <string name="flicker_marker">Markierung</string>
+    <string name="dialog_dismiss">Schließen</string>
+</resources>

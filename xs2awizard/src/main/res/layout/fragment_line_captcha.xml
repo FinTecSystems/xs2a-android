@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/background_none"
+    android:orientation="vertical"
+    tools:context=".form.components.CaptchaLine">
+
+    <ImageView
+        android:id="@+id/captcha_image_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:layout_marginBottom="5dp"
+        android:contentDescription="@string/captcha_image_description" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/captcha_text_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/XS2ATheme.TextInput"
+        app:hintTextAppearance="@style/TextAppearance.AppCompat.Large">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/captcha_text_input_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none"
+            android:paddingTop="7.5dp"
+            style="@style/XS2ATheme.TextInput"
+            android:paddingBottom="7.5dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+</LinearLayout>

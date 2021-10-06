@@ -1,0 +1,18 @@
+<resources>
+    <string name="captcha_image_description">Captcha Image</string>
+    <string name="image_description">Image</string>
+    <string name="logo_image_description">Logo</string>
+    <string name="flicker_faster">Faster</string>
+    <string name="flicker_slower">Slower</string>
+    <string name="flicker_bigger">Bigger</string>
+    <string name="flicker_smaller">Smaller</string>
+    <string name="flicker_marker">Marker</string>
+    <string name="dialog_dismiss">Dismiss</string>
+
+    <string name="fts_logo_url" translatable="false">https://api.xs2a.com/img/mobile-sdks/android/logo_standard.png</string>
+    <string name="fts_logo_black_url" translatable="false">https://api.xs2a.com/img/mobile-sdks/android/logo_black.png</string>
+    <string name="fts_logo_white_url" translatable="false">https://api.xs2a.com/img/mobile-sdks/android/logo_white.png</string>
+    <string name="fts_logo_2x_url" translatable="false">https://api.xs2a.com/img/mobile-sdks/android/logo_standard@2x.png</string>
+    <string name="fts_logo_black_2x_url" translatable="false">https://api.xs2a.com/img/mobile-sdks/android/logo_black@2x.png</string>
+    <string name="fts_logo_white_2x_url" translatable="false">https://api.xs2a.com/img/mobile-sdks/android/logo_white@2x.png</string>
+</resources>

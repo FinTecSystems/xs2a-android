@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/background_none"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/flicker_controls"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/flicker_smaller"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/flicker_smaller"
+            android:src="@drawable/ic_flicker_smaller" />
+
+        <ImageButton
+            android:id="@+id/flicker_bigger"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/flicker_bigger"
+            android:src="@drawable/ic_flicker_bigger" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <ImageButton
+            android:id="@+id/flicker_slower"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/flicker_slower"
+            android:src="@drawable/ic_flicker_slower" />
+
+        <ImageButton
+            android:id="@+id/flicker_faster"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/flicker_faster"
+            android:src="@drawable/ic_flicker_faster" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/flicker_bars"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@color/flicker_background"
+        android:paddingHorizontal="3.5dp"
+        android:paddingVertical="3.5dp"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="3.5dp"
+            android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|top"
+                android:contentDescription="@string/flicker_marker"
+                android:src="@drawable/ic_flicker_marker" />
+        </FrameLayout>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="3.5dp"
+            android:layout_weight="1" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="3.5dp"
+            android:layout_weight="1" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="3.5dp"
+            android:layout_weight="1" />
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="3.5dp"
+            android:layout_weight="1" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|top"
+                android:contentDescription="@string/flicker_marker"
+                android:src="@drawable/ic_flicker_marker" />
+        </FrameLayout>
+    </LinearLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/XS2ATheme.TextInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:hintTextAppearance="@style/TextAppearance.AppCompat.Large">
+
+        <com.google.android.material.textfield.TextInputEditText
+            style="@style/XS2ATheme.TextInput"
+            android:id="@+id/flicker_text_input_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="7.5dp"
+            android:paddingBottom="7.5dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+</LinearLayout>

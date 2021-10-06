@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="fill_horizontal"
+    android:orientation="horizontal"
+    android:padding="10sp"
+    tools:context=".form.components.SubmitLine">
+
+    <Button
+        android:id="@+id/back_button"
+        style="@style/XS2ATheme.BackButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
+    <Button
+        style="@style/XS2ATheme.SubmitButton"
+        android:id="@+id/submit_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</LinearLayout>

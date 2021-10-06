@@ -1,0 +1,2 @@
+include ':xs2awizard'
+rootProject.name = "XS2A Wizard"
