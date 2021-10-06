@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="XS2A">
+    <declare-styleable name="XS2ATheme">
         <attr name="tintColor" format="color" />
         <attr name="textColor" format="color" />
         <attr name="placeholderColor" format="color" />
         <attr name="backgroundColor" format="color" />
-    </declare-styleable>
-    <declare-styleable name="Paragraph">
         <attr name="paragraph_error_background_color" format="color" />
         <attr name="paragraph_error_text_color" format="color" />
         <attr name="paragraph_info_background_color" format="color" />
@@ -15,8 +13,6 @@
         <attr name="paragraph_warning_text_color" format="color" />
         <attr name="paragraph_background_color" format="color" />
         <attr name="paragraph_text_color" format="color" />
-    </declare-styleable>
-    <declare-styleable name="Button">
         <attr name="button_submit_background_color" format="color" />
         <attr name="button_submit_text_color" format="color" />
         <attr name="button_abort_background_color" format="color" />
