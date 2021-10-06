@@ -93,48 +93,52 @@ An example would be the following:
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="CustomXS2ATheme">
-        <!-- Your Styling -->
+    <style name="CustomXS2ATheme" parent="XS2ATheme">
+        <!-- Just change the primary color -->
+        <item name="xs2a_tintColor">#E91E63</item>
+        <item name="xs2a_placeholderColor">#E91E63</item>
+        
+        <!-- Apply more styling -->
     </style>
 </resources>
 ```
 
 The following attributes are styleable:
 ```
-tintColor
-textColor
+xs2a_tintColor
+xs2a_textColor
 
-placeholderColor
-backgroundColor
-
-
-paragraph_background_color
-paragraph_text_color
-
-paragraph_error_background_color
-paragraph_error_text_color
-
-paragraph_info_background_color
-paragraph_info_text_color
-
-paragraph_warning_background_color
-paragraph_warning_text_color
+xs2a_placeholderColor
+xs2a_backgroundColor
 
 
-button_submit_background_color
-button_submit_text_color
+xs2a_paragraph_background_color
+xs2a_paragraph_text_color
 
-button_abort_background_color
-button_abort_text_color
+xs2a_paragraph_error_background_color
+xs2a_paragraph_error_text_color
 
-button_back_background_color
-button_back_text_color
+xs2a_paragraph_info_background_color
+xs2a_paragraph_info_text_color
 
-button_restart_background_color
-button_restart_text_color
+xs2a_paragraph_warning_background_color
+xs2a_paragraph_warning_text_color
 
-button_redirect_background_color
-button_redirect_text_color
+
+xs2a_button_submit_background_color
+xs2a_button_submit_text_color
+
+xs2a_button_abort_background_color
+xs2a_button_abort_text_color
+
+xs2a_button_back_background_color
+xs2a_button_back_text_color
+
+xs2a_button_restart_background_color
+xs2a_button_restart_text_color
+
+xs2a_button_redirect_background_color
+xs2a_button_redirect_text_color
 ```
 
 ### Example (Kotlin)
@@ -148,20 +152,20 @@ button_redirect_text_color
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="CustomXS2ATheme">
-        <item name="tintColor">#E91E63</item>
-        <item name="placeholderColor">#E91E63</item>
+    <style name="CustomXS2ATheme" parent="XS2ATheme">
+        <item name="xs2a_tintColor">#E91E63</item>
+        <item name="xs2a_placeholderColor">#E91E63</item>
 
-        <item name="button_submit_background_color">#E91E63</item>
-        <item name="button_submit_text_color">#000</item>
-        <item name="button_abort_background_color">#E91E63</item>
-        <item name="button_abort_text_color">#000</item>
-        <item name="button_back_background_color">#673AB7</item>
-        <item name="button_back_text_color">#fff</item>
-        <item name="button_restart_background_color">#ffff00</item>
-        <item name="button_restart_text_color">#000</item>
-        <item name="button_redirect_background_color">#000</item>
-        <item name="button_redirect_text_color">#fff</item>
+        <item name="xs2a_button_submit_background_color">#E91E63</item>
+        <item name="xs2a_button_submit_text_color">#000</item>
+        <item name="xs2a_button_abort_background_color">#E91E63</item>
+        <item name="xs2a_button_abort_text_color">#000</item>
+        <item name="xs2a_button_back_background_color">#673AB7</item>
+        <item name="xs2a_button_back_text_color">#fff</item>
+        <item name="xs2a_button_restart_background_color">#ffff00</item>
+        <item name="xs2a_button_restart_text_color">#000</item>
+        <item name="xs2a_button_redirect_background_color">#000</item>
+        <item name="xs2a_button_redirect_text_color">#fff</item>
     </style>
 </resources>
 ```
