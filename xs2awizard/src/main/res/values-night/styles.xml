@@ -1,69 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="XS2ATheme">
-        <item name="tintColor">@color/primary_color</item>
-        <item name="textColor">@color/text_color_light</item>
-        <item name="placeholderColor">@color/text_color_placeholder</item>
-        <item name="backgroundColor">@color/background_none</item>
+        <item name="xs2a_tintColor">@color/primary_color</item>
+        <item name="xs2a_textColor">@color/text_color_light</item>
+        <item name="xs2a_placeholderColor">@color/text_color_placeholder</item>
+        <item name="xs2a_backgroundColor">@color/background_none</item>
 
-        <item name="paragraph_error_background_color">@color/background_error</item>
-        <item name="paragraph_error_text_color">@color/text_color_light</item>
-        <item name="paragraph_info_background_color">@color/background_info</item>
-        <item name="paragraph_info_text_color">@color/text_color_light</item>
-        <item name="paragraph_warning_background_color">@color/background_warning</item>
-        <item name="paragraph_warning_text_color">@color/text_color</item>
-        <item name="paragraph_background_color">@color/background_none</item>
-        <item name="paragraph_text_color">@color/text_color_light</item>
+        <item name="xs2a_paragraph_error_background_color">@color/background_error</item>
+        <item name="xs2a_paragraph_error_text_color">@color/text_color_light</item>
+        <item name="xs2a_paragraph_info_background_color">@color/background_info</item>
+        <item name="xs2a_paragraph_info_text_color">@color/text_color_light</item>
+        <item name="xs2a_paragraph_warning_background_color">@color/background_warning</item>
+        <item name="xs2a_paragraph_warning_text_color">@color/text_color</item>
+        <item name="xs2a_paragraph_background_color">@color/background_none</item>
+        <item name="xs2a_paragraph_text_color">@color/text_color_light</item>
 
-        <item name="button_submit_background_color">@color/primary_color</item>
-        <item name="button_submit_text_color">@color/text_color_light</item>
-        <item name="button_abort_background_color">@color/primary_color</item>
-        <item name="button_abort_text_color">@color/text_color_light</item>
-        <item name="button_back_background_color">@color/primary_color</item>
-        <item name="button_back_text_color">@color/text_color_light</item>
-        <item name="button_restart_background_color">@color/primary_color</item>
-        <item name="button_restart_text_color">@color/text_color_light</item>
-        <item name="button_redirect_background_color">@color/primary_color</item>
-        <item name="button_redirect_text_color">@color/text_color_light</item>
+        <item name="xs2a_button_submit_background_color">@color/primary_color</item>
+        <item name="xs2a_button_submit_text_color">@color/text_color_light</item>
+        <item name="xs2a_button_abort_background_color">@color/primary_color</item>
+        <item name="xs2a_button_abort_text_color">@color/text_color_light</item>
+        <item name="xs2a_button_back_background_color">@color/primary_color</item>
+        <item name="xs2a_button_back_text_color">@color/text_color_light</item>
+        <item name="xs2a_button_restart_background_color">@color/primary_color</item>
+        <item name="xs2a_button_restart_text_color">@color/text_color_light</item>
+        <item name="xs2a_button_redirect_background_color">@color/primary_color</item>
+        <item name="xs2a_button_redirect_text_color">@color/text_color_light</item>
 
-        <item name="colorPrimary">?attr/tintColor</item>
-        <item name="colorAccent">?attr/tintColor</item>
+        <item name="colorPrimary">?attr/xs2a_tintColor</item>
+        <item name="colorAccent">?attr/xs2a_tintColor</item>
     </style>
     <style name="XS2ATheme.TextInput">
-        <item name="colorAccent">?attr/tintColor</item>
-        <item name="colorPrimary">?attr/tintColor</item>
-        <item name="android:textColorHint">?attr/placeholderColor</item>
+        <item name="colorAccent">?attr/xs2a_tintColor</item>
+        <item name="colorPrimary">?attr/xs2a_tintColor</item>
+        <item name="android:textColorHint">?attr/xs2a_placeholderColor</item>
     </style>
     <style name="XS2ATheme.Radio">
-        <item name="colorAccent">?attr/tintColor</item>
-        <item name="colorPrimary">?attr/tintColor</item>
+        <item name="colorAccent">?attr/xs2a_tintColor</item>
+        <item name="colorPrimary">?attr/xs2a_tintColor</item>
     </style>
     <style name="XS2ATheme.TextView">
-        <item name="android:textColorLink">?attr/tintColor</item>
-        <item name="android:textColor">?attr/textColor</item>
+        <item name="android:textColorLink">?attr/xs2a_tintColor</item>
+        <item name="android:textColor">?attr/xs2a_textColor</item>
     </style>
     <style name="XS2ATheme.Checkbox" parent="Widget.AppCompat.CompoundButton.Switch">
-        <item name="colorAccent">?attr/tintColor</item>
+        <item name="colorAccent">?attr/xs2a_tintColor</item>
     </style>
     <style name="XS2ATheme.SubmitButton">
-        <item name="backgroundTint">?attr/button_submit_background_color</item>
-        <item name="android:textColor">?attr/button_submit_text_color</item>
+        <item name="backgroundTint">?attr/xs2a_button_submit_background_color</item>
+        <item name="android:textColor">?attr/xs2a_button_submit_text_color</item>
     </style>
     <style name="XS2ATheme.AbortButton">
-        <item name="backgroundTint">?attr/button_abort_background_color</item>
-        <item name="android:textColor">?attr/button_abort_text_color</item>
+        <item name="backgroundTint">?attr/xs2a_button_abort_background_color</item>
+        <item name="android:textColor">?attr/xs2a_button_abort_text_color</item>
     </style>
     <style name="XS2ATheme.RedirectButton">
-        <item name="backgroundTint">?attr/button_redirect_background_color</item>
-        <item name="android:textColor">?attr/button_redirect_text_color</item>
+        <item name="backgroundTint">?attr/xs2a_button_redirect_background_color</item>
+        <item name="android:textColor">?attr/xs2a_button_redirect_text_color</item>
     </style>
     <style name="XS2ATheme.RestartButton">
-        <item name="backgroundTint">?attr/button_restart_background_color</item>
-        <item name="android:textColor">?attr/button_restart_text_color</item>
+        <item name="backgroundTint">?attr/xs2a_button_restart_background_color</item>
+        <item name="android:textColor">?attr/xs2a_button_restart_text_color</item>
     </style>
     <style name="XS2ATheme.BackButton">
-        <item name="backgroundTint">?attr/button_back_background_color</item>
-        <item name="android:textColor">?attr/button_back_text_color</item>
+        <item name="backgroundTint">?attr/xs2a_button_back_background_color</item>
+        <item name="android:textColor">?attr/xs2a_button_back_text_color</item>
     </style>
     <style name="XS2ATheme.LoadingIndicator">
         <item name="android:background">@color/background_translucent_dark</item>

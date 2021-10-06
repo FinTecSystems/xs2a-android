@@ -28,18 +28,18 @@ class ParagraphLine : FormLine() {
 
                 val backgroundColor = themedValues.getColor(
                     when (formData.severity) {
-                        "info" -> R.styleable.XS2ATheme_paragraph_info_background_color
-                        "error" -> R.styleable.XS2ATheme_paragraph_error_background_color
-                        "warning" -> R.styleable.XS2ATheme_paragraph_warning_background_color
-                        else -> R.styleable.XS2ATheme_paragraph_background_color
+                        "info" -> R.styleable.XS2ATheme_xs2a_paragraph_info_background_color
+                        "error" -> R.styleable.XS2ATheme_xs2a_paragraph_error_background_color
+                        "warning" -> R.styleable.XS2ATheme_xs2a_paragraph_warning_background_color
+                        else -> R.styleable.XS2ATheme_xs2a_paragraph_background_color
                     }, 0
                 )
                 val textColor = themedValues.getColor(
                     when (formData.severity) {
-                        "info" -> R.styleable.XS2ATheme_paragraph_info_text_color
-                        "error" -> R.styleable.XS2ATheme_paragraph_error_text_color
-                        "warning" -> R.styleable.XS2ATheme_paragraph_warning_text_color
-                        else -> R.styleable.XS2ATheme_paragraph_text_color
+                        "info" -> R.styleable.XS2ATheme_xs2a_paragraph_info_text_color
+                        "error" -> R.styleable.XS2ATheme_xs2a_paragraph_error_text_color
+                        "warning" -> R.styleable.XS2ATheme_xs2a_paragraph_warning_text_color
+                        else -> R.styleable.XS2ATheme_xs2a_paragraph_text_color
                     }, 0
                 )
 
