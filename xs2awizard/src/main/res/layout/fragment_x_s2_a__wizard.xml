@@ -14,8 +14,8 @@
             android:id="@+id/form_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/XS2ATheme"
-            android:orientation="vertical" />
+            android:orientation="vertical"
+            android:theme="@style/XS2ATheme" />
     </androidx.core.widget.NestedScrollView>
 
     <WebView
@@ -24,9 +24,4 @@
         android:layout_height="match_parent"
         android:visibility="gone" />
 
-    <com.fintecsystems.xs2awizard.components.LoadingIndicator
-        android:id="@+id/loading_indicator"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone" />
 </FrameLayout>
