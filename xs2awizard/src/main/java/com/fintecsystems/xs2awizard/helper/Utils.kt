@@ -98,7 +98,7 @@ object Utils {
     fun getThemedContext(
         context: Context,
         styleRes: Int?,
-        styleBaseRes: Int = R.style.XS2ATheme
+        styleBaseRes: Int = R.style.XS2ATheme_Base
     ): Context =
         ContextThemeWrapper(context, styleBaseRes).apply {
             if (styleRes != null) {
