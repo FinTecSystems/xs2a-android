@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="xs2awizard/src/main/res/layout/fragment_line_redirect.xml" value="0.14010416666666667" />
+        <entry key="xs2awizard/src/main/res/layout/fragment_line_restart.xml" value="0.14010416666666667" />
+        <entry key="xs2awizard/src/main/res/layout/fragment_line_tabs.xml" value="0.14010416666666667" />
+        <entry key="xs2awizard/src/main/res/layout/fragment_line_text.xml" value="0.14010416666666667" />
+        <entry key="xs2awizard/src/main/res/layout/view_indicator_loading.xml" value="0.1" />
+      </map>
+    </option>
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>

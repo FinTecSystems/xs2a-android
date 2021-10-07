@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.*
+import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.text.toSpannable
@@ -181,16 +182,31 @@ class XS2AWizard() : Fragment(), XS2AWizardActionDelegate {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = Utils.getThemedInflater(
-        inflater,
-        requireContext(),
-        styleIdModel.liveData.value
-    ).inflate(R.layout.fragment_x_s2_a__wizard, container, false).also {
-        loadingIndicator = it.findViewById(R.id.loading_indicator)
+    ): View? = with(
+        Utils.getThemedInflater(
+            inflater,
+            requireContext(),
+            styleIdModel.liveData.value
+        )
+    ) {
+        inflate(R.layout.fragment_x_s2_a__wizard, container, false).also {
+            LoadingIndicator(
+                Utils.getThemedContext(
+                    requireContext(),
+                    styleIdModel.liveData.value
+                )
+            ).apply {
+                loadingIndicator = this
 
-        // Apply custom style of the user to loadingIndicator, if it exists.
-        if (styleIdModel.liveData.value != null) {
-            loadingIndicator.context.theme.applyStyle(styleIdModel.liveData.value!!, true)
+                layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                )
+
+                hide()
+
+                (it as FrameLayout).addView(this)
+            }
         }
     }
 
