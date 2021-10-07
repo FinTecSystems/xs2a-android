@@ -193,7 +193,8 @@ class XS2AWizard() : Fragment(), XS2AWizardActionDelegate {
             LoadingIndicator(
                 Utils.getThemedContext(
                     requireContext(),
-                    styleIdModel.liveData.value
+                    styleIdModel.liveData.value,
+                    R.style.XS2ATheme_LoadingIndicator
                 )
             ).apply {
                 loadingIndicator = this

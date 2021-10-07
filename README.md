@@ -111,6 +111,9 @@ xs2a_textColor
 xs2a_placeholderColor
 xs2a_backgroundColor
 
+xs2a_loadingIndicatorColor
+xs2a_loadingIndicatorBackgroundColor
+
 
 xs2a_paragraph_background_color
 xs2a_paragraph_text_color

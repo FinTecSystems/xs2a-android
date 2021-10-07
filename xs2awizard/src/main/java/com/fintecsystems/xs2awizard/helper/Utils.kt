@@ -91,11 +91,16 @@ object Utils {
      *
      * @param context context used for retrieving theme.
      * @param styleRes id to the style res.
+     * @param styleBaseRes id to the base style res.
      *
      * @return the themed context.
      */
-    fun getThemedContext(context: Context, styleRes: Int?): Context =
-        ContextThemeWrapper(context, R.style.XS2ATheme).apply {
+    fun getThemedContext(
+        context: Context,
+        styleRes: Int?,
+        styleBaseRes: Int = R.style.XS2ATheme
+    ): Context =
+        ContextThemeWrapper(context, styleBaseRes).apply {
             if (styleRes != null) {
                 theme.applyStyle(styleRes, true)
             }

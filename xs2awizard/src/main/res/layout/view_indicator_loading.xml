@@ -6,7 +6,6 @@
     android:clickable="true"
     android:focusable="true"
     android:gravity="center"
-    android:theme="@style/XS2ATheme.LoadingIndicator"
     tools:context=".components.LoadingIndicator">
     <ProgressBar
         style="?android:attr/progressBarStyle"

@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="XS2ATheme">
-        <item name="xs2a_tintColor">@color/primary_color</item>xs2a_xs2a_
+        <item name="xs2a_tintColor">@color/primary_color</item>
         <item name="xs2a_textColor">@color/text_color</item>
         <item name="xs2a_placeholderColor">@color/text_color_placeholder</item>
         <item name="xs2a_backgroundColor">@color/background_none</item>
+
+        <item name="xs2a_loadingIndicatorBackgroundColor">@color/background_translucent</item>
+        <item name="xs2a_loadingIndicatorColor">@color/primary_color</item>
 
         <item name="xs2a_paragraph_error_background_color">@color/background_error</item>
         <item name="xs2a_paragraph_error_text_color">@color/text_color_light</item>
@@ -66,6 +69,8 @@
         <item name="android:textColor">?attr/xs2a_button_back_text_color</item>
     </style>
     <style name="XS2ATheme.LoadingIndicator">
-        <item name="android:background">@color/background_translucent</item>
+        <item name="android:background">?attr/xs2a_loadingIndicatorBackgroundColor</item>
+        <item name="colorPrimary">?attr/xs2a_loadingIndicatorColor</item>
+        <item name="colorAccent">?attr/xs2a_loadingIndicatorColor</item>
     </style>
 </resources>

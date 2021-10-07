@@ -3,8 +3,10 @@
     <declare-styleable name="XS2ATheme">
         <attr name="xs2a_tintColor" format="color" />
         <attr name="xs2a_textColor" format="color" />
+
         <attr name="xs2a_placeholderColor" format="color" />
         <attr name="xs2a_backgroundColor" format="color" />
+
         <attr name="xs2a_paragraph_error_background_color" format="color" />
         <attr name="xs2a_paragraph_error_text_color" format="color" />
         <attr name="xs2a_paragraph_info_background_color" format="color" />
@@ -13,6 +15,7 @@
         <attr name="xs2a_paragraph_warning_text_color" format="color" />
         <attr name="xs2a_paragraph_background_color" format="color" />
         <attr name="xs2a_paragraph_text_color" format="color" />
+
         <attr name="xs2a_button_submit_background_color" format="color" />
         <attr name="xs2a_button_submit_text_color" format="color" />
         <attr name="xs2a_button_abort_background_color" format="color" />
@@ -23,5 +26,8 @@
         <attr name="xs2a_button_restart_text_color" format="color" />
         <attr name="xs2a_button_redirect_background_color" format="color" />
         <attr name="xs2a_button_redirect_text_color" format="color" />
+
+        <attr name="xs2a_loadingIndicatorBackgroundColor" format="color" />
+        <attr name="xs2a_loadingIndicatorColor" format="color" />
     </declare-styleable>
 </resources>
