@@ -28,9 +28,10 @@
         <item name="xs2a_button_restart_text_color">@color/text_color_light</item>
         <item name="xs2a_button_redirect_background_color">@color/primary_color</item>
         <item name="xs2a_button_redirect_text_color">@color/text_color_light</item>
-
-        <item name="colorPrimary">?attr/xs2a_tintColor</item>
+    </style>
+    <style name="XS2ATheme.Container">
         <item name="colorAccent">?attr/xs2a_tintColor</item>
+        <item name="colorPrimary">?attr/xs2a_tintColor</item>
     </style>
     <style name="XS2ATheme.TextInput">
         <item name="colorAccent">?attr/xs2a_tintColor</item>
