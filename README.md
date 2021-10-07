@@ -111,7 +111,7 @@ xs2a_textColor
 xs2a_placeholderColor
 xs2a_backgroundColor
 
-xs2a_loadingIndicatorColor
+xs2a_loadingIndicatorColor // Is xs2a_tintColor if left empty
 xs2a_loadingIndicatorBackgroundColor
 
 
