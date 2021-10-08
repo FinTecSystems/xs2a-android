@@ -15,10 +15,8 @@ import com.fintecsystems.xs2awizard.R
 class SelectLineSpinnerAdapter(
     context: Context,
     private val items: Map<String, String>,
-): BaseAdapter() {
-    private val inflater: LayoutInflater = LayoutInflater.from(
-        ContextThemeWrapper(context, R.style.XS2ATheme)
-    )
+) : BaseAdapter() {
+    private val inflater: LayoutInflater = LayoutInflater.from(context)
 
     override fun getCount() = items.size
 
@@ -26,8 +24,9 @@ class SelectLineSpinnerAdapter(
 
     override fun getItemId(position: Int) = 0L
 
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View = inflater.inflate(R.layout.fragment_line_select_item, null).also {
-        it.findViewById<TextView>(R.id.select_input_item).text = getItem(position)
-    }
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View =
+        inflater.inflate(R.layout.fragment_line_select_item, null).also {
+            it.findViewById<TextView>(R.id.select_input_item).text = getItem(position)
+        }
 
 }
