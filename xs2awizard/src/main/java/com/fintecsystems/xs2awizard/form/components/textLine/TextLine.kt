@@ -14,6 +14,7 @@ import androidx.appcompat.widget.AppCompatAutoCompleteTextView
 import com.fintecsystems.xs2awizard.R
 import com.fintecsystems.xs2awizard.form.TextLineData
 import com.fintecsystems.xs2awizard.form.components.ValueFormLine
+import com.fintecsystems.xs2awizard.helper.Utils
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.jsonPrimitive
 
@@ -31,30 +32,39 @@ class TextLine : ValueFormLine(), TextWatcher {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?) = super.onCreateView(inflater, container, savedInstanceState).also { parentView ->
+        savedInstanceState: Bundle?
+    ) = super.onCreateView(inflater, container, savedInstanceState).also { parentView ->
         val formData = getFormData() as TextLineData
 
-        val ownView = getThemedInflater(inflater).inflate(R.layout.fragment_line_text, container, false).also { view ->
-            view.findViewById<AppCompatAutoCompleteTextView>(R.id.text_input_edit).let {
-                it.setText(formData.value?.jsonPrimitive?.content)
-                it.hint = formData.placeholder
-                it.isEnabled = !(formData.disabled ?: false)
+        val ownView =
+            getThemedInflater(inflater).inflate(R.layout.fragment_line_text, container, false)
+                .also { view ->
+                    view.findViewById<AppCompatAutoCompleteTextView>(R.id.text_input_edit).let {
+                        it.setText(formData.value?.jsonPrimitive?.content)
+                        it.hint = formData.placeholder
+                        it.isEnabled = !(formData.disabled ?: false)
 
-                if ((formData.maxLength ?: 0) > 0) {
-                    // Set max. length filter
-                    it.filters = arrayOf(InputFilter.LengthFilter(formData.maxLength!!))
+                        if ((formData.maxLength ?: 0) > 0) {
+                            // Set max. length filter
+                            it.filters = arrayOf(InputFilter.LengthFilter(formData.maxLength!!))
+                        }
+
+                        it.inputType = getInputType()
+
+                        if (formData.autoCompleteAction != null) {
+                            autoCompleteAdapter =
+                                TextLineAutoCompleteAdapter(
+                                    Utils.getThemedContext(
+                                        requireContext(),
+                                        styleIdModel.liveData.value
+                                    ), emptyList()
+                                )
+                            it.setAdapter(autoCompleteAdapter)
+                        }
+
+                        it.addTextChangedListener(this)
+                    }
                 }
-
-                it.inputType = getInputType()
-
-                if (formData.autoCompleteAction != null) {
-                    autoCompleteAdapter = TextLineAutoCompleteAdapter(requireContext(), emptyList())
-                    it.setAdapter(autoCompleteAdapter)
-                }
-
-                it.addTextChangedListener(this)
-            }
-        }
 
         parentView.findViewById<LinearLayout>(R.id.form_value_container).addView(ownView)
     }
@@ -87,7 +97,8 @@ class TextLine : ValueFormLine(), TextWatcher {
         start: Int,
         count: Int,
         after: Int
-    ) {}
+    ) {
+    }
 
     override fun afterTextChanged(s: Editable?) {}
 
