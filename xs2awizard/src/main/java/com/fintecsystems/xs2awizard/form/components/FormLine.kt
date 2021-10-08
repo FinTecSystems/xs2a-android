@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import com.fintecsystems.xs2awizard.R
 import com.fintecsystems.xs2awizard.XS2AWizard
 import com.fintecsystems.xs2awizard.XS2AWizardActionDelegate
 import com.fintecsystems.xs2awizard.helper.Utils
@@ -30,7 +31,7 @@ open class FormLine : Fragment() {
         super.onCreate(savedInstanceState)
 
         // Retrieve action delegate of parent.
-        actionDelegate = when(parentFragment) {
+        actionDelegate = when (parentFragment) {
             is MultiLine -> (parentFragment as MultiLine).actionDelegate
             else -> parentFragment as XS2AWizard
         }
@@ -54,5 +55,14 @@ open class FormLine : Fragment() {
      *
      * @return themed inflater.
      */
-    fun getThemedInflater(inflater: LayoutInflater): LayoutInflater = Utils.getThemedInflater(inflater, requireContext(), styleIdModel.liveData.value)
+    fun getThemedInflater(
+        inflater: LayoutInflater,
+        styleBaseId: Int = R.style.XS2ATheme_Base
+    ): LayoutInflater =
+        Utils.getThemedInflater(
+            inflater,
+            requireContext(),
+            styleIdModel.liveData.value,
+            styleBaseId
+        )
 }

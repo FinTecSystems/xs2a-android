@@ -8,7 +8,6 @@ import com.fintecsystems.xs2awizard.R
 import com.fintecsystems.xs2awizard.form.TabsLineData
 import com.fintecsystems.xs2awizard.helper.Utils
 import com.google.android.material.tabs.TabLayout
-import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 
@@ -20,7 +19,7 @@ class TabsLine : FormLine(), TabLayout.OnTabSelectedListener {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View = getThemedInflater(inflater).inflate(R.layout.fragment_line_tabs, container, false)
+    ): View = getThemedInflater(inflater, R.style.XS2ATheme_Container).inflate(R.layout.fragment_line_tabs, container, false)
         .also {
             it as TabLayout
 

@@ -21,7 +21,7 @@ class MultiLine : FormLine(), TabLayout.OnTabSelectedListener {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View = getThemedInflater(inflater).inflate(R.layout.fragment_line_multi, container, false)
+    ): View = getThemedInflater(inflater, R.style.XS2ATheme_Container).inflate(R.layout.fragment_line_multi, container, false)
         .also {
             val formData = getFormData() as MultiLineData
 
