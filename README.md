@@ -108,6 +108,8 @@ The following attributes are styleable:
 xs2a_tintColor
 xs2a_textColor
 
+xs2a_textInput_backgroundColor
+
 xs2a_placeholderColor
 xs2a_backgroundColor
 

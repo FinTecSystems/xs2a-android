@@ -29,5 +29,7 @@
 
         <attr name="xs2a_loadingIndicatorBackgroundColor" format="color" />
         <attr name="xs2a_loadingIndicatorColor" format="color" />
+
+        <attr name="xs2a_textInput_backgroundColor" format="color" />
     </declare-styleable>
 </resources>
