@@ -55,7 +55,8 @@ class LogoLine : FormLine(), ImageLoader.ImageListener {
                     AlertDialog.Builder(
                         Utils.getThemedContext(
                             requireContext(),
-                            styleIdModel.liveData.value
+                            styleIdModel.liveData.value,
+                            R.style.XS2ATheme_Container
                         )
                     )
                         .setMessage(

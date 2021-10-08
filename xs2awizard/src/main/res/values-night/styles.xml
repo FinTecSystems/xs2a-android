@@ -33,6 +33,9 @@
         <item name="colorAccent">?attr/xs2a_tintColor</item>
         <item name="colorPrimary">?attr/xs2a_tintColor</item>
     </style>
+    <style name="XS2ATheme.Container" parent="XS2ATheme.Base">
+        <item name="android:background">?attr/xs2a_backgroundColor</item>
+    </style>
     <style name="XS2ATheme.TextInput">
         <item name="colorAccent">?attr/xs2a_tintColor</item>
         <item name="colorPrimary">?attr/xs2a_tintColor</item>
@@ -47,6 +50,9 @@
     <style name="XS2ATheme.TextView">
         <item name="android:textColorLink">?attr/xs2a_tintColor</item>
         <item name="android:textColor">?attr/xs2a_textColor</item>
+    </style>
+    <style name="XS2ATheme.PopupTextView" parent="XS2ATheme.TextView">
+        <item name="android:background">?attr/xs2a_backgroundColor</item>
     </style>
     <style name="XS2ATheme.Checkbox" parent="Widget.AppCompat.CompoundButton.Switch">
         <item name="colorAccent">?attr/xs2a_tintColor</item>
