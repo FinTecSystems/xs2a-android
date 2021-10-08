@@ -37,6 +37,7 @@
         <item name="colorAccent">?attr/xs2a_tintColor</item>
         <item name="colorPrimary">?attr/xs2a_tintColor</item>
         <item name="android:textColorHint">?attr/xs2a_placeholderColor</item>
+        <item name="android:textColor">?attr/xs2a_textColor</item>
     </style>
     <style name="XS2ATheme.Radio">
         <item name="colorAccent">?attr/xs2a_tintColor</item>
