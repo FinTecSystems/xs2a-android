@@ -7,7 +7,7 @@
     tools:context=".form.components.selectLine.SelectLine">
 
     <Spinner
-        style="@style/XS2ATheme.Container"
+        android:theme="@style/XS2ATheme.Container"
         android:id="@+id/select_input"
         android:layout_width="match_parent"
         android:layout_marginHorizontal="-10sp"
