@@ -186,7 +186,8 @@ class XS2AWizard() : Fragment(), XS2AWizardActionDelegate {
         Utils.getThemedInflater(
             inflater,
             requireContext(),
-            styleIdModel.liveData.value
+            styleIdModel.liveData.value,
+            R.style.XS2ATheme_Container,
         )
     ) {
         inflate(R.layout.fragment_x_s2_a__wizard, container, false).also {
@@ -194,7 +195,7 @@ class XS2AWizard() : Fragment(), XS2AWizardActionDelegate {
                 Utils.getThemedContext(
                     requireContext(),
                     styleIdModel.liveData.value,
-                    R.style.XS2ATheme_LoadingIndicator
+                    R.style.XS2ATheme_LoadingIndicator,
                 )
             ).apply {
                 loadingIndicator = this

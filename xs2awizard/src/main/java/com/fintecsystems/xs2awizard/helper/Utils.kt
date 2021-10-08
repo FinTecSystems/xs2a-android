@@ -81,9 +81,10 @@ object Utils {
     fun getThemedInflater(
         inflater: LayoutInflater,
         context: Context,
-        styleRes: Int?
+        styleRes: Int?,
+        styleBaseRes: Int = R.style.XS2ATheme_Base
     ): LayoutInflater = inflater.cloneInContext(
-        getThemedContext(context, styleRes)
+        getThemedContext(context, styleRes, styleBaseRes)
     )
 
     /**
