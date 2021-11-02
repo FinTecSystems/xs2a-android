@@ -221,7 +221,7 @@ class XS2AWizard() : Fragment(), XS2AWizardActionDelegate {
      */
     private fun initForm() = submitForm(
         buildJsonObject {
-            put("version", JsonPrimitive(requireContext().getString(R.string.xs2a_version)))
+            put("version", JsonPrimitive(BuildConfig.VERSION))
             put("client", JsonPrimitive(requireContext().getString(R.string.xs2a_client_tag)))
         }
     )
