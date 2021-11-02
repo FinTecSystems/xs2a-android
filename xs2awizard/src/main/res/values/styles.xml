@@ -22,11 +22,11 @@
 
         <item name="xs2a_button_submit_background_color">@color/primary_color</item>
         <item name="xs2a_button_submit_text_color">@color/text_color_light</item>
-        <item name="xs2a_button_abort_background_color">@color/primary_color</item>
+        <item name="xs2a_button_abort_background_color">@color/text_color_placeholder</item>
         <item name="xs2a_button_abort_text_color">@color/text_color_light</item>
-        <item name="xs2a_button_back_background_color">@color/primary_color</item>
+        <item name="xs2a_button_back_background_color">@color/text_color_placeholder</item>
         <item name="xs2a_button_back_text_color">@color/text_color_light</item>
-        <item name="xs2a_button_restart_background_color">@color/primary_color</item>
+        <item name="xs2a_button_restart_background_color">@color/text_color_placeholder</item>
         <item name="xs2a_button_restart_text_color">@color/text_color_light</item>
         <item name="xs2a_button_redirect_background_color">@color/primary_color</item>
         <item name="xs2a_button_redirect_text_color">@color/text_color_light</item>
