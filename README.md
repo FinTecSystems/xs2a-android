@@ -1,6 +1,9 @@
 ![header](https://fintecsystems.com/android-sdk-header.jpg)
 # XS2A Android - Native Android SDK for XS2A
 
+## Demo Screencast
+<img src="https://fintecsystems.com/android_sdk_testbank_screencast.webp" alt="Screencast Demo" height="400"/>
+
 ## Installation
 [![Maven Central](https://img.shields.io/maven-central/v/com.fintecsystems/xs2awizard.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22com.fintecsystems%22%20AND%20a:%22xs2awizard%22)
 
