@@ -151,8 +151,7 @@ xs2a_button_redirect_text_color
 
 ### Shape customization
 
-For `xs2a_buttonShapeAppearance` and `xs2a_textInputShapeAppearance` you can define custom properties for e.g.
-`cornerSize` and `cornerFamily`.<br>
+To customize the look of the Buttons and Text-Inputs you can use `xs2a_buttonShapeAppearance` and `xs2a_textInputShapeAppearance`.
 Please refer to the official [material documentation](https://material.io/develop/android/theming/shape) for all available
 properties.
 
