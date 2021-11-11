@@ -16,6 +16,7 @@
         <attr name="xs2a_paragraph_background_color" format="color" />
         <attr name="xs2a_paragraph_text_color" format="color" />
 
+        <attr name="xs2a_buttonShapeAppearance" format="reference" />
         <attr name="xs2a_button_submit_background_color" format="color" />
         <attr name="xs2a_button_submit_text_color" format="color" />
         <attr name="xs2a_button_abort_background_color" format="color" />
@@ -31,5 +32,6 @@
         <attr name="xs2a_loadingIndicatorColor" format="color" />
 
         <attr name="xs2a_textInput_backgroundColor" format="color" />
+        <attr name="xs2a_textInputShapeAppearance" format="reference" />
     </declare-styleable>
 </resources>

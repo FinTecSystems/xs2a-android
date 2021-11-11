@@ -109,6 +109,7 @@ xs2a_tintColor
 xs2a_textColor
 
 xs2a_textInput_backgroundColor
+xs2a_textInputShapeAppearance // Refer to "Shape customization"
 
 xs2a_placeholderColor
 xs2a_backgroundColor
@@ -130,6 +131,8 @@ xs2a_paragraph_warning_background_color
 xs2a_paragraph_warning_text_color
 
 
+xs2a_buttonShapeAppearance // Refer to "Shape customization"
+
 xs2a_button_submit_background_color
 xs2a_button_submit_text_color
 
@@ -145,6 +148,35 @@ xs2a_button_restart_text_color
 xs2a_button_redirect_background_color
 xs2a_button_redirect_text_color
 ```
+
+### Shape customization
+
+For `xs2a_buttonShapeAppearance` and `xs2a_textInputShapeAppearance` you can define custom properties for e.g.
+`cornerSize` and `cornerFamily`.<br>
+Please refer to the official [material documentation](https://material.io/develop/android/theming/shape) for all available
+properties.
+
+<details>
+    <summary>Example</summary>
+
+`res/values/styles.xml`
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CustomXS2ATheme" parent="XS2ATheme">
+        <item name="xs2a_buttonShapeAppearance">@style/CustomXS2ATheme.ButtonShapeAppearance</item>
+        <item name="xs2a_textInputShapeAppearance">@style/CustomXS2ATheme.InputShapeAppearance</item>
+    </style>
+    <style name="CustomXS2ATheme.ButtonShapeAppearance">
+        <item name="cornerSize">20dp</item>
+    </style>
+    <style name="CustomXS2ATheme.InputShapeAppearance">
+        <item name="cornerSize">20dp</item>
+        <item name="cornerFamily">cut</item>
+    </style>
+</resources>
+```
+</details>
 
 ### Example (Kotlin)
 <details>
