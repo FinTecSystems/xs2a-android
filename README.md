@@ -196,7 +196,7 @@ properties.
 ```
 </details>
 
-### Paragraph background customization
+### Paragraph customization
 
 Per default the background of the paragraph-element stretches the entire width of the container.
 ![image](https://user-images.githubusercontent.com/54634184/141505929-b2b8a2b1-9b7b-432a-941d-b04a62187db4.png)
@@ -334,6 +334,6 @@ class MainActivity : AppCompatActivity() {
 ```
 </details>
 
-### License
+## License
 
 Please note that this mobile SDK is subject to the MIT license. MIT license does not apply to the logo of FinTecSystems GmbH, the terms of use and the privacy policy of FinTecSystems GmbH. The license terms of the logo of FinTecSystems GmbH, the terms of use and the privacy policy of FinTecSystems GmbH are included in the LICENSE as FTS LICENSE.
