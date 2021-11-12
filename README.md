@@ -199,6 +199,7 @@ properties.
 ### Paragraph background customization
 
 Per default the background of the paragraph-element stretches the entire width of the container.
+![image](https://user-images.githubusercontent.com/54634184/141505929-b2b8a2b1-9b7b-432a-941d-b04a62187db4.png)
 
 If you prefer to change that, you can customize that to your liking.<br>
 You're able to change the corner radius of the background, the horizontal margin of the container
@@ -221,6 +222,8 @@ xs2a_paragraph_containerPaddingVertical
 <details>
     <summary>Example</summary>
 
+![image](https://user-images.githubusercontent.com/54634184/141506008-182238ce-2580-46a9-aabe-1ed574f46436.png)
+    
 `res/values/styles.xml`
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
