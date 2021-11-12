@@ -205,6 +205,9 @@ If you prefer to change that, you can customize that to your liking.<br>
 You're able to change the corner radius of the background, the horizontal margin of the container
 and the padding of the content.
 
+Please mind that `xs2a_paragraph_containerMarginHorizontal` ignores normal paragraphs and only
+applies to error-, info- and warning-paragraphs.
+
 ```
 xs2a_paragraph_cornerRadius
 xs2a_paragraph_cornerRadiusTopLeft
