@@ -52,6 +52,13 @@ class ParagraphLine : FormLine() {
                     backgroundColor
                 )
 
+                // Remove any margin, when it's just a plain paragraph.
+                // We set the padding instead of the margin, because margin
+                // is not styleable by custom attributes in xml.
+                if (formData.severity != "info"
+                    && formData.severity != "error"
+                    && formData.severity != "warning"
+                ) inflatedView.setPadding(0, 0, 0, 0)
 
                 inflatedView.findViewById<TextView>(R.id.paragraph_title).let {
                     // Check if title exists, otherwise set height to 0, so it won't look
