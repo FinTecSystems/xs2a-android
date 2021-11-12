@@ -37,6 +37,12 @@
     <style name="XS2ATheme.Base" parent="XS2ATheme">
         <item name="colorAccent">?attr/xs2a_tintColor</item>
         <item name="colorPrimary">?attr/xs2a_tintColor</item>
+
+        <item name="fontFamily">?attr/xs2a_fontFamily</item>
+        <item name="android:fontFamily">?attr/xs2a_fontFamily</item>
+    </style>
+    <style name="XS2ATheme.TabsText" parent="TextAppearance.MaterialComponents.Button">
+        <item name="fontFamily">?attr/xs2a_fontFamily</item>
     </style>
     <style name="XS2ATheme.Container" parent="XS2ATheme.Base">
         <item name="android:background">?attr/xs2a_backgroundColor</item>

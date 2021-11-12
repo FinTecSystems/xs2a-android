@@ -3,6 +3,7 @@
     <declare-styleable name="XS2ATheme">
         <attr name="xs2a_tintColor" format="color" />
         <attr name="xs2a_textColor" format="color" />
+        <attr name="xs2a_fontFamily" format="reference" />
 
         <attr name="xs2a_placeholderColor" format="color" />
         <attr name="xs2a_backgroundColor" format="color" />

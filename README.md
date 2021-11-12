@@ -107,6 +107,7 @@ The following attributes are styleable:
 ```
 xs2a_tintColor
 xs2a_textColor
+xs2a_fontFamily
 
 xs2a_textInput_backgroundColor
 xs2a_textInputShapeAppearance // Refer to "Shape customization"
