@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="#fff"/>
+    <corners android:bottomRightRadius="?attr/xs2a_paragraph_cornerRadiusBottomRight"
+        android:bottomLeftRadius="?attr/xs2a_paragraph_cornerRadiusBottomLeft"
+        android:topRightRadius="?attr/xs2a_paragraph_cornerRadiusTopRight"
+        android:topLeftRadius="?attr/xs2a_paragraph_cornerRadiusTopLeft"/>
+</shape>

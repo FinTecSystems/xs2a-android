@@ -14,6 +14,17 @@
         <item name="xs2a_loadingIndicatorBackgroundColor">@color/background_translucent</item>
         <item name="xs2a_loadingIndicatorColor">?attr/xs2a_tintColor</item>
 
+        <item name="xs2a_paragraph_cornerRadius">0dp</item>
+        <item name="xs2a_paragraph_cornerRadiusBottomLeft">?xs2a_paragraph_cornerRadius</item>
+        <item name="xs2a_paragraph_cornerRadiusBottomRight">?xs2a_paragraph_cornerRadius</item>
+        <item name="xs2a_paragraph_cornerRadiusTopLeft">?xs2a_paragraph_cornerRadius</item>
+        <item name="xs2a_paragraph_cornerRadiusTopRight">?xs2a_paragraph_cornerRadius</item>
+
+        <item name="xs2a_paragraph_containerMarginHorizontal">0dp</item>
+        <item name="xs2a_paragraph_containerPadding">10dp</item>
+        <item name="xs2a_paragraph_containerPaddingVertical">?xs2a_paragraph_containerPadding</item>
+        <item name="xs2a_paragraph_containerPaddingHorizontal">?xs2a_paragraph_containerPadding</item>
+
         <item name="xs2a_paragraph_error_background_color">@color/background_error</item>
         <item name="xs2a_paragraph_error_text_color">@color/text_color_light</item>
         <item name="xs2a_paragraph_info_background_color">@color/background_info</item>

@@ -79,7 +79,7 @@ data class XS2AWizardError(
 )
 
 fun onError(xs2aWizardError: XS2AWizardError) {
-    // A technical error occured.
+    // A technical error occurred.
     // e.g. present a error view.
 }
 ```
@@ -103,7 +103,9 @@ An example would be the following:
 </resources>
 ```
 
-The following attributes are styleable:
+<details>
+    <summary>The following attributes are styleable:</summary>
+
 ```
 xs2a_tintColor
 xs2a_textColor
@@ -118,6 +120,18 @@ xs2a_backgroundColor
 xs2a_loadingIndicatorColor // Is xs2a_tintColor if left empty
 xs2a_loadingIndicatorBackgroundColor
 
+
+xs2a_paragraph_cornerRadius
+xs2a_paragraph_cornerRadiusTopLeft
+xs2a_paragraph_cornerRadiusTopRight
+xs2a_paragraph_cornerRadiusBottomLeft
+xs2a_paragraph_cornerRadiusBottomRight
+
+xs2a_paragraph_containerMarginHorizontal
+
+xs2a_paragraph_containerPadding
+xs2a_paragraph_containerPaddingHorizontal
+xs2a_paragraph_containerPaddingVertical
 
 xs2a_paragraph_background_color
 xs2a_paragraph_text_color
@@ -149,6 +163,7 @@ xs2a_button_restart_text_color
 xs2a_button_redirect_background_color
 xs2a_button_redirect_text_color
 ```
+</details>
 
 ### Shape customization
 
@@ -178,7 +193,45 @@ properties.
 ```
 </details>
 
-### Example (Kotlin)
+### Paragraph background customization
+
+Per default the background of the paragraph-element stretches the entire width of the container.
+
+If you prefer to change that, you can customize that to your liking.<br>
+You're able to change the corner radius of the background, the horizontal margin of the container
+and the padding of the content.
+
+```
+xs2a_paragraph_cornerRadius
+xs2a_paragraph_cornerRadiusTopLeft
+xs2a_paragraph_cornerRadiusTopRight
+xs2a_paragraph_cornerRadiusBottomLeft
+xs2a_paragraph_cornerRadiusBottomRight
+
+xs2a_paragraph_containerMarginHorizontal
+
+xs2a_paragraph_containerPadding
+xs2a_paragraph_containerPaddingHorizontal
+xs2a_paragraph_containerPaddingVertical
+```
+
+<details>
+    <summary>Example</summary>
+
+`res/values/styles.xml`
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CustomXS2ATheme" parent="XS2ATheme">
+        <item name="xs2a_paragraph_containerMarginHorizontal">10dp</item>
+        <item name="xs2a_paragraph_containerPaddingVertical">5dp</item>
+        <item name="xs2a_paragraph_cornerRadius">4dp</item>
+    </style>
+</resources>
+```
+</details>
+
+## Example (Kotlin)
 <details>
     <summary>Style file</summary>
 

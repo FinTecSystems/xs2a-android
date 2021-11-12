@@ -8,6 +8,18 @@
         <attr name="xs2a_placeholderColor" format="color" />
         <attr name="xs2a_backgroundColor" format="color" />
 
+        <attr name="xs2a_paragraph_cornerRadius" format="dimension" />
+        <attr name="xs2a_paragraph_cornerRadiusTopLeft" format="dimension" />
+        <attr name="xs2a_paragraph_cornerRadiusTopRight" format="dimension" />
+        <attr name="xs2a_paragraph_cornerRadiusBottomLeft" format="dimension" />
+        <attr name="xs2a_paragraph_cornerRadiusBottomRight" format="dimension" />
+
+        <attr name="xs2a_paragraph_containerMarginHorizontal" format="dimension" />
+
+        <attr name="xs2a_paragraph_containerPadding" format="dimension" />
+        <attr name="xs2a_paragraph_containerPaddingHorizontal" format="dimension" />
+        <attr name="xs2a_paragraph_containerPaddingVertical" format="dimension" />
+
         <attr name="xs2a_paragraph_error_background_color" format="color" />
         <attr name="xs2a_paragraph_error_text_color" format="color" />
         <attr name="xs2a_paragraph_info_background_color" format="color" />
