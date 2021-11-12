@@ -82,7 +82,7 @@ data class XS2AWizardError(
 )
 
 fun onError(xs2aWizardError: XS2AWizardError) {
-    // A technical error occured.
+    // A technical error occurred.
     // e.g. present a error view.
 }
 ```
@@ -106,12 +106,16 @@ An example would be the following:
 </resources>
 ```
 
-The following attributes are styleable:
+<details>
+    <summary>The following attributes are styleable:</summary>
+
 ```
 xs2a_tintColor
 xs2a_textColor
+xs2a_fontFamily
 
 xs2a_textInput_backgroundColor
+xs2a_textInputShapeAppearance // Refer to "Shape customization"
 
 xs2a_placeholderColor
 xs2a_backgroundColor
@@ -119,6 +123,18 @@ xs2a_backgroundColor
 xs2a_loadingIndicatorColor // Is xs2a_tintColor if left empty
 xs2a_loadingIndicatorBackgroundColor
 
+
+xs2a_paragraph_cornerRadius
+xs2a_paragraph_cornerRadiusTopLeft
+xs2a_paragraph_cornerRadiusTopRight
+xs2a_paragraph_cornerRadiusBottomLeft
+xs2a_paragraph_cornerRadiusBottomRight
+
+xs2a_paragraph_containerMarginHorizontal
+
+xs2a_paragraph_containerPadding
+xs2a_paragraph_containerPaddingHorizontal
+xs2a_paragraph_containerPaddingVertical
 
 xs2a_paragraph_background_color
 xs2a_paragraph_text_color
@@ -132,6 +148,8 @@ xs2a_paragraph_info_text_color
 xs2a_paragraph_warning_background_color
 xs2a_paragraph_warning_text_color
 
+
+xs2a_buttonShapeAppearance // Refer to "Shape customization"
 
 xs2a_button_submit_background_color
 xs2a_button_submit_text_color
@@ -148,8 +166,75 @@ xs2a_button_restart_text_color
 xs2a_button_redirect_background_color
 xs2a_button_redirect_text_color
 ```
+</details>
 
-### Example (Kotlin)
+### Shape customization
+
+To customize the look of the Buttons and Text-Inputs you can use `xs2a_buttonShapeAppearance` and `xs2a_textInputShapeAppearance`.
+Please refer to the official [material documentation](https://material.io/develop/android/theming/shape) for all available
+properties.
+
+<details>
+    <summary>Example</summary>
+
+`res/values/styles.xml`
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CustomXS2ATheme" parent="XS2ATheme">
+        <item name="xs2a_buttonShapeAppearance">@style/CustomXS2ATheme.ButtonShapeAppearance</item>
+        <item name="xs2a_textInputShapeAppearance">@style/CustomXS2ATheme.InputShapeAppearance</item>
+    </style>
+    <style name="CustomXS2ATheme.ButtonShapeAppearance">
+        <item name="cornerSize">20dp</item>
+    </style>
+    <style name="CustomXS2ATheme.InputShapeAppearance">
+        <item name="cornerSize">20dp</item>
+        <item name="cornerFamily">cut</item>
+    </style>
+</resources>
+```
+</details>
+
+### Paragraph background customization
+
+Per default the background of the paragraph-element stretches the entire width of the container.
+
+If you prefer to change that, you can customize that to your liking.<br>
+You're able to change the corner radius of the background, the horizontal margin of the container
+and the padding of the content.
+
+```
+xs2a_paragraph_cornerRadius
+xs2a_paragraph_cornerRadiusTopLeft
+xs2a_paragraph_cornerRadiusTopRight
+xs2a_paragraph_cornerRadiusBottomLeft
+xs2a_paragraph_cornerRadiusBottomRight
+
+xs2a_paragraph_containerMarginHorizontal
+
+xs2a_paragraph_containerPadding
+xs2a_paragraph_containerPaddingHorizontal
+xs2a_paragraph_containerPaddingVertical
+```
+
+<details>
+    <summary>Example</summary>
+
+`res/values/styles.xml`
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CustomXS2ATheme" parent="XS2ATheme">
+        <item name="xs2a_paragraph_containerMarginHorizontal">10dp</item>
+        <item name="xs2a_paragraph_containerPaddingVertical">5dp</item>
+        <item name="xs2a_paragraph_cornerRadius">4dp</item>
+    </style>
+</resources>
+```
+</details>
+
+## Example (Kotlin)
 <details>
     <summary>Style file</summary>
 

@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.graphics.drawable.DrawableCompat
 import com.fintecsystems.xs2awizard.R
 import com.fintecsystems.xs2awizard.form.ParagraphLineData
 
@@ -43,7 +45,13 @@ class ParagraphLine : FormLine() {
                     }, 0
                 )
 
-                inflatedView.setBackgroundColor(backgroundColor)
+                DrawableCompat.setTint(
+                    inflatedView
+                        .findViewById<LinearLayout>(R.id.paragraph_container)
+                        .background,
+                    backgroundColor
+                )
+
 
                 inflatedView.findViewById<TextView>(R.id.paragraph_title).let {
                     // Check if title exists, otherwise set height to 0, so it won't look
