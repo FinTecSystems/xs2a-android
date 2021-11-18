@@ -9,4 +9,5 @@
     <string name="flicker_smaller">Kleiner</string>
     <string name="flicker_marker">Markierung</string>
     <string name="dialog_dismiss">Schließen</string>
+    <string name="link_copied">Link kopiert</string>
 </resources>

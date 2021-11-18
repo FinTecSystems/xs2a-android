@@ -19,13 +19,13 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.fintecsystems.xs2awizard.components.CustomTabsURLSpan
 import com.fintecsystems.xs2awizard.components.LoadingIndicator
-import com.fintecsystems.xs2awizard.components.XS2AJavascriptInterface
 import com.fintecsystems.xs2awizard.form.components.*
 import com.fintecsystems.xs2awizard.form.*
 import com.fintecsystems.xs2awizard.form.components.selectLine.SelectLine
 import com.fintecsystems.xs2awizard.form.components.textLine.TextLine
 import com.fintecsystems.xs2awizard.helper.Utils
 import com.fintecsystems.xs2awizard.components.GenericViewModel
+import com.fintecsystems.xs2awizard.components.webview.URLBarWebView
 import com.fintecsystems.xs2awizard.form.components.textLine.AutoCompleteResponse
 import com.fintecsystems.xs2awizard_networking.NetworkingInstance
 import kotlinx.serialization.Serializable
@@ -50,6 +50,7 @@ interface XS2AWizardActionDelegate {
     fun submitFormWithCallback(action: String, onSuccess: (AutoCompleteResponse) -> Unit)
     fun triggerAutoSubmit(delay: Long)
     fun openWebView(url: String)
+    fun closeWebView()
     fun parseMarkupText(tv: TextView, textToParse: String?)
     fun constructFragment(formElementData: FormLineData): FormLine?
     fun incrementLoadingIndicatorLock()
@@ -86,6 +87,8 @@ class XS2AWizard() : Fragment(), XS2AWizardActionDelegate {
 
     private lateinit var loadingIndicator: LoadingIndicator
     private var loadingIndicatorLock = 0
+
+    private lateinit var webView: URLBarWebView
 
     private var autoSubmitTask: Runnable?
         get() {
@@ -191,6 +194,11 @@ class XS2AWizard() : Fragment(), XS2AWizardActionDelegate {
         )
     ) {
         inflate(R.layout.fragment_x_s2_a__wizard, container, false).also {
+            it.findViewById<URLBarWebView>(R.id.urlBarWebview).let { urlBarWebView ->
+                webView = urlBarWebView
+                urlBarWebView.xS2AWizard = this@XS2AWizard
+            }
+
             LoadingIndicator(
                 Utils.getThemedContext(
                     requireContext(),
@@ -376,37 +384,31 @@ class XS2AWizard() : Fragment(), XS2AWizardActionDelegate {
     }
 
     /**
-     * Opens specified url in a WebView.
+     * Opens specified url in a WebView and hides the form.
      *
      * @param url url to open.
      */
     override fun openWebView(url: String) {
-        view?.findViewById<WebView>(R.id.webview)!!.apply {
-            visibility = View.VISIBLE
-
-            settings.javaScriptEnabled = true
-            settings.domStorageEnabled = true
-            addJavascriptInterface(XS2AJavascriptInterface(this@XS2AWizard), "App")
-
-            webViewClient = object : WebViewClient() {
-                override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
-                    view.loadUrl(url)
-                    return true
-                }
-
-                override fun onPageFinished(view: WebView?, url: String?) {
-                    super.onPageFinished(view, url)
-
-                    // Page has finished loading, we can hide the loadingIndicator now.
-                    decrementLoadingIndicatorLock()
-                }
-            }
-
-            loadUrl(url)
-        }
+        webView.show()
+        webView.webView.loadUrl(url)
 
         view?.findViewById<LinearLayout>(R.id.form_container).apply {
             this?.visibility = View.GONE
+        }
+
+        // Shows loadingIndicator until page is finished loading
+        incrementLoadingIndicatorLock()
+    }
+
+    /**
+     * Hides the WebView and shows the form again.
+     */
+    override fun closeWebView() {
+        webView.webView.loadUrl("about:blank")
+        webView.hide()
+
+        view?.findViewById<LinearLayout>(R.id.form_container).apply {
+            this?.visibility = View.VISIBLE
         }
 
         // Shows loadingIndicator until page is finished loading

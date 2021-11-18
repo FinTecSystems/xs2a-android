@@ -3,13 +3,19 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="xs2awizard/src/main/res/drawable/bottom_border_background.xml" value="0.14791666666666667" />
+        <entry key="xs2awizard/src/main/res/drawable/paragraph_background.xml" value="0.14791666666666667" />
+        <entry key="xs2awizard/src/main/res/layout/fragment_form_line_value.xml" value="0.13177083333333334" />
+        <entry key="xs2awizard/src/main/res/layout/fragment_line_captcha.xml" value="0.13177083333333334" />
         <entry key="xs2awizard/src/main/res/layout/fragment_line_checkbox.xml" value="0.13728470111448834" />
+        <entry key="xs2awizard/src/main/res/layout/fragment_line_description.xml" value="0.13177083333333334" />
         <entry key="xs2awizard/src/main/res/layout/fragment_line_multi.xml" value="0.13177083333333334" />
         <entry key="xs2awizard/src/main/res/layout/fragment_line_paragraph.xml" value="0.25" />
         <entry key="xs2awizard/src/main/res/layout/fragment_line_redirect.xml" value="0.14010416666666667" />
         <entry key="xs2awizard/src/main/res/layout/fragment_line_restart.xml" value="0.14010416666666667" />
         <entry key="xs2awizard/src/main/res/layout/fragment_line_tabs.xml" value="0.14010416666666667" />
         <entry key="xs2awizard/src/main/res/layout/fragment_line_text.xml" value="0.14010416666666667" />
+        <entry key="xs2awizard/src/main/res/layout/view_bar_url_webview.xml" value="0.2635416666666667" />
         <entry key="xs2awizard/src/main/res/layout/view_indicator_loading.xml" value="0.1" />
       </map>
     </option>
