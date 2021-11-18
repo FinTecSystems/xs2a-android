@@ -49,6 +49,7 @@
         <item name="xs2a_webview_borderColor">@color/text_color_placeholder</item>
         <item name="xs2a_webview_textColor">@color/text_color</item>
         <item name="xs2a_webview_backgroundColor">@android:color/white</item>
+        <item name="xs2a_webview_progressBarColor">?xs2a_tintColor</item>
     </style>
     <style name="XS2ATheme.Base" parent="XS2ATheme">
         <item name="colorAccent">?attr/xs2a_tintColor</item>
@@ -114,5 +115,9 @@
         <item name="android:background">?attr/xs2a_loadingIndicatorBackgroundColor</item>
         <item name="colorPrimary">?attr/xs2a_loadingIndicatorColor</item>
         <item name="colorAccent">?attr/xs2a_loadingIndicatorColor</item>
+    </style>
+    <style name="XS2ATheme.WebviewProgressBar">
+        <item name="colorPrimary">?xs2a_webview_progressBarColor</item>
+        <item name="colorAccent">?xs2a_webview_progressBarColor</item>
     </style>
 </resources>

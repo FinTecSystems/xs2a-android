@@ -2,9 +2,7 @@ package com.fintecsystems.xs2awizard.components.webview
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.net.http.SslError
 import android.util.AttributeSet
-import android.util.Log
 import android.webkit.*
 import android.widget.*
 import androidx.core.net.toUri
@@ -12,6 +10,7 @@ import com.fintecsystems.xs2awizard.R
 import com.fintecsystems.xs2awizard.XS2AWizard
 import com.fintecsystems.xs2awizard.components.webview.XS2AJavascriptInterface.XS2AJavascriptInterfaceCallback
 import com.fintecsystems.xs2awizard.helper.Utils
+
 
 /**
  * WebView with URL-Bar on the top.
@@ -25,6 +24,7 @@ class URLBarWebView(
     val webView: WebView
     private val urlBarTextView: TextView
     private val secureIconImageView: ImageView
+    private val loadingProgressBar: ProgressBar
 
     lateinit var xS2AWizard: XS2AWizard
 
@@ -37,6 +37,7 @@ class URLBarWebView(
         inflate(context, R.layout.view_bar_url_webview, this).apply {
             webView = findViewById(R.id.webview)
             secureIconImageView = findViewById(R.id.secureIcon)
+            loadingProgressBar = findViewById(R.id.progressBar)
 
             findViewById<ImageButton>(R.id.closeButton).setOnClickListener { xS2AWizard.closeWebView() }
 
@@ -73,6 +74,20 @@ class URLBarWebView(
 
                         // Page has finished loading, we can hide the loadingIndicator now.
                         xS2AWizard.decrementLoadingIndicatorLock()
+                    }
+                }
+
+                webChromeClient = object : WebChromeClient() {
+                    override fun onProgressChanged(view: WebView?, progress: Int) {
+                        if (progress < 100 && loadingProgressBar.visibility == GONE) {
+                            loadingProgressBar.visibility = VISIBLE
+                        }
+
+                        loadingProgressBar.progress = progress
+
+                        if (progress == 100) {
+                            loadingProgressBar.visibility = GONE
+                        }
                     }
                 }
             }
