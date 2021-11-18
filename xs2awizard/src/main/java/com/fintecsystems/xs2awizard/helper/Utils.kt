@@ -1,12 +1,15 @@
 package com.fintecsystems.xs2awizard.helper
 
 import android.app.Activity
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Base64
 import android.view.LayoutInflater
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.appcompat.view.ContextThemeWrapper
 import com.fintecsystems.xs2awizard.R
 import java.util.concurrent.atomic.AtomicInteger
@@ -106,4 +109,19 @@ object Utils {
                 theme.applyStyle(styleRes, true)
             }
         }
+
+    /**
+     * Copies the supplied text to the clipboard.
+     *
+     * @param context context used to retrieve ClipboardManager.
+     * @param text text to save to the clipboard.
+     */
+    fun setClipboardText(context: Context, text: String) {
+        val clipboard =
+            context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clip = ClipData.newPlainText("Copied Text", text)
+        clipboard.setPrimaryClip(clip)
+
+        Toast.makeText(context, context.getString(R.string.link_copied), Toast.LENGTH_SHORT).show()
+    }
 }

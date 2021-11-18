@@ -6,23 +6,59 @@
     android:layout_height="match_parent"
     tools:context=".components.webview.URLBarWebView">
 
-    <TextView
-        android:id="@+id/urlBarTextView"
-        style="@style/XS2ATheme.TextView"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/statusBar"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:singleLine="true"
-        android:textSize="15sp"
-        android:longClickable="true"
-        android:clickable="true"
+        android:layout_height="48dp"
+        android:background="@drawable/bottom_border_background"
         app:layout_constraintBottom_toTopOf="@+id/webview"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:paddingVertical="5dp"
-        android:paddingHorizontal="10dp"
-        android:background="@drawable/bottom_border_background"
-        android:focusable="true" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/closeButton"
+            android:layout_width="48dp"
+            android:layout_height="0dp"
+            android:paddingVertical="5dp"
+            android:paddingHorizontal="10dp"
+            android:background="@color/background_none"
+            android:src="@drawable/ic_close"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/urlBarTextView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/urlBarTextView"
+            style="@style/XS2ATheme.TextView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:longClickable="true"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="5dp"
+            android:singleLine="true"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/secureIcon"
+            app:layout_constraintStart_toEndOf="@id/closeButton"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/secureIcon"
+            android:layout_width="48dp"
+            android:layout_height="0dp"
+            android:src="@android:drawable/ic_secure"
+            android:paddingVertical="5dp"
+            android:paddingHorizontal="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/urlBarTextView"
+            app:layout_constraintTop_toTopOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <WebView
         android:id="@+id/webview"
@@ -30,7 +66,8 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/urlBarTextView" />
+        app:layout_constraintTop_toBottomOf="@id/statusBar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
