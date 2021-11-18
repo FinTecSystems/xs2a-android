@@ -165,6 +165,8 @@ xs2a_button_restart_text_color
 
 xs2a_button_redirect_background_color
 xs2a_button_redirect_text_color
+
+xs2a_webViewIconColor
 ```
 </details>
 

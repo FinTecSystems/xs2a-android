@@ -44,6 +44,8 @@
         <item name="xs2a_button_restart_text_color">@color/text_color_light</item>
         <item name="xs2a_button_redirect_background_color">@color/primary_color</item>
         <item name="xs2a_button_redirect_text_color">@color/text_color_light</item>
+
+        <item name="xs2a_webViewIconColor">?xs2a_textColor</item>
     </style>
     <style name="XS2ATheme.Base" parent="XS2ATheme">
         <item name="colorAccent">?attr/xs2a_tintColor</item>
