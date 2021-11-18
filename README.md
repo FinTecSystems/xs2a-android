@@ -170,6 +170,7 @@ xs2a_webview_iconColor
 xs2a_webview_backgroundColor
 xs2a_webview_borderColor
 xs2a_webview_textColor
+xs2a_webview_progressBarColor
 ```
 </details>
 
