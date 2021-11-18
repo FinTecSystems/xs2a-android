@@ -49,6 +49,5 @@
         <item name="xs2a_webview_borderColor">@color/text_color_placeholder</item>
         <item name="xs2a_webview_textColor">@color/text_color_light</item>
         <item name="xs2a_webview_backgroundColor">@android:color/black</item>
-        <item name="xs2a_webview_progressBarColor">?xs2a_tintColor</item>
     </style>
 </resources>

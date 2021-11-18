@@ -51,6 +51,5 @@
         <attr name="xs2a_webview_backgroundColor" format="color" />
         <attr name="xs2a_webview_borderColor" format="color" />
         <attr name="xs2a_webview_textColor" format="color" />
-        <attr name="xs2a_webview_progressBarColor" format="color" />
     </declare-styleable>
 </resources>
