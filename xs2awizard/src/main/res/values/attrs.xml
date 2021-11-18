@@ -47,6 +47,9 @@
         <attr name="xs2a_textInput_backgroundColor" format="color" />
         <attr name="xs2a_textInputShapeAppearance" format="reference" />
 
-        <attr name="xs2a_webViewIconColor" format="color" />
+        <attr name="xs2a_webview_iconColor" format="color" />
+        <attr name="xs2a_webview_backgroundColor" format="color" />
+        <attr name="xs2a_webview_borderColor" format="color" />
+        <attr name="xs2a_webview_textColor" format="color" />
     </declare-styleable>
 </resources>

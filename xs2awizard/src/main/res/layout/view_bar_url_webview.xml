@@ -10,7 +10,7 @@
         android:id="@+id/statusBar"
         android:layout_width="0dp"
         android:layout_height="48dp"
-        android:background="@drawable/bottom_border_background"
+        android:background="@drawable/webview_bottom_border_background"
         app:layout_constraintBottom_toTopOf="@+id/webview"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,11 +26,11 @@
             app:layout_constraintEnd_toStartOf="@id/urlBarTextView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="?xs2a_webViewIconColor" />
+            app:tint="?attr/xs2a_webview_iconColor" />
 
         <TextView
             android:id="@+id/urlBarTextView"
-            style="@style/XS2ATheme.TextView"
+            android:textColor="?xs2a_webview_textColor"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:clickable="true"
@@ -59,7 +59,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/urlBarTextView"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="?xs2a_webViewIconColor" />
+            app:tint="?attr/xs2a_webview_iconColor" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <WebView
