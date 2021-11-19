@@ -96,8 +96,10 @@ class URLBarWebView(
 
     private fun updateSecureIcon(isSecure: Boolean) {
         val iconResId = if (isSecure) R.drawable.ic_ssl_secure else R.drawable.ic_ssl_unsecure
+        val contentDescriptionResId = if (isSecure) R.string.connection_secure else R.string.connection_unsecure
 
         secureIconImageView.setImageResource(iconResId)
+        secureIconImageView.contentDescription = context.getString(contentDescriptionResId)
     }
 
     fun hide() {
