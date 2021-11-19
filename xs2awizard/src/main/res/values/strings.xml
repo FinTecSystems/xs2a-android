@@ -16,4 +16,7 @@
     <string name="fts_logo_black_2x_url" translatable="false">https://api.xs2a.com/img/mobile-sdks/android/logo_black@2x.png</string>
     <string name="fts_logo_white_2x_url" translatable="false">https://api.xs2a.com/img/mobile-sdks/android/logo_white@2x.png</string>
     <string name="link_copied">Link copied</string>
+    <string name="close_webview">Close WebView</string>
+    <string name="connection_secure">Connection secure</string>
+    <string name="connection_unsecure">Connection unsecure</string>
 </resources>

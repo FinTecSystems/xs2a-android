@@ -10,4 +10,7 @@
     <string name="flicker_marker">Markierung</string>
     <string name="dialog_dismiss">Schließen</string>
     <string name="link_copied">Link kopiert</string>
+    <string name="close_webview">WebView schließen</string>
+    <string name="connection_secure">Verbindung sicher</string>
+    <string name="connection_unsecure">Verbindung unsicher</string>
 </resources>
