@@ -2,7 +2,6 @@ package com.fintecsystems.xs2awizard.components
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import android.widget.LinearLayout
 import com.fintecsystems.xs2awizard.R
 

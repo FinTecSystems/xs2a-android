@@ -12,8 +12,7 @@ import com.fintecsystems.xs2awizard.form.RedirectLineData
  * Subclass of [FormLine].
  * Displays an redirect button and an back button.
  */
-class RedirectLine(
-) : FormLine() {
+class RedirectLine : FormLine() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

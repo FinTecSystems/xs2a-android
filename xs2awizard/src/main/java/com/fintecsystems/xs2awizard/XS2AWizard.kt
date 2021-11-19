@@ -110,6 +110,7 @@ class XS2AWizard() : Fragment(), XS2AWizardActionDelegate {
     private var onFormReceivedDataFromBackground: String? = null
 
     // Secondary constructor used by the User to pass config.
+    @Suppress("unused")
     constructor(_config: XS2AWizardConfig) : this() {
         mConfig = _config
     }

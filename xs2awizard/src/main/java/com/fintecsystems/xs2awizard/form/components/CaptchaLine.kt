@@ -32,9 +32,8 @@ class CaptchaLine : ValueFormLine(), TextWatcher {
                 it.addTextChangedListener(this)
             }
 
-            view.findViewById<ImageView>(R.id.captcha_image_view).let {
-                it.setImageBitmap(Utils.decodeBase64Image(formData.data))
-            }
+            view.findViewById<ImageView>(R.id.captcha_image_view)
+                .setImageBitmap(Utils.decodeBase64Image(formData.data))
         }
 
         parentView.findViewById<LinearLayout>(R.id.form_value_container).addView(ownView)
