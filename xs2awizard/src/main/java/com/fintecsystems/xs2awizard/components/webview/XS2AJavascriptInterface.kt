@@ -19,6 +19,11 @@ class XS2AJavascriptInterface (
     }
 
     interface XS2AJavascriptInterfaceCallback {
+        /**
+         * Callback for when either callbacks in JavaScript gets called.
+         *
+         * @param success true when successCallback got called.
+         */
         fun xS2AJavascriptInterfaceCallbackHandler(success: Boolean)
     }
 }

@@ -1,5 +1,6 @@
 package com.fintecsystems.xs2awizard.components.webview
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.util.AttributeSet
@@ -15,6 +16,7 @@ import com.fintecsystems.xs2awizard.helper.Utils
 /**
  * WebView with URL-Bar on the top.
  */
+@SuppressLint("SetJavaScriptEnabled", "AddJavascriptInterface")
 class URLBarWebView(
     context: Context,
     attrs: AttributeSet?,
@@ -94,6 +96,11 @@ class URLBarWebView(
         }
     }
 
+    /**
+     * Updates the security icon and it's content description based on the input.
+     *
+     * @param isSecure is the current connection secure?
+     */
     private fun updateSecureIcon(isSecure: Boolean) {
         val iconResId = if (isSecure) R.drawable.ic_ssl_secure else R.drawable.ic_ssl_unsecure
         val contentDescriptionResId = if (isSecure) R.string.connection_secure else R.string.connection_unsecure
@@ -102,10 +109,16 @@ class URLBarWebView(
         secureIconImageView.contentDescription = context.getString(contentDescriptionResId)
     }
 
+    /**
+     * Hides this view.
+     */
     fun hide() {
         visibility = GONE
     }
 
+    /**
+     * Shows this view.
+     */
     fun show() {
         visibility = VISIBLE
     }
