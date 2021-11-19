@@ -1,7 +1,6 @@
 package com.fintecsystems.xs2awizard.components
 
 import android.net.Uri
-import android.os.Build
 import android.text.style.URLSpan
 import android.view.View
 import androidx.browser.customtabs.CustomTabsIntent
