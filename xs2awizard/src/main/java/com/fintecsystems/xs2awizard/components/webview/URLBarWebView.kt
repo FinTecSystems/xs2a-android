@@ -8,7 +8,8 @@ import android.webkit.*
 import android.widget.*
 import androidx.core.net.toUri
 import com.fintecsystems.xs2awizard.R
-import com.fintecsystems.xs2awizard.XS2AWizard
+// TODO: Uncomment
+//import com.fintecsystems.xs2awizard.XS2AWizard
 import com.fintecsystems.xs2awizard.components.webview.XS2AJavascriptInterface.XS2AJavascriptInterfaceCallback
 import com.fintecsystems.xs2awizard.helper.Utils
 
@@ -28,7 +29,8 @@ class URLBarWebView(
     private val secureIconImageView: ImageView
     private val loadingProgressBar: ProgressBar
 
-    lateinit var xS2AWizard: XS2AWizard
+    // TODO: Action delegegate wieder bauen
+    // lateinit var xS2AWizard: XS2AWizard
 
     private var currentUrl: String? = null
 
@@ -41,7 +43,8 @@ class URLBarWebView(
             secureIconImageView = findViewById(R.id.secureIcon)
             loadingProgressBar = findViewById(R.id.progressBar)
 
-            findViewById<ImageButton>(R.id.closeButton).setOnClickListener { xS2AWizard.closeWebView() }
+            // TODO: Uncomment
+            // findViewById<ImageButton>(R.id.closeButton).setOnClickListener { xS2AWizard.closeWebView() }
 
             urlBarTextView = findViewById(R.id.urlBarTextView)
 
@@ -75,7 +78,8 @@ class URLBarWebView(
                         updateSecureIcon(view?.certificate != null)
 
                         // Page has finished loading, we can hide the loadingIndicator now.
-                        xS2AWizard.decrementLoadingIndicatorLock()
+                        // TODO: Uncomment
+                        // xS2AWizard.decrementLoadingIndicatorLock()
                     }
                 }
 
@@ -103,7 +107,8 @@ class URLBarWebView(
      */
     private fun updateSecureIcon(isSecure: Boolean) {
         val iconResId = if (isSecure) R.drawable.ic_ssl_secure else R.drawable.ic_ssl_unsecure
-        val contentDescriptionResId = if (isSecure) R.string.connection_secure else R.string.connection_unsecure
+        val contentDescriptionResId =
+            if (isSecure) R.string.connection_secure else R.string.connection_unsecure
 
         secureIconImageView.setImageResource(iconResId)
         secureIconImageView.contentDescription = context.getString(contentDescriptionResId)
@@ -124,11 +129,14 @@ class URLBarWebView(
     }
 
     override fun xS2AJavascriptInterfaceCallbackHandler(success: Boolean) {
+        // TODO: Uncomment
+        /*
         xS2AWizard.view?.post {
             xS2AWizard.closeWebView()
 
             if (success)
                 xS2AWizard.submitForm("post-code")
         }
+         */
     }
 }
