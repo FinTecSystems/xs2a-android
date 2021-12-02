@@ -21,7 +21,7 @@ fun FormLinesPreview() {
     )
 
     val customTheme = object : IXS2ATheme by XS2AThemeLight {
-        override val textColor: Color = Color.Red
+        override val backgroundColor: Color = Color.White
     }
 
     XS2ATheme(xS2ATheme = customTheme) {

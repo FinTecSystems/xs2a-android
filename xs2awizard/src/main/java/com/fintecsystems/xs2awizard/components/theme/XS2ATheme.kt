@@ -12,11 +12,12 @@ val LocalExtendedStyle = staticCompositionLocalOf<IXS2ATheme> { XS2AThemeBase }
 
 @Composable
 fun XS2ATheme(
-    xS2ATheme: IXS2ATheme = if (isSystemInDarkTheme()) XS2AThemeDark else XS2AThemeLight,
+    xS2ATheme: IXS2ATheme? = null,
     colors: Colors = lightColors(),
     content: @Composable () -> Unit
 ) {
-    CompositionLocalProvider(LocalExtendedStyle provides xS2ATheme) {
+    val theme = xS2ATheme ?: if (isSystemInDarkTheme()) XS2AThemeDark else XS2AThemeLight
+    CompositionLocalProvider(LocalExtendedStyle provides theme) {
         MaterialTheme(
             colors = colors,
             content = content

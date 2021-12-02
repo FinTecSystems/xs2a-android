@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.fintecsystems.xs2awizard.components.XS2AWizardConfig
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.FormLineData
 import com.fintecsystems.xs2awizard.form.ParagraphLineData
@@ -26,13 +27,16 @@ class XS2AWizardViewModel : ViewModel() {
 }
 
 @Composable
-fun XS2AWizardComponent(xs2aWizardViewModel: XS2AWizardViewModel = viewModel()) {
+fun XS2AWizardComponent(
+    xS2AWizardConfig: XS2AWizardConfig,
+    xs2aWizardViewModel: XS2AWizardViewModel = viewModel()
+) {
     val form by xs2aWizardViewModel.form.observeAsState(null)
 
     // Helper methods
 
     // Render
-    XS2ATheme {
+    XS2ATheme(xS2ATheme = xS2AWizardConfig.theme) {
         form?.let { FormLines(it) }
     }
 }
@@ -68,7 +72,9 @@ fun FormLines(formData: List<FormLineData>) {
     }
 }
 
-class XS2AWizard : Fragment() {
+class XS2AWizard(
+    private val xS2AWizardConfig: XS2AWizardConfig
+) : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -77,7 +83,7 @@ class XS2AWizard : Fragment() {
         return ComposeView(requireContext()).apply {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
-                XS2AWizardComponent()
+                XS2AWizardComponent(xS2AWizardConfig)
             }
         }
     }
