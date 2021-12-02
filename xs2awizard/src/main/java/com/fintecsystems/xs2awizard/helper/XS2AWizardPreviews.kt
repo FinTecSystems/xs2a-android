@@ -17,7 +17,8 @@ fun FormLinesPreview() {
         ParagraphLineData("TestText1", "TestTitle1"),
         ParagraphLineData("WarningText", "WarningTitle", "warning"),
         ParagraphLineData("ErrorText", "ErrorTitle", "error"),
-        ParagraphLineData("InfoText", "InfoTitle", "info")
+        ParagraphLineData("InfoText", "InfoTitle", "info"),
+        ParagraphLineData("[Für Kreditkarten klicken Sie bitte hier|autosubmit::bank_code=creditcard-test&country_id=DE]"),
     )
 
     val customTheme = object : IXS2ATheme by XS2AThemeLight {
