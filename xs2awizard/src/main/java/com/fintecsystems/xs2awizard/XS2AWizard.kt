@@ -4,23 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.fintecsystems.xs2awizard.components.theme.IXS2ATheme
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
-import com.fintecsystems.xs2awizard.components.theme.XS2AThemeLight
-import com.fintecsystems.xs2awizard.form.*
+import com.fintecsystems.xs2awizard.form.FormLineData
+import com.fintecsystems.xs2awizard.form.ParagraphLineData
 import com.fintecsystems.xs2awizard.form.components.ParagraphLine
 
 class XS2AWizardViewModel : ViewModel() {
@@ -41,7 +39,9 @@ fun XS2AWizardComponent(xs2aWizardViewModel: XS2AWizardViewModel = viewModel()) 
 
 @Composable
 fun FormLines(formData: List<FormLineData>) {
-    Column {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
         for (formLineData in formData) {
             when (formLineData) {
                 // is AutoSubmitLineData -> AutoSubmitLine(formLineData)
@@ -65,25 +65,6 @@ fun FormLines(formData: List<FormLineData>) {
                 // is MultiLineData -> MultiLine(formLineData)
             }
         }
-    }
-}
-
-@Composable
-@Preview
-fun FormLinesPreview() {
-    val mockFormData = listOf<FormLineData>(
-        ParagraphLineData("TestText1", "TestTitle1"),
-        ParagraphLineData("WarningText", "WarningTitle", "warning"),
-        ParagraphLineData("ErrorText", "ErrorTitle", "error"),
-        ParagraphLineData("InfoText", "InfoTitle", "info")
-    )
-
-    val customTheme = object : IXS2ATheme by XS2AThemeLight {
-        override val textColor: Color = Color.Red
-    }
-
-    XS2ATheme(xS2ATheme = customTheme) {
-        FormLines(formData = mockFormData)
     }
 }
 
