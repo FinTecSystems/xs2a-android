@@ -33,6 +33,8 @@ interface IXS2ATheme {
     val infoParagraphStyle: ParagraphStyle
     val warningParagraphStyle: ParagraphStyle
     val paragraphShape: Shape
+    val paragraphPadding: PaddingMarginConfiguration
+    val paragraphMargin: PaddingMarginConfiguration
 
     // WebView
     val webViewIconColor: Color

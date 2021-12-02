@@ -31,6 +31,8 @@ object XS2AThemeBase : IXS2ATheme {
     override val infoParagraphStyle: ParagraphStyle = ParagraphStyle.Unspecified
     override val warningParagraphStyle: ParagraphStyle = ParagraphStyle.Unspecified
     override val paragraphShape: Shape = RoundedCornerShape(4.dp)
+    override val paragraphMargin: PaddingMarginConfiguration = PaddingMarginConfiguration(0.dp)
+    override val paragraphPadding: PaddingMarginConfiguration = PaddingMarginConfiguration(0.dp)
 
     override val webViewIconColor: Color = Color.Unspecified
     override val webViewBackgroundColor: Color = Color.Unspecified
