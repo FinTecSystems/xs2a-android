@@ -1,5 +1,6 @@
 package com.fintecsystems.xs2awizard
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,9 +8,11 @@ import android.view.ViewGroup
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
@@ -21,9 +24,23 @@ import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.FormLineData
 import com.fintecsystems.xs2awizard.form.ParagraphLineData
 import com.fintecsystems.xs2awizard.form.components.ParagraphLine
+import com.fintecsystems.xs2awizard_networking.NetworkingInstance
 
 class XS2AWizardViewModel : ViewModel() {
+    private lateinit var networkingInstance: NetworkingInstance
+    private lateinit var config: XS2AWizardConfig
+
     val form = MutableLiveData<List<FormLineData>>()
+
+    fun onStart(context: Context, _config: XS2AWizardConfig) {
+        networkingInstance = NetworkingInstance.getInstance(context)
+        config = _config
+
+        networkingInstance.apply {
+            sessionKey = config.sessionKey
+            backendURL = config.backendURL
+        }
+    }
 }
 
 @Composable
@@ -32,6 +49,14 @@ fun XS2AWizardComponent(
     xs2aWizardViewModel: XS2AWizardViewModel = viewModel()
 ) {
     val form by xs2aWizardViewModel.form.observeAsState(null)
+
+    val localContext = LocalContext.current
+
+    DisposableEffect(xs2aWizardViewModel) {
+        xs2aWizardViewModel.onStart(localContext, xS2AWizardConfig)
+
+        onDispose { }
+    }
 
     // Helper methods
 
