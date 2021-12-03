@@ -8,21 +8,21 @@ import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 
 @Composable
 fun FormTextField(
-    value: TextFieldValue,
-    onValueChange: (TextFieldValue) -> Unit,
-    placeholder: String?,
+    value: String,
+    onValueChange: (String) -> Unit,
+    placeholder: String? = null,
     enabled: Boolean = true,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
 ) {
     TextField(
         value = value,
+        onValueChange = onValueChange,
         enabled = enabled,
         placeholder = {
             if (placeholder != null)
@@ -33,7 +33,6 @@ fun FormTextField(
                     )
                 )
         },
-        onValueChange = onValueChange,
         shape = XS2ATheme.CURRENT.inputShape,
         modifier = Modifier.fillMaxWidth(),
         colors = TextFieldDefaults.textFieldColors(
