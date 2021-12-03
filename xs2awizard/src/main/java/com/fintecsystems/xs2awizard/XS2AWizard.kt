@@ -14,7 +14,6 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
@@ -27,7 +26,6 @@ import com.fintecsystems.xs2awizard.components.XS2AWizardError
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.*
 import com.fintecsystems.xs2awizard.form.components.ParagraphLine
-import com.fintecsystems.xs2awizard.helper.Utils
 import com.fintecsystems.xs2awizard_networking.NetworkingInstance
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.decodeFromString
@@ -91,18 +89,20 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
      * Used for recursion purposes on MultiLine.
      *
      * @param jsonBuilder current [JsonBuilder] instance.
-     * @param formLine [FormLineData] element used for appending it's data to [JsonBuilder].
+     * @param formLineData [FormLineData] element used for appending it's data to [JsonBuilder].
      */
-    private fun appendValueToJson(jsonBuilder: JsonObjectBuilder, formLine: FormLineData) {
-        when (formLine) {
-            is ValueFormLineData -> jsonBuilder.put(formLine.name, formLine.value ?: JsonNull)
+    private fun appendValueToJson(jsonBuilder: JsonObjectBuilder, formLineData: FormLineData) {
+        when (formLineData) {
+            is ValueFormLineData -> jsonBuilder.put(
+                formLineData.name,
+                formLineData.value ?: JsonNull
+            )
             is MultiLineData -> {
-                jsonBuilder.put(formLine.name, formLine.selected)
+                jsonBuilder.put(formLineData.name, formLineData.selected)
 
-                /* TODO: Find a solution to this
-                (formLine as MultiLine).getCurrentForm()
-                    ?.forEach { appendValueToJson(jsonBuilder, it) }
-                 */
+                formLineData.forms
+                    .find { it.value == formLineData.selected }
+                    ?.form?.forEach { appendValueToJson(jsonBuilder, it) }
             }
         }
     }
