@@ -26,8 +26,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.fintecsystems.xs2awizard.components.JSONFormatter
-import com.fintecsystems.xs2awizard.components.MarkupParser
+import com.fintecsystems.xs2awizard.helper.JSONFormatter
+import com.fintecsystems.xs2awizard.helper.MarkupParser
 import com.fintecsystems.xs2awizard.components.XS2AWizardConfig
 import com.fintecsystems.xs2awizard.components.XS2AWizardError
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme

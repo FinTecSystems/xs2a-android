@@ -1,4 +1,4 @@
-package com.fintecsystems.xs2awizard.components
+package com.fintecsystems.xs2awizard.helper
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.AnnotatedString

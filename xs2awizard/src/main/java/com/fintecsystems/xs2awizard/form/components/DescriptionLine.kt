@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.sp
 import com.fintecsystems.xs2awizard.XS2AWizardViewModel
-import com.fintecsystems.xs2awizard.components.MarkupParser
+import com.fintecsystems.xs2awizard.helper.MarkupParser
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.DescriptionLineData
 

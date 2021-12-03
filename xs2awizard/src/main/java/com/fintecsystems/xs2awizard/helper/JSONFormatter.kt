@@ -1,4 +1,4 @@
-package com.fintecsystems.xs2awizard.components
+package com.fintecsystems.xs2awizard.helper
 
 import com.fintecsystems.xs2awizard.form.*
 import kotlinx.serialization.json.Json
