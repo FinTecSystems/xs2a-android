@@ -340,7 +340,7 @@ fun FormLines(formData: List<FormLineData>, viewModel: XS2AWizardViewModel) {
                 // is AutoSubmitLineData -> AutoSubmitLine(formLineData)
                 is ParagraphLineData -> ParagraphLine(formLineData, viewModel)
                 is DescriptionLineData -> DescriptionLine(formLineData, viewModel)
-                // is TextLineData -> TextLine(formLineData)
+                is TextLineData -> TextLine(formLineData, viewModel)
                 // is PasswordLineData -> PasswordLine(formLineData)
                 // is CaptchaLineData -> CaptchaLine(formLineData)
                 // is SelectLineData -> SelectLine(formLineData)
