@@ -49,15 +49,15 @@ fun ParagraphLine(formData: ParagraphLineData, viewModel: XS2AWizardViewModel) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
+                .background(
+                    color = backgroundColor,
+                    shape = XS2ATheme.CURRENT.paragraphShape
+                )
                 .padding(
                     padding.start,
                     padding.top,
                     padding.end,
                     padding.bottom
-                )
-                .background(
-                    color = backgroundColor,
-                    shape = XS2ATheme.CURRENT.paragraphShape
                 ),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
