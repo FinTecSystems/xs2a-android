@@ -32,9 +32,7 @@ import com.fintecsystems.xs2awizard.components.XS2AWizardConfig
 import com.fintecsystems.xs2awizard.components.XS2AWizardError
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.*
-import com.fintecsystems.xs2awizard.form.components.DescriptionLine
-import com.fintecsystems.xs2awizard.form.components.ParagraphLine
-import com.fintecsystems.xs2awizard.form.components.SubmitLine
+import com.fintecsystems.xs2awizard.form.components.*
 import com.fintecsystems.xs2awizard_networking.NetworkingInstance
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.decodeFromString
@@ -331,8 +329,8 @@ fun FormLines(formData: List<FormLineData>, viewModel: XS2AWizardViewModel) {
                 // is LogoLineData -> LogoLine(formLineData)
                 // is FlickerLineData -> FlickerLine(formLineData)
                 is SubmitLineData -> SubmitLine(formLineData, viewModel)
-                // is AbortLineData -> AbortLine(formLineData)
-                // is RestartLineData -> RestartLine(formLineData)
+                is AbortLineData -> AbortLine(formLineData, viewModel)
+                is RestartLineData -> RestartLine(formLineData, viewModel)
                 // is TabsLineData -> TabsLine(formLineData)
                 // is RedirectLineData -> RedirectLine(formLineData)
                 // is MultiLineData -> MultiLine(formLineData)
