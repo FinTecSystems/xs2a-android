@@ -1,6 +1,5 @@
 package com.fintecsystems.xs2awizard.form.components
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,14 +11,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
+import com.fintecsystems.xs2awizard.XS2AWizardViewModel
 import com.fintecsystems.xs2awizard.components.MarkupParser
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.ParagraphLineData
 
 @Composable
-fun ParagraphLine(formData: ParagraphLineData) {
+fun ParagraphLine(formData: ParagraphLineData, viewModel: XS2AWizardViewModel) {
     val textColor = when (formData.severity) {
         "info" -> XS2ATheme.CURRENT.infoParagraphStyle.textColor
         "error" -> XS2ATheme.CURRENT.errorParagraphStyle.textColor
@@ -66,7 +65,6 @@ fun ParagraphLine(formData: ParagraphLineData) {
                 Text(
                     text = formData.title,
                     color = textColor,
-                    textAlign = TextAlign.Center,
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp
                 )
@@ -79,17 +77,12 @@ fun ParagraphLine(formData: ParagraphLineData) {
                     text = annotatedString,
                     style = TextStyle(
                         color = textColor,
-                        textAlign = TextAlign.Center,
                         fontSize = 17.sp,
                     ),
                     onClick = {
                         annotatedString.getStringAnnotations(it, it)
                             .firstOrNull()?.let { annotation ->
-                                // TODO: Add logic
-                                Log.d(
-                                    "XS2AWizard",
-                                    "ParagraphLine: Clicked Annotation ${annotation.item}"
-                                )
+                                viewModel.handleAnnotationClick(annotation)
                             }
                     }
                 )

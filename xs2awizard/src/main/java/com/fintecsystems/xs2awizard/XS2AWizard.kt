@@ -2,29 +2,37 @@ package com.fintecsystems.xs2awizard
 
 import android.app.Application
 import android.content.Context
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.fintecsystems.xs2awizard.components.JSONFormatter
+import com.fintecsystems.xs2awizard.components.MarkupParser
 import com.fintecsystems.xs2awizard.components.XS2AWizardConfig
 import com.fintecsystems.xs2awizard.components.XS2AWizardError
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.*
+import com.fintecsystems.xs2awizard.form.components.DescriptionLine
 import com.fintecsystems.xs2awizard.form.components.ParagraphLine
 import com.fintecsystems.xs2awizard_networking.NetworkingInstance
 import kotlinx.serialization.SerializationException
@@ -125,7 +133,7 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
      * @param jsonBody request body.
      * @param showIndicator show loading indicator during request.
      */
-    fun submitForm(jsonBody: JsonElement, showIndicator: Boolean) =
+    fun submitForm(jsonBody: JsonElement, showIndicator: Boolean = true) =
         submitForm(jsonBody.toString(), showIndicator)
 
     /**
@@ -149,6 +157,24 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
                 jsonBody,
                 ::onFormReceived
             )
+    }
+
+    /**
+     * Handles onClick of ClickableText's with string annotations.
+     *
+     * @param annotation clicked annotation
+     */
+    fun handleAnnotationClick(annotation: AnnotatedString.Range<String>) {
+        when (annotation.tag) {
+            "autosubmit" -> {
+                val jsonBody = MarkupParser.parseAutoSubmitPayloadAsJson(annotation.item)
+
+                submitForm(constructJsonBody("autosubmit", jsonBody))
+            }
+            else -> CustomTabsIntent.Builder().build().launchUrl(
+                context, Uri.parse(annotation.item)
+            )
+        }
     }
 
     /**
@@ -233,36 +259,37 @@ fun XS2AWizardComponent(
 ) {
     val form by xs2aWizardViewModel.form.observeAsState(null)
 
+    // Initialize ViewModel
     DisposableEffect(xs2aWizardViewModel) {
         xs2aWizardViewModel.onStart(xS2AWizardConfig)
 
-        onDispose { }
+        onDispose { /* no-op */ }
     }
-
-    // Helper methods
 
     // Render
     XS2ATheme(xS2ATheme = xS2AWizardConfig.theme) {
-        form?.let { FormLines(it) }
+        form?.let {
+            FormLines(it, xs2aWizardViewModel)
+        }
     }
 }
 
 @Composable
-fun FormLines(formData: List<FormLineData>) {
+fun FormLines(formData: List<FormLineData>, viewModel: XS2AWizardViewModel) {
     Column(
+        modifier = Modifier.padding(10.dp, 0.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         for (formLineData in formData) {
             when (formLineData) {
                 // is AutoSubmitLineData -> AutoSubmitLine(formLineData)
-                is ParagraphLineData -> ParagraphLine(formLineData)
-                // is DescriptionLineData -> DescriptionLine(formLineData)
+                is ParagraphLineData -> ParagraphLine(formLineData, viewModel)
+                is DescriptionLineData -> DescriptionLine(formLineData, viewModel)
                 // is TextLineData -> TextLine(formLineData)
                 // is PasswordLineData -> PasswordLine(formLineData)
                 // is CaptchaLineData -> CaptchaLine(formLineData)
                 // is SelectLineData -> SelectLine(formLineData)
                 // is CheckBoxLineData -> CheckBoxLine(formLineData)
-                // is HiddenLineData -> HiddenLine(formLineData)
                 // is RadioLineData -> RadioLine(formLineData)
                 // is ImageLineData -> ImageLine(formLineData)
                 // is LogoLineData -> LogoLine(formLineData)
@@ -273,6 +300,7 @@ fun FormLines(formData: List<FormLineData>) {
                 // is TabsLineData -> TabsLine(formLineData)
                 // is RedirectLineData -> RedirectLine(formLineData)
                 // is MultiLineData -> MultiLine(formLineData)
+                else -> Text(text = "Missing: ${formLineData::class.simpleName}") // TODO: Remove this when finished
             }
         }
     }

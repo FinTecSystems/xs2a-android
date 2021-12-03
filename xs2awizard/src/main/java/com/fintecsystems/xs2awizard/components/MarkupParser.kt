@@ -45,22 +45,10 @@ object MarkupParser {
 
                     // Define start of the annotation
                     when (regexResult.groupValues[2]) {
-                        "autosubmit" -> {
-                            // Parse markup values into JSON.
-                            val jsonBody = buildJsonObject {
-                                autoSubmitPayloadRegex.findAll(regexResult.groupValues[3])
-                                    .forEach {
-                                        it.groupValues.let { group ->
-                                            put(group[1], JsonPrimitive(group[2]))
-                                        }
-                                    }
-                            }
-
-                            pushStringAnnotation(
-                                tag = "autosubmit",
-                                annotation = jsonBody.toString()
-                            )
-                        }
+                        "autosubmit" -> pushStringAnnotation(
+                            tag = "autosubmit",
+                            annotation = regexResult.groupValues[3]
+                        )
                         else -> pushStringAnnotation(
                             tag = "URL",
                             annotation = regexResult.groupValues[3]
@@ -90,5 +78,21 @@ object MarkupParser {
                 append(text.slice(cursor until text.length))
             }
         }
+    }
+
+    /**
+     * Parses payload of an autosubmit annotation and retrieves it's data into an JsonObject
+     *
+     * @param payload to parse.
+     *
+     * @return Parsed payload as JsonObject
+     */
+    fun parseAutoSubmitPayloadAsJson(payload: String) = buildJsonObject {
+        autoSubmitPayloadRegex.findAll(payload)
+            .forEach {
+                it.groupValues.let { group ->
+                    put(group[1], JsonPrimitive(group[2]))
+                }
+            }
     }
 }
