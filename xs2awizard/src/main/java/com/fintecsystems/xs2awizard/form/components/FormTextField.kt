@@ -9,6 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusState
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.layout.LayoutCoordinates
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
@@ -22,7 +24,8 @@ fun FormTextField(
     enabled: Boolean = true,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-    onFocusChanged: (FocusState) -> Unit = {}
+    onFocusChanged: (FocusState) -> Unit = {},
+    onGloballyPositioned: (LayoutCoordinates) -> Unit = {},
 ) {
     TextField(
         value = value,
@@ -40,7 +43,8 @@ fun FormTextField(
         shape = XS2ATheme.CURRENT.inputShape,
         modifier = Modifier
             .fillMaxWidth()
-            .onFocusChanged(onFocusChanged),
+            .onFocusChanged(onFocusChanged)
+            .onGloballyPositioned(onGloballyPositioned),
         colors = TextFieldDefaults.textFieldColors(
             textColor = XS2ATheme.CURRENT.inputTextColor,
             backgroundColor = XS2ATheme.CURRENT.inputBackgroundColor

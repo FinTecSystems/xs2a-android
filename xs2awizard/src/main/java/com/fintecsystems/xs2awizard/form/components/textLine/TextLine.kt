@@ -2,18 +2,21 @@ package com.fintecsystems.xs2awizard.form.components.textLine
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.toSize
 import androidx.compose.ui.window.PopupProperties
 import com.fintecsystems.xs2awizard.XS2AWizardViewModel
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
@@ -44,6 +47,9 @@ fun TextLine(formData: TextLineData, viewModel: XS2AWizardViewModel) {
     var currentAutoCompleteJob: Job? = null
     val showAutoCompleteDropdown = remember { mutableStateOf(false) }
     val autoCompleteResponse = remember { mutableStateOf<AutoCompleteResponse?>(null) }
+
+    // Workaround to let the dropdown have the same size as the TextField
+    var textfieldSize by remember { mutableStateOf(Size.Zero)}
 
     /**
      * Performs autocomplete and shows dropdown when successful.
@@ -87,7 +93,8 @@ fun TextLine(formData: TextLineData, viewModel: XS2AWizardViewModel) {
                 value = textFieldValue,
                 onValueChange = ::onValueChange,
                 placeholder = formData.placeholder,
-                onFocusChanged = { if (!it.isFocused) showAutoCompleteDropdown.value = false }
+                onFocusChanged = { if (!it.isFocused) showAutoCompleteDropdown.value = false },
+                onGloballyPositioned = { textfieldSize = it.size.toSize() }
             )
         }
 
@@ -100,7 +107,7 @@ fun TextLine(formData: TextLineData, viewModel: XS2AWizardViewModel) {
                 dismissOnClickOutside = true
             ),
             modifier = Modifier
-                .fillMaxWidth()
+                .width(with(LocalDensity.current){textfieldSize.width.toDp()})
                 .background(
                     XS2ATheme.CURRENT.backgroundColor,
                     XS2ATheme.CURRENT.inputShape,
