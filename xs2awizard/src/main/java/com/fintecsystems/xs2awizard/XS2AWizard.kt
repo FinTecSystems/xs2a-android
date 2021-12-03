@@ -344,7 +344,8 @@ fun XS2AWizardComponent(
 @Composable
 fun FormLines(formData: List<FormLineData>, viewModel: XS2AWizardViewModel) {
     Column(
-        modifier = Modifier.padding(10.dp, 0.dp),
+        modifier = Modifier
+            .padding(10.dp, 0.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         for (formLineData in formData) {
@@ -367,6 +368,7 @@ fun FormLines(formData: List<FormLineData>, viewModel: XS2AWizardViewModel) {
                 // is TabsLineData -> TabsLine(formLineData)
                 is RedirectLineData -> RedirectLine(formLineData, viewModel)
                 // is MultiLineData -> MultiLine(formLineData)
+                is HiddenLineData -> { /* no-op */ }
                 else -> Text(text = "Missing: ${formLineData::class.simpleName}") // TODO: Remove this when finished
             }
         }
