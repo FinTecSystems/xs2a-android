@@ -9,9 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.browser.customtabs.CustomTabsIntent
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -33,6 +31,7 @@ import com.fintecsystems.xs2awizard.components.XS2AWizardError
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.*
 import com.fintecsystems.xs2awizard.form.components.*
+import com.fintecsystems.xs2awizard.form.components.textLine.TextLine
 import com.fintecsystems.xs2awizard_networking.NetworkingInstance
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.decodeFromString
@@ -192,6 +191,19 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
                 ::onFormReceived
             )
     }
+
+    /**
+     * Submits form with specified action and calls specified callback on success.
+     *
+     * @param action action to use.
+     * @param onSuccess on success callback to use.
+     */
+    fun submitFormWithCallback(action: String, onSuccess: (String) -> Unit) =
+        NetworkingInstance.getInstance(context)
+            .encodeAndSendMessage(
+                constructJsonBody(action).toString(),
+                onSuccess
+            )
 
     /**
      * Handles onClick of ClickableText's with string annotations.
