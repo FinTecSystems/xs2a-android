@@ -14,23 +14,22 @@ import com.fintecsystems.xs2awizard.form.DescriptionLineData
 
 @Composable
 fun DescriptionLine(formData: DescriptionLineData, viewModel: XS2AWizardViewModel) {
-    Column(modifier = Modifier.fillMaxWidth()) {
-        if (formData.text?.isNotEmpty() == true) {
-            val annotatedString = MarkupParser.parseMarkupText(formData.text)
+    if (formData.text?.isNotEmpty() == true) {
+        val annotatedString = MarkupParser.parseMarkupText(formData.text)
 
-            ClickableText(
-                text = annotatedString,
-                style = TextStyle(
-                    color = XS2ATheme.CURRENT.textColor,
-                    fontSize = 15.3.sp,
-                ),
-                onClick = {
-                    annotatedString.getStringAnnotations(it, it)
-                        .firstOrNull()?.let { annotation ->
-                            viewModel.handleAnnotationClick(annotation)
-                        }
-                }
-            )
-        }
+        ClickableText(
+            modifier = Modifier.fillMaxWidth(),
+            text = annotatedString,
+            style = TextStyle(
+                color = XS2ATheme.CURRENT.textColor,
+                fontSize = 15.3.sp,
+            ),
+            onClick = {
+                annotatedString.getStringAnnotations(it, it)
+                    .firstOrNull()?.let { annotation ->
+                        viewModel.handleAnnotationClick(annotation)
+                    }
+            }
+        )
     }
 }
