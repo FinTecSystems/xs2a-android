@@ -284,6 +284,27 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
             )
         }
     }
+
+    /**
+     * Opens specified url in a WebView and hides the form.
+     *
+     * @param url url to open.
+     */
+    fun openWebView(url: String) {
+        Log.d(TAG, "openWebView $url")
+
+        /* TODO
+        webView.show()
+        webView.webView.loadUrl(url)
+
+        view?.findViewById<LinearLayout>(R.id.form_container).apply {
+            this?.visibility = View.GONE
+        }
+
+        // Shows loadingIndicator until page is finished loading
+        incrementLoadingIndicatorLock()
+         */
+    }
 }
 
 @Composable
@@ -332,7 +353,7 @@ fun FormLines(formData: List<FormLineData>, viewModel: XS2AWizardViewModel) {
                 is AbortLineData -> AbortLine(formLineData, viewModel)
                 is RestartLineData -> RestartLine(formLineData, viewModel)
                 // is TabsLineData -> TabsLine(formLineData)
-                // is RedirectLineData -> RedirectLine(formLineData)
+                is RedirectLineData -> RedirectLine(formLineData, viewModel)
                 // is MultiLineData -> MultiLine(formLineData)
                 else -> Text(text = "Missing: ${formLineData::class.simpleName}") // TODO: Remove this when finished
             }
