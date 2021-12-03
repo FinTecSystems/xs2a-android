@@ -75,6 +75,41 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
     )
 
     /**
+     * Tells the server to go one step back
+     */
+    fun goBack() = submitForm(
+        buildJsonObject {
+            put("action", JsonPrimitive("back"))
+        }
+    )
+
+    /**
+     * Tells the server to abort the session
+     */
+    fun abort() {
+        /* TODO: Uncomment when enabled again
+        if (autoSubmitTask != null) {
+            view?.removeCallbacks(autoSubmitTask!!)
+        }
+         */
+
+        submitForm(
+            buildJsonObject {
+                put("action", JsonPrimitive("abort"))
+            }
+        )
+    }
+
+    /**
+     * Tells the server to restarts the session
+     */
+    fun restart() = submitForm(
+        buildJsonObject {
+            put("action", JsonPrimitive("restart"))
+        }
+    )
+
+    /**
      * Construct the JSON body for the form request to the backend.
      *
      * @param action [String] that describes the action of the form request.
