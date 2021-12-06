@@ -14,6 +14,6 @@
     <string name="connection_secure">Verbindung sicher</string>
     <string name="connection_unsecure">Verbindung unsicher</string>
     <string name="dialog_imprint_title">Impressum</string>
-    <string name="dialog_imprint_message">FinTecSystems GmbH\\nGottfried-Keller-Straße 33\\n81245 München\\n\\nAmtsgericht München\\nHRB 210653\\n\\nAufsichtsbehörde: Bundesanstalt für Finanzdienstleistungsaufsicht.</string>
+    <string name="dialog_imprint_message">FinTecSystems GmbH\nGottfried-Keller-Straße 33\n81245 München\n\nAmtsgericht München\nHRB 210653\n\nAufsichtsbehörde: Bundesanstalt für Finanzdienstleistungsaufsicht.</string>
     <string name="dialog_imprint_link_text">Mehr Erfahren</string>
 </resources>
