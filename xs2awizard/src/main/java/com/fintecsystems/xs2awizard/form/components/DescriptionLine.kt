@@ -1,6 +1,5 @@
 package com.fintecsystems.xs2awizard.form.components
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.runtime.Composable
@@ -8,9 +7,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.sp
 import com.fintecsystems.xs2awizard.XS2AWizardViewModel
-import com.fintecsystems.xs2awizard.helper.MarkupParser
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.DescriptionLineData
+import com.fintecsystems.xs2awizard.helper.MarkupParser
 
 @Composable
 fun DescriptionLine(formData: DescriptionLineData, viewModel: XS2AWizardViewModel) {
