@@ -49,7 +49,7 @@ fun TextLine(formData: TextLineData, viewModel: XS2AWizardViewModel) {
     val autoCompleteResponse = remember { mutableStateOf<AutoCompleteResponse?>(null) }
 
     // Workaround to let the dropdown have the same size as the TextField
-    var textfieldSize by remember { mutableStateOf(Size.Zero)}
+    var textFieldSize by remember { mutableStateOf(Size.Zero)}
 
     /**
      * Performs autocomplete and shows dropdown when successful.
@@ -94,7 +94,7 @@ fun TextLine(formData: TextLineData, viewModel: XS2AWizardViewModel) {
                 onValueChange = ::onValueChange,
                 placeholder = formData.placeholder,
                 onFocusChanged = { if (!it.isFocused) showAutoCompleteDropdown.value = false },
-                onGloballyPositioned = { textfieldSize = it.size.toSize() }
+                onGloballyPositioned = { textFieldSize = it.size.toSize() }
             )
         }
 
@@ -107,7 +107,7 @@ fun TextLine(formData: TextLineData, viewModel: XS2AWizardViewModel) {
                 dismissOnClickOutside = true
             ),
             modifier = Modifier
-                .width(with(LocalDensity.current){textfieldSize.width.toDp()})
+                .width(with(LocalDensity.current){textFieldSize.width.toDp()})
                 .background(
                     XS2ATheme.CURRENT.backgroundColor,
                     XS2ATheme.CURRENT.inputShape,
