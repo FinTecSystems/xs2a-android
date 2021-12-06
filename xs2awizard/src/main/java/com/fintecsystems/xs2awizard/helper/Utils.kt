@@ -4,11 +4,13 @@ import android.app.Activity
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.ContextWrapper
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Base64
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.fintecsystems.xs2awizard.R
 
 
@@ -61,5 +63,17 @@ object Utils {
         clipboard.setPrimaryClip(clip)
 
         Toast.makeText(context, context.getString(R.string.link_copied), Toast.LENGTH_SHORT).show()
+    }
+
+    // https://stackoverflow.com/a/68423182
+    /**
+     * Returns the current activity of the context.
+     *
+     * @return current activity.
+     */
+    fun Context.getActivity(): AppCompatActivity? = when (this) {
+        is AppCompatActivity -> this
+        is ContextWrapper -> baseContext.getActivity()
+        else -> null
     }
 }

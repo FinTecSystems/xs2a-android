@@ -1,5 +1,6 @@
 package com.fintecsystems.xs2awizard
 
+import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.net.Uri
@@ -210,7 +211,7 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
      *
      * @param annotation clicked annotation
      */
-    fun handleAnnotationClick(annotation: AnnotatedString.Range<String>) {
+    fun handleAnnotationClick(activity: Activity, annotation: AnnotatedString.Range<String>) {
         when (annotation.tag) {
             "autosubmit" -> {
                 val jsonBody = MarkupParser.parseAutoSubmitPayloadAsJson(annotation.item)
@@ -218,7 +219,7 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
                 submitForm(constructJsonBody("autosubmit", jsonBody))
             }
             else -> CustomTabsIntent.Builder().build().launchUrl(
-                context, Uri.parse(annotation.item)
+                activity, Uri.parse(annotation.item)
             )
         }
     }
@@ -368,7 +369,8 @@ fun FormLines(formData: List<FormLineData>, viewModel: XS2AWizardViewModel) {
                 // is TabsLineData -> TabsLine(formLineData)
                 is RedirectLineData -> RedirectLine(formLineData, viewModel)
                 // is MultiLineData -> MultiLine(formLineData)
-                is HiddenLineData -> { /* no-op */ }
+                is HiddenLineData -> { /* no-op */
+                }
                 else -> Text(text = "Missing: ${formLineData::class.simpleName}") // TODO: Remove this when finished
             }
         }

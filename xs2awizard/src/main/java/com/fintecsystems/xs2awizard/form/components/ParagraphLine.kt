@@ -9,13 +9,15 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.fintecsystems.xs2awizard.XS2AWizardViewModel
-import com.fintecsystems.xs2awizard.helper.MarkupParser
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.ParagraphLineData
+import com.fintecsystems.xs2awizard.helper.MarkupParser
+import com.fintecsystems.xs2awizard.helper.Utils.getActivity
 
 @Composable
 fun ParagraphLine(formData: ParagraphLineData, viewModel: XS2AWizardViewModel) {
@@ -72,6 +74,7 @@ fun ParagraphLine(formData: ParagraphLineData, viewModel: XS2AWizardViewModel) {
 
             if (formData.text.isNotEmpty()) {
                 val annotatedString = MarkupParser.parseMarkupText(formData.text)
+                val activity = LocalContext.current.getActivity()
 
                 ClickableText(
                     text = annotatedString,
@@ -82,7 +85,7 @@ fun ParagraphLine(formData: ParagraphLineData, viewModel: XS2AWizardViewModel) {
                     onClick = {
                         annotatedString.getStringAnnotations(it, it)
                             .firstOrNull()?.let { annotation ->
-                                viewModel.handleAnnotationClick(annotation)
+                                viewModel.handleAnnotationClick(activity!!, annotation)
                             }
                     }
                 )

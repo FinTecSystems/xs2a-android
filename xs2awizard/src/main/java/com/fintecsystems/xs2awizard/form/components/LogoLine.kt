@@ -26,6 +26,7 @@ import com.fintecsystems.xs2awizard.R
 import com.fintecsystems.xs2awizard.XS2AWizardViewModel
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.LogoLineData
+import com.fintecsystems.xs2awizard.helper.Utils.getActivity
 
 @Composable
 fun LogoLine(formData: LogoLineData, viewModel: XS2AWizardViewModel) {
@@ -105,6 +106,8 @@ fun LogoLine(formData: LogoLineData, viewModel: XS2AWizardViewModel) {
                     pop()
                 }
 
+                val activity = LocalContext.current.getActivity()
+
                 ClickableText(
                     modifier = Modifier.fillMaxWidth(),
                     text = annotatedString,
@@ -114,7 +117,7 @@ fun LogoLine(formData: LogoLineData, viewModel: XS2AWizardViewModel) {
                     onClick = {
                         annotatedString.getStringAnnotations(it, it)
                             .firstOrNull()?.let { annotation ->
-                                viewModel.handleAnnotationClick(annotation)
+                                viewModel.handleAnnotationClick(activity!!, annotation)
                             }
                     }
                 )
