@@ -360,7 +360,7 @@ fun FormLines(formData: List<FormLineData>, viewModel: XS2AWizardViewModel) {
                 // is CheckBoxLineData -> CheckBoxLine(formLineData)
                 // is RadioLineData -> RadioLine(formLineData)
                 // is ImageLineData -> ImageLine(formLineData)
-                // is LogoLineData -> LogoLine(formLineData)
+                is LogoLineData -> LogoLine(formLineData, viewModel)
                 // is FlickerLineData -> FlickerLine(formLineData)
                 is SubmitLineData -> SubmitLine(formLineData, viewModel)
                 is AbortLineData -> AbortLine(formLineData, viewModel)
