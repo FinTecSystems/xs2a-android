@@ -8,6 +8,10 @@
     <string name="flicker_smaller">Smaller</string>
     <string name="flicker_marker">Marker</string>
     <string name="dialog_dismiss">Dismiss</string>
+    <string name="dialog_imprint_title">Imprint</string>
+    <string name="dialog_imprint_message">FinTecSystems GmbH\\nGottfried-Keller-Straße 33\\n81245 Munich\\n\\nDistrict Court of Munich\\nHRB 210653\\n\\nGerman Financial Supervisory Authority: Bundesanstalt für Finanzdienstleistungsaufsicht.</string>
+    <string name="dialog_imprint_link_text">Learn more</string>
+    <string name="dialog_imprint_link_url" translatable="false">https://fintecsystems.com/en/psd2-certified-siegel</string>
 
     <string name="fts_logo_url" translatable="false">https://api.xs2a.com/img/mobile-sdks/android/logo_standard.png</string>
     <string name="fts_logo_black_url" translatable="false">https://api.xs2a.com/img/mobile-sdks/android/logo_black.png</string>

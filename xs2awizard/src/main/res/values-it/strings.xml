@@ -13,4 +13,7 @@
     <string name="close_webview">Chiudi WebView</string>
     <string name="connection_secure">Connessione sicura</string>
     <string name="connection_unsecure">Connessione non assicurata</string>
+    <string name="dialog_imprint_title">Impronta</string>
+    <string name="dialog_imprint_message">FinTecSystems GmbH\\nGottfried-Keller-Straße 33\\n81245 München\\n\\nTribunale locale: München\\nHRB 210653\\n\\nAutorità di supervisione: Bundesanstalt für Finanzdienstleistungsaufsicht.</string>
+    <string name="dialog_imprint_link_text">Per saperne di più</string>
 </resources>
