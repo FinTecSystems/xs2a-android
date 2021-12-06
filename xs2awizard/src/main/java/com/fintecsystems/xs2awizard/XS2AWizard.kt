@@ -356,7 +356,7 @@ fun FormLines(formData: List<FormLineData>, viewModel: XS2AWizardViewModel) {
                 is TextLineData -> TextLine(formLineData, viewModel)
                 // is PasswordLineData -> PasswordLine(formLineData)
                 // is CaptchaLineData -> CaptchaLine(formLineData)
-                // is SelectLineData -> SelectLine(formLineData)
+                is SelectLineData -> SelectLine(formLineData)
                 // is CheckBoxLineData -> CheckBoxLine(formLineData)
                 // is RadioLineData -> RadioLine(formLineData)
                 // is ImageLineData -> ImageLine(formLineData)
