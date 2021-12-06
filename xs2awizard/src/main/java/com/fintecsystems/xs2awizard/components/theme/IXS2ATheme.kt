@@ -11,6 +11,7 @@ interface IXS2ATheme {
     val tintColor: Color
     val fontFamily: FontFamily
     val backgroundColor: Color
+    val surfaceColor: Color
     val textColor: Color
     val placeholderColor: Color
     val logoVariation: LogoVariation

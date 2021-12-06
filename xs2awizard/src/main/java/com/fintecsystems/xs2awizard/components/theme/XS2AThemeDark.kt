@@ -3,6 +3,7 @@ package com.fintecsystems.xs2awizard.components.theme
 import androidx.compose.ui.graphics.Color
 
 object XS2AThemeDark : IXS2ATheme by XS2AThemeLight {
+    override val surfaceColor: Color = Color.Black
     override val textColor: Color = XS2AColors.textColorLight
     override val logoVariation: LogoVariation = LogoVariation.WHITE
 

@@ -12,6 +12,7 @@ object XS2AThemeBase : IXS2ATheme {
     override val tintColor: Color = Color.Unspecified
     override val fontFamily: FontFamily = FontFamily.Default
     override val backgroundColor: Color = Color.Unspecified
+    override val surfaceColor: Color = Color.Unspecified
     override val textColor: Color = Color.Unspecified
     override val placeholderColor: Color = Color.Unspecified
     override val logoVariation: LogoVariation = LogoVariation.STANDARD

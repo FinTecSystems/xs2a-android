@@ -76,7 +76,7 @@ fun LogoLine(formData: LogoLineData, viewModel: XS2AWizardViewModel) {
                     )
                 }
             },
-            backgroundColor = XS2ATheme.CURRENT.backgroundColor,
+            backgroundColor = XS2ATheme.CURRENT.surfaceColor,
             title = {
                 Text(
                     text = stringResource(id = R.string.dialog_imprint_title),

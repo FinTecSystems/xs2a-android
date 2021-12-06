@@ -85,7 +85,7 @@ fun SelectLine(formData: SelectLineData) {
             modifier = Modifier
                 .width(with(LocalDensity.current) { textFieldSize.width.toDp() })
                 .background(
-                    XS2ATheme.CURRENT.backgroundColor,
+                    XS2ATheme.CURRENT.surfaceColor,
                     XS2ATheme.CURRENT.inputShape,
                 )
         ) {
