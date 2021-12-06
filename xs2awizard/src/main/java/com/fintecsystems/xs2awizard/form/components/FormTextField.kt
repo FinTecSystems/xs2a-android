@@ -22,15 +22,18 @@ fun FormTextField(
     onValueChange: (TextFieldValue) -> Unit,
     placeholder: String? = null,
     enabled: Boolean = true,
+    readOnly: Boolean = false,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     onFocusChanged: (FocusState) -> Unit = {},
     onGloballyPositioned: (LayoutCoordinates) -> Unit = {},
+    trailingIcon: @Composable () -> Unit = {},
 ) {
     TextField(
         value = value,
         onValueChange = onValueChange,
         enabled = enabled,
+        readOnly = readOnly,
         placeholder = {
             if (placeholder != null)
                 Text(
@@ -51,5 +54,6 @@ fun FormTextField(
         ),
         visualTransformation = visualTransformation,
         keyboardOptions = keyboardOptions,
+        trailingIcon = trailingIcon,
     )
 }
