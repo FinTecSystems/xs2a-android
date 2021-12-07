@@ -76,7 +76,7 @@ fun TextLine(formData: TextLineData, viewModel: XS2AWizardViewModel) {
      * @param newValue
      */
     fun onValueChange(newValue: TextFieldValue) {
-        if (formData.maxLength == null || newValue.text.length < formData.maxLength) {
+        if ((formData.maxLength == null || formData.maxLength <= 0) || newValue.text.length < formData.maxLength) {
             textFieldValue = newValue
             // Update formData.value as well
             formData.value = JsonPrimitive(newValue.text)
