@@ -11,10 +11,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -348,13 +347,27 @@ fun XS2AWizardComponent(
 
 @Composable
 fun FormLines(formData: List<FormLineData>, viewModel: XS2AWizardViewModel) {
-    Column(
+    val formDataHashString = formData.hashCode().toString()
+
+    // Because the Composables are cached by their index we need to use an LazyColumn
+    // to identify them based on a custom key instead of their index.
+    LazyColumn(
         modifier = Modifier
-            .padding(10.dp, 5.dp)
-            .verticalScroll(rememberScrollState()),
+            .padding(10.dp, 5.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        for (formLineData in formData) {
+        items(
+            items = formData,
+            key = {
+                // We have to prepend the formData hashCode, because if there is an validation error
+                // and the same formData is received again, because the key would be the same, the
+                // FormLines will be reused, which is bad, because it won't react like expected anymore.
+                // If we have have FormLines with values e.g. TextLine, we can just use their name.
+                if (it is ValueFormLineData) formDataHashString + it.name
+                // Otherwise we can just use the hash of the data, because it's static anyway.
+                else it.hashCode()
+            }
+        ) { formLineData ->
             when (formLineData) {
                 is AutoSubmitLineData -> AutoSubmitLine(formLineData, viewModel)
                 is ParagraphLineData -> ParagraphLine(formLineData, viewModel)
