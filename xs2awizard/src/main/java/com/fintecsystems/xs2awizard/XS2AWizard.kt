@@ -10,7 +10,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.browser.customtabs.CustomTabsIntent
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -25,14 +27,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.fintecsystems.xs2awizard.helper.JSONFormatter
-import com.fintecsystems.xs2awizard.helper.MarkupParser
 import com.fintecsystems.xs2awizard.components.XS2AWizardConfig
 import com.fintecsystems.xs2awizard.components.XS2AWizardError
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.*
 import com.fintecsystems.xs2awizard.form.components.*
 import com.fintecsystems.xs2awizard.form.components.textLine.TextLine
+import com.fintecsystems.xs2awizard.helper.JSONFormatter
+import com.fintecsystems.xs2awizard.helper.MarkupParser
 import com.fintecsystems.xs2awizard_networking.NetworkingInstance
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.decodeFromString
@@ -358,7 +360,7 @@ fun FormLines(formData: List<FormLineData>, viewModel: XS2AWizardViewModel) {
                 is PasswordLineData -> PasswordLine(formLineData)
                 // is CaptchaLineData -> CaptchaLine(formLineData)
                 is SelectLineData -> SelectLine(formLineData)
-                // is CheckBoxLineData -> CheckBoxLine(formLineData)
+                is CheckBoxLineData -> CheckBoxLine(formLineData, viewModel)
                 // is RadioLineData -> RadioLine(formLineData)
                 // is ImageLineData -> ImageLine(formLineData)
                 is LogoLineData -> LogoLine(formLineData, viewModel)
