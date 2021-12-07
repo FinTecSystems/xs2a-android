@@ -116,7 +116,7 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
      *
      * @return built [JsonObject]
      */
-    private fun constructJsonBody(action: String, values: JsonObject? = null) = buildJsonObject {
+    fun constructJsonBody(action: String, values: JsonObject? = null) = buildJsonObject {
         form.value?.forEach { appendValueToJson(this, it) }
 
         put("action", JsonPrimitive(action))
@@ -351,7 +351,7 @@ fun FormLines(formData: List<FormLineData>, viewModel: XS2AWizardViewModel) {
     ) {
         for (formLineData in formData) {
             when (formLineData) {
-                // is AutoSubmitLineData -> AutoSubmitLine(formLineData)
+                is AutoSubmitLineData -> AutoSubmitLine(formLineData, viewModel)
                 is ParagraphLineData -> ParagraphLine(formLineData, viewModel)
                 is DescriptionLineData -> DescriptionLine(formLineData, viewModel)
                 is TextLineData -> TextLine(formLineData, viewModel)
