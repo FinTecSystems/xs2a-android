@@ -51,6 +51,11 @@ fun TextLine(formData: TextLineData, viewModel: XS2AWizardViewModel) {
     // Workaround to let the dropdown have the same size as the TextField
     var textFieldSize by remember { mutableStateOf(Size.Zero)}
 
+    // Cancel AutoComplete-Job, when component is unmounted
+    DisposableEffect(null) {
+        onDispose { currentAutoCompleteJob?.cancel() }
+    }
+
     /**
      * Performs autocomplete and shows dropdown when successful.
      */
@@ -107,7 +112,7 @@ fun TextLine(formData: TextLineData, viewModel: XS2AWizardViewModel) {
                 dismissOnClickOutside = true
             ),
             modifier = Modifier
-                .width(with(LocalDensity.current){textFieldSize.width.toDp()})
+                .width(with(LocalDensity.current) { textFieldSize.width.toDp() })
                 .background(
                     XS2ATheme.CURRENT.surfaceColor,
                     XS2ATheme.CURRENT.inputShape,
