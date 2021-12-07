@@ -6,6 +6,7 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.components.theme.styles.ButtonStyle
 
@@ -15,10 +16,15 @@ fun FormButton(
     buttonStyle: ButtonStyle,
     onClick: () -> Unit,
 ) {
+    val focusManager = LocalFocusManager.current
+
     Button(
         shape = XS2ATheme.CURRENT.buttonShape,
         modifier = Modifier.fillMaxWidth(),
-        onClick = onClick,
+        onClick = {
+            focusManager.clearFocus()
+            onClick()
+        },
         colors = ButtonDefaults.buttonColors(backgroundColor = buttonStyle.backgroundColor)
     ) {
         Text(
