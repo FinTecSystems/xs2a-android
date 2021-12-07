@@ -43,7 +43,7 @@ private const val TAG = "XS2AWizard"
 class XS2AWizardViewModel(application: Application) : AndroidViewModel(application) {
     private lateinit var config: XS2AWizardConfig
 
-    val form = MutableLiveData<MutableList<FormLineData>>()
+    val form = MutableLiveData<List<FormLineData>>()
 
     private val context: Context
         get() = getApplication<Application>().applicationContext
@@ -265,7 +265,7 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
             }
              */
 
-            form.value = formResponse.form?.toMutableList()
+            form.value = formResponse.form
 
             // TODO: Maybe add this again
             // decrementLoadingIndicatorLock()
