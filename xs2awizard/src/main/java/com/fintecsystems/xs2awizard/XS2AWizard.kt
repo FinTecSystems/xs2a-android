@@ -346,7 +346,7 @@ fun XS2AWizardComponent(
 fun FormLines(formData: List<FormLineData>, viewModel: XS2AWizardViewModel) {
     Column(
         modifier = Modifier
-            .padding(10.dp, 0.dp),
+            .padding(10.dp, 5.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         for (formLineData in formData) {
