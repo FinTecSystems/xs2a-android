@@ -48,6 +48,15 @@ fun SelectLine(formData: SelectLineData) {
 
     if (formData.value?.jsonPrimitive?.content.isNullOrEmpty()) {
         setValue(0)
+    } else {
+        when (formData.options) {
+            is JsonArray -> setValue(formData.value!!.jsonPrimitive.int)
+            is JsonObject -> {
+                val index = formData.options.keys.indexOf(formData.value!!.jsonPrimitive.content)
+                setValue(index)
+            }
+            else -> throw IllegalArgumentException()
+        }
     }
 
     var selectIsExpanded by remember {
