@@ -13,6 +13,8 @@ import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -348,7 +350,8 @@ fun XS2AWizardComponent(
 fun FormLines(formData: List<FormLineData>, viewModel: XS2AWizardViewModel) {
     Column(
         modifier = Modifier
-            .padding(10.dp, 5.dp),
+            .padding(10.dp, 5.dp)
+            .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         for (formLineData in formData) {
