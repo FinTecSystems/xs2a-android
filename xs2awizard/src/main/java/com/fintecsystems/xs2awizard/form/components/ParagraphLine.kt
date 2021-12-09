@@ -36,9 +36,9 @@ fun ParagraphLine(formData: ParagraphLineData, viewModel: XS2AWizardViewModel) {
         else -> XS2ATheme.CURRENT.backgroundColor
     }
 
-    val isAlert = formData.severity != "info"
-            && formData.severity != "error"
-            && formData.severity != "warning"
+    val isAlert = formData.severity == "info"
+            || formData.severity == "error"
+            || formData.severity == "warning"
 
     val padding =
         if (isAlert) XS2ATheme.CURRENT.paragraphPadding else PaddingMarginConfiguration.None
