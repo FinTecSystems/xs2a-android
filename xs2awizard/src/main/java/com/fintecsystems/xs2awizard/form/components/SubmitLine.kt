@@ -9,6 +9,7 @@ import androidx.compose.ui.unit.dp
 import com.fintecsystems.xs2awizard.XS2AWizardViewModel
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.SubmitLineData
+import com.fintecsystems.xs2awizard.form.components.shared.FormButton
 
 @Composable
 fun SubmitLine(formData: SubmitLineData, viewModel: XS2AWizardViewModel) {

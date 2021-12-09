@@ -9,6 +9,7 @@ import androidx.compose.ui.unit.dp
 import com.fintecsystems.xs2awizard.XS2AWizardViewModel
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.RedirectLineData
+import com.fintecsystems.xs2awizard.form.components.shared.FormButton
 
 @Composable
 fun RedirectLine(formData: RedirectLineData, viewModel: XS2AWizardViewModel) {

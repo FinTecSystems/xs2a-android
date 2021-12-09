@@ -6,6 +6,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import com.fintecsystems.xs2awizard.form.PasswordLineData
+import com.fintecsystems.xs2awizard.form.components.shared.FormTextField
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.jsonPrimitive
 

@@ -1,4 +1,4 @@
-package com.fintecsystems.xs2awizard.form.components
+package com.fintecsystems.xs2awizard.form.components.shared
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions

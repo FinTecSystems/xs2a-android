@@ -21,7 +21,7 @@ import androidx.compose.ui.window.PopupProperties
 import com.fintecsystems.xs2awizard.XS2AWizardViewModel
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.TextLineData
-import com.fintecsystems.xs2awizard.form.components.FormTextField
+import com.fintecsystems.xs2awizard.form.components.shared.FormTextField
 import com.fintecsystems.xs2awizard.form.components.LabelledContainer
 import com.fintecsystems.xs2awizard.helper.JSONFormatter
 import kotlinx.coroutines.Job
