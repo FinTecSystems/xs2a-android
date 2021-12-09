@@ -13,6 +13,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.fintecsystems.xs2awizard.XS2AWizardViewModel
+import com.fintecsystems.xs2awizard.components.theme.PaddingMarginConfiguration
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.ParagraphLineData
 import com.fintecsystems.xs2awizard.form.components.shared.FormText
@@ -35,8 +36,14 @@ fun ParagraphLine(formData: ParagraphLineData, viewModel: XS2AWizardViewModel) {
         else -> XS2ATheme.CURRENT.backgroundColor
     }
 
-    val padding = XS2ATheme.CURRENT.paragraphPadding
-    val margin = XS2ATheme.CURRENT.paragraphMargin
+    val isAlert = formData.severity != "info"
+            && formData.severity != "error"
+            && formData.severity != "warning"
+
+    val padding =
+        if (isAlert) XS2ATheme.CURRENT.paragraphPadding else PaddingMarginConfiguration.None
+    val margin =
+        if (isAlert) XS2ATheme.CURRENT.paragraphMargin else PaddingMarginConfiguration.None
 
     Column(
         modifier = Modifier
