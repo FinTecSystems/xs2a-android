@@ -1,11 +1,13 @@
 package com.fintecsystems.xs2awizard.form.components
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 
@@ -13,7 +15,8 @@ import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 fun LabelledContainer(label: String?, content: @Composable () -> Unit) {
     Column(
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(5.dp)
     ) {
         if (label != null) {
             Text(
