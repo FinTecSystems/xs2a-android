@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -339,8 +340,13 @@ fun XS2AWizardComponent(
 
     // Render
     XS2ATheme(xS2ATheme = xS2AWizardConfig.theme) {
-        form?.let {
-            FormLines(it, xs2aWizardViewModel)
+        Box(
+            modifier = Modifier
+                .padding(10.dp, 5.dp)
+        ) {
+            form?.let {
+                FormLines(it, xs2aWizardViewModel)
+            }
         }
     }
 }
@@ -352,8 +358,6 @@ fun FormLines(formData: List<FormLineData>, viewModel: XS2AWizardViewModel) {
     // Because the Composables are cached by their index we need to use an LazyColumn
     // to identify them based on a custom key instead of their index.
     LazyColumn(
-        modifier = Modifier
-            .padding(10.dp, 5.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         items(
