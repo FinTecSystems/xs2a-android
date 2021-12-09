@@ -67,8 +67,7 @@ fun ParagraphLine(formData: ParagraphLineData, viewModel: XS2AWizardViewModel) {
                     padding.top,
                     padding.end,
                     padding.bottom
-                ),
-            horizontalAlignment = Alignment.CenterHorizontally,
+                )
         ) {
             if (formData.title?.isNotEmpty() == true) {
                 FormText(
