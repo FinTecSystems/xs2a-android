@@ -2,7 +2,6 @@ package com.fintecsystems.xs2awizard.form.components.shared
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -11,7 +10,6 @@ import androidx.compose.ui.focus.FocusState
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
@@ -36,11 +34,9 @@ fun FormTextField(
         readOnly = readOnly,
         placeholder = {
             if (placeholder != null)
-                Text(
+                FormText(
                     text = placeholder,
-                    style = TextStyle(
-                        color = XS2ATheme.CURRENT.textColor,
-                    )
+                    color = XS2ATheme.CURRENT.textColor,
                 )
         },
         shape = XS2ATheme.CURRENT.inputShape,

@@ -7,12 +7,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.RadioButton
 import androidx.compose.material.RadioButtonDefaults
-import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.RadioLineData
+import com.fintecsystems.xs2awizard.form.components.shared.FormText
 import kotlinx.serialization.json.*
 
 @Composable
@@ -37,10 +37,7 @@ fun LabelledRadioButton(
             colors = RadioButtonDefaults.colors(selectedColor = XS2ATheme.CURRENT.tintColor),
             enabled = !disabled,
         )
-        Text(
-            text = label,
-            color = XS2ATheme.CURRENT.textColor
-        )
+        FormText(text = label)
 
     }
 }

@@ -3,7 +3,6 @@ package com.fintecsystems.xs2awizard.form.components.shared
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
@@ -27,7 +26,7 @@ fun FormButton(
         },
         colors = ButtonDefaults.buttonColors(backgroundColor = buttonStyle.backgroundColor)
     ) {
-        Text(
+        FormText(
             text = label,
             color = buttonStyle.textColor
         )

@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
-import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
@@ -21,8 +20,9 @@ import androidx.compose.ui.window.PopupProperties
 import com.fintecsystems.xs2awizard.XS2AWizardViewModel
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.TextLineData
-import com.fintecsystems.xs2awizard.form.components.shared.FormTextField
 import com.fintecsystems.xs2awizard.form.components.LabelledContainer
+import com.fintecsystems.xs2awizard.form.components.shared.FormText
+import com.fintecsystems.xs2awizard.form.components.shared.FormTextField
 import com.fintecsystems.xs2awizard.helper.JSONFormatter
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -125,7 +125,7 @@ fun TextLine(formData: TextLineData, viewModel: XS2AWizardViewModel) {
                     Column(
                         modifier = Modifier.padding(2.dp, 4.dp)
                     ) {
-                        Text(
+                        FormText(
                             text = it.value,
                             color = XS2ATheme.CURRENT.textColor,
                             fontSize = 17.sp,
@@ -133,7 +133,7 @@ fun TextLine(formData: TextLineData, viewModel: XS2AWizardViewModel) {
                             fontWeight = FontWeight.Bold,
                         )
 
-                        Text(
+                        FormText(
                             text = it.label,
                             color = XS2ATheme.CURRENT.textColor,
                             fontSize = 15.sp,

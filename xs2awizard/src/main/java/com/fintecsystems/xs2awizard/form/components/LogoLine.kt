@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.AlertDialog
-import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -26,6 +25,7 @@ import com.fintecsystems.xs2awizard.R
 import com.fintecsystems.xs2awizard.XS2AWizardViewModel
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.LogoLineData
+import com.fintecsystems.xs2awizard.form.components.shared.FormText
 import com.fintecsystems.xs2awizard.helper.Utils.getActivity
 
 @Composable
@@ -70,15 +70,14 @@ fun LogoLine(formData: LogoLineData, viewModel: XS2AWizardViewModel) {
                     shape = XS2ATheme.CURRENT.buttonShape,
                     onClick = { showAlertDialog = false }
                 ) {
-                    Text(
+                    FormText(
                         text = stringResource(id = R.string.dialog_dismiss),
-                        color = XS2ATheme.CURRENT.tintColor
                     )
                 }
             },
             backgroundColor = XS2ATheme.CURRENT.surfaceColor,
             title = {
-                Text(
+                FormText(
                     text = stringResource(id = R.string.dialog_imprint_title),
                     color = XS2ATheme.CURRENT.tintColor,
                     fontWeight = FontWeight.Bold,

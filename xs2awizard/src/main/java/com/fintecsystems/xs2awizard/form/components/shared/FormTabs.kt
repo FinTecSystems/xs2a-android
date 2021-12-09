@@ -3,7 +3,6 @@ package com.fintecsystems.xs2awizard.form.components.shared
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.Tab
 import androidx.compose.material.TabRow
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -30,7 +29,7 @@ fun FormTabs(
                     onSelectedChange(index)
                 },
             ) {
-                Text(
+                FormText(
                     text = label,
                     color = XS2ATheme.CURRENT.textColor,
                     fontWeight = FontWeight.Medium,
