@@ -21,6 +21,7 @@ fun FormTextField(
     placeholder: String? = null,
     enabled: Boolean = true,
     readOnly: Boolean = false,
+    singleLine: Boolean = true,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     onFocusChanged: (FocusState) -> Unit = {},
@@ -51,5 +52,6 @@ fun FormTextField(
         visualTransformation = visualTransformation,
         keyboardOptions = keyboardOptions,
         trailingIcon = trailingIcon,
+        singleLine = singleLine,
     )
 }
