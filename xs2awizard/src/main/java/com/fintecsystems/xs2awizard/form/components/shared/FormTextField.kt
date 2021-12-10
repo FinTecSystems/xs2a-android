@@ -47,7 +47,9 @@ fun FormTextField(
             .onGloballyPositioned(onGloballyPositioned),
         colors = TextFieldDefaults.textFieldColors(
             textColor = XS2ATheme.CURRENT.inputTextColor,
-            backgroundColor = XS2ATheme.CURRENT.inputBackgroundColor
+            backgroundColor = XS2ATheme.CURRENT.inputBackgroundColor,
+            focusedIndicatorColor = XS2ATheme.CURRENT.tintColor,
+            cursorColor = XS2ATheme.CURRENT.tintColor,
         ),
         visualTransformation = visualTransformation,
         keyboardOptions = keyboardOptions,
