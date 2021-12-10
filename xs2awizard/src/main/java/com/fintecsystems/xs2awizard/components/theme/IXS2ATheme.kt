@@ -9,6 +9,7 @@ import com.fintecsystems.xs2awizard.components.theme.styles.ParagraphStyle
 interface IXS2ATheme {
     // General
     val tintColor: Color
+    val onTintColor: Color
     val fontFamily: FontFamily
     val backgroundColor: Color
     val surfaceColor: Color

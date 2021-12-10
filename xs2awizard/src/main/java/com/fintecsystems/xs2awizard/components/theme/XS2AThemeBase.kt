@@ -10,6 +10,7 @@ import com.fintecsystems.xs2awizard.components.theme.styles.ParagraphStyle
 
 object XS2AThemeBase : IXS2ATheme {
     override val tintColor: Color = Color.Unspecified
+    override val onTintColor: Color = Color.Unspecified
     override val fontFamily: FontFamily = FontFamily.Default
     override val backgroundColor: Color = Color.Unspecified
     override val surfaceColor: Color = Color.Unspecified
