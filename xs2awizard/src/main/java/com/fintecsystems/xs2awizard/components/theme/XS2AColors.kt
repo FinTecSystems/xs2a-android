@@ -20,4 +20,5 @@ object XS2AColors {
 
     val flickerBackground = Color.Black
     val flickerForeground = Color.White
+    val flickerMarker = Color("#808080".toColorInt())
 }

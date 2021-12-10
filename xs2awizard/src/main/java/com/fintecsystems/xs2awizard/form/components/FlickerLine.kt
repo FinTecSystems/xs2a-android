@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
@@ -160,13 +161,23 @@ fun FlickerLine(formData: FlickerLineData) {
                     .width(with(LocalDensity.current) { flickerContainerWidth.toDp() }),
                 horizontalArrangement = Arrangement.spacedBy(7.dp)
             ) {
-                barColors.forEach {
+                barColors.forEachIndexed { index, it ->
                     Box(
                         modifier = Modifier
                             .height(100.dp)
                             .weight(1f)
                             .background(color = it.value)
-                    )
+                    ) {
+                        if (index == 0 || index == barColors.lastIndex) {
+                            Image(
+                                painter = painterResource(R.drawable.ic_flicker_marker),
+                                contentDescription = stringResource(id = R.string.flicker_marker),
+                                colorFilter = ColorFilter.tint(XS2AColors.flickerMarker),
+                                alignment = Alignment.TopCenter,
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                        }
+                    }
                 }
             }
         }
