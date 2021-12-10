@@ -381,16 +381,16 @@ fun FormLines(formData: List<FormLineData>, viewModel: XS2AWizardViewModel) {
                 is RadioLineData -> RadioLine(formLineData)
                 is ImageLineData -> ImageLine(formLineData)
                 is LogoLineData -> LogoLine(formLineData, viewModel)
-                // is FlickerLineData -> FlickerLine(formLineData)
+                is FlickerLineData -> FlickerLine(formLineData)
                 is SubmitLineData -> SubmitLine(formLineData, viewModel)
                 is AbortLineData -> AbortLine(formLineData, viewModel)
                 is RestartLineData -> RestartLine(formLineData, viewModel)
                 is TabsLineData -> TabsLine(formLineData, viewModel)
                 is RedirectLineData -> RedirectLine(formLineData, viewModel)
                 is MultiLineData -> MultiLine(formLineData, viewModel)
-                is HiddenLineData -> { /* no-op */
+                is HiddenLineData -> {
+                    /* no-op */
                 }
-                else -> Text(text = "Missing: ${formLineData::class.simpleName}") // TODO: Remove this when finished
             }
         }
     }
