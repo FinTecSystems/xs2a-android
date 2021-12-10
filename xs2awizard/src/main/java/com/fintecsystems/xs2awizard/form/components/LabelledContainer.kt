@@ -2,6 +2,7 @@ package com.fintecsystems.xs2awizard.form.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -12,7 +13,7 @@ import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.components.shared.FormText
 
 @Composable
-fun LabelledContainer(label: String?, content: @Composable () -> Unit) {
+fun LabelledContainer(label: String?, content: @Composable ColumnScope.() -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxWidth(),
