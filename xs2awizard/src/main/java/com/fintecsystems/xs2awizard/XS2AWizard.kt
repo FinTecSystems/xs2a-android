@@ -12,13 +12,15 @@ import android.view.ViewGroup
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
@@ -345,7 +347,7 @@ fun XS2AWizardComponent(
                 .padding(10.dp, 5.dp)
         ) {
             form?.let {
-                FormLines(it, xs2aWizardViewModel)
+                FormLinesContainer(it, xs2aWizardViewModel)
             }
         }
     }
@@ -355,23 +357,18 @@ fun XS2AWizardComponent(
 fun FormLines(formData: List<FormLineData>, viewModel: XS2AWizardViewModel) {
     val formDataHashString = formData.hashCode().toString()
 
-    // Because the Composables are cached by their index we need to use an LazyColumn
-    // to identify them based on a custom key instead of their index.
-    LazyColumn(
-        verticalArrangement = Arrangement.spacedBy(10.dp)
-    ) {
-        items(
-            items = formData,
-            key = {
-                // We have to prepend the formData hashCode, because if there is an validation error
-                // and the same formData is received again, because the key would be the same, the
-                // FormLines will be reused, which is bad, because it won't react like expected anymore.
-                // If we have have FormLines with values e.g. TextLine, we can just use their name.
-                if (it is ValueFormLineData) formDataHashString + it.name
-                // Otherwise we can just use the hash of the data, because it's static anyway.
-                else it.hashCode()
-            }
-        ) { formLineData ->
+    formData.forEach { formLineData ->
+        val formLineKey =
+        // We have to prepend the formData hashCode, because if there is an validation error
+        // and the same formData is received again, because the key would be the same, the
+        // FormLines will be reused, which is bad, because it won't react like expected anymore.
+            // If we have have FormLines with values e.g. TextLine, we can just use their name.
+            if (formLineData is ValueFormLineData) formDataHashString + formLineData.name
+            // Otherwise we can just use the hash of the data, because it's static anyway.
+            else formLineData.hashCode()
+
+        // Because the Composables are cached by their index we need to specify an custom key.
+        key(formLineKey) {
             when (formLineData) {
                 is AutoSubmitLineData -> AutoSubmitLine(formLineData, viewModel)
                 is ParagraphLineData -> ParagraphLine(formLineData, viewModel)
@@ -390,12 +387,22 @@ fun FormLines(formData: List<FormLineData>, viewModel: XS2AWizardViewModel) {
                 is RestartLineData -> RestartLine(formLineData, viewModel)
                 is TabsLineData -> TabsLine(formLineData, viewModel)
                 is RedirectLineData -> RedirectLine(formLineData, viewModel)
-                // is MultiLineData -> MultiLine(formLineData)
+                is MultiLineData -> MultiLine(formLineData, viewModel)
                 is HiddenLineData -> { /* no-op */
                 }
                 else -> Text(text = "Missing: ${formLineData::class.simpleName}") // TODO: Remove this when finished
             }
         }
+    }
+}
+
+@Composable
+fun FormLinesContainer(formData: List<FormLineData>, viewModel: XS2AWizardViewModel) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(10.dp),
+        modifier = Modifier.verticalScroll(rememberScrollState())
+    ) {
+        FormLines(formData, viewModel)
     }
 }
 
