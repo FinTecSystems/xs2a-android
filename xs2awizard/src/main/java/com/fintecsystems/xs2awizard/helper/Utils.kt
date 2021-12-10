@@ -11,17 +11,19 @@ import android.util.Base64
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
 import com.fintecsystems.xs2awizard.R
 
 
 object Utils {
     /**
-     * Decode Base64-String into Bitmap
+     * Decode Base64-String into ImageBitmap
      *
      * @param base64String
      * @return The decoded Bitmap
      */
-    fun decodeBase64Image(base64String: String): Bitmap {
+    fun decodeBase64Image(base64String: String): ImageBitmap {
         val cleanImage: String = base64String
             .replace("data:image/png;base64,", "")
             .replace("data:image/jpeg;base64,", "")
@@ -29,7 +31,7 @@ object Utils {
 
         val imageDataBytes = Base64.decode(cleanImage, Base64.DEFAULT)
 
-        return BitmapFactory.decodeByteArray(imageDataBytes, 0, imageDataBytes.size)
+        return BitmapFactory.decodeByteArray(imageDataBytes, 0, imageDataBytes.size).asImageBitmap()
     }
 
     // https://stackoverflow.com/a/28359074
