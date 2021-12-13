@@ -10,18 +10,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.browser.customtabs.CustomTabsIntent
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Text
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
@@ -50,6 +49,8 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
     private lateinit var config: XS2AWizardConfig
 
     val form = MutableLiveData<List<FormLineData>>()
+
+    val loadingIndicatorLock = MutableLiveData(false)
 
     private val context: Context
         get() = getApplication<Application>().applicationContext
@@ -182,15 +183,10 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
      * @param jsonBody stringified request body.
      * @param showIndicator show loading indicator during request.
      */
-    fun submitForm(jsonBody: String, showIndicator: Boolean) {
-        /* TODO: Add again, when loading indicator exists
+    private fun submitForm(jsonBody: String, showIndicator: Boolean) {
         if (showIndicator) {
-            incrementLoadingIndicatorLock()
+            loadingIndicatorLock.value = true
         }
-         */
-
-        // TODO: Find a fix
-        // Utils.hideSoftKeyboard(activity)
 
         return NetworkingInstance.getInstance(context)
             .encodeAndSendMessage(
@@ -265,16 +261,13 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
                     }
                 )
 
-                decrementLoadingIndicatorLock()
-
                 return
             }
              */
 
             form.value = formResponse.form
 
-            // TODO: Maybe add this again
-            // decrementLoadingIndicatorLock()
+            loadingIndicatorLock.value = false
 
             parseCallback(formResponse)
         } catch (serializationException: SerializationException) {
@@ -320,8 +313,6 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
             this?.visibility = View.GONE
         }
 
-        // Shows loadingIndicator until page is finished loading
-        incrementLoadingIndicatorLock()
          */
     }
 }
@@ -332,6 +323,7 @@ fun XS2AWizardComponent(
     xs2aWizardViewModel: XS2AWizardViewModel = viewModel()
 ) {
     val form by xs2aWizardViewModel.form.observeAsState(null)
+    val loadingIndicatorLock by xs2aWizardViewModel.loadingIndicatorLock.observeAsState(false)
 
     // Initialize ViewModel
     DisposableEffect(xs2aWizardViewModel) {
@@ -348,6 +340,19 @@ fun XS2AWizardComponent(
         ) {
             form?.let {
                 FormLinesContainer(it, xs2aWizardViewModel)
+            }
+        }
+
+        if (loadingIndicatorLock) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(XS2ATheme.CURRENT.loadingIndicatorBackgroundColor),
+            ) {
+                CircularProgressIndicator(
+                    modifier = Modifier.align(Alignment.Center),
+                    color = XS2ATheme.CURRENT.tintColor
+                )
             }
         }
     }

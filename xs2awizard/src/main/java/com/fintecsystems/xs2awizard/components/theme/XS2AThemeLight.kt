@@ -17,6 +17,7 @@ object XS2AThemeLight : IXS2ATheme {
     override val textColor: Color = XS2AColors.textColor
     override val placeholderColor: Color = XS2AColors.darkGrey
     override val logoVariation: LogoVariation = LogoVariation.STANDARD
+    override val loadingIndicatorBackgroundColor: Color = XS2AColors.backgroundTranslucent
 
     override val inputTextColor: Color = XS2AColors.textColor
     override val inputBackgroundColor: Color = XS2AColors.backgroundInput

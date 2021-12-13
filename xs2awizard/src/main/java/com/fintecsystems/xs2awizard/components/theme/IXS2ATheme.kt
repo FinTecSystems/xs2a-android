@@ -16,6 +16,7 @@ interface IXS2ATheme {
     val textColor: Color
     val placeholderColor: Color
     val logoVariation: LogoVariation
+    val loadingIndicatorBackgroundColor: Color
 
     // TextInput
     val inputTextColor: Color

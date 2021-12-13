@@ -17,6 +17,7 @@ object XS2AThemeBase : IXS2ATheme {
     override val textColor: Color = Color.Unspecified
     override val placeholderColor: Color = Color.Unspecified
     override val logoVariation: LogoVariation = LogoVariation.STANDARD
+    override val loadingIndicatorBackgroundColor: Color = Color.Unspecified
 
     override val inputTextColor: Color = Color.Unspecified
     override val inputBackgroundColor: Color = Color.Unspecified
