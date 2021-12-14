@@ -103,12 +103,6 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
      * Tells the server to abort the session
      */
     fun abort() {
-        /* TODO: Uncomment when enabled again
-        if (autoSubmitTask != null) {
-            view?.removeCallbacks(autoSubmitTask!!)
-        }
-         */
-
         submitForm(
             buildJsonObject {
                 put("action", JsonPrimitive("abort"))
@@ -244,15 +238,6 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
     private fun onFormReceived(jsonString: String) {
         try {
             Log.d(TAG, "onFormReceived: $jsonString")
-
-            /* TODO
-            // Postpone until we're back into foreground.
-            if (isInBackground) {
-                onFormReceivedDataFromBackground = jsonString
-
-                return
-            }
-             */
 
             val formResponse = JSONFormatter.formatter.decodeFromString<FormResponse>(jsonString)
 
