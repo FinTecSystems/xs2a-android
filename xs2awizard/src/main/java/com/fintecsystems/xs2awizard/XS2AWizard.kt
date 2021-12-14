@@ -33,6 +33,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.fintecsystems.xs2awizard.components.XS2AWizardConfig
 import com.fintecsystems.xs2awizard.components.XS2AWizardError
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
+import com.fintecsystems.xs2awizard.components.webview.URLBarWebView
 import com.fintecsystems.xs2awizard.form.*
 import com.fintecsystems.xs2awizard.form.components.*
 import com.fintecsystems.xs2awizard.form.components.textLine.TextLine
@@ -51,6 +52,8 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
     val form = MutableLiveData<List<FormLineData>>()
 
     val loadingIndicatorLock = MutableLiveData(false)
+
+    val currentWebViewUrl = MutableLiveData<String?>(null)
 
     private val context: Context
         get() = getApplication<Application>().applicationContext
@@ -305,16 +308,16 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
     fun openWebView(url: String) {
         Log.d(TAG, "openWebView $url")
 
-        /* TODO
-        webView.show()
-        webView.webView.loadUrl(url)
-
-        view?.findViewById<LinearLayout>(R.id.form_container).apply {
-            this?.visibility = View.GONE
-        }
-
-         */
+        currentWebViewUrl.value = url
     }
+
+    /**
+     * Hides the WebView and shows the form again.
+     */
+    fun closeWebView() {
+        currentWebViewUrl.value = null
+    }
+
 }
 
 @Composable
@@ -324,6 +327,7 @@ fun XS2AWizardComponent(
 ) {
     val form by xs2aWizardViewModel.form.observeAsState(null)
     val loadingIndicatorLock by xs2aWizardViewModel.loadingIndicatorLock.observeAsState(false)
+    val currentWebViewUrl by xs2aWizardViewModel.currentWebViewUrl.observeAsState(null)
 
     // Initialize ViewModel
     DisposableEffect(xs2aWizardViewModel) {
@@ -353,8 +357,12 @@ fun XS2AWizardComponent(
                     modifier = Modifier.align(Alignment.Center),
                     color = XS2ATheme.CURRENT.tintColor
                 )
+                
             }
         }
+
+        if (currentWebViewUrl != null)
+            URLBarWebView(xs2aWizardViewModel)
     }
 }
 

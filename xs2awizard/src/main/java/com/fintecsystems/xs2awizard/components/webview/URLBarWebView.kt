@@ -1,142 +1,171 @@
 package com.fintecsystems.xs2awizard.components.webview
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.graphics.Bitmap
-import android.util.AttributeSet
-import android.webkit.*
-import android.widget.*
+import android.webkit.WebChromeClient
+import android.webkit.WebView
+import android.webkit.WebViewClient
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.*
+import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.net.toUri
 import com.fintecsystems.xs2awizard.R
-// TODO: Uncomment
-//import com.fintecsystems.xs2awizard.XS2AWizard
+import com.fintecsystems.xs2awizard.XS2AWizardViewModel
+import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.components.webview.XS2AJavascriptInterface.XS2AJavascriptInterfaceCallback
 import com.fintecsystems.xs2awizard.helper.Utils
+import kotlinx.coroutines.launch
 
 
-/**
- * WebView with URL-Bar on the top.
- */
-@SuppressLint("SetJavaScriptEnabled", "AddJavascriptInterface")
-class URLBarWebView(
-    context: Context,
-    attrs: AttributeSet?,
-    defStyle: Int
-) : RelativeLayout(context, attrs, defStyle),
-    XS2AJavascriptInterfaceCallback {
-    val webView: WebView
-    private val urlBarTextView: TextView
-    private val secureIconImageView: ImageView
-    private val loadingProgressBar: ProgressBar
+@SuppressLint("SetJavaScriptEnabled")
+@Composable
+fun URLBarWebView(viewModel: XS2AWizardViewModel) {
+    val targetUrl by viewModel.currentWebViewUrl.observeAsState(null)
 
-    // TODO: Action delegegate wieder bauen
-    // lateinit var xS2AWizard: XS2AWizard
+    var loadingIndicatorProgress by remember { mutableStateOf(0) }
 
-    private var currentUrl: String? = null
+    var webView: WebView? = null
+    var currentUrl by remember { mutableStateOf<String?>(null) }
+    var hasCertificate by remember { mutableStateOf(false) }
 
-    constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
-    constructor(context: Context) : this(context, null, 0)
+    val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
 
-    init {
-        inflate(context, R.layout.view_bar_url_webview, this).apply {
-            webView = findViewById(R.id.webview)
-            secureIconImageView = findViewById(R.id.secureIcon)
-            loadingProgressBar = findViewById(R.id.progressBar)
+    val callbackHandler = object : XS2AJavascriptInterfaceCallback {
+        override fun xS2AJavascriptInterfaceCallbackHandler(success: Boolean) {
+            coroutineScope.launch {
+                viewModel.closeWebView()
 
-            // TODO: Uncomment
-            // findViewById<ImageButton>(R.id.closeButton).setOnClickListener { xS2AWizard.closeWebView() }
-
-            urlBarTextView = findViewById(R.id.urlBarTextView)
-
-            urlBarTextView.setOnLongClickListener {
-                Utils.setClipboardText(context, currentUrl!!)
-
-                true
-            }
-
-            webView.apply {
-                settings.javaScriptEnabled = true
-                settings.domStorageEnabled = true
-                addJavascriptInterface(XS2AJavascriptInterface(this@URLBarWebView), "App")
-
-                webViewClient = object : WebViewClient() {
-                    override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
-                        view.loadUrl(url)
-                        return true
-                    }
-
-                    override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
-                        super.onPageStarted(view, url, favicon)
-
-                        currentUrl = url
-                        urlBarTextView.text = url?.toUri()?.host ?: url
-                    }
-
-                    override fun onPageFinished(view: WebView?, url: String?) {
-                        super.onPageFinished(view, url)
-
-                        updateSecureIcon(view?.certificate != null)
-
-                        // Page has finished loading, we can hide the loadingIndicator now.
-                        // TODO: Uncomment
-                        // xS2AWizard.decrementLoadingIndicatorLock()
-                    }
-                }
-
-                webChromeClient = object : WebChromeClient() {
-                    override fun onProgressChanged(view: WebView?, progress: Int) {
-                        if (progress < 100 && loadingProgressBar.visibility == GONE) {
-                            loadingProgressBar.visibility = VISIBLE
-                        }
-
-                        loadingProgressBar.progress = progress
-
-                        if (progress == 100) {
-                            loadingProgressBar.visibility = GONE
-                        }
-                    }
-                }
+                if (success)
+                    viewModel.submitForm("post-code")
             }
         }
     }
 
-    /**
-     * Updates the security icon and it's content description based on the input.
-     *
-     * @param isSecure is the current connection secure?
-     */
-    private fun updateSecureIcon(isSecure: Boolean) {
-        val iconResId = if (isSecure) R.drawable.ic_ssl_secure else R.drawable.ic_ssl_unsecure
-        val contentDescriptionResId =
-            if (isSecure) R.string.connection_secure else R.string.connection_unsecure
+    DisposableEffect(targetUrl, webView) {
+        webView?.loadUrl(targetUrl ?: "about:blank")
 
-        secureIconImageView.setImageResource(iconResId)
-        secureIconImageView.contentDescription = context.getString(contentDescriptionResId)
+        onDispose { /* no-op */ }
     }
 
-    /**
-     * Hides this view.
-     */
-    fun hide() {
-        visibility = GONE
-    }
+    Column(
+        Modifier
+            .fillMaxSize()
+            .background(
+                color = XS2ATheme.CURRENT.webViewBackgroundColor
+            )
+    ) {
+        // Top Bar
+        Column(
+            Modifier
+                .fillMaxWidth()
+                .height(48.dp)
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                TextButton(
+                    modifier = Modifier.width(48.dp),
+                    colors = ButtonDefaults.buttonColors(backgroundColor = XS2ATheme.CURRENT.webViewBackgroundColor),
+                    onClick = { viewModel.closeWebView() }
+                ) {
+                    Image(
+                        painter = painterResource(R.drawable.ic_close),
+                        contentDescription = stringResource(R.string.close_webview),
+                        colorFilter = ColorFilter.tint(XS2ATheme.CURRENT.webViewIconColor)
+                    )
+                }
 
-    /**
-     * Shows this view.
-     */
-    fun show() {
-        visibility = VISIBLE
-    }
+                Text(
+                    text = currentUrl?.toUri()?.host ?: currentUrl ?: "",
+                    fontSize = 15.sp,
+                    maxLines = 1,
+                    color = XS2ATheme.CURRENT.webViewTextColor,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.pointerInput(Unit) {
+                        detectTapGestures(
+                            onLongPress = {
+                                Utils.setClipboardText(context, currentUrl ?: "")
+                            }
+                        )
+                    }
+                )
 
-    override fun xS2AJavascriptInterfaceCallbackHandler(success: Boolean) {
-        // TODO: Uncomment
-        /*
-        xS2AWizard.view?.post {
-            xS2AWizard.closeWebView()
+                Image(
+                    modifier = Modifier.width(48.dp),
+                    painter = painterResource(
+                        if (hasCertificate) R.drawable.ic_ssl_secure else R.drawable.ic_ssl_unsecure
+                    ),
+                    contentDescription = stringResource(
+                        if (hasCertificate) R.string.connection_secure else R.string.connection_unsecure
+                    ),
+                    colorFilter = ColorFilter.tint(XS2ATheme.CURRENT.webViewIconColor)
+                )
+            }
 
-            if (success)
-                xS2AWizard.submitForm("post-code")
+            LinearProgressIndicator(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(2.dp),
+                progress = loadingIndicatorProgress / 100f,
+                color = XS2ATheme.CURRENT.tintColor
+            )
         }
-         */
+
+        // WebView
+        AndroidView(
+            modifier = Modifier.fillMaxWidth(),
+            factory = {
+                WebView(it).apply {
+                    webView = this
+
+                    settings.javaScriptEnabled = true
+                    settings.domStorageEnabled = true
+                    addJavascriptInterface(XS2AJavascriptInterface(callbackHandler), "App")
+
+                    webViewClient = object : WebViewClient() {
+                        override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
+                            view.loadUrl(url)
+                            return true
+                        }
+
+                        override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+                            super.onPageStarted(view, url, favicon)
+
+                            currentUrl = url
+                        }
+
+                        override fun onPageFinished(view: WebView?, url: String?) {
+                            super.onPageFinished(view, url)
+
+                            hasCertificate = view?.certificate != null
+                        }
+                    }
+
+                    webChromeClient = object : WebChromeClient() {
+                        override fun onProgressChanged(view: WebView?, progress: Int) {
+                            loadingIndicatorProgress = progress
+                        }
+                    }
+                }
+            }
+        )
     }
 }
