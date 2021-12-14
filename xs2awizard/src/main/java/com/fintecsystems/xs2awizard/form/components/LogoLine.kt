@@ -53,7 +53,7 @@ fun LogoLine(formData: LogoLineData, viewModel: XS2AWizardViewModel) {
 
     Image(
         painter = rememberImagePainter(stringResource(id = getImageUrlId())),
-        contentDescription = null,
+        contentDescription = stringResource(R.string.logo_image_description),
         modifier = Modifier
             .fillMaxWidth()
             .height(60.dp)
