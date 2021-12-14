@@ -1,14 +1,11 @@
 package com.fintecsystems.xs2awizard.helper
 
-import android.app.Activity
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.ContextWrapper
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Base64
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.ui.graphics.ImageBitmap
@@ -32,24 +29,6 @@ object Utils {
         val imageDataBytes = Base64.decode(cleanImage, Base64.DEFAULT)
 
         return BitmapFactory.decodeByteArray(imageDataBytes, 0, imageDataBytes.size).asImageBitmap()
-    }
-
-    // https://stackoverflow.com/a/28359074
-    /**
-     * Hides the soft keyboard
-     *
-     * @param activity the [Activity] context.
-     */
-    fun hideSoftKeyboard(activity: Activity?) {
-        val inputMethodManager =
-            activity?.getSystemService(Activity.INPUT_METHOD_SERVICE)
-
-        if (inputMethodManager != null && activity.currentFocus?.windowToken != null) {
-            (inputMethodManager as InputMethodManager).hideSoftInputFromWindow(
-                activity.currentFocus!!.windowToken,
-                0
-            )
-        }
     }
 
     /**

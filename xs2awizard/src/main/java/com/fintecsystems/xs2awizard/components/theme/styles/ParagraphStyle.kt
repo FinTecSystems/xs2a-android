@@ -8,6 +8,7 @@ data class ParagraphStyle(
     val backgroundColor: Color,
     val textColor: Color,
 ) {
+    @Suppress("unused")
     constructor(
         backgroundColor: Int,
         textColor: Int

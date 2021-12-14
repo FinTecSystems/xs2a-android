@@ -8,6 +8,7 @@ data class ButtonStyle(
     val backgroundColor: Color,
     val textColor: Color,
 ) {
+    @Suppress("unused")
     constructor(
         backgroundColor: Int,
         textColor: Int
