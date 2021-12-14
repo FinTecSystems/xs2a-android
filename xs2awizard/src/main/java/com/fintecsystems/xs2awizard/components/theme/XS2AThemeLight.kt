@@ -32,7 +32,7 @@ object XS2AThemeLight : IXS2ATheme {
     override val restartButtonStyle: ButtonStyle =
         ButtonStyle(XS2AColors.darkGrey, XS2AColors.textColorLight)
     override val redirectButtonStyle: ButtonStyle =
-        ButtonStyle(XS2AColors.darkGrey, XS2AColors.textColorLight)
+        ButtonStyle(XS2AColors.primary, XS2AColors.textColorLight)
     override val buttonShape: Shape = RoundedCornerShape(4.dp)
 
     override val errorParagraphStyle =
