@@ -69,6 +69,13 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
         initForm()
     }
 
+    fun onStop() {
+        // Cleanup in case the viewModel gets reused for a future request.
+        loadingIndicatorLock.value = false
+        currentWebViewUrl.value = null
+        form.value = emptyList()
+    }
+
     /**
      * Initializes the Form
      *
@@ -329,11 +336,14 @@ fun XS2AWizardComponent(
     val loadingIndicatorLock by xs2aWizardViewModel.loadingIndicatorLock.observeAsState(false)
     val currentWebViewUrl by xs2aWizardViewModel.currentWebViewUrl.observeAsState(null)
 
-    // Initialize ViewModel
     DisposableEffect(xs2aWizardViewModel) {
+        // Initialize ViewModel
         xs2aWizardViewModel.onStart(xS2AWizardConfig)
 
-        onDispose { /* no-op */ }
+        // Cleanup
+        onDispose {
+            xs2aWizardViewModel.onStop()
+        }
     }
 
     // Render
@@ -357,7 +367,7 @@ fun XS2AWizardComponent(
                     modifier = Modifier.align(Alignment.Center),
                     color = XS2ATheme.CURRENT.tintColor
                 )
-                
+
             }
         }
 
