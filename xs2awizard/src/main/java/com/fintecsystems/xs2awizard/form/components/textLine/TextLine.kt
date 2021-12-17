@@ -2,6 +2,7 @@ package com.fintecsystems.xs2awizard.form.components.textLine
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.DropdownMenu
@@ -10,13 +11,16 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
 import androidx.compose.ui.window.PopupProperties
+import com.fintecsystems.xs2awizard.R
 import com.fintecsystems.xs2awizard.XS2AWizardViewModel
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.TextLineData
@@ -49,7 +53,7 @@ fun TextLine(formData: TextLineData, viewModel: XS2AWizardViewModel) {
     val autoCompleteResponse = remember { mutableStateOf<AutoCompleteResponse?>(null) }
 
     // Workaround to let the dropdown have the same size as the TextField
-    var textFieldSize by remember { mutableStateOf(Size.Zero)}
+    var textFieldSize by remember { mutableStateOf(Size.Zero) }
 
     // Cancel AutoComplete-Job, when component is unmounted
     DisposableEffect(null) {
@@ -116,28 +120,47 @@ fun TextLine(formData: TextLineData, viewModel: XS2AWizardViewModel) {
                     XS2ATheme.CURRENT.inputShape,
                 )
         ) {
-            autoCompleteResponse.value?.autoCompleteData?.data?.forEach {
-                DropdownMenuItem(onClick = {
-                    textFieldValue = TextFieldValue(it.value, TextRange(it.value.length))
-                    formData.value = JsonPrimitive(it.value)
-                    showAutoCompleteDropdown.value = false
-                }) {
+            autoCompleteResponse.value?.autoCompleteData?.data?.let {
+                if (it.isNotEmpty()) {
+                    it.forEach {
+                        DropdownMenuItem(onClick = {
+                            textFieldValue = TextFieldValue(it.value, TextRange(it.value.length))
+                            formData.value = JsonPrimitive(it.value)
+                            showAutoCompleteDropdown.value = false
+                        }) {
+                            Column(
+                                modifier = Modifier.padding(2.dp, 4.dp)
+                            ) {
+                                FormText(
+                                    text = it.value,
+                                    color = XS2ATheme.CURRENT.textColor,
+                                    fontSize = 17.sp,
+                                    maxLines = 1,
+                                    fontWeight = FontWeight.Bold,
+                                )
+
+                                FormText(
+                                    text = it.label,
+                                    color = XS2ATheme.CURRENT.textColor,
+                                    fontSize = 15.sp,
+                                    maxLines = 1,
+                                )
+                            }
+                        }
+                    }
+                } else {
                     Column(
-                        modifier = Modifier.padding(2.dp, 4.dp)
+                        modifier = Modifier.fillMaxWidth()
+                            .padding(2.dp, 4.dp)
                     ) {
                         FormText(
-                            text = it.value,
+                            text = stringResource(R.string.no_search_results),
                             color = XS2ATheme.CURRENT.textColor,
                             fontSize = 17.sp,
                             maxLines = 1,
                             fontWeight = FontWeight.Bold,
-                        )
-
-                        FormText(
-                            text = it.label,
-                            color = XS2ATheme.CURRENT.textColor,
-                            fontSize = 15.sp,
-                            maxLines = 1,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.fillMaxWidth()
                         )
                     }
                 }

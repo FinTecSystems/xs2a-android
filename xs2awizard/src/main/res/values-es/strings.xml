@@ -16,4 +16,5 @@
     <string name="dialog_imprint_title">Pie de imprenta</string>
     <string name="dialog_imprint_message">FinTecSystems GmbH\nGottfried-Keller-Straße 33\n81245 Múnich\n\nTribunal local: Múnich\nHRB 210653\n\nAutoridad de supervisión: Bundesanstalt für Finanzdienstleistungsaufsicht.</string>
     <string name="dialog_imprint_link_text">Más información</string>
+    <string name="no_search_results">No hay resultados de búsqueda</string>
 </resources>

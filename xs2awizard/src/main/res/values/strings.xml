@@ -2,11 +2,13 @@
     <string name="captcha_image_description">Captcha Image</string>
     <string name="image_description">Image</string>
     <string name="logo_image_description">Logo</string>
+
     <string name="flicker_faster">Faster</string>
     <string name="flicker_slower">Slower</string>
     <string name="flicker_bigger">Bigger</string>
     <string name="flicker_smaller">Smaller</string>
     <string name="flicker_marker">Marker</string>
+
     <string name="dialog_dismiss">Dismiss</string>
     <string name="dialog_imprint_title">Imprint</string>
     <string name="dialog_imprint_message">FinTecSystems GmbH\nGottfried-Keller-Straße 33\n81245 Munich\n\nDistrict Court of Munich\nHRB 210653\n\nGerman Financial Supervisory Authority: Bundesanstalt für Finanzdienstleistungsaufsicht.</string>
@@ -19,8 +21,10 @@
     <string name="fts_logo_2x_url" translatable="false">https://api.xs2a.com/img/mobile-sdks/android/logo_standard@2x.png</string>
     <string name="fts_logo_black_2x_url" translatable="false">https://api.xs2a.com/img/mobile-sdks/android/logo_black@2x.png</string>
     <string name="fts_logo_white_2x_url" translatable="false">https://api.xs2a.com/img/mobile-sdks/android/logo_white@2x.png</string>
+
     <string name="link_copied">Link copied</string>
     <string name="close_webview">Close WebView</string>
     <string name="connection_secure">Connection secure</string>
     <string name="connection_unsecure">Connection unsecure</string>
+    <string name="no_search_results">No search results</string>
 </resources>

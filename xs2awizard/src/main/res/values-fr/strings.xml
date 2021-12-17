@@ -16,4 +16,5 @@
     <string name="dialog_imprint_title">Mentions légales</string>
     <string name="dialog_imprint_message">FinTecSystems GmbH\nGottfried-Keller-Straße 33\n81245 Munich\n\nTribunal local: Munich\nHRB 210653\n\nAutorité de surveillance: Bundesanstalt für Finanzdienstleistungsaufsicht.</string>
     <string name="dialog_imprint_link_text">En savoir plus</string>
+    <string name="no_search_results">Aucun résultat trouvé</string>
 </resources>
