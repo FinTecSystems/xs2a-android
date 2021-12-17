@@ -70,7 +70,7 @@ object Utils {
      *
      * @return true if language should be changed, false otherwise.
      */
-    private fun checkIfLanguageNeedsToBeChanged(language: String?): Boolean {
+    fun checkIfLanguageNeedsToBeChanged(language: String?): Boolean {
         if (language != null) {
             val deviceLanguage = Locale.getDefault().language
             val formLanguage = Locale(language).language

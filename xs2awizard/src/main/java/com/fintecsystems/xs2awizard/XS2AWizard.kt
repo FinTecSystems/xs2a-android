@@ -38,9 +38,11 @@ import com.fintecsystems.xs2awizard.form.components.*
 import com.fintecsystems.xs2awizard.form.components.textLine.TextLine
 import com.fintecsystems.xs2awizard.helper.JSONFormatter
 import com.fintecsystems.xs2awizard.helper.MarkupParser
+import com.fintecsystems.xs2awizard.helper.Utils
 import com.fintecsystems.xs2awizard_networking.NetworkingInstance
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.*
+import java.util.*
 
 class XS2AWizardViewModel(application: Application) : AndroidViewModel(application) {
     private lateinit var config: XS2AWizardConfig
@@ -234,9 +236,8 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
     private fun onFormReceived(jsonString: String) {
         val formResponse = JSONFormatter.formatter.decodeFromString<FormResponse>(jsonString)
 
-        /* TODO
         // Check if we're in the right language. If not change it.
-        if (checkIfLanguageNeedsToBeChanged(formResponse.language)) {
+        if (Utils.checkIfLanguageNeedsToBeChanged(formResponse.language)) {
             submitForm(
                 buildJsonObject {
                     put("action", "change-language")
@@ -246,7 +247,6 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
 
             return
         }
-         */
 
         form.value = formResponse.form
 
