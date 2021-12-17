@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import com.fintecsystems.xs2awizard.R
+import java.util.*
 
 
 object Utils {
@@ -56,5 +57,29 @@ object Utils {
         is AppCompatActivity -> this
         is ContextWrapper -> baseContext.getActivity()
         else -> null
+    }
+
+    private val languageWhitelist = listOf("de", "en", "fr", "it", "es")
+
+    /**
+     * Checks if the language matches the device language.
+     * If the language doesn't match, the device language will be checked against our
+     * supported languages.
+     *
+     * @param language language to check.
+     *
+     * @return true if language should be changed, false otherwise.
+     */
+    private fun checkIfLanguageNeedsToBeChanged(language: String?): Boolean {
+        if (language != null) {
+            val deviceLanguage = Locale.getDefault().language
+            val formLanguage = Locale(language).language
+
+            return languageWhitelist.contains(deviceLanguage) && !(deviceLanguage.equals(
+                formLanguage
+            ))
+        }
+
+        return false
     }
 }
