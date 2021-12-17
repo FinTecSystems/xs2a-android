@@ -5,7 +5,6 @@ import android.app.Application
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,11 +39,8 @@ import com.fintecsystems.xs2awizard.form.components.textLine.TextLine
 import com.fintecsystems.xs2awizard.helper.JSONFormatter
 import com.fintecsystems.xs2awizard.helper.MarkupParser
 import com.fintecsystems.xs2awizard_networking.NetworkingInstance
-import kotlinx.serialization.SerializationException
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.*
-
-private const val TAG = "XS2AWizard"
 
 class XS2AWizardViewModel(application: Application) : AndroidViewModel(application) {
     private lateinit var config: XS2AWizardConfig
@@ -236,31 +232,27 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
      * @param jsonString form response as a JSON [String].
      */
     private fun onFormReceived(jsonString: String) {
-        try {
-            val formResponse = JSONFormatter.formatter.decodeFromString<FormResponse>(jsonString)
+        val formResponse = JSONFormatter.formatter.decodeFromString<FormResponse>(jsonString)
 
-            /* TODO
-            // Check if we're in the right language. If not change it.
-            if (checkIfLanguageNeedsToBeChanged(formResponse.language)) {
-                submitForm(
-                    buildJsonObject {
-                        put("action", "change-language")
-                        put("language", Locale.getDefault().language)
-                    }
-                )
+        /* TODO
+        // Check if we're in the right language. If not change it.
+        if (checkIfLanguageNeedsToBeChanged(formResponse.language)) {
+            submitForm(
+                buildJsonObject {
+                    put("action", "change-language")
+                    put("language", Locale.getDefault().language)
+                }
+            )
 
-                return
-            }
-             */
-
-            form.value = formResponse.form
-
-            loadingIndicatorLock.value = false
-
-            parseCallback(formResponse)
-        } catch (serializationException: SerializationException) {
-            Log.e(TAG, "onFormReceived: $serializationException")
+            return
         }
+         */
+
+        form.value = formResponse.form
+
+        loadingIndicatorLock.value = false
+
+        parseCallback(formResponse)
     }
 
     /**
