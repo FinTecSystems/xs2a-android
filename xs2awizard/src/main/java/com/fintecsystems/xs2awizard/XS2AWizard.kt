@@ -237,18 +237,11 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
      */
     private fun onFormReceived(jsonString: String) {
         try {
-            Log.d(TAG, "onFormReceived: $jsonString")
-
             val formResponse = JSONFormatter.formatter.decodeFromString<FormResponse>(jsonString)
 
             /* TODO
             // Check if we're in the right language. If not change it.
             if (checkIfLanguageNeedsToBeChanged(formResponse.language)) {
-                Log.d(
-                    TAG,
-                    "onFormReceived: Language is not the same! Form: ${formResponse.language} Device: ${Locale.getDefault().language}, Changing!"
-                )
-
                 submitForm(
                     buildJsonObject {
                         put("action", "change-language")
@@ -298,8 +291,6 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
      * @param url url to open.
      */
     fun openWebView(url: String) {
-        Log.d(TAG, "openWebView $url")
-
         currentWebViewUrl.value = url
     }
 
