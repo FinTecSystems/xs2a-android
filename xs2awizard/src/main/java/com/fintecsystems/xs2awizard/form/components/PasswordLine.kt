@@ -1,6 +1,5 @@
 package com.fintecsystems.xs2awizard.form.components
 
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.*
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -37,7 +36,7 @@ fun PasswordLine(formData: PasswordLineData) {
             onValueChange = ::onValueChange,
             placeholder = formData.placeholder,
             visualTransformation = PasswordVisualTransformation(),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+            keyboardType = KeyboardType.Password,
         )
     }
 }
