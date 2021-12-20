@@ -22,8 +22,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.fintecsystems.xs2awizard.components.XS2AWizardConfig
 import com.fintecsystems.xs2awizard.components.XS2AWizardError
+import com.fintecsystems.xs2awizard.components.XS2AWizardConfig
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.components.webview.URLBarWebView
 import com.fintecsystems.xs2awizard.form.*
@@ -186,7 +186,7 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
         return NetworkingInstance.getInstance(context)
             .encodeAndSendMessage(
                 jsonBody,
-                ::onFormReceived
+                ::onFormReceived,
             )
     }
 
@@ -261,9 +261,8 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
 
         if (response.error != null) {
             config.onError(
-                XS2AWizardError(
+                XS2AWizardError.getRelevantError(
                     response.error,
-                    emptyList(),
                     response.isErrorRecoverable ?: false
                 )
             )
@@ -285,7 +284,6 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
     fun closeWebView() {
         currentWebViewUrl.value = null
     }
-
 }
 
 @Composable
