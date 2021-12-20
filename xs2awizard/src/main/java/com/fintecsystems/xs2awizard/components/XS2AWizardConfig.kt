@@ -8,5 +8,6 @@ data class XS2AWizardConfig(
     val onFinish: (String?) -> Unit,
     val onAbort: () -> Unit,
     val onError: (XS2AWizardError) -> Unit = {},
+    val onNetworkError: () -> Unit = {},
     val theme: IXS2ATheme? = null,
 )
