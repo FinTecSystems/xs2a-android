@@ -6,6 +6,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 
@@ -26,6 +27,7 @@ fun FormText(
         fontWeight = fontWeight,
         maxLines = maxLines,
         textAlign = textAlign,
-        modifier = modifier
+        modifier = modifier,
+        overflow = TextOverflow.Ellipsis
     )
 }
