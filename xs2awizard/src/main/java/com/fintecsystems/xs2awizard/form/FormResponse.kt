@@ -10,4 +10,5 @@ data class FormResponse(
     val callback: String? = null,
     val callbackParams: List<JsonElement>? = null,
     val error: String? = null,
+    val isErrorRecoverable: Boolean? = null,
 )

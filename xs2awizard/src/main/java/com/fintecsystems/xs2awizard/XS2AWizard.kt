@@ -259,12 +259,12 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
             "abort" -> config.onAbort()
         }
 
-        if (response.error != null && response.error == "tech_error") {
+        if (response.error != null) {
             config.onError(
                 XS2AWizardError(
                     response.error,
                     emptyList(),
-                    false
+                    response.isErrorRecoverable ?: false
                 )
             )
         }
