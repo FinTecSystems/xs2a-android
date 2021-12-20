@@ -186,8 +186,9 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
         return NetworkingInstance.getInstance(context)
             .encodeAndSendMessage(
                 jsonBody,
-                ::onFormReceived,
-            ) { config.onNetworkError() }
+                onSuccess = ::onFormReceived,
+                onError = { config.onNetworkError() }
+            )
     }
 
     /**
@@ -200,8 +201,9 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
         NetworkingInstance.getInstance(context)
             .encodeAndSendMessage(
                 constructJsonBody(action).toString(),
-                onSuccess
-            ) { config.onNetworkError() }
+                onSuccess = onSuccess,
+                onError = { config.onNetworkError() }
+            )
 
     /**
      * Handles onClick of ClickableText's with string annotations.
