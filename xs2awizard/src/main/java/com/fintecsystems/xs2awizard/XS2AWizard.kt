@@ -4,10 +4,6 @@ import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.net.Uri
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -21,11 +17,8 @@ import androidx.compose.runtime.key
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -394,25 +387,5 @@ fun FormLinesContainer(formData: List<FormLineData>, viewModel: XS2AWizardViewMo
         modifier = Modifier.verticalScroll(rememberScrollState())
     ) {
         FormLines(formData, viewModel)
-    }
-}
-
-/**
- * Wrapper for the XS2A-Wizard Compose Component
- */
-class XS2AWizard(
-    private val xS2AWizardConfig: XS2AWizardConfig
-) : Fragment() {
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        return ComposeView(requireContext()).apply {
-            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
-            setContent {
-                XS2AWizardComponent(xS2AWizardConfig)
-            }
-        }
     }
 }
