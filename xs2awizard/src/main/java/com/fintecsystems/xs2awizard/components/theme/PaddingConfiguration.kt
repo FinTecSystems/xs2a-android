@@ -16,13 +16,13 @@ class PaddingMarginConfiguration(
     constructor(vertical: Dp, horizontal: Dp) : this(horizontal, horizontal, vertical, vertical)
 
     constructor(
-        start: Int,
-        end: Int,
-        top: Int,
-        bottom: Int,
-    ) : this(start.dp, end.dp, top.dp, bottom.dp)
-    constructor(all: Int) : this(all, all, all, all)
-    constructor(vertical: Int, horizontal: Int) : this(horizontal, horizontal, vertical, vertical)
+        startDp: Int,
+        endDp: Int,
+        topDp: Int,
+        bottomDp: Int,
+    ) : this(startDp.dp, endDp.dp, topDp.dp, bottomDp.dp)
+    constructor(allDp: Int) : this(allDp.dp)
+    constructor(verticalDp: Int, horizontalDp: Int) : this(horizontalDp.dp, verticalDp.dp)
 
     companion object {
         val None = PaddingMarginConfiguration(0.dp)

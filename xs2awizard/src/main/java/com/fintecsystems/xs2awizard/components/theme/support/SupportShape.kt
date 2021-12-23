@@ -19,14 +19,15 @@ class SupportShape(
     val shapeValue: Shape = createShape(topStart, topEnd, bottomEnd, bottomStart, type)
 
     constructor(all: Dp, type: ShapeType) : this(all, all, all, all, type)
-    constructor(all: Int, type: ShapeType) : this(all.dp, type)
+
+    constructor(allDp: Int, type: ShapeType) : this(allDp.dp, type)
     constructor(
-        topStart: Int,
-        topEnd: Int,
-        bottomEnd: Int,
-        bottomStart: Int,
+        topStartDp: Int,
+        topEndDp: Int,
+        bottomEndDp: Int,
+        bottomStartDp: Int,
         type: ShapeType
-    ) : this(topStart.dp, topEnd.dp, bottomEnd.dp, bottomStart.dp, type)
+    ) : this(topStartDp.dp, topEndDp.dp, bottomEndDp.dp, bottomStartDp.dp, type)
 
     private fun createShape(
         topStart: Dp,
