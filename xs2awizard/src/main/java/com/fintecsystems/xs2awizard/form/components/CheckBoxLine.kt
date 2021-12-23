@@ -56,8 +56,7 @@ fun CheckBoxLine(formData: CheckBoxLineData, viewModel: XS2AWizardViewModel) {
             colors = CheckboxDefaults.colors(
                 checkedColor = XS2ATheme.CURRENT.tintColor,
                 uncheckedColor = XS2ATheme.CURRENT.unselectedColor,
-                checkmarkColor = if (checkBoxValue) XS2ATheme.CURRENT.onTintColor
-                else XS2ATheme.CURRENT.unselectedColor
+                checkmarkColor = XS2ATheme.CURRENT.onTintColor
             )
         )
 
