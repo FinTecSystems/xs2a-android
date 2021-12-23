@@ -32,11 +32,10 @@ import com.fintecsystems.xs2awizard.helper.Utils.getActivity
 /**
  * Displays the FTS-Logo and shows the FTS-Imprint in an Alert on click.
  *
- * @param formData Data of this FormLine
  * @param viewModel ViewModel of the Wizard-Instance.
  */
 @Composable
-fun LogoLine(formData: LogoLineData, viewModel: XS2AWizardViewModel) {
+fun LogoLine(viewModel: XS2AWizardViewModel) {
     @Composable
     fun getImageUrlId(): Int {
         val isDarkMode = isSystemInDarkTheme()
