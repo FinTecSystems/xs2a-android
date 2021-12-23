@@ -51,7 +51,8 @@ fun XS2AWizard(
     XS2ATheme(xS2ATheme = xS2AWizardConfig.theme) {
         Box(
             modifier = Modifier
-                .padding(10.dp, 5.dp)
+                .background(XS2ATheme.CURRENT.backgroundColor)
+                .padding(10.dp, 5.dp),
         ) {
             form?.let {
                 FormLinesContainer(it, xs2aWizardViewModel)
