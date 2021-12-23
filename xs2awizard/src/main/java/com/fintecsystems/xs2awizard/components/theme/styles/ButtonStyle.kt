@@ -3,6 +3,9 @@ package com.fintecsystems.xs2awizard.components.theme.styles
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 
+/**
+ * Style-Attributes of a button.
+ */
 @Immutable
 data class ButtonStyle(
     val backgroundColor: Color,

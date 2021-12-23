@@ -8,6 +8,9 @@ import androidx.compose.ui.unit.dp
 import com.fintecsystems.xs2awizard.components.theme.styles.ButtonStyle
 import com.fintecsystems.xs2awizard.components.theme.styles.ParagraphStyle
 
+/**
+ * Implementation of a Light-Theme.
+ */
 object XS2AThemeLight : IXS2ATheme {
     override val tintColor: Color = XS2AColors.primary
     override val onTintColor: Color = XS2AColors.textColorLight

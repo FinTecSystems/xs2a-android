@@ -8,8 +8,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.staticCompositionLocalOf
 
-val LocalExtendedStyle = staticCompositionLocalOf<IXS2ATheme> { XS2AThemeBase }
+private val LocalExtendedStyle = staticCompositionLocalOf<IXS2ATheme> { XS2AThemeBase }
 
+/**
+ * Theme-Provider of the Wizard.
+ *
+ * Uses [MaterialTheme] as the base and extends it by [IXS2ATheme].
+ */
 @Composable
 fun XS2ATheme(
     xS2ATheme: IXS2ATheme? = null,
@@ -25,6 +30,9 @@ fun XS2ATheme(
     }
 }
 
+/**
+ * Holder of the current theme attributes.
+ */
 object XS2ATheme {
     val CURRENT: IXS2ATheme
         @Composable

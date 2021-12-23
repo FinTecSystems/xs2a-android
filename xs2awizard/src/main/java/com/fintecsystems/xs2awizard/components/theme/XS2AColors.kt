@@ -3,6 +3,9 @@ package com.fintecsystems.xs2awizard.components.theme
 import androidx.compose.ui.graphics.Color
 import androidx.core.graphics.toColorInt
 
+/**
+ * Default color-palette of the wizard.
+ */
 object XS2AColors {
     val primary = Color("#194f89".toColorInt())
 

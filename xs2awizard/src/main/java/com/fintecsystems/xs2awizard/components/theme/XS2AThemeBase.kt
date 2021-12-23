@@ -8,6 +8,9 @@ import androidx.compose.ui.unit.dp
 import com.fintecsystems.xs2awizard.components.theme.styles.ButtonStyle
 import com.fintecsystems.xs2awizard.components.theme.styles.ParagraphStyle
 
+/**
+ * Basic theme-implementation with all values assigned as unspecified or null.
+ */
 object XS2AThemeBase : IXS2ATheme {
     override val tintColor: Color = Color.Unspecified
     override val onTintColor: Color = Color.Unspecified

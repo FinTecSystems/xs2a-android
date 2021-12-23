@@ -3,6 +3,9 @@ package com.fintecsystems.xs2awizard.components.theme.styles
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 
+/**
+ * Style-Attributes of a paragraph.
+ */
 @Immutable
 data class ParagraphStyle(
     val backgroundColor: Color,

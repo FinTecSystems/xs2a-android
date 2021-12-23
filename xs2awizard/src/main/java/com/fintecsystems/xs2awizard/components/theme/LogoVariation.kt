@@ -1,5 +1,8 @@
 package com.fintecsystems.xs2awizard.components.theme
 
+/**
+ * Variations of the FTS-Logo
+ */
 enum class LogoVariation {
     STANDARD, // logo_standard
     WHITE, // logo_white

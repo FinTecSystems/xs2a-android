@@ -3,6 +3,9 @@ package com.fintecsystems.xs2awizard.components.theme
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
+/**
+ * Size of padding or margin of an element.
+ */
 class PaddingMarginConfiguration(
     val start: Dp,
     val end: Dp,

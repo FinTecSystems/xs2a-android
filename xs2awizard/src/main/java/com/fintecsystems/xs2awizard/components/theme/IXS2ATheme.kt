@@ -6,6 +6,9 @@ import androidx.compose.ui.text.font.FontFamily
 import com.fintecsystems.xs2awizard.components.theme.styles.ButtonStyle
 import com.fintecsystems.xs2awizard.components.theme.styles.ParagraphStyle
 
+/**
+ * Interface of all styleable attributes of the wizard.
+ */
 interface IXS2ATheme {
     // General
     val tintColor: Color
