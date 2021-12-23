@@ -42,7 +42,11 @@ fun LabelledRadioButton(
         RadioButton(
             selected = selected,
             onClick = onClick,
-            colors = RadioButtonDefaults.colors(selectedColor = XS2ATheme.CURRENT.tintColor),
+            colors = RadioButtonDefaults.colors(
+                selectedColor = XS2ATheme.CURRENT.tintColor,
+                unselectedColor = XS2ATheme.CURRENT.unselectedColor,
+                disabledColor = XS2ATheme.CURRENT.disabledColor,
+            ),
             enabled = !disabled,
         )
         FormText(text = label)

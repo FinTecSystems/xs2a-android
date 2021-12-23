@@ -44,4 +44,7 @@ object XS2AThemeBase : IXS2ATheme {
     override val webViewBackgroundColor: Color = Color.Unspecified
     override val webViewBorderColor: Color = Color.Unspecified
     override val webViewTextColor: Color = Color.Unspecified
+
+    override val unselectedColor: Color = Color.Unspecified
+    override val disabledColor: Color = Color.Unspecified
 }

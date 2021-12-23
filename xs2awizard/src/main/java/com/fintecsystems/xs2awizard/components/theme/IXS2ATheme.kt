@@ -47,4 +47,8 @@ interface IXS2ATheme {
     val webViewBackgroundColor: Color
     val webViewBorderColor: Color
     val webViewTextColor: Color
+
+    // Checkbox/Radio
+    val unselectedColor: Color
+    val disabledColor: Color
 }

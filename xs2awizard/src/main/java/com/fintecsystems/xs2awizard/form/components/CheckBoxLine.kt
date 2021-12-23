@@ -49,12 +49,15 @@ fun CheckBoxLine(formData: CheckBoxLineData, viewModel: XS2AWizardViewModel) {
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(5.dp),
 
-    ) {
+        ) {
         Checkbox(
             checked = checkBoxValue,
             onCheckedChange = ::onCheckedChange,
             colors = CheckboxDefaults.colors(
-                checkedColor = XS2ATheme.CURRENT.tintColor
+                checkedColor = XS2ATheme.CURRENT.tintColor,
+                uncheckedColor = XS2ATheme.CURRENT.unselectedColor,
+                checkmarkColor = if (checkBoxValue) XS2ATheme.CURRENT.onTintColor
+                else XS2ATheme.CURRENT.unselectedColor
             )
         )
 
