@@ -19,6 +19,11 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 
+/**
+ * Pre-Styled Text used for all FormLines, with built-in focus changer.
+ *
+ * Inherits props from [TextField]
+ */
 @Composable
 fun FormTextField(
     value: TextFieldValue,

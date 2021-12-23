@@ -10,6 +10,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 
+/**
+ * Pre-Styled Text used for all FormLines.
+ *
+ * Inherits props from [Text]
+ */
 @Composable
 fun FormText(
     modifier: Modifier = Modifier,

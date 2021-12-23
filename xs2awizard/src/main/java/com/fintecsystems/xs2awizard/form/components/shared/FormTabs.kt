@@ -10,6 +10,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 
+/**
+ * Renders a TabBar.
+ *
+ * @param selected Selected tab.
+ * @param onSelectedChange Callback, when the selected tab changes.
+ * @param tabs Label of each tab.
+ */
 @Composable
 fun FormTabs(
     selected: Int,

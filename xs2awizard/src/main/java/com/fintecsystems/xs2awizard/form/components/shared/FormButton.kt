@@ -9,6 +9,13 @@ import androidx.compose.ui.platform.LocalFocusManager
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.components.theme.styles.ButtonStyle
 
+/**
+ * Basic button used in the form.
+ *
+ * @param label Text on the Button.
+ * @param buttonStyle Style to apply.
+ * @param onClick Callback, when the button is clicked.
+ */
 @Composable
 fun FormButton(
     label: String,
