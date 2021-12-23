@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
 import com.fintecsystems.xs2awizard.R
 import com.fintecsystems.xs2awizard.components.XS2AWizardViewModel
+import com.fintecsystems.xs2awizard.components.theme.LogoVariation
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.LogoLineData
 import com.fintecsystems.xs2awizard.form.components.shared.FormText
@@ -39,18 +40,19 @@ fun LogoLine(formData: LogoLineData, viewModel: XS2AWizardViewModel) {
     @Composable
     fun getImageUrlId(): Int {
         val isDarkMode = isSystemInDarkTheme()
+        val logoVariation = XS2ATheme.CURRENT.logoVariation
 
         if (LocalContext.current.resources.displayMetrics.densityDpi >= DisplayMetrics.DENSITY_XHIGH) {
-            return when (formData.logoVariation) {
-                "white" -> R.string.fts_logo_white_2x_url
-                "black" -> R.string.fts_logo_black_2x_url
+            return when (logoVariation) {
+                LogoVariation.WHITE -> R.string.fts_logo_white_2x_url
+                LogoVariation.BLACK -> R.string.fts_logo_black_2x_url
                 else -> (if (isDarkMode) R.string.fts_logo_white_2x_url else R.string.fts_logo_2x_url)
             }
         }
 
-        return when (formData.logoVariation) {
-            "white" -> R.string.fts_logo_white_url
-            "black" -> R.string.fts_logo_black_url
+        return when (logoVariation) {
+            LogoVariation.WHITE -> R.string.fts_logo_white_url
+            LogoVariation.BLACK -> R.string.fts_logo_black_url
             else -> (if (isDarkMode) R.string.fts_logo_white_url else R.string.fts_logo_url)
         }
     }
