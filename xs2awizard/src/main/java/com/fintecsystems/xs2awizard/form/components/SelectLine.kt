@@ -83,7 +83,10 @@ fun SelectLine(formData: SelectLineData) {
             onGloballyPositioned = { textFieldSize = it.size.toSize() },
             onFocusChanged = { selectIsExpanded = it.isFocused },
             trailingIcon = {
-                Icon(Icons.Filled.ArrowDropDown, null)
+                Icon(
+                    Icons.Filled.ArrowDropDown, null,
+                    tint = XS2ATheme.CURRENT.textColor
+                )
             }
         )
 
