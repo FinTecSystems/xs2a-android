@@ -6,6 +6,7 @@ import androidx.compose.ui.graphics.Color
  * Implementation of a Dark-Theme
  */
 object XS2AThemeDark : IXS2ATheme by XS2AThemeLight {
+    override val backgroundColor: Color = Color.Black
     override val surfaceColor: Color = Color.Black
     override val textColor: Color = XS2AColors.textColorLight
     override val logoVariation: LogoVariation = LogoVariation.WHITE
