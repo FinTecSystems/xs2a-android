@@ -35,7 +35,8 @@ fun LabelledRadioButton(
             .fillMaxWidth()
             .selectable(
                 selected = selected,
-                onClick = onClick
+                onClick = onClick,
+                enabled = !disabled
             ),
         horizontalArrangement = Arrangement.spacedBy(5.dp)
     ) {
@@ -49,7 +50,10 @@ fun LabelledRadioButton(
             ),
             enabled = !disabled,
         )
-        FormText(text = label)
+        FormText(
+            text = label,
+            color = if (disabled) XS2ATheme.CURRENT.disabledColor else XS2ATheme.CURRENT.textColor
+        )
     }
 }
 
