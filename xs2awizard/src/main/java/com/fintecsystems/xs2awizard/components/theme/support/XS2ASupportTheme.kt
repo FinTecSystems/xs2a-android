@@ -54,8 +54,8 @@ class XS2ASupportTheme(
     webViewBackgroundColor: SupportColor = SupportColor(Color.White),
     webViewBorderColor: SupportColor = SupportColor(XS2AColors.darkGrey),
     webViewTextColor: SupportColor = SupportColor(XS2AColors.textColor),
-    unselectedColor: SupportColor = SupportColor(XS2AColors.darkGrey),
-    disabledColor: SupportColor = SupportColor(XS2AColors.darkGrey),
+    unselectedColor: SupportColor = SupportColor(XS2AColors.unselected),
+    disabledColor: SupportColor = SupportColor(XS2AColors.disabled),
 ) : IXS2ATheme {
     override val tintColor: Color = tintColor.colorValue
     override val onTintColor: Color = onTintColor.colorValue
