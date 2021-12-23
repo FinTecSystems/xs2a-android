@@ -118,7 +118,8 @@ fun LogoLine(formData: LogoLineData, viewModel: XS2AWizardViewModel) {
                     modifier = Modifier.fillMaxWidth(),
                     text = annotatedString,
                     style = TextStyle(
-                        color = XS2ATheme.CURRENT.textColor
+                        color = XS2ATheme.CURRENT.textColor,
+                        fontFamily = XS2ATheme.CURRENT.fontFamily
                     ),
                     onClick = {
                         annotatedString.getStringAnnotations(it, it)

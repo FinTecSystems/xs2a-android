@@ -31,6 +31,7 @@ fun DescriptionLine(formData: DescriptionLineData, viewModel: XS2AWizardViewMode
             style = TextStyle(
                 color = XS2ATheme.CURRENT.textColor,
                 fontSize = 15.3.sp,
+                fontFamily = XS2ATheme.CURRENT.fontFamily
             ),
             onClick = {
                 annotatedString.getStringAnnotations(it, it)

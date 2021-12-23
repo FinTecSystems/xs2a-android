@@ -3,6 +3,7 @@ package com.fintecsystems.xs2awizard.components.theme
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.Colors
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Typography
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -25,6 +26,7 @@ fun XS2ATheme(
     CompositionLocalProvider(LocalExtendedStyle provides theme) {
         MaterialTheme(
             colors = colors,
+            typography = Typography(defaultFontFamily = XS2ATheme.CURRENT.fontFamily),
             content = content
         )
     }

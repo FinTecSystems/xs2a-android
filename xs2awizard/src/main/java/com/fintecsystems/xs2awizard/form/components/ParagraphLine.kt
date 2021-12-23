@@ -94,6 +94,7 @@ fun ParagraphLine(formData: ParagraphLineData, viewModel: XS2AWizardViewModel) {
                     style = TextStyle(
                         color = textColor,
                         fontSize = 17.sp,
+                        fontFamily = XS2ATheme.CURRENT.fontFamily
                     ),
                     onClick = {
                         annotatedString.getStringAnnotations(it, it)
