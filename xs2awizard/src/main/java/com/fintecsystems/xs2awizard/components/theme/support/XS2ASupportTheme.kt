@@ -76,25 +76,4 @@ class XS2ASupportTheme(
     override val webViewBackgroundColor: Color = webViewBackgroundColor.colorValue
     override val webViewBorderColor: Color = webViewBorderColor.colorValue
     override val webViewTextColor: Color = webViewTextColor.colorValue
-
-    companion object {
-        /**
-         * Light version of the SupportTheme
-         */
-        val Light = XS2ASupportTheme()
-
-        /**
-         * Dark version of the SupportTheme
-         */
-        val Dark = XS2ASupportTheme(
-            surfaceColor = SupportColor(Color.Black),
-            textColor = SupportColor(XS2AColors.textColorLight),
-            logoVariation = LogoVariation.WHITE,
-            loadingIndicatorBackgroundColor = SupportColor(XS2AColors.backgroundTranslucentDark),
-            inputTextColor = SupportColor(XS2AColors.textColorLight),
-            webViewIconColor = SupportColor(XS2AColors.textColorLight),
-            webViewBackgroundColor = SupportColor(Color.Black),
-            webViewTextColor = SupportColor(XS2AColors.textColorLight)
-        )
-    }
 }
