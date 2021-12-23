@@ -79,7 +79,12 @@ class XS2ASupportTheme(
 
     companion object {
         /**
-         * Dark version of the Support-Theme
+         * Light version of the SupportTheme
+         */
+        val Light = XS2ASupportTheme()
+
+        /**
+         * Dark version of the SupportTheme
          */
         val Dark = XS2ASupportTheme(
             surfaceColor = SupportColor(Color.Black),
