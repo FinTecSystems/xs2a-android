@@ -9,9 +9,18 @@ import kotlinx.coroutines.delay
 
 private data class ContentLayoutInfo(val width: Int, val containerWidth: Int)
 
+/**
+ * Scrolls the content automatically if it's to large for the container.
+ *
+ * @param scrollSpeed Time needed to scroll the container width once.
+ * @param delay Start delay.
+ * @param children Content of the container. Has to be a single element.
+ */
 @Composable
-fun MarqueeContainer(
+fun AnimatedAutoScrollContainer(
     modifier: Modifier = Modifier,
+    scrollSpeed: Int = 5000,
+    delay: Int = 1000,
     children: @Composable () -> Unit,
 ) {
     var offset by remember { mutableStateOf(0) }
@@ -22,8 +31,7 @@ fun MarqueeContainer(
 
         if (contentLayoutInfo.width <= contentLayoutInfo.containerWidth) return@LaunchedEffect
 
-        val duration = 5000 * contentLayoutInfo.width / contentLayoutInfo.containerWidth
-        val delay = 1000
+        val duration = scrollSpeed * contentLayoutInfo.width / contentLayoutInfo.containerWidth
 
         do {
             val animation = TargetBasedAnimation(

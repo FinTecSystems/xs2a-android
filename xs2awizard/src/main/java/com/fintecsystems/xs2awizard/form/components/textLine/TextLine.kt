@@ -24,7 +24,7 @@ import com.fintecsystems.xs2awizard.form.TextLineData
 import com.fintecsystems.xs2awizard.form.components.LabelledContainer
 import com.fintecsystems.xs2awizard.form.components.shared.FormText
 import com.fintecsystems.xs2awizard.form.components.shared.FormTextField
-import com.fintecsystems.xs2awizard.form.components.shared.MarqueeContainer
+import com.fintecsystems.xs2awizard.form.components.shared.AnimatedAutoScrollContainer
 import com.fintecsystems.xs2awizard.helper.JSONFormatter
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -132,7 +132,7 @@ fun TextLine(formData: TextLineData, viewModel: XS2AWizardViewModel) {
                                     .fillMaxWidth()
                                     .padding(2.dp, 4.dp)
                             ) {
-                                MarqueeContainer {
+                                AnimatedAutoScrollContainer {
                                     FormText(
                                         text = it.value,
                                         color = XS2ATheme.CURRENT.textColor,
@@ -142,7 +142,7 @@ fun TextLine(formData: TextLineData, viewModel: XS2AWizardViewModel) {
                                     )
                                 }
 
-                                MarqueeContainer {
+                                AnimatedAutoScrollContainer {
                                     FormText(
                                         text = it.label,
                                         color = XS2ATheme.CURRENT.textColor,
