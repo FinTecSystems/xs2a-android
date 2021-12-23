@@ -147,5 +147,5 @@ object FontFamilyHelper {
         resId: Int,
         weight: Int = 400,
         style: FontFamilyStyle = FontFamilyStyle.NORMAL
-    ) = Font(resId, FontWeight(weight), FontStyle(style.ordinal))
+    ) = Font(resId, FontWeight(weight), FontStyle(style.ordinal)).toFontFamily()
 }
