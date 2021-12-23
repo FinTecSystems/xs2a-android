@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
-import com.fintecsystems.xs2awizard.XS2AWizardComponent
+import com.fintecsystems.xs2awizard.XS2AWizard
 import com.fintecsystems.xs2awizard.components.XS2AWizardConfig
 
 /**
@@ -24,7 +24,7 @@ class XS2AWizardFragment(
         return ComposeView(requireContext()).apply {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
-                XS2AWizardComponent(xS2AWizardConfig)
+                XS2AWizard(xS2AWizardConfig)
             }
         }
     }

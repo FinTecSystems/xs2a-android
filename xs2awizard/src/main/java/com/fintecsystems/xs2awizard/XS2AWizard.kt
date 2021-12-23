@@ -29,7 +29,7 @@ import com.fintecsystems.xs2awizard.form.components.textLine.TextLine
  * @param xs2aWizardViewModel ViewModel of the Wizard-Instance.
  */
 @Composable
-fun XS2AWizardComponent(
+fun XS2AWizard(
     xS2AWizardConfig: XS2AWizardConfig,
     xs2aWizardViewModel: XS2AWizardViewModel = viewModel()
 ) {
