@@ -1,10 +1,7 @@
 package com.fintecsystems.xs2awizard.form.components.textLine
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.runtime.*
@@ -27,6 +24,7 @@ import com.fintecsystems.xs2awizard.form.TextLineData
 import com.fintecsystems.xs2awizard.form.components.LabelledContainer
 import com.fintecsystems.xs2awizard.form.components.shared.FormText
 import com.fintecsystems.xs2awizard.form.components.shared.FormTextField
+import com.fintecsystems.xs2awizard.form.components.shared.MarqueeContainer
 import com.fintecsystems.xs2awizard.helper.JSONFormatter
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -128,29 +126,37 @@ fun TextLine(formData: TextLineData, viewModel: XS2AWizardViewModel) {
                             formData.value = JsonPrimitive(it.value)
                             showAutoCompleteDropdown.value = false
                         }) {
-                            Column(
-                                modifier = Modifier.padding(2.dp, 4.dp)
-                            ) {
-                                FormText(
-                                    text = it.value,
-                                    color = XS2ATheme.CURRENT.textColor,
-                                    fontSize = 17.sp,
-                                    maxLines = 1,
-                                    fontWeight = FontWeight.Bold,
-                                )
 
-                                FormText(
-                                    text = it.label,
-                                    color = XS2ATheme.CURRENT.textColor,
-                                    fontSize = 15.sp,
-                                    maxLines = 1,
-                                )
+                            Column(
+                                Modifier
+                                    .fillMaxWidth()
+                                    .padding(2.dp, 4.dp)
+                            ) {
+                                MarqueeContainer {
+                                    FormText(
+                                        text = it.value,
+                                        color = XS2ATheme.CURRENT.textColor,
+                                        fontSize = 17.sp,
+                                        maxLines = 1,
+                                        fontWeight = FontWeight.Bold,
+                                    )
+                                }
+
+                                MarqueeContainer {
+                                    FormText(
+                                        text = it.label,
+                                        color = XS2ATheme.CURRENT.textColor,
+                                        fontSize = 15.sp,
+                                        maxLines = 1,
+                                    )
+                                }
                             }
                         }
                     }
                 } else {
                     Column(
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier
+                            .fillMaxWidth()
                             .padding(2.dp, 4.dp)
                     ) {
                         FormText(
