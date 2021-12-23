@@ -4,11 +4,12 @@ import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.colorspace.ColorSpaces
+import androidx.compose.ui.text.font.*
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 /**
- * Collection of Helper Methods to create the Color class outside of an Jetpack Compose Project.
+ * Collection of Helper Methods to create [Color] instances outside of an Jetpack Compose Project.
  */
 object ColorHelper {
     /**
@@ -47,7 +48,7 @@ object ColorHelper {
 }
 
 /**
- * Collection of Helper Methods to create the Shape class outside of an Jetpack Compose Project.
+ * Collection of Helper Methods to create [Shape] instances outside of an Jetpack Compose Project.
  */
 object ShapeHelper {
     /**
@@ -117,4 +118,33 @@ object ShapeHelper {
         ShapeType.ROUNDED -> RoundedCornerShape(topStart, topEnd, bottomEnd, bottomStart)
         ShapeType.CUT -> CutCornerShape(topStart, topEnd, bottomEnd, bottomStart)
     }
+}
+
+/**
+ * Collection of Helper Methods to create [FontFamily] instances outside of an Jetpack Compose Project.
+ */
+object FontFamilyHelper {
+    enum class FontFamilyStyle {
+        NORMAL,
+        ITALIC
+    }
+
+    val Cursive = FontFamily.Cursive
+    val Default = FontFamily.Default
+    val Monospace = FontFamily.Monospace
+    val SansSerif = FontFamily.SansSerif
+    val Serif = FontFamily.Serif
+
+    /**
+     * Creates a Font with using resource ID.
+     *
+     * @param resId The resource ID of the font file in font resources. i.e. "R.font.myfont".
+     * @param weight The weight of the font.
+     * @param style The style of the font, normal or italic.
+     */
+    fun fontFamilyFromFontRes(
+        resId: Int,
+        weight: Int = 400,
+        style: FontFamilyStyle = FontFamilyStyle.NORMAL
+    ) = Font(resId, FontWeight(weight), FontStyle(style.ordinal))
 }
