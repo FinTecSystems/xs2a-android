@@ -6,6 +6,9 @@ import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 import kotlinx.serialization.modules.subclass
 
+/**
+ * Instance of the JSON de-/serializer.
+ */
 object JSONFormatter {
     // Serializer Module used to de-/serialize between json and our FormLineData classes.
     private val formLineDataModule = SerializersModule {
