@@ -20,6 +20,7 @@ object XS2AColors {
     val backgroundInfo = Color("#0000FF".toColorInt())
     val backgroundError = Color("#FF0000".toColorInt())
     val backgroundInput = Color("#1F000000".toColorInt())
+    val backgroundInputDark = Color("#1FFFFFFF".toColorInt())
 
     val flickerBackground = Color.Black
     val flickerForeground = Color.White

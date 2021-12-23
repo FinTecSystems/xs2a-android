@@ -13,6 +13,7 @@ object XS2AThemeDark : IXS2ATheme by XS2AThemeLight {
     override val loadingIndicatorBackgroundColor: Color = XS2AColors.backgroundTranslucentDark
 
     override val inputTextColor: Color = XS2AColors.textColorLight
+    override val inputBackgroundColor: Color = XS2AColors.backgroundInputDark
 
     override val webViewIconColor: Color = XS2AColors.textColorLight
     override val webViewBackgroundColor: Color = Color.Black
