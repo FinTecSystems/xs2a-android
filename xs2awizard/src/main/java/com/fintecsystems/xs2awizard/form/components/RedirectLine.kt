@@ -11,6 +11,11 @@ import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.RedirectLineData
 import com.fintecsystems.xs2awizard.form.components.shared.FormButton
 
+/**
+ * Renders two Buttons.
+ * First to open the supplied URL in an WebView.
+ * Second to perform back-action in form.
+ */
 @Composable
 fun RedirectLine(formData: RedirectLineData, viewModel: XS2AWizardViewModel) {
     Column(

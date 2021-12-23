@@ -11,6 +11,11 @@ import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.SubmitLineData
 import com.fintecsystems.xs2awizard.form.components.shared.FormButton
 
+/**
+ * Renders a button to perform submit-action.
+ *
+ * Can optionally render a Back-Button as well.
+ */
 @Composable
 fun SubmitLine(formData: SubmitLineData, viewModel: XS2AWizardViewModel) {
     Column(

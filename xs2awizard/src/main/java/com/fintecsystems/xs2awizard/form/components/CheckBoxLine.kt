@@ -20,6 +20,9 @@ import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.boolean
 import kotlinx.serialization.json.jsonPrimitive
 
+/**
+ * Displays a CheckBox with a description text.
+ */
 @Composable
 fun CheckBoxLine(formData: CheckBoxLineData, viewModel: XS2AWizardViewModel) {
     var checkBoxValue by remember {

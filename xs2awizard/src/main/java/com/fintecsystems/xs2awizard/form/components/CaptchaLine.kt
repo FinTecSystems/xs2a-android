@@ -13,6 +13,9 @@ import com.fintecsystems.xs2awizard.helper.Utils
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.jsonPrimitive
 
+/**
+ * Displays an Captcha-Element with a [FormTextField] below it.
+ */
 @Composable
 fun CaptchaLine(formData: CaptchaLineData) {
     val imageBitmap = Utils.decodeBase64Image(formData.data)

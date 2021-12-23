@@ -25,6 +25,9 @@ import com.fintecsystems.xs2awizard.form.components.shared.FormText
 import com.fintecsystems.xs2awizard.form.components.shared.FormTextField
 import kotlinx.serialization.json.*
 
+/**
+ * Shows an Select-InputField
+ */
 @Composable
 fun SelectLine(formData: SelectLineData) {
     // We need an reactive value, because formData.value is not reactive.

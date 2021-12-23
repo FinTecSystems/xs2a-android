@@ -15,6 +15,9 @@ import com.fintecsystems.xs2awizard.R
 import com.fintecsystems.xs2awizard.form.ImageLineData
 import com.fintecsystems.xs2awizard.helper.Utils
 
+/**
+ * Displays a Image.
+ */
 @Composable
 fun ImageLine(formData: ImageLineData) {
     val imageBitmap = Utils.decodeBase64Image(formData.data)

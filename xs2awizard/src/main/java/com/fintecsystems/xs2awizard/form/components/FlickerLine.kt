@@ -29,6 +29,9 @@ import kotlinx.serialization.json.jsonPrimitive
 import kotlin.math.max
 import kotlin.math.min
 
+/**
+ * Displays an Flicker-Element with a [FormTextField] below it.
+ */
 @Composable
 fun FlickerLine(formData: FlickerLineData) {
     val colors = listOf(

@@ -15,6 +15,9 @@ import com.fintecsystems.xs2awizard.form.RadioLineData
 import com.fintecsystems.xs2awizard.form.components.shared.FormText
 import kotlinx.serialization.json.*
 
+/**
+ * A single Radio-Button with an Label.
+ */
 @Composable
 fun LabelledRadioButton(
     selected: Boolean,
@@ -38,10 +41,12 @@ fun LabelledRadioButton(
             enabled = !disabled,
         )
         FormText(text = label)
-
     }
 }
 
+/**
+ * Renders a group of [RadioButton].
+ */
 @Composable
 fun RadioLine(formData: RadioLineData) {
     var selectedValue by remember {

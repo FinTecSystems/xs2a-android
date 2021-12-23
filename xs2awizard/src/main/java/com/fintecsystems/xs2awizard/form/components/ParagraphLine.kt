@@ -19,6 +19,11 @@ import com.fintecsystems.xs2awizard.form.components.shared.FormText
 import com.fintecsystems.xs2awizard.helper.MarkupParser
 import com.fintecsystems.xs2awizard.helper.Utils.getActivity
 
+/**
+ * Shows an title and description text.
+ *
+ * Can be elevated into an info-/error- or warning-alert.
+ */
 @Composable
 fun ParagraphLine(formData: ParagraphLineData, viewModel: XS2AWizardViewModel) {
     val textColor = when (formData.severity) {

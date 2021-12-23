@@ -12,6 +12,10 @@ import androidx.compose.ui.unit.sp
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.components.shared.FormText
 
+/**
+ * Container of most value-based FormLines.
+ * Displays an label above the FormLine.
+ */
 @Composable
 fun LabelledContainer(label: String?, content: @Composable ColumnScope.() -> Unit) {
     Column(

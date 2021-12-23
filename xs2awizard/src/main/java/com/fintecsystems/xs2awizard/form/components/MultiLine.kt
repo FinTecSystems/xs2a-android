@@ -10,6 +10,9 @@ import com.fintecsystems.xs2awizard.XS2AWizardViewModel
 import com.fintecsystems.xs2awizard.form.MultiLineData
 import com.fintecsystems.xs2awizard.form.components.shared.FormTabs
 
+/**
+ * Renders multiple sub-forms, which are bundled into tabs.
+ */
 @Composable
 fun MultiLine(
     formData: MultiLineData,

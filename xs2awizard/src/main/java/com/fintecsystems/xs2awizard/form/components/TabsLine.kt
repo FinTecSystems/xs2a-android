@@ -8,6 +8,9 @@ import com.fintecsystems.xs2awizard.form.components.shared.FormTabs
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 
+/**
+ * Shows a Row of Tabs.
+ */
 @Composable
 fun TabsLine(formData: TabsLineData, viewModel: XS2AWizardViewModel) {
     val selectedTabIndex = formData.tabs.keys.indexOf(formData.selected)

@@ -13,6 +13,9 @@ import com.fintecsystems.xs2awizard.form.DescriptionLineData
 import com.fintecsystems.xs2awizard.helper.MarkupParser
 import com.fintecsystems.xs2awizard.helper.Utils.getActivity
 
+/**
+ * Displays an description text
+ */
 @Composable
 fun DescriptionLine(formData: DescriptionLineData, viewModel: XS2AWizardViewModel) {
     if (formData.text?.isNotEmpty() == true) {

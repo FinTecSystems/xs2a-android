@@ -33,6 +33,9 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.jsonPrimitive
 
+/**
+ * Shows an TextInput-Field, which is able to perform AutoComplete as well.
+ */
 @Composable
 fun TextLine(formData: TextLineData, viewModel: XS2AWizardViewModel) {
     // We need an reactive value, because formData.value is not reactive.

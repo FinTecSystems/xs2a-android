@@ -9,6 +9,9 @@ import com.fintecsystems.xs2awizard.form.components.shared.FormTextField
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.jsonPrimitive
 
+/**
+ * Renders an Password-TextField.
+ */
 @Composable
 fun PasswordLine(formData: PasswordLineData) {
     var textFieldValue by remember {
