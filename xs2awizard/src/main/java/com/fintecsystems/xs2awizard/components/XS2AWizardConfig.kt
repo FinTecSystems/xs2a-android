@@ -2,6 +2,9 @@ package com.fintecsystems.xs2awizard.components
 
 import com.fintecsystems.xs2awizard.components.theme.IXS2ATheme
 
+/**
+ * Config of the Wizard-Instance
+ */
 data class XS2AWizardConfig(
     val sessionKey: String,
     val backendURL: String? = null,

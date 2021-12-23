@@ -25,13 +25,17 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.net.toUri
 import com.fintecsystems.xs2awizard.R
-import com.fintecsystems.xs2awizard.XS2AWizardViewModel
+import com.fintecsystems.xs2awizard.components.XS2AWizardViewModel
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.components.webview.XS2AJavascriptInterface.XS2AJavascriptInterfaceCallback
 import com.fintecsystems.xs2awizard.helper.Utils
 import kotlinx.coroutines.launch
 
-
+/**
+ * Renders a WebView with a ToolBar.
+ *
+ * @param viewModel ViewModel of the Wizard-Instance.
+ */
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
 fun URLBarWebView(viewModel: XS2AWizardViewModel) {

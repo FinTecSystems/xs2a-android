@@ -1,5 +1,8 @@
 package com.fintecsystems.xs2awizard.components
 
+/**
+ * Enum-Like-Class to differentiate the different Wizard-Errors.
+ */
 sealed class XS2AWizardError(val code: String, val recoverable: Boolean) {
     /**
     Login to bank failed (e.g. invalid login credentials)
