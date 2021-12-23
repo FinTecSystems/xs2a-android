@@ -3,6 +3,7 @@ package com.fintecsystems.xs2awizard.components.theme
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.colorspace.ColorSpaces
 import androidx.compose.ui.text.font.*
 import androidx.compose.ui.unit.Dp
