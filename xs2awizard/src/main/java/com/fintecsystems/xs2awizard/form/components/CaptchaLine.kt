@@ -15,6 +15,8 @@ import kotlinx.serialization.json.jsonPrimitive
 
 /**
  * Displays an Captcha-Element with a [FormTextField] below it.
+ *
+ * @param formData Data of this FormLine
  */
 @Composable
 fun CaptchaLine(formData: CaptchaLineData) {

@@ -17,6 +17,8 @@ import com.fintecsystems.xs2awizard.helper.Utils
 
 /**
  * Displays a Image.
+ *
+ * @param formData Data of this FormLine
  */
 @Composable
 fun ImageLine(formData: ImageLineData) {

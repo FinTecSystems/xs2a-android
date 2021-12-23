@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.fintecsystems.xs2awizard.XS2AWizardViewModel
+import com.fintecsystems.xs2awizard.components.XS2AWizardViewModel
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.RedirectLineData
 import com.fintecsystems.xs2awizard.form.components.shared.FormButton
@@ -15,6 +15,9 @@ import com.fintecsystems.xs2awizard.form.components.shared.FormButton
  * Renders two Buttons.
  * First to open the supplied URL in an WebView.
  * Second to perform back-action in form.
+ *
+ * @param formData Data of this FormLine
+ * @param viewModel ViewModel of the Wizard-Instance.
  */
 @Composable
 fun RedirectLine(formData: RedirectLineData, viewModel: XS2AWizardViewModel) {

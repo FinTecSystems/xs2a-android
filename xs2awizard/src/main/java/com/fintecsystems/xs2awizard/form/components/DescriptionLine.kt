@@ -7,7 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.sp
-import com.fintecsystems.xs2awizard.XS2AWizardViewModel
+import com.fintecsystems.xs2awizard.components.XS2AWizardViewModel
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.DescriptionLineData
 import com.fintecsystems.xs2awizard.helper.MarkupParser
@@ -15,6 +15,9 @@ import com.fintecsystems.xs2awizard.helper.Utils.getActivity
 
 /**
  * Displays an description text
+ *
+ * @param formData Data of this FormLine
+ * @param viewModel ViewModel of the Wizard-Instance.
  */
 @Composable
 fun DescriptionLine(formData: DescriptionLineData, viewModel: XS2AWizardViewModel) {

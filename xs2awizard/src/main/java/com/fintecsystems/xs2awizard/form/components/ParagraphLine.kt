@@ -11,7 +11,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import com.fintecsystems.xs2awizard.XS2AWizardViewModel
+import com.fintecsystems.xs2awizard.components.XS2AWizardViewModel
 import com.fintecsystems.xs2awizard.components.theme.PaddingMarginConfiguration
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.ParagraphLineData
@@ -23,6 +23,9 @@ import com.fintecsystems.xs2awizard.helper.Utils.getActivity
  * Shows an title and description text.
  *
  * Can be elevated into an info-/error- or warning-alert.
+ *
+ * @param formData Data of this FormLine
+ * @param viewModel ViewModel of the Wizard-Instance.
  */
 @Composable
 fun ParagraphLine(formData: ParagraphLineData, viewModel: XS2AWizardViewModel) {

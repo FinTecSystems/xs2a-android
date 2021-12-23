@@ -15,6 +15,9 @@ import com.fintecsystems.xs2awizard.form.components.shared.FormText
 /**
  * Container of most value-based FormLines.
  * Displays an label above the FormLine.
+ *
+ * @param label Label of the content
+ * @param content Content of the container.
  */
 @Composable
 fun LabelledContainer(label: String?, content: @Composable ColumnScope.() -> Unit) {

@@ -11,6 +11,8 @@ import kotlinx.serialization.json.jsonPrimitive
 
 /**
  * Renders an Password-TextField.
+ *
+ * @param formData Data of this FormLine
  */
 @Composable
 fun PasswordLine(formData: PasswordLineData) {

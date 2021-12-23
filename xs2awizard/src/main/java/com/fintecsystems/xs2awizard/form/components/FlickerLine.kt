@@ -31,6 +31,8 @@ import kotlin.math.min
 
 /**
  * Displays an Flicker-Element with a [FormTextField] below it.
+ *
+ * @param formData Data of this FormLine
  */
 @Composable
 fun FlickerLine(formData: FlickerLineData) {

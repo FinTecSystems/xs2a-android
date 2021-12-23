@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
 import com.fintecsystems.xs2awizard.R
-import com.fintecsystems.xs2awizard.XS2AWizardViewModel
+import com.fintecsystems.xs2awizard.components.XS2AWizardViewModel
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.LogoLineData
 import com.fintecsystems.xs2awizard.form.components.shared.FormText
@@ -30,6 +30,9 @@ import com.fintecsystems.xs2awizard.helper.Utils.getActivity
 
 /**
  * Displays the FTS-Logo and shows the FTS-Imprint in an Alert on click.
+ *
+ * @param formData Data of this FormLine
+ * @param viewModel ViewModel of the Wizard-Instance.
  */
 @Composable
 fun LogoLine(formData: LogoLineData, viewModel: XS2AWizardViewModel) {

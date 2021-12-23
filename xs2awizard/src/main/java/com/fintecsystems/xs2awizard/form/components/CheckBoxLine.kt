@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
-import com.fintecsystems.xs2awizard.XS2AWizardViewModel
+import com.fintecsystems.xs2awizard.components.XS2AWizardViewModel
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.CheckBoxLineData
 import com.fintecsystems.xs2awizard.helper.MarkupParser
@@ -22,6 +22,9 @@ import kotlinx.serialization.json.jsonPrimitive
 
 /**
  * Displays a CheckBox with a description text.
+ *
+ * @param formData Data of this FormLine
+ * @param viewModel ViewModel of the Wizard-Instance.
  */
 @Composable
 fun CheckBoxLine(formData: CheckBoxLineData, viewModel: XS2AWizardViewModel) {

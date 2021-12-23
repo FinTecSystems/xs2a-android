@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
 import androidx.compose.ui.window.PopupProperties
 import com.fintecsystems.xs2awizard.R
-import com.fintecsystems.xs2awizard.XS2AWizardViewModel
+import com.fintecsystems.xs2awizard.components.XS2AWizardViewModel
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.TextLineData
 import com.fintecsystems.xs2awizard.form.components.LabelledContainer
@@ -35,6 +35,9 @@ import kotlinx.serialization.json.jsonPrimitive
 
 /**
  * Shows an TextInput-Field, which is able to perform AutoComplete as well.
+ *
+ * @param formData Data of this FormLine
+ * @param viewModel ViewModel of the Wizard-Instance.
  */
 @Composable
 fun TextLine(formData: TextLineData, viewModel: XS2AWizardViewModel) {
