@@ -28,4 +28,7 @@ object XS2AColors {
 
     val unselected = Color.Gray
     val disabled = Color.LightGray
+
+    val unselectedDark = Color.LightGray
+    val disabledDark = Color.Gray
 }

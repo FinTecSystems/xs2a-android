@@ -18,4 +18,7 @@ object XS2AThemeDark : IXS2ATheme by XS2AThemeLight {
     override val webViewIconColor: Color = XS2AColors.textColorLight
     override val webViewBackgroundColor: Color = Color.Black
     override val webViewTextColor: Color = XS2AColors.textColorLight
+
+    override val unselectedColor: Color = XS2AColors.unselectedDark
+    override val disabledColor: Color = XS2AColors.disabledDark
 }
