@@ -87,7 +87,7 @@ fun onAbort() {
 ```kotlin
 fun onNetworkError() {
     // A network error occured.
-    // e.g. display an snackbar
+    // e.g. present a error message.
 }
 ```
 
