@@ -7,6 +7,8 @@
 ## Installation
 [![Maven Central](https://img.shields.io/maven-central/v/com.fintecsystems/xs2awizard.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22com.fintecsystems%22%20AND%20a:%22xs2awizard%22)
 
+> Your projects `minSDK` has to be 21 or higher.
+
 Add the dependency to your `build.gradle`.
 
 ```gradle
@@ -166,7 +168,7 @@ val theme = object : IXS2ATheme by XS2AThemeLight {
 }
 ```
 
-It's recommended to use `XS2AThemeLight` or `XS2AThemeDark` as your Base, please use [Delegation](https://kotlinlang.org/docs/delegation.html) to further customize your theme.
+> It's recommended to use `XS2AThemeLight` or `XS2AThemeDark` as your Base, please use [Delegation](https://kotlinlang.org/docs/delegation.html) to further customize your theme.
 
 Please refer to [here](xs2awizard/src/main/java/com/fintecsystems/xs2awizard/components/theme/IXS2ATheme.kt) for all customizable attributes.
 
@@ -179,7 +181,7 @@ For these please use the support classes
   - [`SupportShape`](xs2awizard/src/main/java/com/fintecsystems/xs2awizard/components/theme/support/SupportShape.kt)
   - [`SupportFontFamily`](xs2awizard/src/main/java/com/fintecsystems/xs2awizard/components/theme/support/SupportFontFamily.kt)
 
-Because `ButtonStyle`, `ParagraphStyle`, `PaddingMarginConfiguration` and `LogoVariation` are custom classes, they already have proper non-compose support.
+> Because `ButtonStyle`, `ParagraphStyle`, `PaddingMarginConfiguration` and `LogoVariation` are custom classes, they already have proper non-compose support.
 
 And instead of creating an implementation of `IXS2ATheme` yourself, create an instance of [`XS2ASupportTheme`](xs2awizard/src/main/java/com/fintecsystems/xs2awizard/components/theme/support/XS2ASupportTheme.kt) and pass your overrides to the constructor.
 
