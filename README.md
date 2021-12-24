@@ -37,25 +37,35 @@ val xs2aConfig = XS2AWizardConfig(
     backendURL = "http://localhost:8000", // Optional
     onFinish = ::onFinish, // See Callbacks
     onAbort = ::onAbort, // See Callbacks
-    onError = ::onError, // See Callbacks
-    styleResId = R.style.CustomXS2ATheme // See Styling
+    onError = ::onError, // Optional, see Callbacks
+    onNetworkError = ::onNetworkError, // Optional, see Callbacks
+    theme = XS2AThemeLight // Optional, see Customization
 )
 ```
 
-2. Initialize the wizard.
+<details>
+    <summary>Fragment</summary>
 
 ```kotlin
-val xs2aWizard = XS2AWizard(xs2aConfig)
-```
+// 2. Initialize the wizard.
+val xs2aWizard = XS2AWizardFragment(xs2aConfig)
 
-3. Add the wizard to your view.
-
-```kotlin
+// 3. Add the wizard to your view.
 supportFragmentManager.beginTransaction().apply {
     add(R.id.xs2a_container, xs2aWizard)
     commit()
 }
 ```
+</details>
+
+<details>
+    <summary>Jetpack Compose</summary>
+
+```kotlin
+// 2. Call the composable.
+XS2AWizard(xS2AWizardConfig = xs2aConfig)
+```
+</details>
 
 ## Callbacks
 
@@ -75,15 +85,67 @@ fun onAbort() {
 ```
 
 ```kotlin
-data class XS2AWizardError(
-    val errorCode: String,
-    val messages: List<String>,
-    val recoverable: Boolean, // Can this transaction be continued?
-)
+fun onNetworkError() {
+    // A network error occured.
+    // e.g. display an snackbar
+}
+```
 
+<details>
+    <summary>Error Codes</summary>
+
+```kotlin
+sealed class XS2AWizardError(
+    val code: String, // The error code, only relevant with "Other"
+    val recoverable: Boolean, // Can this transaction continue?
+) {
+    /**
+    Login to bank failed (e.g. invalid login credentials)
+     */
+    class LoginFailed(recoverable: Boolean) : XS2AWizardError
+
+    /**
+    The customer's session has timed out.
+     */
+    class SessionTimeout(recoverable: Boolean) : XS2AWizardError
+
+    /**
+    User entered invalid TAN.
+     */
+    class TanFailed(recoverable: Boolean) : XS2AWizardError
+
+    /**
+    An unknown or unspecified error occurred.
+     */
+    class TechError(recoverable: Boolean) : XS2AWizardError
+
+    /**
+    An error occurred using testmode settings.
+     */
+    class TestmodeError(recoverable: Boolean) : XS2AWizardError
+
+    /**
+    A transaction is not possible for various reasons.
+     */
+    class TransNotPossible(recoverable: Boolean) : XS2AWizardError
+
+    /**
+    Validation error (e.g. entered letters instead of numbers).
+     */
+    class ValidationFailed(recoverable: Boolean) : XS2AWizardError
+
+    /**
+    A different error occurred.
+     */
+    class Other(code: String, recoverable: Boolean) : XS2AWizardError
+}
+```
+</details>
+
+```kotlin
 fun onError(xs2aWizardError: XS2AWizardError) {
-    // A technical error occurred.
-    // e.g. present a error view.
+    // A Session error occurred.
+    // e.g. present a error message.
 }
 ```
 
