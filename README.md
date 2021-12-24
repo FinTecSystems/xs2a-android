@@ -179,6 +179,8 @@ For these please use the support classes
   - [`SupportShape`](xs2awizard/src/main/java/com/fintecsystems/xs2awizard/components/theme/support/SupportShape.kt)
   - [`SupportFontFamily`](xs2awizard/src/main/java/com/fintecsystems/xs2awizard/components/theme/support/SupportFontFamily.kt)
 
+Because `ButtonStyle`, `ParagraphStyle`, `PaddingMarginConfiguration` and `LogoVariation` are custom classes, they already have proper non-compose support.
+
 And instead of creating an implementation of `IXS2ATheme` yourself, create an instance of [`XS2ASupportTheme`](xs2awizard/src/main/java/com/fintecsystems/xs2awizard/components/theme/support/XS2ASupportTheme.kt) and pass your overrides to the constructor.
 
 ```kotlin
