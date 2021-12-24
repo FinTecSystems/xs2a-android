@@ -186,9 +186,13 @@ val theme = XS2ASupportTheme(
     tintColor = SupportColor("#FF0000"),
     backgroundColor = SupportColor(255, 255, 255, 255),
     submitButtonStyle = ButtonStyle(
-        backgroundColor = SupportColor("#0000FF"), // Provide a color string
-        textColor = SupportColor(android.graphics.Color.WHITE) // Or Color-Int
-    )
+        backgroundColor = SupportColor("#0000FF"),
+        textColor = SupportColor(android.graphics.Color.WHITE)
+    ),
+    buttonShape = SupportShape(
+        45,
+        SupportShape.ShapeType.ROUNDED
+    ),
 )
 ```
 
