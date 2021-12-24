@@ -24,7 +24,7 @@ class XS2AWizardFragment(
         return ComposeView(requireContext()).apply {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
-                XS2AWizard(xS2AWizardConfig)
+                XS2AWizard(xS2AWizardConfig = xS2AWizardConfig)
             }
         }
     }

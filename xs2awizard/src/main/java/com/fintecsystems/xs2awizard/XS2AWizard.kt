@@ -30,6 +30,7 @@ import com.fintecsystems.xs2awizard.form.components.textLine.TextLine
  */
 @Composable
 fun XS2AWizard(
+    modifier: Modifier = Modifier,
     xS2AWizardConfig: XS2AWizardConfig,
     xs2aWizardViewModel: XS2AWizardViewModel = viewModel()
 ) {
@@ -49,32 +50,34 @@ fun XS2AWizard(
 
     // Render
     XS2ATheme(xS2ATheme = xS2AWizardConfig.theme) {
-        Box(
-            modifier = Modifier
-                .background(XS2ATheme.CURRENT.backgroundColor)
-                .padding(10.dp, 5.dp),
-        ) {
-            form?.let {
-                FormLinesContainer(it, xs2aWizardViewModel)
-            }
-        }
-
-        if (loadingIndicatorLock) {
+        Box(modifier) {
             Box(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .background(XS2ATheme.CURRENT.loadingIndicatorBackgroundColor),
+                    .background(XS2ATheme.CURRENT.backgroundColor)
+                    .padding(10.dp, 5.dp),
             ) {
-                CircularProgressIndicator(
-                    modifier = Modifier.align(Alignment.Center),
-                    color = XS2ATheme.CURRENT.tintColor
-                )
-
+                form?.let {
+                    FormLinesContainer(it, xs2aWizardViewModel)
+                }
             }
-        }
 
-        if (currentWebViewUrl != null)
-            URLBarWebView(xs2aWizardViewModel)
+            if (loadingIndicatorLock) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(XS2ATheme.CURRENT.loadingIndicatorBackgroundColor),
+                ) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.align(Alignment.Center),
+                        color = XS2ATheme.CURRENT.tintColor
+                    )
+
+                }
+            }
+
+            if (currentWebViewUrl != null)
+                URLBarWebView(xs2aWizardViewModel)
+        }
     }
 }
 
