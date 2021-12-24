@@ -166,7 +166,7 @@ val theme = object : IXS2ATheme by XS2AThemeLight {
 }
 ```
 
-It's recommended to use `XS2AThemeLight` or `XS2AThemeLight` as your Base, please use [Delegation](https://kotlinlang.org/docs/delegation.html) to further customize your theme.
+It's recommended to use `XS2AThemeLight` or `XS2AThemeDark` as your Base, please use [Delegation](https://kotlinlang.org/docs/delegation.html) to further customize your theme.
 
 Please refer to [here](xs2awizard/src/main/java/com/fintecsystems/xs2awizard/components/theme/IXS2ATheme.kt) for all customizable attributes.
 
