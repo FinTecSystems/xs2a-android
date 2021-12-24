@@ -4,6 +4,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.font.FontFamily
 import com.fintecsystems.xs2awizard.components.theme.styles.ButtonStyle
+import com.fintecsystems.xs2awizard.components.theme.styles.LogoVariation
+import com.fintecsystems.xs2awizard.components.theme.styles.PaddingMarginConfiguration
 import com.fintecsystems.xs2awizard.components.theme.styles.ParagraphStyle
 
 /**

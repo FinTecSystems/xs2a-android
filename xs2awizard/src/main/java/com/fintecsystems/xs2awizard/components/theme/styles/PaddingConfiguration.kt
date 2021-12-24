@@ -1,4 +1,4 @@
-package com.fintecsystems.xs2awizard.components.theme
+package com.fintecsystems.xs2awizard.components.theme.styles
 
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp

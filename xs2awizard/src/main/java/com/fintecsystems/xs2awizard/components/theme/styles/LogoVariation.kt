@@ -1,4 +1,4 @@
-package com.fintecsystems.xs2awizard.components.theme
+package com.fintecsystems.xs2awizard.components.theme.styles
 
 /**
  * Variations of the FTS-Logo

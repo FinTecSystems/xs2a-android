@@ -23,9 +23,8 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
 import com.fintecsystems.xs2awizard.R
 import com.fintecsystems.xs2awizard.components.XS2AWizardViewModel
-import com.fintecsystems.xs2awizard.components.theme.LogoVariation
+import com.fintecsystems.xs2awizard.components.theme.styles.LogoVariation
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
-import com.fintecsystems.xs2awizard.form.LogoLineData
 import com.fintecsystems.xs2awizard.form.components.shared.FormText
 import com.fintecsystems.xs2awizard.helper.Utils.getActivity
 

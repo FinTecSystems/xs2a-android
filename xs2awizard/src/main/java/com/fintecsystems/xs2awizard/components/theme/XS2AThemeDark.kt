@@ -1,6 +1,7 @@
 package com.fintecsystems.xs2awizard.components.theme
 
 import androidx.compose.ui.graphics.Color
+import com.fintecsystems.xs2awizard.components.theme.styles.LogoVariation
 
 /**
  * Implementation of a Dark-Theme

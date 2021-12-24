@@ -12,7 +12,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.fintecsystems.xs2awizard.components.XS2AWizardViewModel
-import com.fintecsystems.xs2awizard.components.theme.PaddingMarginConfiguration
+import com.fintecsystems.xs2awizard.components.theme.styles.PaddingMarginConfiguration
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.ParagraphLineData
 import com.fintecsystems.xs2awizard.form.components.shared.FormText
