@@ -149,163 +149,48 @@ fun onError(xs2aWizardError: XS2AWizardError) {
 }
 ```
 
-## Styling
+## Customization
 
 You are able to define your own theme for the wizard.
 An example would be the following:
 
-`res/values/styles.xml`
-```xml
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <style name="CustomXS2ATheme" parent="XS2ATheme">
-        <!-- Just change the primary color -->
-        <item name="xs2a_tintColor">#E91E63</item>
-        <item name="xs2a_placeholderColor">#E91E63</item>
-        
-        <!-- Apply more styling -->
-    </style>
-</resources>
+```kotlin
+val theme = object : IXS2ATheme by XS2AThemeLight {
+    override val tintColor: Color = Color.Red
+    override val backgroundColor: Color = Color("#FFFFFF".toColorInt())
+
+    override val submitButtonStyle: ButtonStyle = ButtonStyle(
+        backgroundColor = Color.Blue,
+        textColor = Color.White
+    )
+}
 ```
 
-<details>
-    <summary>The following attributes are styleable:</summary>
+It's recommended to use `XS2AThemeLight` or `XS2AThemeLight` as your Base, please use [Delegation](https://kotlinlang.org/docs/delegation.html) to further customize your theme.
 
+Please refer to [here](xs2awizard/src/main/java/com/fintecsystems/xs2awizard/components/theme/IXS2ATheme.kt) for all customizable attributes.
+
+### Support customization
+
+In non-compose projects you won't have access to classes like `Color`, `Shape` and `FontFamily`.
+
+For these please use the support classes
+  - [`SupportColor`](xs2awizard/src/main/java/com/fintecsystems/xs2awizard/components/theme/support/SupportColor.kt)
+  - [`SupportShape`](xs2awizard/src/main/java/com/fintecsystems/xs2awizard/components/theme/support/SupportShape.kt)
+  - [`SupportFontFamily`](xs2awizard/src/main/java/com/fintecsystems/xs2awizard/components/theme/support/SupportFontFamily.kt)
+
+And instead of creating an implementation of `IXS2ATheme` yourself, create an instance of [`XS2ASupportTheme`](xs2awizard/src/main/java/com/fintecsystems/xs2awizard/components/theme/support/XS2ASupportTheme.kt) and pass your overrides to the constructor.
+
+```kotlin
+val theme = XS2ASupportTheme(
+    tintColor = SupportColor("#FF0000"),
+    backgroundColor = SupportColor(255, 255, 255, 255),
+    submitButtonStyle = ButtonStyle(
+        backgroundColor = SupportColor("#0000FF"), // Provide a color string
+        textColor = SupportColor(android.graphics.Color.WHITE) // Or Color-Int
+    )
+)
 ```
-xs2a_tintColor
-xs2a_textColor
-xs2a_fontFamily
-
-xs2a_textInput_backgroundColor
-xs2a_textInputShapeAppearance // Refer to "Shape customization"
-
-xs2a_placeholderColor
-xs2a_backgroundColor
-
-xs2a_loadingIndicatorColor // Is xs2a_tintColor if left empty
-xs2a_loadingIndicatorBackgroundColor
-
-
-xs2a_paragraph_cornerRadius
-xs2a_paragraph_cornerRadiusTopLeft
-xs2a_paragraph_cornerRadiusTopRight
-xs2a_paragraph_cornerRadiusBottomLeft
-xs2a_paragraph_cornerRadiusBottomRight
-
-xs2a_paragraph_containerMarginHorizontal
-
-xs2a_paragraph_containerPadding
-xs2a_paragraph_containerPaddingHorizontal
-xs2a_paragraph_containerPaddingVertical
-
-xs2a_paragraph_background_color
-xs2a_paragraph_text_color
-
-xs2a_paragraph_error_background_color
-xs2a_paragraph_error_text_color
-
-xs2a_paragraph_info_background_color
-xs2a_paragraph_info_text_color
-
-xs2a_paragraph_warning_background_color
-xs2a_paragraph_warning_text_color
-
-
-xs2a_buttonShapeAppearance // Refer to "Shape customization"
-
-xs2a_button_submit_background_color
-xs2a_button_submit_text_color
-
-xs2a_button_abort_background_color
-xs2a_button_abort_text_color
-
-xs2a_button_back_background_color
-xs2a_button_back_text_color
-
-xs2a_button_restart_background_color
-xs2a_button_restart_text_color
-
-xs2a_button_redirect_background_color
-xs2a_button_redirect_text_color
-
-xs2a_webview_iconColor
-xs2a_webview_backgroundColor
-xs2a_webview_borderColor
-xs2a_webview_textColor
-```
-</details>
-
-### Shape customization
-
-To customize the look of the Buttons and Text-Inputs you can use `xs2a_buttonShapeAppearance` and `xs2a_textInputShapeAppearance`.
-Please refer to the official [material documentation](https://material.io/develop/android/theming/shape) for all available
-properties.
-
-<details>
-    <summary>Example</summary>
-
-`res/values/styles.xml`
-```xml
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <style name="CustomXS2ATheme" parent="XS2ATheme">
-        <item name="xs2a_buttonShapeAppearance">@style/CustomXS2ATheme.ButtonShapeAppearance</item>
-        <item name="xs2a_textInputShapeAppearance">@style/CustomXS2ATheme.InputShapeAppearance</item>
-    </style>
-    <style name="CustomXS2ATheme.ButtonShapeAppearance">
-        <item name="cornerSize">20dp</item>
-    </style>
-    <style name="CustomXS2ATheme.InputShapeAppearance">
-        <item name="cornerSize">20dp</item>
-        <item name="cornerFamily">cut</item>
-    </style>
-</resources>
-```
-</details>
-
-### Paragraph customization
-
-Per default the background of the paragraph-element stretches the entire width of the container.
-![image](https://user-images.githubusercontent.com/54634184/141505929-b2b8a2b1-9b7b-432a-941d-b04a62187db4.png)
-
-If you prefer to change that, you can customize that to your liking.<br>
-You're able to change the corner radius of the background, the horizontal margin of the container
-and the padding of the content.
-
-Please mind that `xs2a_paragraph_containerMarginHorizontal` ignores normal paragraphs and only
-applies to error-, info- and warning-paragraphs.
-
-```
-xs2a_paragraph_cornerRadius
-xs2a_paragraph_cornerRadiusTopLeft
-xs2a_paragraph_cornerRadiusTopRight
-xs2a_paragraph_cornerRadiusBottomLeft
-xs2a_paragraph_cornerRadiusBottomRight
-
-xs2a_paragraph_containerMarginHorizontal
-
-xs2a_paragraph_containerPadding
-xs2a_paragraph_containerPaddingHorizontal
-xs2a_paragraph_containerPaddingVertical
-```
-
-<details>
-    <summary>Example</summary>
-
-![image](https://user-images.githubusercontent.com/54634184/141506008-182238ce-2580-46a9-aabe-1ed574f46436.png)
-    
-`res/values/styles.xml`
-```xml
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <style name="CustomXS2ATheme" parent="XS2ATheme">
-        <item name="xs2a_paragraph_containerMarginHorizontal">10dp</item>
-        <item name="xs2a_paragraph_containerPaddingVertical">5dp</item>
-        <item name="xs2a_paragraph_cornerRadius">4dp</item>
-    </style>
-</resources>
-```
-</details>
 
 ## Example (Kotlin)
 <details>
