@@ -209,35 +209,55 @@ val theme = XS2ASupportTheme(
 )
 ```
 
-## Example (Kotlin)
+## Example (Jetpack Compose)
 <details>
-    <summary>Style file</summary>
+    <summary>Code</summary>
 
-`res/values/styles.xml`
-```xml
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <style name="CustomXS2ATheme" parent="XS2ATheme">
-        <item name="xs2a_tintColor">#E91E63</item>
-        <item name="xs2a_placeholderColor">#E91E63</item>
+`java/com/fintecsystems/xs2awizard_example/MainActivity.kt`
+```kotlin
+package com.fintecsystems.xs2awizard_example
 
-        <item name="xs2a_button_submit_background_color">#E91E63</item>
-        <item name="xs2a_button_submit_text_color">#000</item>
-        <item name="xs2a_button_abort_background_color">#E91E63</item>
-        <item name="xs2a_button_abort_text_color">#000</item>
-        <item name="xs2a_button_back_background_color">#673AB7</item>
-        <item name="xs2a_button_back_text_color">#fff</item>
-        <item name="xs2a_button_restart_background_color">#ffff00</item>
-        <item name="xs2a_button_restart_text_color">#000</item>
-        <item name="xs2a_button_redirect_background_color">#000</item>
-        <item name="xs2a_button_redirect_text_color">#fff</item>
-    </style>
-</resources>
+import android.os.Bundle
+import android.util.Log
+import androidx.activity.compose.setContent
+import androidx.appcompat.app.AppCompatActivity
+import com.fintecsystems.xs2awizard.XS2AWizard
+import com.fintecsystems.xs2awizard.components.XS2AWizardConfig
+import com.fintecsystems.xs2awizard.components.theme.XS2AThemeLight
+
+
+private const val TAG = "MainActivity"
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setContent {
+            val xS2AWizardConfig = XS2AWizardConfig(
+                sessionKey = "your-session-key",
+                onFinish = ::onFinish,
+                onAbort = ::onAbort,
+                theme = XS2AThemeLight,
+            )
+
+            XS2AWizard(xS2AWizardConfig = xS2AWizardConfig)
+        }
+    }
+
+    private fun onFinish(credentials: String?) {
+        Log.d(TAG, "onFinish: $credentials")
+    }
+
+    private fun onAbort() {
+        Log.d(TAG, "onAbort")
+    }
+}
 ```
 </details>
 
+## Example (Fragment)
 <details>
-    <summary>Layout file</summary>
+    <summary>Layout</summary>
 
 `res/layout/activity_main.xml`
 ```xml
@@ -257,7 +277,7 @@ val theme = XS2ASupportTheme(
 </details>
 
 <details>
-    <summary>Code File</summary>
+    <summary>Code</summary>
 
 `java/com/fintecsystems/xs2awizard_example/MainActivity.kt`
 ```kotlin
@@ -266,8 +286,9 @@ package com.fintecsystems.xs2awizard_example
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.fintecsystems.xs2awizard.XS2AWizard
-import com.fintecsystems.xs2awizard.XS2AWizard.XS2AWizardConfig
+import com.fintecsystems.xs2awizard.components.XS2AWizardConfig
+import com.fintecsystems.xs2awizard.components.theme.XS2AThemeLight
+import com.fintecsystems.xs2awizard.wrappers.XS2AWizardFragment
 
 
 private const val TAG = "MainActivity"
@@ -279,12 +300,12 @@ class MainActivity : AppCompatActivity() {
 
         val xS2AWizardConfig = XS2AWizardConfig(
             sessionKey = "your-session-key",
-            styleResId = R.style.CustomXS2ATheme,
             onFinish = ::onFinish,
             onAbort = ::onAbort,
+            theme = XS2AThemeLight,
         )
 
-        val xs2aWizard = XS2AWizard(xS2AWizardConfig)
+        val xs2aWizard = XS2AWizardFragment(xS2AWizardConfig)
 
         supportFragmentManager.beginTransaction().let {
             it.add(R.id.xs2a_wizard_container, xs2aWizard)
