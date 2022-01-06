@@ -77,7 +77,7 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
      * Tells the server to go one step back and calls onBack if supplied.
      */
     fun goBack() {
-        config.onBack(currentStep)
+        config.onBack()
 
         submitForm(
             buildJsonObject

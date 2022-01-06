@@ -17,7 +17,6 @@ import com.fintecsystems.xs2awizard.components.theme.IXS2ATheme
  * @property onStep Called when a new Wizard-Step is reached.
  *                  Supplies the new step, may be null if the step is unknown e.g. on success.
  * @property onBack Called when the Back-Button of the form is pressed.
- *                  Supplies the current step at the moment of pressing the button.
  * @property theme Theme to be used.
  *                 If null the default Light- or Dark-Theme, depending on the device settings, is used.
  */
@@ -29,6 +28,6 @@ data class XS2AWizardConfig(
     val onError: (XS2AWizardError) -> Unit = {},
     val onNetworkError: () -> Unit = {},
     val onStep: (XS2AWizardStep?) -> Unit = {},
-    val onBack: (XS2AWizardStep?) -> Unit = {},
+    val onBack: () -> Unit = {},
     val theme: IXS2ATheme? = null,
 )
