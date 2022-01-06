@@ -56,6 +56,7 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
         loadingIndicatorLock.value = false
         currentWebViewUrl.value = null
         form.value = emptyList()
+        currentStep = null
     }
 
     /**
