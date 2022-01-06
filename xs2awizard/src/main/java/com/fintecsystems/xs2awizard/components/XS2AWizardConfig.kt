@@ -12,5 +12,7 @@ data class XS2AWizardConfig(
     val onAbort: () -> Unit,
     val onError: (XS2AWizardError) -> Unit = {},
     val onNetworkError: () -> Unit = {},
+    val onStep: (XS2AWizardStep?) -> Unit = {},
+    val onBack: (XS2AWizardStep?) -> Unit = {},
     val theme: IXS2ATheme? = null,
 )

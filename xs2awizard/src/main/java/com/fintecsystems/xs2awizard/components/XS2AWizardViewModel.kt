@@ -37,6 +37,9 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
     private val context: Context
         get() = getApplication<Application>().applicationContext
 
+    var currentStep: XS2AWizardStep? = null
+        private set
+
     fun onStart(_config: XS2AWizardConfig) {
         config = _config
 
@@ -70,13 +73,19 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
     )
 
     /**
-     * Tells the server to go one step back
+     * Tells the server to go one step back and calls onBack if supplied.
      */
-    fun goBack() = submitForm(
-        buildJsonObject {
-            put("action", JsonPrimitive("back"))
-        }
-    )
+    fun goBack() {
+        config.onBack(currentStep)
+
+        submitForm(
+            buildJsonObject
+            {
+                put("action", JsonPrimitive("back"))
+            }
+        )
+    }
+
 
     /**
      * Tells the server to abort the session
@@ -239,7 +248,7 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
     }
 
     /**
-     * Parses [FormResponse] for possible callbacks
+     * Parses [FormResponse] for possible callbacks and calls onStep if necessary and provided.
      *
      * @param response [FormResponse] to parse.
      */
@@ -247,6 +256,11 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
         when (response.callback) {
             "finish" -> config.onFinish(response.callbackParams?.getOrNull(0)?.jsonPrimitive?.content)
             "abort" -> config.onAbort()
+            else -> {
+                currentStep = XS2AWizardStep.getRelevantStep(response.callback)
+
+                config.onStep(currentStep)
+            }
         }
 
         if (response.error != null) {
