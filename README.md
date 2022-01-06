@@ -95,6 +95,8 @@ fun onAbort() {
 }
 ```
 
+### Error handling
+
 ```kotlin
 fun onNetworkError() {
     // A network error occured.
@@ -157,6 +159,16 @@ sealed class XS2AWizardError(
 fun onError(xs2aWizardError: XS2AWizardError) {
     // A Session error occurred.
     // e.g. present a error message.
+}
+```
+
+### Wizard-Step handling
+
+```kotlin
+fun onStep(newStep: XS2AWizardStep?) {
+    // The session advanced to a new step
+    // newStep can be null if it's unknown, e.g. when the last response was a success response.
+    // e.g. Save it in your own variable to keep track of the steps.
 }
 ```
 
