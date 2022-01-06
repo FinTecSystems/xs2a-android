@@ -10,7 +10,6 @@ import com.fintecsystems.xs2awizard.components.theme.IXS2ATheme
  * @property onFinish Called when the session is finished successfully.
  *                    When using a XS2A.API session with shared_credentials set to true, the parameter will be
  *                    the shared credential, null otherwise.
- *
  * @property onAbort Called when the user aborted the session.
  * @property onError Called when a Session-Error occurred.
  *                   Supplies the Error.
