@@ -160,6 +160,13 @@ fun onError(xs2aWizardError: XS2AWizardError) {
 }
 ```
 
+```kotlin
+fun onBack() {
+    // The user pressed the Form-Back-Button
+    // e.g. present your own implementation for a feature.
+}
+```
+
 ## Customization
 
 You are able to define your own theme for the wizard.
