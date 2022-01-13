@@ -127,6 +127,8 @@ class TextLineData(
     val overrideType: String? = null,
     @SerialName("maxlength")
     val maxLength: Int? = 0,
+    @SerialName("login_credential")
+    val isLoginCredential: Boolean? = false,
 ) : ValueFormLineData()
 
 @SerialName("password")
@@ -136,6 +138,8 @@ class PasswordLineData(
     override val label: String? = null,
     override var value: JsonElement? = null,
     val placeholder: String? = null,
+    @SerialName("login_credential")
+    val isLoginCredential: Boolean? = false,
 ) : ValueFormLineData()
 
 @SerialName("captcha")
