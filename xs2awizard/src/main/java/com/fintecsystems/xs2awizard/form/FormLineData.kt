@@ -31,6 +31,16 @@ abstract class ValueFormLineData : LabelFormLineData() {
     abstract var value: JsonElement?
 }
 
+/**
+ * [ValueFormLineData] extension for form lines, that could possibly be login-credentials.
+ */
+@Polymorphic
+@Serializable
+abstract class CredentialFormLineData : ValueFormLineData() {
+    @SerialName("login_credential")
+    abstract val isLoginCredential: Boolean?
+}
+
 @Serializable
 data class MultiForm(
     val form: List<FormLineData>,
@@ -119,6 +129,7 @@ class TextLineData(
     override val name: String,
     override val label: String? = null,
     override var value: JsonElement? = null,
+    override val isLoginCredential: Boolean? = false,
     val disabled: Boolean? = false,
     val placeholder: String? = null,
     @SerialName("autocomplete_action")
@@ -127,9 +138,7 @@ class TextLineData(
     val overrideType: String? = null,
     @SerialName("maxlength")
     val maxLength: Int? = 0,
-    @SerialName("login_credential")
-    val isLoginCredential: Boolean? = false,
-) : ValueFormLineData()
+) : CredentialFormLineData()
 
 @SerialName("password")
 @Serializable
@@ -137,10 +146,9 @@ class PasswordLineData(
     override val name: String,
     override val label: String? = null,
     override var value: JsonElement? = null,
+    override val isLoginCredential: Boolean? = false,
     val placeholder: String? = null,
-    @SerialName("login_credential")
-    val isLoginCredential: Boolean? = false,
-) : ValueFormLineData()
+) : CredentialFormLineData()
 
 @SerialName("captcha")
 @Serializable
@@ -175,10 +183,11 @@ class HiddenLineData(
 class CheckBoxLineData(
     override val name: String,
     override val label: String? = null,
+    override val isLoginCredential: Boolean? = false,
     @SerialName("checked")
     override var value: JsonElement? = null,
     val disabled: Boolean? = false,
-) : ValueFormLineData()
+) : CredentialFormLineData()
 
 @SerialName("radio")
 @Serializable
