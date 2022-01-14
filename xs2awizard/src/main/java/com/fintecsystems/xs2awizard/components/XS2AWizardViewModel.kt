@@ -40,6 +40,11 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
     var currentStep: XS2AWizardStep? = null
         private set
 
+    /**
+     * Bank-Transport of this session.
+     */
+    private var provider: String? = null
+
     fun onStart(_config: XS2AWizardConfig) {
         config = _config
 
@@ -261,6 +266,12 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
                 currentStep = XS2AWizardStep.getRelevantStep(response.callback)
 
                 config.onStep(currentStep)
+            }
+        }
+
+        response.callbackParams?.first().let {
+            if (it is JsonObject && it.containsKey("provider")) {
+                provider = (it["provider"] as JsonPrimitive).content
             }
         }
 
