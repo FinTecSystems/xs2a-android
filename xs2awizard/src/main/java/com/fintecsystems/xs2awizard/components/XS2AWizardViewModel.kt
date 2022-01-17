@@ -259,7 +259,7 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
      * @return Parsed Form.
      */
     private fun parseFormForCredentials(form: List<FormLineData>?): List<FormLineData>? {
-        if (form?.any { it is CredentialFormLineData } == true) {
+        if (form?.any { it is CredentialFormLineData && it.isLoginCredential == true } == true) {
             val submitLineIndex = form.indexOfFirst { it is SubmitLineData }
 
             if (submitLineIndex > -1) {
