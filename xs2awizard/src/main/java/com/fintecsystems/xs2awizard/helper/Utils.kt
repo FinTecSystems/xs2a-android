@@ -10,6 +10,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import com.fintecsystems.xs2awizard.R
 import java.util.*
 
@@ -58,6 +61,11 @@ object Utils {
         is ContextWrapper -> baseContext.getActivity()
         else -> null
     }
+
+    /**
+     * Provides easy access to the DataStore instance.
+     */
+    val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
     private val languageWhitelist = listOf("de", "en", "fr", "it", "es")
 
