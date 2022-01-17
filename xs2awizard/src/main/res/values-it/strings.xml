@@ -17,4 +17,5 @@
     <string name="dialog_imprint_message">FinTecSystems GmbH\nGottfried-Keller-Straße 33\n81245 München\n\nTribunale locale: München\nHRB 210653\n\nAutorità di supervisione: Bundesanstalt für Finanzdienstleistungsaufsicht.</string>
     <string name="dialog_imprint_link_text">Per saperne di più</string>
     <string name="no_search_results">Nessun risultato di ricerca</string>
+    <string name="remember_login">Ricorda il login</string>
 </resources>

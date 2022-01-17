@@ -17,4 +17,5 @@
     <string name="dialog_imprint_message">FinTecSystems GmbH\nGottfried-Keller-Straße 33\n81245 München\n\nAmtsgericht München\nHRB 210653\n\nAufsichtsbehörde: Bundesanstalt für Finanzdienstleistungsaufsicht.</string>
     <string name="dialog_imprint_link_text">Mehr Erfahren</string>
     <string name="no_search_results">Keine Suchergebnisse</string>
+    <string name="remember_login">Anmeldung merken</string>
 </resources>

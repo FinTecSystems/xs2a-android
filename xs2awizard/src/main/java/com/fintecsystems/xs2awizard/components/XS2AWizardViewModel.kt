@@ -10,10 +10,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.fintecsystems.xs2awizard.BuildConfig
 import com.fintecsystems.xs2awizard.R
-import com.fintecsystems.xs2awizard.form.FormLineData
-import com.fintecsystems.xs2awizard.form.FormResponse
-import com.fintecsystems.xs2awizard.form.MultiLineData
-import com.fintecsystems.xs2awizard.form.ValueFormLineData
+import com.fintecsystems.xs2awizard.form.*
 import com.fintecsystems.xs2awizard.helper.JSONFormatter
 import com.fintecsystems.xs2awizard.helper.MarkupParser
 import com.fintecsystems.xs2awizard.helper.Utils
@@ -246,11 +243,41 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
             return
         }
 
-        form.value = formResponse.form
+        parseCallback(formResponse)
+
+        form.value = parseFormForCredentials(formResponse.form)
 
         loadingIndicatorLock.value = false
+    }
 
-        parseCallback(formResponse)
+    /**
+     * Parses the Form for Login-Credentials.
+     * If any exists an additional Checkbox will be added to ask for saving.
+     *
+     * @param form Form to parse.
+     *
+     * @return Parsed Form.
+     */
+    private fun parseFormForCredentials(form: List<FormLineData>?): List<FormLineData>? {
+        if (form?.any { it is CredentialFormLineData } == true) {
+            val submitLineIndex = form.indexOfFirst { it is SubmitLineData }
+
+            if (submitLineIndex > -1) {
+                return form.toMutableList().also {
+                    it.add(
+                        submitLineIndex, CheckBoxLineData(
+                            name = rememberLoginName,
+                            label = context.getString(R.string.remember_login),
+                            isLoginCredential = false,
+                            value = JsonPrimitive(false),
+                            disabled = false,
+                        )
+                    )
+                }
+            }
+        }
+
+        return form
     }
 
     /**
@@ -299,5 +326,9 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
      */
     fun closeWebView() {
         currentWebViewUrl.value = null
+    }
+
+    companion object {
+        private const val rememberLoginName = "remember_login"
     }
 }

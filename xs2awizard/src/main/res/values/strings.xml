@@ -27,4 +27,6 @@
     <string name="connection_secure">Connection secure</string>
     <string name="connection_unsecure">Connection unsecure</string>
     <string name="no_search_results">No search results</string>
+
+    <string name="remember_login">Remember login</string>
 </resources>
