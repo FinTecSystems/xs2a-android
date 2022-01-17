@@ -129,6 +129,7 @@ class TextLineData(
     override val name: String,
     override val label: String? = null,
     override var value: JsonElement? = null,
+    @SerialName("login_credential")
     override val isLoginCredential: Boolean? = false,
     val disabled: Boolean? = false,
     val placeholder: String? = null,
@@ -146,6 +147,7 @@ class PasswordLineData(
     override val name: String,
     override val label: String? = null,
     override var value: JsonElement? = null,
+    @SerialName("login_credential")
     override val isLoginCredential: Boolean? = false,
     val placeholder: String? = null,
 ) : CredentialFormLineData()
@@ -183,6 +185,7 @@ class HiddenLineData(
 class CheckBoxLineData(
     override val name: String,
     override val label: String? = null,
+    @SerialName("login_credential")
     override val isLoginCredential: Boolean? = false,
     @SerialName("checked")
     override var value: JsonElement? = null,
