@@ -6,6 +6,9 @@ import android.content.Context
 import android.net.Uri
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.ui.text.AnnotatedString
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.fintecsystems.xs2awizard.BuildConfig
@@ -14,7 +17,10 @@ import com.fintecsystems.xs2awizard.form.*
 import com.fintecsystems.xs2awizard.helper.JSONFormatter
 import com.fintecsystems.xs2awizard.helper.MarkupParser
 import com.fintecsystems.xs2awizard.helper.Utils
+import com.fintecsystems.xs2awizard.helper.Utils.dataStore
 import com.fintecsystems.xs2awizard_networking.NetworkingInstance
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.*
 import java.util.*
@@ -183,6 +189,10 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
             loadingIndicatorLock.value = true
         }
 
+        runBlocking {
+            storeCredentials()
+        }
+
         return NetworkingInstance.getInstance(context)
             .encodeAndSendMessage(
                 jsonBody,
@@ -247,7 +257,62 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
 
         form.value = parseFormForCredentials(formResponse.form)
 
+        runBlocking {
+            tryToAutoFillCredentials()
+        }
+
         loadingIndicatorLock.value = false
+    }
+
+    /**
+     * Encrypts and stores credentials if
+     *  - [provider] exists.
+     *  - Consent has been checked.
+     *  - the phone is secure.
+     * Aborts saving.
+     */
+    private suspend fun storeCredentials() {
+        if (form.value == null || provider.isNullOrEmpty()) return
+
+        val consentCheckBoxLineData =
+            form.value!!.firstOrNull { it is CheckBoxLineData && it.name == rememberLoginName } as CheckBoxLineData?
+
+        if (consentCheckBoxLineData?.value?.jsonPrimitive?.boolean != true) return
+
+        context.dataStore.edit { store ->
+            form.value!!.forEach {
+                if (it is CredentialFormLineData && it.isLoginCredential == true) {
+                    if (it is CheckBoxLineData) store[booleanPreferencesKey(it.getProviderName(provider!!))] =
+                        it.value?.jsonPrimitive?.boolean ?: false
+                    else store[stringPreferencesKey(it.getProviderName(provider!!))] =
+                        it.value?.jsonPrimitive?.content ?: ""
+                }
+            }
+        }
+    }
+
+    /**
+     * Tries to AutoFill stored credentials if:
+     *  - [provider] exists.
+     *  - The Phone is secure.
+     */
+    private suspend fun tryToAutoFillCredentials() {
+        if (form.value == null || provider.isNullOrEmpty()) return
+
+        context.dataStore.data.first().let { store ->
+            form.value!!.forEach {
+                if (it is CredentialFormLineData && it.isLoginCredential == true) {
+                    if (it is CheckBoxLineData) {
+                        val key = booleanPreferencesKey(it.getProviderName(provider!!))
+                        if (store.contains(key)) it.value = JsonPrimitive(store[key])
+                    }
+                    else {
+                        val key = stringPreferencesKey(it.getProviderName(provider!!))
+                        if (store.contains(key)) it.value = JsonPrimitive(store[key])
+                    }
+                }
+            }
+        }
     }
 
     /**

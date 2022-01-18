@@ -39,6 +39,8 @@ abstract class ValueFormLineData : LabelFormLineData() {
 abstract class CredentialFormLineData : ValueFormLineData() {
     @SerialName("login_credential")
     abstract val isLoginCredential: Boolean?
+
+    fun getProviderName(provider: String) = "${provider}_$name"
 }
 
 @Serializable

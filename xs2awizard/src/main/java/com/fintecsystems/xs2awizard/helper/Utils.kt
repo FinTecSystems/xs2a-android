@@ -65,7 +65,7 @@ object Utils {
     /**
      * Provides easy access to the DataStore instance.
      */
-    val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
+    val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "xs2a_credentials")
 
     private val languageWhitelist = listOf("de", "en", "fr", "it", "es")
 
