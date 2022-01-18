@@ -1,5 +1,6 @@
 package com.fintecsystems.xs2awizard.form
 
+import com.fintecsystems.xs2awizard.form.serializers.CheckBoxLineDataSerializer
 import kotlinx.serialization.Polymorphic
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -183,7 +184,7 @@ class HiddenLineData(
 ) : ValueFormLineData()
 
 @SerialName("checkbox")
-@Serializable
+@Serializable(with = CheckBoxLineDataSerializer::class)
 class CheckBoxLineData(
     override val name: String,
     override val label: String? = null,
