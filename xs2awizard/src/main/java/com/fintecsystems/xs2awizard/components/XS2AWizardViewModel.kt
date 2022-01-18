@@ -11,6 +11,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.fintecsystems.xs2awizard.BuildConfig
 import com.fintecsystems.xs2awizard.R
 import com.fintecsystems.xs2awizard.form.*
@@ -20,7 +21,7 @@ import com.fintecsystems.xs2awizard.helper.Utils
 import com.fintecsystems.xs2awizard.helper.Utils.dataStore
 import com.fintecsystems.xs2awizard_networking.NetworkingInstance
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.*
 import java.util.*
@@ -36,6 +37,8 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
     val loadingIndicatorLock = MutableLiveData(false)
 
     val currentWebViewUrl = MutableLiveData<String?>(null)
+
+    val showSaveCredentialsAlert = MutableLiveData(false)
 
     private val context: Context
         get() = getApplication<Application>().applicationContext
@@ -189,7 +192,7 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
             loadingIndicatorLock.value = true
         }
 
-        runBlocking {
+        viewModelScope.launch {
             storeCredentials()
         }
 
@@ -257,9 +260,7 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
 
         form.value = parseFormForCredentials(formResponse.form)
 
-        runBlocking {
-            tryToAutoFillCredentials()
-        }
+        tryToAutoFillCredentials()
 
         loadingIndicatorLock.value = false
     }
@@ -282,7 +283,11 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
         context.dataStore.edit { store ->
             form.value!!.forEach {
                 if (it is CredentialFormLineData && it.isLoginCredential == true) {
-                    if (it is CheckBoxLineData) store[booleanPreferencesKey(it.getProviderName(provider!!))] =
+                    if (it is CheckBoxLineData) store[booleanPreferencesKey(
+                        it.getProviderName(
+                            provider!!
+                        )
+                    )] =
                         it.value?.jsonPrimitive?.boolean ?: false
                     else store[stringPreferencesKey(it.getProviderName(provider!!))] =
                         it.value?.jsonPrimitive?.content ?: ""
@@ -296,22 +301,35 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
      *  - [provider] exists.
      *  - The Phone is secure.
      */
-    private suspend fun tryToAutoFillCredentials() {
+    private fun tryToAutoFillCredentials() {
         if (form.value == null || provider.isNullOrEmpty()) return
+        if (form.value!!.none { it is CredentialFormLineData && it.isLoginCredential == true }) return
 
-        context.dataStore.data.first().let { store ->
-            form.value!!.forEach {
-                if (it is CredentialFormLineData && it.isLoginCredential == true) {
-                    if (it is CheckBoxLineData) {
-                        val key = booleanPreferencesKey(it.getProviderName(provider!!))
-                        if (store.contains(key)) it.value = JsonPrimitive(store[key])
-                    }
-                    else {
-                        val key = stringPreferencesKey(it.getProviderName(provider!!))
-                        if (store.contains(key)) it.value = JsonPrimitive(store[key])
+        showSaveCredentialsAlert.value = true
+    }
+
+    /**
+     * AutoFills credentials from the store.
+     */
+    internal fun autoFillCredentials() {
+        viewModelScope.launch {
+            context.dataStore.data.first().let { store ->
+                form.value!!.forEach {
+                    if (it is CredentialFormLineData && it.isLoginCredential == true) {
+                        if (it is CheckBoxLineData) {
+                            val key = booleanPreferencesKey(it.getProviderName(provider!!))
+                            if (store.contains(key)) it.value = JsonPrimitive(store[key])
+                        } else {
+                            val key = stringPreferencesKey(it.getProviderName(provider!!))
+                            if (store.contains(key)) it.value = JsonPrimitive(store[key])
+                        }
                     }
                 }
             }
+
+            submitForm()
+
+            showSaveCredentialsAlert.value = false
         }
     }
 
