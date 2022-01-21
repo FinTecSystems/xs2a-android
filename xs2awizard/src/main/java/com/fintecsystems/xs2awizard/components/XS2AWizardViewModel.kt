@@ -6,22 +6,17 @@ import android.content.Context
 import android.net.Uri
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.ui.text.AnnotatedString
-import androidx.datastore.preferences.core.booleanPreferencesKey
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKey
 import com.fintecsystems.xs2awizard.BuildConfig
 import com.fintecsystems.xs2awizard.R
 import com.fintecsystems.xs2awizard.form.*
 import com.fintecsystems.xs2awizard.helper.JSONFormatter
 import com.fintecsystems.xs2awizard.helper.MarkupParser
 import com.fintecsystems.xs2awizard.helper.Utils
-import com.fintecsystems.xs2awizard.helper.Utils.dataStore
 import com.fintecsystems.xs2awizard_networking.NetworkingInstance
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.*
 import java.util.*
@@ -50,6 +45,20 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
      * Bank-Transport of this session.
      */
     private var provider: String? = null
+
+    private val masterKey = MasterKey.Builder(context)
+        .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+        .setRequestStrongBoxBacked(true)
+        .setUserAuthenticationRequired(true)
+        .build()
+
+    private val sharedPreferences = EncryptedSharedPreferences.create(
+        context,
+        "xs2a_credentials",
+        masterKey,
+        EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+        EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+    )
 
     fun onStart(_config: XS2AWizardConfig) {
         config = _config
@@ -192,9 +201,7 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
             loadingIndicatorLock.value = true
         }
 
-        viewModelScope.launch {
-            storeCredentials()
-        }
+        storeCredentials()
 
         return NetworkingInstance.getInstance(context)
             .encodeAndSendMessage(
@@ -272,7 +279,7 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
      *  - the phone is secure.
      * Aborts saving.
      */
-    private suspend fun storeCredentials() {
+    private fun storeCredentials() {
         if (form.value == null || provider.isNullOrEmpty()) return
 
         val consentCheckBoxLineData =
@@ -280,19 +287,21 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
 
         if (consentCheckBoxLineData?.value?.jsonPrimitive?.boolean != true) return
 
-        context.dataStore.edit { store ->
+        sharedPreferences.edit().apply {
             form.value!!.forEach {
                 if (it is CredentialFormLineData && it.isLoginCredential == true) {
-                    if (it is CheckBoxLineData) store[booleanPreferencesKey(
-                        it.getProviderName(
-                            provider!!
-                        )
-                    )] =
+                    if (it is CheckBoxLineData) putBoolean(
+                        it.getProviderName(provider!!),
                         it.value?.jsonPrimitive?.boolean ?: false
-                    else store[stringPreferencesKey(it.getProviderName(provider!!))] =
+                    )
+                    else putString(
+                        it.getProviderName(provider!!),
                         it.value?.jsonPrimitive?.content ?: ""
+                    )
                 }
             }
+
+            apply()
         }
     }
 
@@ -312,25 +321,20 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
      * AutoFills credentials from the store.
      */
     internal fun autoFillCredentials() {
-        viewModelScope.launch {
-            context.dataStore.data.first().let { store ->
-                form.value!!.forEach {
-                    if (it is CredentialFormLineData && it.isLoginCredential == true) {
-                        if (it is CheckBoxLineData) {
-                            val key = booleanPreferencesKey(it.getProviderName(provider!!))
-                            if (store.contains(key)) it.value = JsonPrimitive(store[key])
-                        } else {
-                            val key = stringPreferencesKey(it.getProviderName(provider!!))
-                            if (store.contains(key)) it.value = JsonPrimitive(store[key])
-                        }
-                    }
+        form.value!!.forEach {
+            if (it is CredentialFormLineData && it.isLoginCredential == true) {
+                val key = it.getProviderName(provider!!)
+                if (it is CheckBoxLineData) {
+                    if (sharedPreferences.contains(key)) it.value = JsonPrimitive(sharedPreferences.getBoolean(key, false))
+                } else {
+                    if (sharedPreferences.contains(key)) it.value = JsonPrimitive(sharedPreferences.getString(key, ""))
                 }
             }
-
-            submitForm()
-
-            showSaveCredentialsAlert.value = false
         }
+
+        submitForm()
+
+        showSaveCredentialsAlert.value = false
     }
 
     /**
