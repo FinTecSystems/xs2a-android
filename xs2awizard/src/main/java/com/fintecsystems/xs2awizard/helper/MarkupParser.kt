@@ -47,17 +47,18 @@ object MarkupParser {
 
                     // Define start of the annotation
                     val annotationType = regexResult.groupValues[3]
-                    val isUrlAnnotation = annotationType in listOf("autosubmit", "link", "dialog")
+                    val annotationParameter = regexResult.groupValues[5]
+                    val annotationHasParameter = annotationParameter.isNotEmpty()
                     val style =
-                        if (isUrlAnnotation) {
+                        if (annotationHasParameter) {
                             when (annotationType) {
                                 "autosubmit" -> pushStringAnnotation(
                                     tag = "autosubmit",
-                                    annotation = regexResult.groupValues[5]
+                                    annotation = annotationParameter
                                 )
                                 else -> pushStringAnnotation(
                                     tag = "URL",
-                                    annotation = regexResult.groupValues[5]
+                                    annotation = annotationParameter
                                 )
                             }
 
@@ -90,7 +91,7 @@ object MarkupParser {
 
 
                     // Define end of the annotation
-                    if (isUrlAnnotation) pop()
+                    if (annotationHasParameter) pop()
 
                     cursor = regexResult.range.last + 1
                 }
