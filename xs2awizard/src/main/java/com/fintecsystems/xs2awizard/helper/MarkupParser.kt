@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
@@ -11,8 +12,9 @@ import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 
 object MarkupParser {
-    private val markupRegex = Regex("\\[([\\w\\s\\-().'!?]+)\\|(\\w+)::([&=\\w:/\\\\.\\-_]+)]")
-    private val lineBreakRegex = Regex("<br>")
+    private val markupRegex =
+        Regex("\\[([\\w\\s\\-().'!?]+)(\\|(\\w+)(::([&=\\w:/\\\\.\\-_]+))?)?]")
+    private val lineBreakRegex = Regex("[<\\[]br[>\\]]")
     private val middotRegex = Regex("&middot;")
     private val autoSubmitPayloadRegex = Regex("(\\w+)=(\\w+)")
 
@@ -44,30 +46,52 @@ object MarkupParser {
                     append(text.slice(cursor until regexResult.range.first))
 
                     // Define start of the annotation
-                    when (regexResult.groupValues[2]) {
-                        "autosubmit" -> pushStringAnnotation(
-                            tag = "autosubmit",
-                            annotation = regexResult.groupValues[3]
-                        )
-                        else -> pushStringAnnotation(
-                            tag = "URL",
-                            annotation = regexResult.groupValues[3]
-                        )
-                    }
+                    val annotationType = regexResult.groupValues[3]
+                    val annotationParameter = regexResult.groupValues[5]
+                    val annotationHasParameter = annotationParameter.isNotEmpty()
+                    val style =
+                        if (annotationHasParameter) {
+                            when (annotationType) {
+                                "autosubmit" -> pushStringAnnotation(
+                                    tag = "autosubmit",
+                                    annotation = annotationParameter
+                                )
+                                else -> pushStringAnnotation(
+                                    tag = "URL",
+                                    annotation = annotationParameter
+                                )
+                            }
+
+                            SpanStyle(
+                                color = XS2ATheme.CURRENT.tintColor,
+                                fontWeight = FontWeight.Bold
+                            )
+                        } else {
+                            when (annotationType) {
+                                "bold" -> SpanStyle(
+                                    color = XS2ATheme.CURRENT.textColor,
+                                    fontWeight = FontWeight.Bold
+                                )
+                                "italic" -> SpanStyle(
+                                    color = XS2ATheme.CURRENT.textColor,
+                                    fontStyle = FontStyle.Italic
+                                )
+                                else -> SpanStyle(
+                                    color = XS2ATheme.CURRENT.textColor,
+                                )
+                            }
+                        }
 
                     // Append textValue of markup and style it.
                     withStyle(
-                        style = SpanStyle(
-                            color = XS2ATheme.CURRENT.tintColor,
-                            fontWeight = FontWeight.Bold
-                        )
+                        style = style
                     ) {
                         append(regexResult.groupValues[1])
                     }
 
 
                     // Define end of the annotation
-                    pop()
+                    if (annotationHasParameter) pop()
 
                     cursor = regexResult.range.last + 1
                 }
