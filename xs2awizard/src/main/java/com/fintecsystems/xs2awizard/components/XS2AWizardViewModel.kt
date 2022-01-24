@@ -4,8 +4,12 @@ import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.net.Uri
+import android.util.Log
+import androidx.biometric.BiometricManager
+import androidx.biometric.BiometricPrompt
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.ui.text.AnnotatedString
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.security.crypto.EncryptedSharedPreferences
@@ -46,10 +50,12 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
      */
     private var provider: String? = null
 
+    private var currentActivity: Activity? = null
+
     private val masterKey = MasterKey.Builder(context)
         .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
         .setRequestStrongBoxBacked(true)
-        .setUserAuthenticationRequired(true)
+        .setUserAuthenticationRequired(true, 5)
         .build()
 
     private val sharedPreferences = EncryptedSharedPreferences.create(
@@ -60,8 +66,28 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
         EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
     )
 
-    fun onStart(_config: XS2AWizardConfig) {
+    private val authenticationCallback = object : BiometricPrompt.AuthenticationCallback() {
+        override fun onAuthenticationSucceeded(
+            result: BiometricPrompt.AuthenticationResult
+        ) {
+            super.onAuthenticationSucceeded(result)
+
+            Log.d("XS2AWizard", "onAuthenticationSucceeded: ${result.authenticationType}")
+
+            autoFillCredentials()
+        }
+        override fun onAuthenticationError(
+            errorCode: Int, errString: CharSequence
+        ) {
+            super.onAuthenticationError(errorCode, errString)
+
+            Log.d("XS2AWizard", "onAuthenticationError: $errorCode $errString")
+        }
+    }
+
+    fun onStart(_config: XS2AWizardConfig, activity: Activity) {
         config = _config
+        currentActivity = activity
 
         NetworkingInstance.getInstance(context).apply {
             sessionKey = config.sessionKey
@@ -77,6 +103,7 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
         currentWebViewUrl.value = null
         form.value = emptyList()
         currentStep = null
+        currentActivity = null
     }
 
     /**
@@ -314,7 +341,20 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
         if (form.value == null || provider.isNullOrEmpty()) return
         if (form.value!!.none { it is CredentialFormLineData && it.isLoginCredential == true }) return
 
-        showSaveCredentialsAlert.value = true
+        // showSaveCredentialsAlert.value = true
+
+        val biometricPrompt = BiometricPrompt(
+            currentActivity as FragmentActivity,
+            authenticationCallback
+        )
+
+        val promptInfo = BiometricPrompt.PromptInfo.Builder()
+            .setTitle("Unlock?")
+            .setDescription("Would you like to unlock this key?")
+            .setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_WEAK or BiometricManager.Authenticators.BIOMETRIC_STRONG or BiometricManager.Authenticators.DEVICE_CREDENTIAL)
+            .build()
+
+        biometricPrompt.authenticate(promptInfo)
     }
 
     /**

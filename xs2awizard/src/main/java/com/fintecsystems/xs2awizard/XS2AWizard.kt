@@ -1,5 +1,6 @@
 package com.fintecsystems.xs2awizard
 
+import android.app.Activity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -14,6 +15,7 @@ import androidx.compose.runtime.key
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -47,9 +49,11 @@ fun XS2AWizard(
         false
     )
 
+    val context = LocalContext.current
+
     DisposableEffect(xs2aWizardViewModel) {
         // Initialize ViewModel
-        xs2aWizardViewModel.onStart(xS2AWizardConfig)
+        xs2aWizardViewModel.onStart(xS2AWizardConfig, context as Activity)
 
         // Cleanup
         onDispose {
