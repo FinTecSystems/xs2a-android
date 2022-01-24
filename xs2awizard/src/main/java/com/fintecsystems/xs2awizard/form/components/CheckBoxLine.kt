@@ -1,5 +1,6 @@
 package com.fintecsystems.xs2awizard.form.components
 
+import android.app.Activity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -62,7 +63,7 @@ fun CheckBoxLine(formData: CheckBoxLineData, viewModel: XS2AWizardViewModel) {
 
         if (!formData.label.isNullOrEmpty()) {
             val annotatedString = MarkupParser.parseMarkupText(formData.label)
-            val activity = LocalContext.current.getActivity()
+            val activity = LocalContext.current.getActivity<Activity>()
 
             ClickableText(
                 text = annotatedString,

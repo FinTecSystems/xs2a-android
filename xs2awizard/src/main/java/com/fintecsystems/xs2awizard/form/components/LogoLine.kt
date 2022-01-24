@@ -1,5 +1,6 @@
 package com.fintecsystems.xs2awizard.form.components
 
+import android.app.Activity
 import android.util.DisplayMetrics
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -112,7 +113,7 @@ fun LogoLine(viewModel: XS2AWizardViewModel) {
                     pop()
                 }
 
-                val activity = LocalContext.current.getActivity()
+                val activity = LocalContext.current.getActivity<Activity>()
 
                 ClickableText(
                     modifier = Modifier.fillMaxWidth(),

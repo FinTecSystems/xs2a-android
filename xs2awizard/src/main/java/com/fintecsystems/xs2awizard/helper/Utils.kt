@@ -1,5 +1,6 @@
 package com.fintecsystems.xs2awizard.helper
 
+import android.app.Activity
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -7,11 +8,12 @@ import android.content.ContextWrapper
 import android.graphics.BitmapFactory
 import android.util.Base64
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import com.fintecsystems.xs2awizard.R
 import java.util.*
+import kotlin.reflect.KClass
+import kotlin.reflect.cast
 
 
 object Utils {
@@ -53,10 +55,20 @@ object Utils {
      *
      * @return current activity.
      */
-    fun Context.getActivity(): AppCompatActivity? = when (this) {
-        is AppCompatActivity -> this
-        is ContextWrapper -> baseContext.getActivity()
-        else -> null
+    inline fun <reified T : Activity> Context.getActivity(): T? = getActivity(T::class)
+
+    /**
+     * Returns the current activity of the context.
+     *
+     * @param type Activity type to cast to.
+     *
+     * @return current activity.
+     */
+    fun <T : Activity> Context.getActivity(type: KClass<T>): T? {
+        if (type.isInstance(this)) return type.cast(this)
+        if (this is ContextWrapper) return baseContext.getActivity(type)
+
+        return null
     }
 
     private val languageWhitelist = listOf("de", "en", "fr", "it", "es")

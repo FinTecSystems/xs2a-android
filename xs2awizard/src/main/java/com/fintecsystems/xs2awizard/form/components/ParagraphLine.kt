@@ -1,5 +1,6 @@
 package com.fintecsystems.xs2awizard.form.components
 
+import android.app.Activity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -87,7 +88,7 @@ fun ParagraphLine(formData: ParagraphLineData, viewModel: XS2AWizardViewModel) {
 
             if (formData.text.isNotEmpty()) {
                 val annotatedString = MarkupParser.parseMarkupText(formData.text)
-                val activity = LocalContext.current.getActivity()
+                val activity = LocalContext.current.getActivity<Activity>()
 
                 ClickableText(
                     text = annotatedString,
