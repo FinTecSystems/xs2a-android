@@ -23,6 +23,7 @@ import com.fintecsystems.xs2awizard.helper.Utils
 import com.fintecsystems.xs2awizard_networking.NetworkingInstance
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.*
+import java.lang.ref.WeakReference
 import java.util.*
 
 /**
@@ -50,7 +51,7 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
      */
     private var provider: String? = null
 
-    private var currentActivity: Activity? = null
+    private var currentActivity: WeakReference<Activity?> = WeakReference(null)
 
     private val masterKey = MasterKey.Builder(context)
         .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
@@ -87,7 +88,7 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
 
     fun onStart(_config: XS2AWizardConfig, activity: Activity) {
         config = _config
-        currentActivity = activity
+        currentActivity = WeakReference(activity)
 
         NetworkingInstance.getInstance(context).apply {
             sessionKey = config.sessionKey
@@ -103,7 +104,7 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
         currentWebViewUrl.value = null
         form.value = emptyList()
         currentStep = null
-        currentActivity = null
+        currentActivity = WeakReference(null)
     }
 
     /**
@@ -344,7 +345,7 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
         // showSaveCredentialsAlert.value = true
 
         val biometricPrompt = BiometricPrompt(
-            currentActivity as FragmentActivity,
+            currentActivity.get() as FragmentActivity,
             authenticationCallback
         )
 
