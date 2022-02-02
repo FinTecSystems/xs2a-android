@@ -12,11 +12,10 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.security.crypto.EncryptedSharedPreferences
-import androidx.security.crypto.MasterKey
 import com.fintecsystems.xs2awizard.BuildConfig
 import com.fintecsystems.xs2awizard.R
 import com.fintecsystems.xs2awizard.form.*
+import com.fintecsystems.xs2awizard.helper.Crypto
 import com.fintecsystems.xs2awizard.helper.JSONFormatter
 import com.fintecsystems.xs2awizard.helper.MarkupParser
 import com.fintecsystems.xs2awizard.helper.Utils
@@ -53,18 +52,9 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
 
     private var currentActivity: WeakReference<Activity?> = WeakReference(null)
 
-    private val masterKey = MasterKey.Builder(context)
-        .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
-        .setRequestStrongBoxBacked(true)
-        .setUserAuthenticationRequired(true, 5)
-        .build()
-
-    private val sharedPreferences = EncryptedSharedPreferences.create(
+    private val sharedPreferences = Crypto.createEncryptedSharedPreferences(
         context,
-        "xs2a_credentials",
-        masterKey,
-        EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-        EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+        "xs2a_credentials"
     )
 
     private val authenticationCallback = object : BiometricPrompt.AuthenticationCallback() {
@@ -77,6 +67,7 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
 
             autoFillCredentials()
         }
+
         override fun onAuthenticationError(
             errorCode: Int, errString: CharSequence
         ) {
@@ -366,9 +357,11 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
             if (it is CredentialFormLineData && it.isLoginCredential == true) {
                 val key = it.getProviderName(provider!!)
                 if (it is CheckBoxLineData) {
-                    if (sharedPreferences.contains(key)) it.value = JsonPrimitive(sharedPreferences.getBoolean(key, false))
+                    if (sharedPreferences.contains(key)) it.value =
+                        JsonPrimitive(sharedPreferences.getBoolean(key, false))
                 } else {
-                    if (sharedPreferences.contains(key)) it.value = JsonPrimitive(sharedPreferences.getString(key, ""))
+                    if (sharedPreferences.contains(key)) it.value =
+                        JsonPrimitive(sharedPreferences.getString(key, ""))
                 }
             }
         }
