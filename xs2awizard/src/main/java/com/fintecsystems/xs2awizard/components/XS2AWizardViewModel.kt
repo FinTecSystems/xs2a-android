@@ -6,7 +6,6 @@ import android.content.Context
 import android.net.Uri
 import android.util.Log
 import androidx.biometric.BiometricManager
-import androidx.biometric.BiometricPrompt
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.ui.text.AnnotatedString
 import androidx.fragment.app.FragmentActivity
@@ -56,26 +55,6 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
         context,
         "xs2a_credentials"
     )
-
-    private val authenticationCallback = object : BiometricPrompt.AuthenticationCallback() {
-        override fun onAuthenticationSucceeded(
-            result: BiometricPrompt.AuthenticationResult
-        ) {
-            super.onAuthenticationSucceeded(result)
-
-            Log.d("XS2AWizard", "onAuthenticationSucceeded: ${result.authenticationType}")
-
-            autoFillCredentials()
-        }
-
-        override fun onAuthenticationError(
-            errorCode: Int, errString: CharSequence
-        ) {
-            super.onAuthenticationError(errorCode, errString)
-
-            Log.d("XS2AWizard", "onAuthenticationError: $errorCode $errString")
-        }
-    }
 
     fun onStart(_config: XS2AWizardConfig, activity: Activity) {
         config = _config
@@ -335,18 +314,19 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
 
         // showSaveCredentialsAlert.value = true
 
-        val biometricPrompt = BiometricPrompt(
+        Crypto.openBiometricPrompt(
             currentActivity.get() as FragmentActivity,
-            authenticationCallback
+            "Unlock?",
+            "Unlock device using fingerprint?",
+            BiometricManager.Authenticators.BIOMETRIC_STRONG,
+            {
+                Log.d("XS2AWizard", "onAuthenticationSucceeded: ${it.authenticationType}")
+
+                autoFillCredentials()
+            }, { errorCode, errString ->
+                Log.d("XS2AWizard", "onAuthenticationError: $errorCode $errString")
+            }
         )
-
-        val promptInfo = BiometricPrompt.PromptInfo.Builder()
-            .setTitle("Unlock?")
-            .setDescription("Would you like to unlock this key?")
-            .setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_WEAK or BiometricManager.Authenticators.BIOMETRIC_STRONG or BiometricManager.Authenticators.DEVICE_CREDENTIAL)
-            .build()
-
-        biometricPrompt.authenticate(promptInfo)
     }
 
     /**
