@@ -33,6 +33,7 @@ object Crypto {
         fragmentActivity: FragmentActivity,
         title: String,
         description: String,
+        negativeText: String,
         allowedAuthenticators: Int,
         onSuccess: (BiometricPrompt.AuthenticationResult) -> Unit,
         onError: (Int, CharSequence) -> Unit
@@ -62,6 +63,7 @@ object Crypto {
             val promptInfo = BiometricPrompt.PromptInfo.Builder()
                 .setTitle(title)
                 .setDescription(description)
+                .setNegativeButtonText(negativeText)
                 .setAllowedAuthenticators(allowedAuthenticators)
                 .build()
 

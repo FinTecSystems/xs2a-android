@@ -318,6 +318,7 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
             currentActivity.get() as FragmentActivity,
             "Unlock?",
             "Unlock device using fingerprint?",
+            "no",
             BiometricManager.Authenticators.BIOMETRIC_STRONG,
             {
                 Log.d("XS2AWizard", "onAuthenticationSucceeded: ${it.authenticationType}")
