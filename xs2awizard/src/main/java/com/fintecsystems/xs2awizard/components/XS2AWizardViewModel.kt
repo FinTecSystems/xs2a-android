@@ -49,6 +49,13 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
      */
     private var provider: String? = null
 
+    private var sharedPreferences =
+        if (Utils.isMarshmallow) Crypto.createEncryptedSharedPreferences(
+            context,
+            "xs2a_credentials",
+            Crypto.createMasterKey(context, masterKeyAlias)
+        ) else null
+
     private var currentActivity: WeakReference<Activity?> = WeakReference(null)
 
     fun onStart(_config: XS2AWizardConfig, activity: Activity) {
@@ -286,11 +293,7 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
 
         if (consentCheckBoxLineData?.value?.jsonPrimitive?.boolean != true) return
 
-        Crypto.createEncryptedSharedPreferences(
-            context,
-            "xs2a_credentials",
-            Crypto.createMasterKey(context, masterKeyAlias)
-        ).edit().apply {
+        sharedPreferences!!.edit().apply {
             form.value!!.forEach {
                 if (it is CredentialFormLineData && it.isLoginCredential == true) {
                     if (it is CheckBoxLineData) putBoolean(
@@ -316,7 +319,11 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
     @RequiresApi(Build.VERSION_CODES.M)
     private fun tryToAutoFillCredentials() {
         if (form.value == null || provider.isNullOrEmpty()) return
-        if (form.value!!.none { it is CredentialFormLineData && it.isLoginCredential == true }) return
+        if (form.value!!.none {
+                it is CredentialFormLineData
+                        && it.isLoginCredential == true
+                        && sharedPreferences!!.contains(it.getProviderName(provider!!))
+            }) return
 
         Crypto.openBiometricPrompt(
             currentActivity.get() as FragmentActivity,
@@ -339,21 +346,15 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
      */
     @RequiresApi(Build.VERSION_CODES.M)
     private fun autoFillCredentials() {
-        val sharedPreferences = Crypto.createEncryptedSharedPreferences(
-            context,
-            "xs2a_credentials",
-            Crypto.createMasterKey(context, masterKeyAlias)
-        )
-
         form.value!!.forEach {
             if (it is CredentialFormLineData && it.isLoginCredential == true) {
                 val key = it.getProviderName(provider!!)
                 if (it is CheckBoxLineData) {
-                    if (sharedPreferences.contains(key)) it.value =
-                        JsonPrimitive(sharedPreferences.getBoolean(key, false))
+                    if (sharedPreferences!!.contains(key)) it.value =
+                        JsonPrimitive(sharedPreferences!!.getBoolean(key, false))
                 } else {
-                    if (sharedPreferences.contains(key)) it.value =
-                        JsonPrimitive(sharedPreferences.getString(key, ""))
+                    if (sharedPreferences!!.contains(key)) it.value =
+                        JsonPrimitive(sharedPreferences!!.getString(key, ""))
                 }
             }
         }
