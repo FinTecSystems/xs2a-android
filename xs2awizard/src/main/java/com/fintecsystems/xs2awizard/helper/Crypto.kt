@@ -1,12 +1,15 @@
 package com.fintecsystems.xs2awizard.helper
 
+import android.app.KeyguardManager
 import android.content.Context
 import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.biometric.BiometricPrompt
 import androidx.fragment.app.FragmentActivity
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 
+@RequiresApi(Build.VERSION_CODES.M)
 object Crypto {
     fun createMasterKey(context: Context, keyAlias: String): MasterKey = MasterKey.Builder(context, keyAlias).apply {
         setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
@@ -16,6 +19,10 @@ object Crypto {
             setRequestStrongBoxBacked(true)
         }
     }.build()
+
+    fun isDeviceSecure(context: Context) = with(context.getSystemService(KeyguardManager::class.java)) {
+        isDeviceSecure
+    }
 
     fun createEncryptedSharedPreferences(
         context: Context,

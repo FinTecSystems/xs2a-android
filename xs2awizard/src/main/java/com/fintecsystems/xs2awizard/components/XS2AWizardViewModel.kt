@@ -4,7 +4,9 @@ import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.net.Uri
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.biometric.BiometricManager
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.ui.text.AnnotatedString
@@ -192,7 +194,8 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
             loadingIndicatorLock.value = true
         }
 
-        storeCredentials()
+        if (Utils.isMarshmallow && Crypto.isDeviceSecure(context))
+            storeCredentials()
 
         return NetworkingInstance.getInstance(context)
             .encodeAndSendMessage(
@@ -256,9 +259,13 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
 
         parseCallback(formResponse)
 
-        form.value = parseFormForCredentials(formResponse.form)
 
-        tryToAutoFillCredentials()
+        if (Utils.isMarshmallow && Crypto.isDeviceSecure(context)) {
+            form.value = parseFormForCredentials(formResponse.form)
+            tryToAutoFillCredentials()
+        } else {
+            form.value = formResponse.form
+        }
 
         loadingIndicatorLock.value = false
     }
@@ -270,6 +277,7 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
      *  - the phone is secure.
      * Aborts saving.
      */
+    @RequiresApi(Build.VERSION_CODES.M)
     private fun storeCredentials() {
         if (form.value == null || provider.isNullOrEmpty()) return
 
@@ -305,6 +313,7 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
      *  - [provider] exists.
      *  - The Phone is secure.
      */
+    @RequiresApi(Build.VERSION_CODES.M)
     private fun tryToAutoFillCredentials() {
         if (form.value == null || provider.isNullOrEmpty()) return
         if (form.value!!.none { it is CredentialFormLineData && it.isLoginCredential == true }) return
@@ -328,6 +337,7 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
     /**
      * AutoFills credentials from the store.
      */
+    @RequiresApi(Build.VERSION_CODES.M)
     private fun autoFillCredentials() {
         val sharedPreferences = Crypto.createEncryptedSharedPreferences(
             context,
@@ -359,8 +369,9 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
      *
      * @return Parsed Form.
      */
+    @RequiresApi(Build.VERSION_CODES.M)
     private fun parseFormForCredentials(form: List<FormLineData>?): List<FormLineData>? {
-        if (form?.any { it is CredentialFormLineData && it.isLoginCredential == true } == true) {
+        if (Crypto.isDeviceSecure(context) && form?.any { it is CredentialFormLineData && it.isLoginCredential == true } == true) {
             val submitLineIndex = form.indexOfFirst { it is SubmitLineData }
 
             if (submitLineIndex > -1) {

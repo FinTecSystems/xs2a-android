@@ -6,8 +6,10 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.ContextWrapper
 import android.graphics.BitmapFactory
+import android.os.Build
 import android.util.Base64
 import android.widget.Toast
+import androidx.annotation.ChecksSdkIntAtLeast
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import com.fintecsystems.xs2awizard.R
@@ -94,4 +96,11 @@ object Utils {
 
         return false
     }
+
+    /**
+     * Set to true if Device-API-Level is at least 23.
+     */
+    @get:ChecksSdkIntAtLeast(api = Build.VERSION_CODES.M)
+    val isMarshmallow: Boolean
+        get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
 }
