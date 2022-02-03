@@ -328,7 +328,7 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
     /**
      * AutoFills credentials from the store.
      */
-    internal fun autoFillCredentials() {
+    private fun autoFillCredentials() {
         val sharedPreferences = Crypto.createEncryptedSharedPreferences(
             context,
             "xs2a_credentials",
