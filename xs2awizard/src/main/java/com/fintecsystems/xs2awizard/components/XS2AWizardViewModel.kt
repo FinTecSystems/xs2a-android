@@ -51,11 +51,6 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
 
     private var currentActivity: WeakReference<Activity?> = WeakReference(null)
 
-    private val sharedPreferences = Crypto.createEncryptedSharedPreferences(
-        context,
-        "xs2a_credentials"
-    )
-
     fun onStart(_config: XS2AWizardConfig, activity: Activity) {
         config = _config
         currentActivity = WeakReference(activity)
@@ -285,7 +280,11 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
 
         if (consentCheckBoxLineData?.value?.jsonPrimitive?.boolean != true) return
 
-        sharedPreferences.edit().apply {
+        Crypto.createEncryptedSharedPreferences(
+            context,
+            "xs2a_credentials",
+            Crypto.createMasterKey(context, "xs2a_credentials_master_key")
+        ).edit().apply {
             form.value!!.forEach {
                 if (it is CredentialFormLineData && it.isLoginCredential == true) {
                     if (it is CheckBoxLineData) putBoolean(
@@ -334,6 +333,12 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
      * AutoFills credentials from the store.
      */
     internal fun autoFillCredentials() {
+        val sharedPreferences = Crypto.createEncryptedSharedPreferences(
+            context,
+            "xs2a_credentials",
+            Crypto.createMasterKey(context, "xs2a_credentials_master_key")
+        )
+
         form.value!!.forEach {
             if (it is CredentialFormLineData && it.isLoginCredential == true) {
                 val key = it.getProviderName(provider!!)

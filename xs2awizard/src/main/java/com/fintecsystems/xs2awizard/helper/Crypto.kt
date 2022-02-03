@@ -8,9 +8,9 @@ import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 
 object Crypto {
-    private fun createMasterKey(context: Context): MasterKey = MasterKey.Builder(context).apply {
+    fun createMasterKey(context: Context, keyAlias: String): MasterKey = MasterKey.Builder(context, keyAlias).apply {
         setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
-        setUserAuthenticationRequired(true, 30)
+        setUserAuthenticationRequired(true)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             setRequestStrongBoxBacked(true)
@@ -20,7 +20,7 @@ object Crypto {
     fun createEncryptedSharedPreferences(
         context: Context,
         fileName: String,
-        masterKey: MasterKey = createMasterKey(context)
+        masterKey: MasterKey
     ) = EncryptedSharedPreferences.create(
         context,
         fileName,
