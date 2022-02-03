@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.biometric.BiometricManager
+import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG
 import androidx.biometric.BiometricPrompt
 import androidx.fragment.app.FragmentActivity
 import androidx.security.crypto.EncryptedSharedPreferences
@@ -40,7 +41,7 @@ object Crypto {
      * @return true if device is secure.
      */
     fun isDeviceSecure(context: Context) = with(context.getSystemService(KeyguardManager::class.java)) {
-        isDeviceSecure
+        isDeviceSecure && BiometricManager.from(context).canAuthenticate(BIOMETRIC_STRONG) == BiometricManager.BIOMETRIC_SUCCESS
     }
 
     /**
