@@ -36,8 +36,6 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
 
     val currentWebViewUrl = MutableLiveData<String?>(null)
 
-    val showSaveCredentialsAlert = MutableLiveData(false)
-
     private val context: Context
         get() = getApplication<Application>().applicationContext
 
@@ -311,8 +309,6 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
         if (form.value == null || provider.isNullOrEmpty()) return
         if (form.value!!.none { it is CredentialFormLineData && it.isLoginCredential == true }) return
 
-        // showSaveCredentialsAlert.value = true
-
         Crypto.openBiometricPrompt(
             currentActivity.get() as FragmentActivity,
             "Unlock?",
@@ -353,8 +349,6 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
         }
 
         submitForm()
-
-        showSaveCredentialsAlert.value = false
     }
 
     /**

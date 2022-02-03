@@ -5,9 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.AlertDialog
 import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
@@ -16,10 +14,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.fintecsystems.xs2awizard.components.XS2AWizardConfig
 import com.fintecsystems.xs2awizard.components.XS2AWizardViewModel
@@ -27,7 +22,6 @@ import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.components.webview.URLBarWebView
 import com.fintecsystems.xs2awizard.form.*
 import com.fintecsystems.xs2awizard.form.components.*
-import com.fintecsystems.xs2awizard.form.components.shared.FormText
 import com.fintecsystems.xs2awizard.form.components.textLine.TextLine
 
 /**
@@ -45,9 +39,6 @@ fun XS2AWizard(
     val form by xs2aWizardViewModel.form.observeAsState(null)
     val loadingIndicatorLock by xs2aWizardViewModel.loadingIndicatorLock.observeAsState(false)
     val currentWebViewUrl by xs2aWizardViewModel.currentWebViewUrl.observeAsState(null)
-    val showSaveCredentialsAlert by xs2aWizardViewModel.showSaveCredentialsAlert.observeAsState(
-        false
-    )
 
     val context = LocalContext.current
 
@@ -90,46 +81,6 @@ fun XS2AWizard(
 
             if (currentWebViewUrl != null)
                 URLBarWebView(xs2aWizardViewModel)
-
-            if (showSaveCredentialsAlert)
-                AlertDialog(
-                    onDismissRequest = { xs2aWizardViewModel.showSaveCredentialsAlert.value = false },
-                    confirmButton = {
-                        TextButton(
-                            shape = XS2ATheme.CURRENT.buttonShape,
-                            onClick = { xs2aWizardViewModel.autoFillCredentials() }
-                        ) {
-                            FormText(
-                                text = "Yes",
-                            )
-                        }
-                    },
-                    dismissButton = {
-                        TextButton(
-                            shape = XS2ATheme.CURRENT.buttonShape,
-                            onClick = { xs2aWizardViewModel.showSaveCredentialsAlert.value = false }
-                        ) {
-                            FormText(
-                                text = stringResource(id = R.string.dialog_dismiss),
-                            )
-                        }
-                    },
-                    backgroundColor = XS2ATheme.CURRENT.surfaceColor,
-                    title = {
-                        FormText(
-                            text = stringResource(id = R.string.remember_login),
-                            color = XS2ATheme.CURRENT.tintColor,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 20.sp
-                        )
-                    },
-                    text = {
-                        FormText(
-                            modifier = Modifier.fillMaxWidth(),
-                            text = "Do you want to fill in the credentials?",
-                        )
-                    }
-                )
         }
     }
 }
