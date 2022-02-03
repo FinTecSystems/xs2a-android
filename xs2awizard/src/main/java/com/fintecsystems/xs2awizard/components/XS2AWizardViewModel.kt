@@ -283,7 +283,7 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
         Crypto.createEncryptedSharedPreferences(
             context,
             "xs2a_credentials",
-            Crypto.createMasterKey(context, "xs2a_credentials_master_key")
+            Crypto.createMasterKey(context, masterKeyAlias)
         ).edit().apply {
             form.value!!.forEach {
                 if (it is CredentialFormLineData && it.isLoginCredential == true) {
@@ -336,7 +336,7 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
         val sharedPreferences = Crypto.createEncryptedSharedPreferences(
             context,
             "xs2a_credentials",
-            Crypto.createMasterKey(context, "xs2a_credentials_master_key")
+            Crypto.createMasterKey(context, masterKeyAlias)
         )
 
         form.value!!.forEach {
@@ -437,5 +437,6 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
 
     companion object {
         private const val rememberLoginName = "remember_login"
+        private const val masterKeyAlias = "xs2a_credentials_master_key"
     }
 }
