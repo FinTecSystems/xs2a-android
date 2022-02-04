@@ -52,7 +52,7 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
     private var sharedPreferences =
         if (Utils.isMarshmallow && Crypto.isDeviceSecure(context)) Crypto.createEncryptedSharedPreferences(
             context,
-            "xs2a_credentials",
+            sharedPreferencesFileName,
             Crypto.createMasterKey(context, masterKeyAlias)
         ) else null
 
@@ -443,6 +443,19 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
 
     companion object {
         private const val rememberLoginName = "remember_login"
+        private const val sharedPreferencesFileName = "xs2a_credentials"
         private const val masterKeyAlias = "xs2a_credentials_master_key"
+
+        /**
+         * Function to delete all saved credentials.
+         *
+         * @param context - Context to use.
+         */
+        fun clearCredentials(context: Context) {
+            context.getSharedPreferences(sharedPreferencesFileName, Context.MODE_PRIVATE).edit().apply {
+                clear()
+                apply()
+            }
+        }
     }
 }
