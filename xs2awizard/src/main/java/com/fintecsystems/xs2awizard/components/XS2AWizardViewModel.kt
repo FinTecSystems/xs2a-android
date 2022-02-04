@@ -49,6 +49,8 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
      */
     private var provider: String? = null
 
+    // Only create an sharedPreferences instance on API-23+, because 21&22 don't support biometrics.
+    // Also don't create it, when no biometrics are set, otherwise an exception will be thrown.
     private var sharedPreferences =
         if (Utils.isMarshmallow && Crypto.isDeviceSecure(context)) Crypto.createEncryptedSharedPreferences(
             context,
