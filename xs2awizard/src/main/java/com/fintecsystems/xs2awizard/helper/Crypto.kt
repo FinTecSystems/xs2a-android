@@ -24,14 +24,15 @@ object Crypto {
      *
      * @return New or existing Master Key.
      */
-    fun createMasterKey(context: Context, keyAlias: String): MasterKey = MasterKey.Builder(context, keyAlias).apply {
-        setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
-        setUserAuthenticationRequired(true)
+    fun createMasterKey(context: Context, keyAlias: String): MasterKey =
+        MasterKey.Builder(context, keyAlias).apply {
+            setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+            setUserAuthenticationRequired(true)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            setRequestStrongBoxBacked(true)
-        }
-    }.build()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                setRequestStrongBoxBacked(true)
+            }
+        }.build()
 
     /**
      * Checks if the device has biometrics and if it's set.
@@ -40,9 +41,8 @@ object Crypto {
      *
      * @return true if device is secure.
      */
-    fun isDeviceSecure(context: Context) = with(context.getSystemService(KeyguardManager::class.java)) {
-        isDeviceSecure && BiometricManager.from(context).canAuthenticate(BIOMETRIC_STRONG) == BiometricManager.BIOMETRIC_SUCCESS
-    }
+    fun isDeviceSecure(context: Context) = BiometricManager.from(context)
+        .canAuthenticate(BIOMETRIC_STRONG) == BiometricManager.BIOMETRIC_SUCCESS
 
     /**
      * Creates a [EncryptedSharedPreferences] instance.
