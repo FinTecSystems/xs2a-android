@@ -50,7 +50,7 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
     private var provider: String? = null
 
     private var sharedPreferences =
-        if (Utils.isMarshmallow) Crypto.createEncryptedSharedPreferences(
+        if (Utils.isMarshmallow && Crypto.isDeviceSecure(context)) Crypto.createEncryptedSharedPreferences(
             context,
             "xs2a_credentials",
             Crypto.createMasterKey(context, masterKeyAlias)
