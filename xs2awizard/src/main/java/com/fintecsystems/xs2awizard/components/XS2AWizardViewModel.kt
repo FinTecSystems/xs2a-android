@@ -49,15 +49,6 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
      */
     private var provider: String? = null
 
-    // Only create an sharedPreferences instance on API-23+, because 21&22 don't support biometrics.
-    // Also don't create it, when no biometrics are set, otherwise an exception will be thrown.
-    private var sharedPreferences =
-        if (Utils.isMarshmallow && Crypto.isDeviceSecure(context)) Crypto.createEncryptedSharedPreferences(
-            context,
-            sharedPreferencesFileName,
-            Crypto.createMasterKey(context, masterKeyAlias)
-        ) else null
-
     private var currentActivity: WeakReference<Activity?> = WeakReference(null)
 
     fun onStart(_config: XS2AWizardConfig, activity: Activity) {
@@ -280,6 +271,38 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
     }
 
     /**
+     * Checks if specified provider is in store.
+     *
+     * @param provider - Provider to check.
+     *
+     * @return true if exists.
+     */
+    private fun isProviderInStore(provider: String?) =
+        context.getSharedPreferences(sharedPreferencesFileName, Context.MODE_PRIVATE)
+            .getStringSet(storedProvidersKey, null)?.contains(provider) == true
+
+    /**
+     * Saves provider into store if it's not existing.
+     *
+     * @param provider - Provider to store.
+     */
+    private fun storeProvider(provider: String) {
+        context.getSharedPreferences(sharedPreferencesFileName, Context.MODE_PRIVATE).apply {
+            getStringSet(storedProvidersKey, null).let {
+                // Copy store providers
+                val providers = mutableSetOf<String>()
+                if (it != null) providers.addAll(providers)
+
+                providers.add(provider)
+
+                edit()
+                    .putStringSet(storedProvidersKey, providers)
+                    .apply()
+            }
+        }
+    }
+
+    /**
      * Encrypts and stores credentials if
      *  - [provider] exists.
      *  - Consent has been checked.
@@ -295,7 +318,13 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
 
         if (consentCheckBoxLineData?.value?.jsonPrimitive?.boolean != true) return
 
-        sharedPreferences!!.edit().apply {
+        storeProvider(provider!!)
+
+        Crypto.createEncryptedSharedPreferences(
+            context,
+            sharedPreferencesFileName,
+            Crypto.createMasterKey(context, masterKeyAlias)
+        ).edit().apply {
             form.value!!.forEach {
                 if (it is CredentialFormLineData && it.isLoginCredential == true) {
                     if (it is CheckBoxLineData) putBoolean(
@@ -320,12 +349,9 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
      */
     @RequiresApi(Build.VERSION_CODES.M)
     private fun tryToAutoFillCredentials() {
-        if (form.value == null || provider.isNullOrEmpty()) return
-        if (form.value!!.none {
-                it is CredentialFormLineData
-                        && it.isLoginCredential == true
-                        && sharedPreferences!!.contains(it.getProviderName(provider!!))
-            }) return
+        if (form.value == null || form.value?.none { it is CredentialFormLineData && it.isLoginCredential == true } == true) return
+
+        if (provider.isNullOrEmpty() || !isProviderInStore(provider)) return
 
         Crypto.openBiometricPrompt(
             currentActivity.get() as FragmentActivity,
@@ -348,15 +374,21 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
      */
     @RequiresApi(Build.VERSION_CODES.M)
     private fun autoFillCredentials() {
+        val sharedPreferences = Crypto.createEncryptedSharedPreferences(
+            context,
+            sharedPreferencesFileName,
+            Crypto.createMasterKey(context, masterKeyAlias)
+        )
+
         form.value!!.forEach {
             if (it is CredentialFormLineData && it.isLoginCredential == true) {
                 val key = it.getProviderName(provider!!)
                 if (it is CheckBoxLineData) {
-                    if (sharedPreferences!!.contains(key)) it.value =
-                        JsonPrimitive(sharedPreferences!!.getBoolean(key, false))
+                    if (sharedPreferences.contains(key)) it.value =
+                        JsonPrimitive(sharedPreferences.getBoolean(key, false))
                 } else {
-                    if (sharedPreferences!!.contains(key)) it.value =
-                        JsonPrimitive(sharedPreferences!!.getString(key, ""))
+                    if (sharedPreferences.contains(key)) it.value =
+                        JsonPrimitive(sharedPreferences.getString(key, ""))
                 }
             }
         }
@@ -446,6 +478,7 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
     companion object {
         private const val rememberLoginName = "remember_login"
         private const val sharedPreferencesFileName = "xs2a_credentials"
+        private const val storedProvidersKey = "providers"
         private const val masterKeyAlias = "xs2a_credentials_master_key"
 
         /**
@@ -454,10 +487,11 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
          * @param context - Context to use.
          */
         fun clearCredentials(context: Context) {
-            context.getSharedPreferences(sharedPreferencesFileName, Context.MODE_PRIVATE).edit().apply {
-                clear()
-                apply()
-            }
+            context.getSharedPreferences(sharedPreferencesFileName, Context.MODE_PRIVATE).edit()
+                .apply {
+                    clear()
+                    apply()
+                }
         }
     }
 }
