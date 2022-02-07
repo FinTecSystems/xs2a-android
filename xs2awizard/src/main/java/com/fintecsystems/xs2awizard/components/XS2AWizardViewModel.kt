@@ -486,6 +486,7 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
          *
          * @param context - Context to use.
          */
+        @Suppress("unused")
         fun clearCredentials(context: Context) {
             context.getSharedPreferences(sharedPreferencesFileName, Context.MODE_PRIVATE).edit()
                 .apply {
