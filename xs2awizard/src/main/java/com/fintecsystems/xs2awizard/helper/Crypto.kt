@@ -1,6 +1,5 @@
 package com.fintecsystems.xs2awizard.helper
 
-import android.app.KeyguardManager
 import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
