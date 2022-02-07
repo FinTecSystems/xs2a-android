@@ -194,7 +194,7 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
             loadingIndicatorLock.value = true
         }
 
-        if (Utils.isMarshmallow && Crypto.isDeviceSecure(context))
+        if (config.enableCredentialsStore && Utils.isMarshmallow && Crypto.isDeviceSecure(context))
             storeCredentials()
 
         return NetworkingInstance.getInstance(context)
@@ -260,7 +260,7 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
         parseCallback(formResponse)
 
 
-        if (Utils.isMarshmallow && Crypto.isDeviceSecure(context)) {
+        if (config.enableCredentialsStore && Utils.isMarshmallow && Crypto.isDeviceSecure(context)) {
             form.value = parseFormForCredentials(formResponse.form)
             tryToAutoFillCredentials()
         } else {
