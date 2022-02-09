@@ -260,7 +260,8 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
             else -> {
                 currentStep = XS2AWizardStep.getRelevantStep(response.callback)
 
-                config.onStep(currentStep)
+                if (currentStep != null)
+                    config.onStep(currentStep)
             }
         }
 
