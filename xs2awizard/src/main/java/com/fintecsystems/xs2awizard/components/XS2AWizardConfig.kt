@@ -15,7 +15,6 @@ import com.fintecsystems.xs2awizard.components.theme.IXS2ATheme
  *                   Supplies the Error.
  * @property onNetworkError Called when a Network-Error occurred.
  * @property onStep Called when a new Wizard-Step is reached.
- *                  Supplies the new step, may be null if the step is unknown e.g. on success.
  * @property onBack Called when the Back-Button of the form is pressed.
  * @property theme Theme to be used.
  *                 If null the default Light- or Dark-Theme, depending on the device settings, is used.
@@ -29,7 +28,7 @@ data class XS2AWizardConfig(
     val onAbort: () -> Unit,
     val onError: (XS2AWizardError) -> Unit = {},
     val onNetworkError: () -> Unit = {},
-    val onStep: (XS2AWizardStep?) -> Unit = {},
+    val onStep: (XS2AWizardStep) -> Unit = {},
     val onBack: () -> Unit = {},
     val theme: IXS2ATheme? = null,
     val enableCredentialsStore: Boolean = false,

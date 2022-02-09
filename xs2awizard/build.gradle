@@ -56,7 +56,7 @@ dependencies {
     implementation 'androidx.compose.ui:ui-tooling:1.0.5'
     // Integration with ViewModels
     implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0'
-    implementation "androidx.compose.runtime:runtime-livedata:1.2.0-alpha01"
+    implementation "androidx.compose.runtime:runtime-livedata:1.2.0-alpha02"
     // Security & EncryptedSharedPreferences
     implementation("androidx.security:security-crypto:1.1.0-alpha03")
     implementation("androidx.biometric:biometric:1.2.0-alpha04")

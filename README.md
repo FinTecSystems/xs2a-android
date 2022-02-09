@@ -165,9 +165,8 @@ fun onError(xs2aWizardError: XS2AWizardError) {
 ### Wizard-Step handling
 
 ```kotlin
-fun onStep(newStep: XS2AWizardStep?) {
+fun onStep(newStep: XS2AWizardStep) {
     // The session advanced to a new step
-    // newStep can be null if it's unknown, e.g. when the last response was a success response.
     // e.g. Save it in your own variable to keep track of the steps.
 }
 ```
