@@ -482,7 +482,7 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
         private const val masterKeyAlias = "xs2a_credentials_master_key"
 
         /**
-         * Function to delete all saved credentials.
+         * Delete all saved credentials.
          *
          * @param context - Context to use.
          */
