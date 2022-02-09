@@ -178,6 +178,25 @@ fun onBack() {
 }
 ```
 
+## Credentials saving
+
+On API-Level 23+ you can let the user decide to save their credentials for use in future transactions.
+
+The user must have at least one fingerprint registered, otherwise this feature will be ignored and he will not be asked to save/load his credentials.
+
+### Configuration
+
+You can activate this feature by setting `XS2AWizardConfig.enableCredentialsStore` to `true`.
+
+> This will be ignored on API-Level 21/22.
+
+### Deletion
+
+You'll be able to delete the credentials by calling
+`XS2AWizardViewModel.clearCredentials`.
+
+> You should provide a button that calls this function e.g. in your settings.
+
 ## Customization
 
 You are able to define your own theme for the wizard.
