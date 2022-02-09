@@ -24,6 +24,7 @@ import com.fintecsystems.xs2awizard_networking.NetworkingInstance
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.*
 import java.lang.ref.WeakReference
+import java.security.KeyStore
 import java.util.*
 
 /**
@@ -493,6 +494,11 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
                     clear()
                     apply()
                 }
+
+            KeyStore.getInstance("AndroidKeyStore").apply {
+                load(null)
+                deleteEntry(masterKeyAlias)
+            }
         }
     }
 }
