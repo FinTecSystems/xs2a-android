@@ -14,7 +14,7 @@ import androidx.security.crypto.MasterKey
  * Helper object for [EncryptedSharedPreferences] related tasks.
  */
 @RequiresApi(Build.VERSION_CODES.M)
-object Crypto {
+internal object Crypto {
     /**
      * Get's or creates a new Master Key to use with [EncryptedSharedPreferences].
      *
