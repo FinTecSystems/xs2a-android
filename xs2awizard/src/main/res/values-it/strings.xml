@@ -18,4 +18,9 @@
     <string name="dialog_imprint_link_text">Per saperne di più</string>
     <string name="no_search_results">Nessun risultato di ricerca</string>
     <string name="remember_login">Ricorda il login</string>
+    <string name="fill_credentials_prompt_description">TODO</string>
+    <string name="save_credentials_prompt_title">TODO</string>
+    <string name="save_credentials_prompt_description">TODO</string>
+    <string name="cancel">TODO</string>
+    <string name="fill_credentials_prompt_title">TODO</string>
 </resources>

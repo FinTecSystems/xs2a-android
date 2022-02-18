@@ -18,4 +18,9 @@
     <string name="dialog_imprint_link_text">Más información</string>
     <string name="no_search_results">No hay resultados de búsqueda</string>
     <string name="remember_login">Recordar el inicio de sesión</string>
+    <string name="cancel">TODO</string>
+    <string name="save_credentials_prompt_description">TODO</string>
+    <string name="save_credentials_prompt_title">TODO</string>
+    <string name="fill_credentials_prompt_description">TODO</string>
+    <string name="fill_credentials_prompt_title">TODO</string>
 </resources>
