@@ -29,4 +29,9 @@
     <string name="no_search_results">No search results</string>
 
     <string name="remember_login">Remember login</string>
+    <string name="fill_credentials_prompt_title">Fill credentials?</string>
+    <string name="fill_credentials_prompt_description">Fill saved login-credentials using fingerprint?</string>
+    <string name="save_credentials_prompt_title">Save credentials?</string>
+    <string name="save_credentials_prompt_description">Save login-credentials for future use?</string>
+    <string name="cancel">Cancel</string>
 </resources>

@@ -356,9 +356,9 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
 
         Crypto.openBiometricPrompt(
             currentActivity.get() as FragmentActivity,
-            "Unlock?",
-            "Unlock device using fingerprint?",
-            "no",
+            context.getString(R.string.fill_credentials_prompt_title),
+            context.getString(R.string.fill_credentials_prompt_description),
+            context.getString(R.string.cancel),
             BiometricManager.Authenticators.BIOMETRIC_STRONG,
             {
                 Log.d("XS2AWizard", "onAuthenticationSucceeded: ${it.authenticationType}")

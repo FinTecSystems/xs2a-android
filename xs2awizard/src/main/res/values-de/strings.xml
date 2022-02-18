@@ -18,4 +18,9 @@
     <string name="dialog_imprint_link_text">Mehr Erfahren</string>
     <string name="no_search_results">Keine Suchergebnisse</string>
     <string name="remember_login">Anmeldung merken</string>
+    <string name="fill_credentials_prompt_title">Anmeldedaten einfügen?</string>
+    <string name="fill_credentials_prompt_description">Durch Fingerabdruck Anmeldedaten einfügen?</string>
+    <string name="save_credentials_prompt_title">Anmeldedaten merken?</string>
+    <string name="save_credentials_prompt_description">Anmeldedaten mit Fingerabdruck speichern?</string>
+    <string name="cancel">Abbrechen</string>
 </resources>
