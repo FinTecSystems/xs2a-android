@@ -262,11 +262,10 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
 
 
         if (config.enableCredentialsStore && Utils.isMarshmallow && Crypto.isDeviceSecure(context)) {
-            form.value = parseFormForCredentials(formResponse.form)
             tryToAutoFillCredentials()
-        } else {
-            form.value = formResponse.form
         }
+
+        form.value = formResponse.form
 
         loadingIndicatorLock.value = false
     }
@@ -423,37 +422,6 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
     }
 
     /**
-     * Parses the Form for Login-Credentials.
-     * If any exists an additional Checkbox will be added to ask for saving.
-     *
-     * @param form Form to parse.
-     *
-     * @return Parsed Form.
-     */
-    @RequiresApi(Build.VERSION_CODES.M)
-    private fun parseFormForCredentials(form: List<FormLineData>?): List<FormLineData>? {
-        if (Crypto.isDeviceSecure(context) && form?.any { it is CredentialFormLineData && it.isLoginCredential == true } == true) {
-            val submitLineIndex = form.indexOfFirst { it is SubmitLineData }
-
-            if (submitLineIndex > -1) {
-                return form.toMutableList().also {
-                    it.add(
-                        submitLineIndex, CheckBoxLineData(
-                            name = rememberLoginName,
-                            label = context.getString(R.string.remember_login),
-                            isLoginCredential = false,
-                            value = JsonPrimitive(false),
-                            disabled = false,
-                        )
-                    )
-                }
-            }
-        }
-
-        return form
-    }
-
-    /**
      * Parses [FormResponse] for possible callbacks and calls onStep if necessary and provided.
      *
      * @param response [FormResponse] to parse.
@@ -503,7 +471,7 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
     }
 
     companion object {
-        private const val rememberLoginName = "remember_login"
+        private const val rememberLoginName = "store_credentials"
         private const val sharedPreferencesFileName = "xs2a_credentials"
         private const val storedProvidersKey = "providers"
         private const val masterKeyAlias = "xs2a_credentials_master_key"
