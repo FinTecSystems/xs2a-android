@@ -65,8 +65,7 @@ fun CheckBoxLine(formData: CheckBoxLineData, viewModel: XS2AWizardViewModel) {
             val activity = LocalContext.current.getActivity<Activity>()
 
             ClickableText(
-                modifier = Modifier.padding(0.dp, 14.dp, 0.dp, 0.dp)
-                    .offset((-9).dp, 0.dp),
+                modifier = Modifier.padding(0.dp, 14.dp, 0.dp, 0.dp),
                 text = annotatedString,
                 style = TextStyle(
                     color = XS2ATheme.CURRENT.textColor,
