@@ -8,6 +8,7 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.biometric.BiometricManager
+import androidx.biometric.BiometricPrompt
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.ui.text.AnnotatedString
 import androidx.fragment.app.FragmentActivity
@@ -51,6 +52,8 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
     private var provider: String? = null
 
     private var currentActivity: WeakReference<Activity?> = WeakReference(null)
+
+    private var currentBiometricPromp: BiometricPrompt? = null
 
     fun onStart(_config: XS2AWizardConfig, activity: Activity) {
         config = _config
@@ -195,6 +198,9 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
             loadingIndicatorLock.value = true
         }
 
+        // Cancel and close any open biometric prompt.
+        currentBiometricPromp?.cancelAuthentication()
+
         if (config.enableCredentialsStore && Utils.isMarshmallow && Crypto.isDeviceSecure(context))
             tryToStoreCredentials()
 
@@ -319,7 +325,7 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
         // We need to keep a reference to the current form, because the new form will be received by then.
         val formCopy = form.value!!
 
-        Crypto.openBiometricPrompt(
+        currentBiometricPromp = Crypto.openBiometricPrompt(
             currentActivity.get() as FragmentActivity,
             context.getString(R.string.save_credentials_prompt_title),
             context.getString(R.string.save_credentials_prompt_description),
@@ -377,7 +383,7 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
 
         if (provider.isNullOrEmpty() || !isProviderInStore(provider)) return
 
-        Crypto.openBiometricPrompt(
+        currentBiometricPromp = Crypto.openBiometricPrompt(
             currentActivity.get() as FragmentActivity,
             context.getString(R.string.fill_credentials_prompt_title),
             context.getString(R.string.fill_credentials_prompt_description),

@@ -75,6 +75,8 @@ internal object Crypto {
      * @param allowedAuthenticators - Bitmask of all allowed Authenticators. See [BiometricManager.Authenticators] for more.
      * @param onSuccess - Success callback.
      * @param onError - Error/Abort callback.
+     *
+     * @return Created [BiometricPrompt].
      */
     fun openBiometricPrompt(
         fragmentActivity: FragmentActivity,
@@ -84,7 +86,7 @@ internal object Crypto {
         allowedAuthenticators: Int,
         onSuccess: (BiometricPrompt.AuthenticationResult) -> Unit,
         onError: (Int, CharSequence) -> Unit
-    ) {
+    ): BiometricPrompt {
         val authenticationCallback = object : BiometricPrompt.AuthenticationCallback() {
             override fun onAuthenticationSucceeded(
                 result: BiometricPrompt.AuthenticationResult
@@ -103,7 +105,7 @@ internal object Crypto {
             }
         }
 
-        BiometricPrompt(
+        return BiometricPrompt(
             fragmentActivity,
             authenticationCallback
         ).apply {
