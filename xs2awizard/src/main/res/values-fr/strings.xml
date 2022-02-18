@@ -18,9 +18,9 @@
     <string name="dialog_imprint_link_text">En savoir plus</string>
     <string name="no_search_results">Aucun résultat trouvé</string>
     <string name="remember_login">Se souvenir de la connexion</string>
-    <string name="fill_credentials_prompt_title">TODO</string>
-    <string name="fill_credentials_prompt_description">TODO</string>
-    <string name="save_credentials_prompt_title">TODO</string>
-    <string name="save_credentials_prompt_description">TODO</string>
-    <string name="cancel">TODO</string>
+    <string name="fill_credentials_prompt_title">Insérer les identifiants?</string>
+    <string name="fill_credentials_prompt_description">Insérer les informations d\'identification par empreinte digitale?</string>
+    <string name="save_credentials_prompt_title">Se souvenir des informations de connexion?</string>
+    <string name="save_credentials_prompt_description">Enregistrer les données de connexion avec l\'empreinte digitale?</string>
+    <string name="cancel">Annuler</string>
 </resources>

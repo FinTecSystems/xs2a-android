@@ -18,9 +18,9 @@
     <string name="dialog_imprint_link_text">Más información</string>
     <string name="no_search_results">No hay resultados de búsqueda</string>
     <string name="remember_login">Recordar el inicio de sesión</string>
-    <string name="cancel">TODO</string>
-    <string name="save_credentials_prompt_description">TODO</string>
-    <string name="save_credentials_prompt_title">TODO</string>
-    <string name="fill_credentials_prompt_description">TODO</string>
-    <string name="fill_credentials_prompt_title">TODO</string>
+    <string name="cancel">Cancelar</string>
+    <string name="save_credentials_prompt_description">Guardar los datos de acceso con la huella dactilar</string>
+    <string name="save_credentials_prompt_title">Recordar los datos de acceso</string>
+    <string name="fill_credentials_prompt_description">Insertar credenciales por huella dactilar</string>
+    <string name="fill_credentials_prompt_title">Introducir los datos de acceso</string>
 </resources>
