@@ -18,9 +18,9 @@
     <string name="dialog_imprint_link_text">Per saperne di più</string>
     <string name="no_search_results">Nessun risultato di ricerca</string>
     <string name="remember_login">Ricorda il login</string>
-    <string name="fill_credentials_prompt_description">TODO</string>
-    <string name="save_credentials_prompt_title">TODO</string>
-    <string name="save_credentials_prompt_description">TODO</string>
-    <string name="cancel">TODO</string>
-    <string name="fill_credentials_prompt_title">TODO</string>
+    <string name="fill_credentials_prompt_description">Hai i dati di accesso a questa banca memorizzati sul tuo dispositivo. Dovremmo usare queste credenziali per registrarla automaticamente nella banca ed eseguire i passi successivi?</string>
+    <string name="save_credentials_prompt_title">Conservare le credenziali?</string>
+    <string name="save_credentials_prompt_description">Memorizzare le credenziali per un uso futuro?</string>
+    <string name="cancel">Cancella</string>
+    <string name="fill_credentials_prompt_title">Usare i dati salvati?</string>
 </resources>
