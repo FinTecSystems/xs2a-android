@@ -196,7 +196,7 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
         }
 
         if (config.enableCredentialsStore && Utils.isMarshmallow && Crypto.isDeviceSecure(context))
-            storeCredentials()
+            tryToStoreCredentials()
 
         return NetworkingInstance.getInstance(context)
             .encodeAndSendMessage(
@@ -304,14 +304,13 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
     }
 
     /**
-     * Encrypts and stores credentials if
+     * Tries to encrypt and store credentials if
      *  - [provider] exists.
      *  - Consent has been checked.
      *  - the phone is secure.
-     * Aborts saving.
      */
     @RequiresApi(Build.VERSION_CODES.M)
-    private fun storeCredentials() {
+    private fun tryToStoreCredentials() {
         if (form.value == null || provider.isNullOrEmpty()) return
 
         val consentCheckBoxLineData =
@@ -319,6 +318,32 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
 
         if (consentCheckBoxLineData?.value?.jsonPrimitive?.boolean != true) return
 
+        // We need to keep a reference to the current form, because the new form will be received by then.
+        val formCopy = form.value!!
+
+        Crypto.openBiometricPrompt(
+            currentActivity.get() as FragmentActivity,
+            context.getString(R.string.save_credentials_prompt_title),
+            context.getString(R.string.save_credentials_prompt_description),
+            context.getString(R.string.cancel),
+            BiometricManager.Authenticators.BIOMETRIC_STRONG,
+            {
+                Log.d("XS2AWizard", "onAuthenticationSucceeded: ${it.authenticationType}")
+
+                storeCredentials(formCopy)
+            }, { errorCode, errString ->
+                Log.d("XS2AWizard", "onAuthenticationError: $errorCode $errString")
+            }
+        )
+    }
+
+    /**
+     * Saves credentials to the store.
+     *
+     * @param form - Form to save.
+     */
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun storeCredentials(form: List<FormLineData>) {
         storeProvider(provider!!)
 
         Crypto.createEncryptedSharedPreferences(
@@ -326,7 +351,7 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
             sharedPreferencesFileName,
             Crypto.createMasterKey(context, masterKeyAlias)
         ).edit().apply {
-            form.value!!.forEach {
+            form.forEach {
                 if (it is CredentialFormLineData && it.isLoginCredential == true) {
                     if (it is CheckBoxLineData) putBoolean(
                         it.getProviderName(provider!!),
