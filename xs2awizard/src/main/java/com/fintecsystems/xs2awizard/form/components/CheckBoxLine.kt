@@ -1,9 +1,10 @@
 package com.fintecsystems.xs2awizard.form.components
 
 import android.app.Activity
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.Checkbox
 import androidx.compose.material.CheckboxDefaults
@@ -48,8 +49,6 @@ fun CheckBoxLine(formData: CheckBoxLineData, viewModel: XS2AWizardViewModel) {
 
     Row(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(5.dp),
-
         ) {
         Checkbox(
             checked = checkBoxValue,
@@ -66,6 +65,8 @@ fun CheckBoxLine(formData: CheckBoxLineData, viewModel: XS2AWizardViewModel) {
             val activity = LocalContext.current.getActivity<Activity>()
 
             ClickableText(
+                modifier = Modifier.padding(0.dp, 14.dp, 0.dp, 0.dp)
+                    .offset((-9).dp, 0.dp),
                 text = annotatedString,
                 style = TextStyle(
                     color = XS2ATheme.CURRENT.textColor,

@@ -1,9 +1,6 @@
 package com.fintecsystems.xs2awizard.form.components
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.RadioButton
 import androidx.compose.material.RadioButtonDefaults
@@ -38,7 +35,6 @@ fun LabelledRadioButton(
                 onClick = onClick,
                 enabled = !disabled
             ),
-        horizontalArrangement = Arrangement.spacedBy(5.dp)
     ) {
         RadioButton(
             selected = selected,
@@ -51,6 +47,8 @@ fun LabelledRadioButton(
             enabled = !disabled,
         )
         FormText(
+            Modifier.padding(0.dp, 14.dp, 0.dp, 0.dp)
+                .offset((-9).dp, 0.dp),
             text = label,
             color = if (disabled) XS2ATheme.CURRENT.disabledColor else XS2ATheme.CURRENT.textColor
         )
