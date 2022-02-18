@@ -3,6 +3,7 @@ package com.fintecsystems.xs2awizard.form.components
 import android.app.Activity
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.Checkbox
@@ -47,7 +48,8 @@ fun CheckBoxLine(formData: CheckBoxLineData, viewModel: XS2AWizardViewModel) {
     }
 
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth()
+            .offset((-14).dp, 0.dp),
         ) {
         Checkbox(
             checked = checkBoxValue,

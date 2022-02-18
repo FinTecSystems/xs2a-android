@@ -80,6 +80,7 @@ fun RadioLine(formData: RadioLineData) {
 
     LabelledContainer(label = formData.label) {
         Column(
+            modifier = Modifier.offset((-14).dp, 0.dp),
             verticalArrangement = Arrangement.spacedBy(5.dp)
         ) {
             formData.options.forEachIndexed { index, radioElement ->
