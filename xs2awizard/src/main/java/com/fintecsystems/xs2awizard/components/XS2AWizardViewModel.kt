@@ -260,12 +260,11 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
 
         parseCallback(formResponse)
 
+        form.value = formResponse.form
 
         if (config.enableCredentialsStore && Utils.isMarshmallow && Crypto.isDeviceSecure(context)) {
             tryToAutoFillCredentials()
         }
-
-        form.value = formResponse.form
 
         loadingIndicatorLock.value = false
     }
