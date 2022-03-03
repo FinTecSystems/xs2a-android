@@ -6,6 +6,11 @@ import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.produceState
+import androidx.compose.ui.platform.LocalContext
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
@@ -44,4 +49,13 @@ fun Context.observeConnectivityAsFlow() = callbackFlow {
         // Remove listeners
         connectivityManager.unregisterNetworkCallback(callback)
     }
+}
+
+/**
+ * Current Network-Connectivity-State as State.
+ */
+@ExperimentalCoroutinesApi
+@Composable
+fun connectivityState() = with(LocalContext.current) {
+    observeConnectivityAsFlow().collectAsState(initial = ConnectionState.UNKNOWN)
 }
