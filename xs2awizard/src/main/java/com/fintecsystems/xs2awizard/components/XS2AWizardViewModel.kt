@@ -45,11 +45,11 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
 
     private val networkCallback = object : ConnectivityManager.NetworkCallback() {
         override fun onAvailable(network: Network) {
-            connectionState.value = ConnectionState.CONNECTED
+            connectionState.postValue(ConnectionState.CONNECTED)
         }
 
         override fun onLost(network: Network) {
-            connectionState.value = ConnectionState.DISCONNECTED
+            connectionState.postValue(ConnectionState.DISCONNECTED)
         }
     }
 
