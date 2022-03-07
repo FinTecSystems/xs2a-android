@@ -1,6 +1,5 @@
 package com.fintecsystems.xs2awizard.components.networking
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.Network
@@ -10,7 +9,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 
-@SuppressLint("MissingPermission")
 @Composable
 fun ConnectivityStatusBanner() {
     var connectionState by remember { mutableStateOf(ConnectionState.UNKNOWN) }
