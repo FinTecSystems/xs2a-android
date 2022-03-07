@@ -23,4 +23,5 @@
     <string name="save_credentials_prompt_title">Anmeldedaten speichern?</string>
     <string name="save_credentials_prompt_description">Anmeldeinformationen für die zukünftige Verwendung speichern?</string>
     <string name="cancel">Abbrechen</string>
+    <string name="no_internet_connection">Keine Internetverbindung</string>
 </resources>

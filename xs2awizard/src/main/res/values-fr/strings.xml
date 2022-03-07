@@ -23,4 +23,5 @@
     <string name="save_credentials_prompt_title">Stocker les informations d\'identification ?</string>
     <string name="save_credentials_prompt_description">Stocker les informations d\'identification pour une utilisation ultérieure ?</string>
     <string name="cancel">Annuler</string>
+    <string name="no_internet_connection">Pas de connexion Internet</string>
 </resources>

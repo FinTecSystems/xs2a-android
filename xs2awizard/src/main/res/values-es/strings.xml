@@ -23,4 +23,5 @@
     <string name="save_credentials_prompt_title">¿Creencias de la tienda?</string>
     <string name="fill_credentials_prompt_description">Tiene datos de acceso a este banco almacenados en su dispositivo. Deberíamos utilizar estas credenciales para iniciar automáticamente la sesión en el banco y llevar a cabo los siguientes pasos?</string>
     <string name="fill_credentials_prompt_title">¿Utilizar los datos guardados?</string>
+    <string name="no_internet_connection">Sin conexión a Internet</string>
 </resources>

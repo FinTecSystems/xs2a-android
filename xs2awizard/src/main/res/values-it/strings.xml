@@ -23,4 +23,5 @@
     <string name="save_credentials_prompt_description">Memorizzare le credenziali per un uso futuro?</string>
     <string name="cancel">Cancella</string>
     <string name="fill_credentials_prompt_title">Usare i dati salvati?</string>
+    <string name="no_internet_connection">Nessuna connessione Internet</string>
 </resources>

@@ -9,6 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.fintecsystems.xs2awizard.R
@@ -23,7 +24,8 @@ fun ConnectivityStatusBanner(connectionState: ConnectionState) {
         Text(text = "Connected")
     } else {
         Row(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
                 .background(XS2ATheme.CURRENT.errorParagraphStyle.backgroundColor)
                 .padding(0.dp, 5.dp),
             horizontalArrangement = Arrangement.Center,
@@ -34,12 +36,12 @@ fun ConnectivityStatusBanner(connectionState: ConnectionState) {
                 painter = painterResource(
                     R.drawable.ic_warning
                 ),
-                contentDescription = "No Internet Connection",
+                contentDescription = stringResource(R.string.no_internet_connection),
                 colorFilter = ColorFilter.tint(XS2ATheme.CURRENT.errorParagraphStyle.textColor)
             )
 
             FormText(
-                text = "No Internet Connection",
+                text = stringResource(R.string.no_internet_connection),
                 color = XS2ATheme.CURRENT.errorParagraphStyle.textColor,
                 fontWeight = FontWeight.Bold,
             )
