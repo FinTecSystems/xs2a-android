@@ -1,4 +1,4 @@
-package com.fintecsystems.xs2awizard.helper.networking
+package com.fintecsystems.xs2awizard.components.networking
 
 enum class ConnectionState {
     CONNECTED,

@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.fintecsystems.xs2awizard.components.XS2AWizardConfig
 import com.fintecsystems.xs2awizard.components.XS2AWizardViewModel
+import com.fintecsystems.xs2awizard.components.networking.ConnectivityStatusBanner
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.components.webview.URLBarWebView
 import com.fintecsystems.xs2awizard.form.*
@@ -55,11 +56,12 @@ fun XS2AWizard(
     // Render
     XS2ATheme(xS2ATheme = xS2AWizardConfig.theme) {
         Box(modifier) {
-            Box(
+            Column(
                 modifier = Modifier
                     .background(XS2ATheme.CURRENT.backgroundColor)
                     .padding(14.dp, 5.dp),
             ) {
+                ConnectivityStatusBanner()
                 form?.let {
                     FormLinesContainer(it, xs2aWizardViewModel)
                 }
