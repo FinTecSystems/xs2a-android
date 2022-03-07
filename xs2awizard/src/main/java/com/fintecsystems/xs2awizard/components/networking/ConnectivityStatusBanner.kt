@@ -32,7 +32,7 @@ fun ConnectivityStatusBanner(connectionState: ConnectionState) {
             Image(
                 modifier = Modifier.width(48.dp),
                 painter = painterResource(
-                    R.drawable.ic_ssl_unsecure
+                    R.drawable.ic_warning
                 ),
                 contentDescription = "No Internet Connection",
                 colorFilter = ColorFilter.tint(XS2ATheme.CURRENT.errorParagraphStyle.textColor)

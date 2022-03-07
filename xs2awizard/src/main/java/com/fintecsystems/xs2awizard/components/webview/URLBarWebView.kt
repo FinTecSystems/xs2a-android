@@ -115,7 +115,7 @@ fun URLBarWebView(viewModel: XS2AWizardViewModel) {
                 Image(
                     modifier = Modifier.width(48.dp),
                     painter = painterResource(
-                        if (hasCertificate) R.drawable.ic_ssl_secure else R.drawable.ic_ssl_unsecure
+                        if (hasCertificate) R.drawable.ic_ssl_secure else R.drawable.ic_warning
                     ),
                     contentDescription = stringResource(
                         if (hasCertificate) R.string.connection_secure else R.string.connection_unsecure

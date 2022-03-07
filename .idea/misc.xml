@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="xs2awizard/src/main/res/drawable/bottom_border_background.xml" value="0.14791666666666667" />
+        <entry key="xs2awizard/src/main/res/drawable/ic_ssl_unsecure.xml" value="0.161" />
         <entry key="xs2awizard/src/main/res/drawable/paragraph_background.xml" value="0.14791666666666667" />
         <entry key="xs2awizard/src/main/res/layout/fragment_form_line_value.xml" value="0.13177083333333334" />
         <entry key="xs2awizard/src/main/res/layout/fragment_line_captcha.xml" value="0.13177083333333334" />
