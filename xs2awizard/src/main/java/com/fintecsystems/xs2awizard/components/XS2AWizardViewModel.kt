@@ -3,7 +3,7 @@ package com.fintecsystems.xs2awizard.components
 import android.app.Activity
 import android.app.Application
 import android.content.Context
-import android.net.Uri
+import android.net.*
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
@@ -16,6 +16,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.fintecsystems.xs2awizard.BuildConfig
 import com.fintecsystems.xs2awizard.R
+import com.fintecsystems.xs2awizard.components.networking.ConnectionState
 import com.fintecsystems.xs2awizard.form.*
 import com.fintecsystems.xs2awizard.helper.Crypto
 import com.fintecsystems.xs2awizard.helper.JSONFormatter
@@ -39,6 +40,18 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
     val loadingIndicatorLock = MutableLiveData(false)
 
     val currentWebViewUrl = MutableLiveData<String?>(null)
+
+    val connectionState = MutableLiveData(ConnectionState.UNKNOWN)
+
+    private val networkCallback = object : ConnectivityManager.NetworkCallback() {
+        override fun onAvailable(network: Network) {
+            connectionState.value = ConnectionState.CONNECTED
+        }
+
+        override fun onLost(network: Network) {
+            connectionState.value = ConnectionState.DISCONNECTED
+        }
+    }
 
     private val context: Context
         get() = getApplication<Application>().applicationContext
@@ -64,6 +77,8 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
             backendURL = config.backendURL
         }
 
+        registerNetworkCallback()
+
         initForm()
     }
 
@@ -74,6 +89,27 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
         form.value = emptyList()
         currentStep = null
         currentActivity = WeakReference(null)
+        connectionState.value = ConnectionState.UNKNOWN
+
+        unregisterNetworkCallback()
+    }
+
+    private fun registerNetworkCallback() {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+        val networkRequest = NetworkRequest.Builder()
+            .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+            .build()
+
+        connectivityManager.registerNetworkCallback(networkRequest, networkCallback)
+    }
+
+    private fun unregisterNetworkCallback() {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+        connectivityManager.unregisterNetworkCallback(networkCallback)
     }
 
     /**

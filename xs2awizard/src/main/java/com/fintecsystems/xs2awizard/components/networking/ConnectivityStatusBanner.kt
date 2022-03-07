@@ -1,50 +1,48 @@
 package com.fintecsystems.xs2awizard.components.networking
 
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.Network
-import android.net.NetworkCapabilities
-import android.net.NetworkRequest
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import com.fintecsystems.xs2awizard.R
+import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
+import com.fintecsystems.xs2awizard.form.components.shared.FormText
 
 @Composable
-fun ConnectivityStatusBanner() {
-    var connectionState by remember { mutableStateOf(ConnectionState.UNKNOWN) }
-
-    val context = LocalContext.current
-
-    DisposableEffect(null) {
-        val connectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-
-        val callback = object : ConnectivityManager.NetworkCallback() {
-            override fun onAvailable(network: Network) {
-                connectionState = ConnectionState.CONNECTED
-            }
-
-            override fun onLost(network: Network) {
-                connectionState = ConnectionState.DISCONNECTED
-            }
-        }
-
-        val networkRequest = NetworkRequest.Builder()
-            .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-            .build()
-
-        connectivityManager.registerNetworkCallback(networkRequest, callback)
-
-        onDispose {
-            connectivityManager.unregisterNetworkCallback(callback)
-        }
-    }
-
+fun ConnectivityStatusBanner(connectionState: ConnectionState) {
     val isConnected = connectionState === ConnectionState.CONNECTED
 
     if (isConnected) {
         Text(text = "Connected")
     } else {
-        Text(text = "Disconnected")
+        Row(
+            modifier = Modifier.fillMaxWidth()
+                .background(XS2ATheme.CURRENT.errorParagraphStyle.backgroundColor)
+                .padding(0.dp, 5.dp),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Image(
+                modifier = Modifier.width(48.dp),
+                painter = painterResource(
+                    R.drawable.ic_ssl_unsecure
+                ),
+                contentDescription = "No Internet Connection",
+                colorFilter = ColorFilter.tint(XS2ATheme.CURRENT.errorParagraphStyle.textColor)
+            )
+
+            FormText(
+                text = "No Internet Connection",
+                color = XS2ATheme.CURRENT.errorParagraphStyle.textColor,
+                fontWeight = FontWeight.Bold,
+            )
+        }
     }
 }

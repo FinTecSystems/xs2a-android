@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.fintecsystems.xs2awizard.components.XS2AWizardConfig
 import com.fintecsystems.xs2awizard.components.XS2AWizardViewModel
+import com.fintecsystems.xs2awizard.components.networking.ConnectionState
 import com.fintecsystems.xs2awizard.components.networking.ConnectivityStatusBanner
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.components.webview.URLBarWebView
@@ -40,6 +41,7 @@ fun XS2AWizard(
     val form by xs2aWizardViewModel.form.observeAsState(null)
     val loadingIndicatorLock by xs2aWizardViewModel.loadingIndicatorLock.observeAsState(false)
     val currentWebViewUrl by xs2aWizardViewModel.currentWebViewUrl.observeAsState(null)
+    val connectionState by xs2aWizardViewModel.connectionState.observeAsState(ConnectionState.UNKNOWN)
 
     val context = LocalContext.current
 
@@ -59,11 +61,16 @@ fun XS2AWizard(
             Column(
                 modifier = Modifier
                     .background(XS2ATheme.CURRENT.backgroundColor)
-                    .padding(14.dp, 5.dp),
             ) {
-                ConnectivityStatusBanner()
-                form?.let {
-                    FormLinesContainer(it, xs2aWizardViewModel)
+                ConnectivityStatusBanner(connectionState)
+
+                Column(
+                    modifier = Modifier
+                        .padding(14.dp, 5.dp),
+                ) {
+                    form?.let {
+                        FormLinesContainer(it, xs2aWizardViewModel)
+                    }
                 }
             }
 
