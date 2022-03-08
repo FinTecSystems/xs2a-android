@@ -1,9 +1,11 @@
 package com.fintecsystems.xs2awizard.components.networking
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,11 +20,13 @@ import com.fintecsystems.xs2awizard.form.components.shared.FormText
 
 @Composable
 fun ConnectivityStatusBanner(connectionState: ConnectionState) {
-    val isConnected = connectionState === ConnectionState.CONNECTED
+    val isDisconnected = connectionState === ConnectionState.DISCONNECTED
 
-    if (isConnected) {
-        Text(text = "Connected")
-    } else {
+    AnimatedVisibility(
+        visible = isDisconnected,
+        enter = slideInVertically(),
+        exit = slideOutVertically(),
+    ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
