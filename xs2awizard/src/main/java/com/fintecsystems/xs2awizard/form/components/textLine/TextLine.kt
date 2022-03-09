@@ -2,9 +2,11 @@ package com.fintecsystems.xs2awizard.form.components.textLine
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.platform.LocalDensity
@@ -52,9 +54,10 @@ fun TextLine(formData: TextLineData, viewModel: XS2AWizardViewModel) {
 
     // AutoComplete fields
     val coroutineScope = rememberCoroutineScope()
-    var currentAutoCompleteJob: Job? = null
-    val showAutoCompleteDropdown = remember { mutableStateOf(false) }
-    val autoCompleteResponse = remember { mutableStateOf<AutoCompleteResponse?>(null) }
+    var currentAutoCompleteJob by remember { mutableStateOf<Job?>(null) }
+    var showAutoCompleteDropdown by remember { mutableStateOf(false) }
+    var autoCompleteRequestFinished by remember { mutableStateOf(true) }
+    var autoCompleteResponse by remember { mutableStateOf<AutoCompleteResponse?>(null) }
 
     // Workaround to let the dropdown have the same size as the TextField
     var textFieldSize by remember { mutableStateOf(Size.Zero) }
@@ -70,6 +73,16 @@ fun TextLine(formData: TextLineData, viewModel: XS2AWizardViewModel) {
     fun performAutoComplete() {
         currentAutoCompleteJob?.cancel()
 
+        if (textFieldValue.text.isEmpty()) {
+            showAutoCompleteDropdown = false
+            autoCompleteRequestFinished = true
+
+            return
+        }
+
+        autoCompleteRequestFinished = false
+        showAutoCompleteDropdown = true
+
         currentAutoCompleteJob = coroutineScope.launch {
             delay(300)
 
@@ -77,8 +90,8 @@ fun TextLine(formData: TextLineData, viewModel: XS2AWizardViewModel) {
                 val response =
                     JSONFormatter.formatter.decodeFromString<AutoCompleteResponse>(it)
 
-                autoCompleteResponse.value = response
-                showAutoCompleteDropdown.value = true
+                autoCompleteResponse = response
+                autoCompleteRequestFinished = true
             }
         }
     }
@@ -104,14 +117,14 @@ fun TextLine(formData: TextLineData, viewModel: XS2AWizardViewModel) {
                 value = textFieldValue,
                 onValueChange = ::onValueChange,
                 placeholder = formData.placeholder,
-                onFocusChanged = { if (!it.isFocused) showAutoCompleteDropdown.value = false },
+                onFocusChanged = { if (!it.isFocused) showAutoCompleteDropdown = false },
                 onGloballyPositioned = { textFieldSize = it.size.toSize() }
             )
         }
 
         DropdownMenu(
-            expanded = showAutoCompleteDropdown.value,
-            onDismissRequest = { showAutoCompleteDropdown.value = false },
+            expanded = showAutoCompleteDropdown,
+            onDismissRequest = { showAutoCompleteDropdown = false },
             properties = PopupProperties(
                 focusable = false,
                 dismissOnBackPress = true,
@@ -124,57 +137,71 @@ fun TextLine(formData: TextLineData, viewModel: XS2AWizardViewModel) {
                     XS2ATheme.CURRENT.inputShape,
                 )
         ) {
-            autoCompleteResponse.value?.autoCompleteData?.data?.let {
-                if (it.isNotEmpty()) {
-                    it.forEach {
-                        DropdownMenuItem(onClick = {
-                            textFieldValue = TextFieldValue(it.value, TextRange(it.value.length))
-                            formData.value = JsonPrimitive(it.value)
-                            showAutoCompleteDropdown.value = false
-                        }) {
+            if (autoCompleteRequestFinished) {
+                autoCompleteResponse?.autoCompleteData?.data?.let {
+                    if (it.isNotEmpty()) {
+                        it.forEach {
+                            DropdownMenuItem(onClick = {
+                                textFieldValue =
+                                    TextFieldValue(it.value, TextRange(it.value.length))
+                                formData.value = JsonPrimitive(it.value)
+                                showAutoCompleteDropdown = false
+                            }) {
 
-                            Column(
-                                Modifier
-                                    .fillMaxWidth()
-                                    .padding(2.dp, 4.dp)
-                            ) {
-                                AnimatedAutoScrollContainer {
-                                    FormText(
-                                        text = it.value,
-                                        color = XS2ATheme.CURRENT.textColor,
-                                        fontSize = 17.sp,
-                                        maxLines = 1,
-                                        fontWeight = FontWeight.Bold,
-                                    )
-                                }
+                                Column(
+                                    Modifier
+                                        .fillMaxWidth()
+                                        .padding(2.dp, 4.dp)
+                                ) {
+                                    AnimatedAutoScrollContainer {
+                                        FormText(
+                                            text = it.value,
+                                            color = XS2ATheme.CURRENT.textColor,
+                                            fontSize = 17.sp,
+                                            maxLines = 1,
+                                            fontWeight = FontWeight.Bold,
+                                        )
+                                    }
 
-                                AnimatedAutoScrollContainer {
-                                    FormText(
-                                        text = it.label,
-                                        color = XS2ATheme.CURRENT.textColor,
-                                        fontSize = 15.sp,
-                                        maxLines = 1,
-                                    )
+                                    AnimatedAutoScrollContainer {
+                                        FormText(
+                                            text = it.label,
+                                            color = XS2ATheme.CURRENT.textColor,
+                                            fontSize = 15.sp,
+                                            maxLines = 1,
+                                        )
+                                    }
                                 }
                             }
                         }
+                    } else {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(2.dp, 4.dp)
+                        ) {
+                            FormText(
+                                text = stringResource(R.string.no_search_results),
+                                color = XS2ATheme.CURRENT.textColor,
+                                fontSize = 17.sp,
+                                maxLines = 1,
+                                fontWeight = FontWeight.Bold,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                        }
                     }
-                } else {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(2.dp, 4.dp)
-                    ) {
-                        FormText(
-                            text = stringResource(R.string.no_search_results),
-                            color = XS2ATheme.CURRENT.textColor,
-                            fontSize = 17.sp,
-                            maxLines = 1,
-                            fontWeight = FontWeight.Bold,
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                    }
+                }
+            } else {
+                Box(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(0.dp, 5.dp)
+                ) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.align(Alignment.Center),
+                        color = XS2ATheme.CURRENT.tintColor
+                    )
                 }
             }
         }
