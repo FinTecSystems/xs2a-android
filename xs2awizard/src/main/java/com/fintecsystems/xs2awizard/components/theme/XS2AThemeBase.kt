@@ -49,4 +49,7 @@ object XS2AThemeBase : IXS2ATheme {
 
     override val unselectedColor: Color = Color.Unspecified
     override val disabledColor: Color = Color.Unspecified
+
+    override val connectionStatusBannerBackgroundColor: Color = Color.Unspecified
+    override val connectionStatusBannerTextColor: Color = Color.Unspecified
 }

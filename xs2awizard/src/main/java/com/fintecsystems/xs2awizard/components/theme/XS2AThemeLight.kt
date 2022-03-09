@@ -57,4 +57,7 @@ object XS2AThemeLight : IXS2ATheme {
 
     override val unselectedColor: Color = XS2AColors.unselected
     override val disabledColor: Color = XS2AColors.disabled
+
+    override val connectionStatusBannerBackgroundColor: Color = XS2AColors.backgroundWarning
+    override val connectionStatusBannerTextColor: Color = XS2AColors.textColor
 }

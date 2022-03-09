@@ -56,6 +56,8 @@ class XS2ASupportTheme(
     webViewTextColor: SupportColor = SupportColor(XS2AColors.textColor),
     unselectedColor: SupportColor = SupportColor(XS2AColors.unselected),
     disabledColor: SupportColor = SupportColor(XS2AColors.disabled),
+    connectionStatusBannerBackgroundColor: SupportColor = SupportColor(Color.Yellow),
+    connectionStatusBannerTextColor: SupportColor = SupportColor(XS2AColors.textColor),
 ) : IXS2ATheme {
     override val tintColor: Color = tintColor.colorValue
     override val onTintColor: Color = onTintColor.colorValue
@@ -81,4 +83,7 @@ class XS2ASupportTheme(
 
     override val unselectedColor: Color = unselectedColor.colorValue
     override val disabledColor: Color = disabledColor.colorValue
+
+    override val connectionStatusBannerBackgroundColor: Color = connectionStatusBannerBackgroundColor.colorValue
+    override val connectionStatusBannerTextColor: Color = connectionStatusBannerTextColor.colorValue
 }

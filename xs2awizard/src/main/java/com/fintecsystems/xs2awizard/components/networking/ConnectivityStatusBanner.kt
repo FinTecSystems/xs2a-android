@@ -30,7 +30,7 @@ fun ConnectivityStatusBanner(connectionState: ConnectionState) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(XS2ATheme.CURRENT.errorParagraphStyle.backgroundColor)
+                .background(XS2ATheme.CURRENT.connectionStatusBannerBackgroundColor)
                 .padding(0.dp, 5.dp),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
@@ -41,12 +41,12 @@ fun ConnectivityStatusBanner(connectionState: ConnectionState) {
                     R.drawable.ic_warning
                 ),
                 contentDescription = stringResource(R.string.no_internet_connection),
-                colorFilter = ColorFilter.tint(XS2ATheme.CURRENT.errorParagraphStyle.textColor)
+                colorFilter = ColorFilter.tint(XS2ATheme.CURRENT.connectionStatusBannerTextColor)
             )
 
             FormText(
                 text = stringResource(R.string.no_internet_connection),
-                color = XS2ATheme.CURRENT.errorParagraphStyle.textColor,
+                color = XS2ATheme.CURRENT.connectionStatusBannerTextColor,
                 fontWeight = FontWeight.Bold,
             )
         }

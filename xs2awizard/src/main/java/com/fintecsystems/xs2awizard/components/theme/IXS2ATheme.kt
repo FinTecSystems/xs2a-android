@@ -53,4 +53,8 @@ interface IXS2ATheme {
     // Checkbox/Radio
     val unselectedColor: Color
     val disabledColor: Color
+
+    // Connection status Banner
+    val connectionStatusBannerBackgroundColor: Color
+    val connectionStatusBannerTextColor: Color
 }
