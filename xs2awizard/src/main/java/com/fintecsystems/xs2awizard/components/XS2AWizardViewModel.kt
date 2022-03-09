@@ -94,17 +94,28 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
         unregisterNetworkCallback()
     }
 
+    /**
+     * Registers [networkCallback] to the ConnectivityManager to be informed of the current
+     * network status.
+     */
     private fun registerNetworkCallback() {
         val connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
-        val networkRequest = NetworkRequest.Builder()
-            .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-            .build()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            connectivityManager.registerDefaultNetworkCallback(networkCallback)
+        } else {
+            val networkRequest = NetworkRequest.Builder()
+                .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+                .build()
 
-        connectivityManager.registerNetworkCallback(networkRequest, networkCallback)
+            connectivityManager.registerNetworkCallback(networkRequest, networkCallback)
+        }
     }
 
+    /**
+     * Unregisters [networkCallback] from the ConnectivityManager.
+     */
     private fun unregisterNetworkCallback() {
         val connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
