@@ -5,17 +5,16 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.fintecsystems.xs2awizard.components.LoadingIndicator
 import com.fintecsystems.xs2awizard.components.XS2AWizardConfig
 import com.fintecsystems.xs2awizard.components.XS2AWizardViewModel
 import com.fintecsystems.xs2awizard.components.networking.ConnectionState
@@ -75,17 +74,11 @@ fun XS2AWizard(
             }
 
             if (loadingIndicatorLock) {
-                Box(
+                LoadingIndicator(
                     modifier = Modifier
                         .fillMaxSize()
                         .background(XS2ATheme.CURRENT.loadingIndicatorBackgroundColor),
-                ) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.align(Alignment.Center),
-                        color = XS2ATheme.CURRENT.tintColor
-                    )
-
-                }
+                )
             }
 
             if (currentWebViewUrl != null)

@@ -1,12 +1,13 @@
 package com.fintecsystems.xs2awizard.form.components.textLine
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.platform.LocalDensity
@@ -20,13 +21,14 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
 import androidx.compose.ui.window.PopupProperties
 import com.fintecsystems.xs2awizard.R
+import com.fintecsystems.xs2awizard.components.LoadingIndicator
 import com.fintecsystems.xs2awizard.components.XS2AWizardViewModel
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.TextLineData
 import com.fintecsystems.xs2awizard.form.components.LabelledContainer
+import com.fintecsystems.xs2awizard.form.components.shared.AnimatedAutoScrollContainer
 import com.fintecsystems.xs2awizard.form.components.shared.FormText
 import com.fintecsystems.xs2awizard.form.components.shared.FormTextField
-import com.fintecsystems.xs2awizard.form.components.shared.AnimatedAutoScrollContainer
 import com.fintecsystems.xs2awizard.helper.JSONFormatter
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -193,16 +195,11 @@ fun TextLine(formData: TextLineData, viewModel: XS2AWizardViewModel) {
                     }
                 }
             } else {
-                Box(
+                LoadingIndicator(
                     Modifier
                         .fillMaxWidth()
                         .padding(0.dp, 5.dp)
-                ) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.align(Alignment.Center),
-                        color = XS2ATheme.CURRENT.tintColor
-                    )
-                }
+                )
             }
         }
     }
