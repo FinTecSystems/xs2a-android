@@ -182,7 +182,8 @@ fun onBack() {
 
 On API-Level 23+ the user is able to decide to save their credentials for use in future transactions.
 
-> This feature must be activated on your FTS-Account.
+> This feature must be activated on your FinTecSystems-Account.
+> For more details on this feature contact the technical support of FinTecSystems.
 
 The user must have at least one fingerprint registered, otherwise this feature will be ignored and he will not be asked to save/load his credentials.
 
