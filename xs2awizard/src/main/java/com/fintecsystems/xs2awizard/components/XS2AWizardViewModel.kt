@@ -5,7 +5,6 @@ import android.app.Application
 import android.content.Context
 import android.net.*
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
@@ -379,12 +378,9 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
             context.getString(R.string.cancel),
             BiometricManager.Authenticators.BIOMETRIC_STRONG,
             {
-                Log.d("XS2AWizard", "onAuthenticationSucceeded: ${it.authenticationType}")
-
                 storeCredentials(formCopy)
-            }, { errorCode, errString ->
-                Log.d("XS2AWizard", "onAuthenticationError: $errorCode $errString")
-            }
+            },
+            { _, _ -> /* no-op */ }
         )
     }
 
@@ -437,12 +433,9 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
             context.getString(R.string.cancel),
             BiometricManager.Authenticators.BIOMETRIC_STRONG,
             {
-                Log.d("XS2AWizard", "onAuthenticationSucceeded: ${it.authenticationType}")
-
                 autoFillCredentials()
-            }, { errorCode, errString ->
-                Log.d("XS2AWizard", "onAuthenticationError: $errorCode $errString")
-            }
+            },
+            { _, _ -> /* no-op */ }
         )
     }
 
