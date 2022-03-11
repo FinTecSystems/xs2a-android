@@ -18,8 +18,6 @@ import com.fintecsystems.xs2awizard.components.theme.IXS2ATheme
  * @property onBack Called when the Back-Button of the form is pressed.
  * @property theme Theme to be used.
  *                 If null the default Light- or Dark-Theme, depending on the device settings, is used.
- * @property enableCredentialsStore Allows storing of credentials on API-Level >=23.
- *                                  Will be ignored below 23.
  */
 data class XS2AWizardConfig(
     val sessionKey: String,
@@ -31,5 +29,4 @@ data class XS2AWizardConfig(
     val onStep: (XS2AWizardStep) -> Unit = {},
     val onBack: () -> Unit = {},
     val theme: IXS2ATheme? = null,
-    val enableCredentialsStore: Boolean = false,
 )

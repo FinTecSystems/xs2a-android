@@ -248,7 +248,7 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
         // Cancel and close any open biometric prompt.
         currentBiometricPromp?.cancelAuthentication()
 
-        if (config.enableCredentialsStore && Utils.isMarshmallow && Crypto.isDeviceSecure(context))
+        if (Utils.isMarshmallow && Crypto.isDeviceSecure(context))
             tryToStoreCredentials()
 
         return NetworkingInstance.getInstance(context)
@@ -315,7 +315,7 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
 
         form.value = formResponse.form
 
-        if (config.enableCredentialsStore && Utils.isMarshmallow && Crypto.isDeviceSecure(context)) {
+        if (Utils.isMarshmallow && Crypto.isDeviceSecure(context)) {
             tryToAutoFillCredentials()
         }
 
