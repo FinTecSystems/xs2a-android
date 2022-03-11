@@ -186,7 +186,7 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
         put("action", JsonPrimitive(action))
 
         values?.entries?.forEach {
-            put(it.key, it.value)
+            put(it.key, it.value.jsonPrimitive.content)
         }
     }
 
@@ -201,7 +201,7 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
         when (formLineData) {
             is ValueFormLineData -> jsonBuilder.put(
                 formLineData.name,
-                formLineData.value ?: JsonNull
+                formLineData.value?.jsonPrimitive?.content
             )
             is MultiLineData -> {
                 jsonBuilder.put(formLineData.name, formLineData.selected)
