@@ -34,7 +34,7 @@ import java.util.*
 class XS2AWizardViewModel(application: Application) : AndroidViewModel(application) {
     private lateinit var config: XS2AWizardConfig
 
-    val form = MutableLiveData<List<FormLineData>>()
+    val form = MutableLiveData<List<FormLineData>?>()
 
     val loadingIndicatorLock = MutableLiveData(false)
 

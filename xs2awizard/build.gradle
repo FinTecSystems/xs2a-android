@@ -47,6 +47,7 @@ android {
 dependencies {
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'androidx.fragment:fragment-ktx:1.4.1'
 
     // Compose Material Design
     implementation 'androidx.compose.material:material:1.1.1'
@@ -55,8 +56,9 @@ dependencies {
     // Tooling support (Previews, etc.)
     implementation 'androidx.compose.ui:ui-tooling:1.1.1'
     // Integration with ViewModels
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1")
     implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1'
-    implementation "androidx.compose.runtime:runtime-livedata:1.2.0-alpha04"
+    implementation "androidx.compose.runtime:runtime-livedata:1.2.0-alpha05"
     // Security & EncryptedSharedPreferences
     implementation("androidx.security:security-crypto:1.1.0-alpha03")
     implementation("androidx.biometric:biometric:1.2.0-alpha04")
