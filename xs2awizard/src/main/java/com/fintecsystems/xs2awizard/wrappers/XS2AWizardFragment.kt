@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.fintecsystems.xs2awizard.XS2AWizard
 import com.fintecsystems.xs2awizard.components.XS2AWizardConfig
 
@@ -30,13 +29,8 @@ class XS2AWizardFragment() : Fragment() {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
 
             setContent {
-                val xS2AWizardConfigHolder = viewModel<XS2AWizardConfigHolderViewModel>()
-
                 if (mConfig != null)
-                    xS2AWizardConfigHolder.xS2AWizardConfig = mConfig
-
-                if (xS2AWizardConfigHolder.xS2AWizardConfig != null)
-                    XS2AWizard(xS2AWizardConfig = xS2AWizardConfigHolder.xS2AWizardConfig!!)
+                    XS2AWizard(xS2AWizardConfig = mConfig!!)
             }
         }
     }
