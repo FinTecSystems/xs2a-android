@@ -1,9 +1,12 @@
 package com.fintecsystems.xs2awizard.components
 
+import kotlinx.serialization.Serializable
+
 /**
  * Enum-Like-Class to differentiate the different Wizard-Steps.
  */
-sealed class XS2AWizardStep(val stepName: String) {
+@Serializable
+sealed class XS2AWizardStep(val stepName: String) : java.io.Serializable {
     /**
      * Step for entering a TAN
      */
