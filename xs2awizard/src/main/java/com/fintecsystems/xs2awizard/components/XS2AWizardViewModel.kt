@@ -78,11 +78,14 @@ class XS2AWizardViewModel(
 
             if (xS2AWizardConfigReference != null && xS2AWizardConfigReference is TrackedReference<*>)
                 config = xS2AWizardConfigReference.get as XS2AWizardConfig
+
+            currentWebViewUrl.value = xs2aWizardBundle.getString("currentWebViewUrl")
         }
 
         savedStateHandle.setSavedStateProvider("xs2aWizardConfig") {
             Bundle().apply {
                 this.putSerializable("config", TrackedReference(config))
+                this.putString("currentWebViewUrl", currentWebViewUrl.value)
             }
         }
     }
