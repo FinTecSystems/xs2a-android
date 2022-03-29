@@ -185,6 +185,9 @@ fun onBack() {
 
 On API-Level 23+ the user is able to decide to save their credentials for use in future transactions.
 
+> Please note that this does *not* raise the `minSDK` to 23.<br>
+> Devices using `API-Level` 21/22 will ignore this feature.
+
 The user must have at least one fingerprint registered, otherwise this feature will be ignored and he will not be asked to save/load his credentials.
 
 ### Deletion
