@@ -37,6 +37,21 @@ fun XS2AWizard(
     xS2AWizardConfig: XS2AWizardConfig,
     xs2aWizardViewModel: XS2AWizardViewModel = viewModel()
 ) {
+    xs2aWizardViewModel.config = xS2AWizardConfig
+
+    XS2AWizard(modifier, xs2aWizardViewModel)
+}
+
+/**
+ * Renders the XS2A-Wizard.
+ *
+ * @param xs2aWizardViewModel ViewModel of the Wizard-Instance.
+ */
+@Composable
+fun XS2AWizard(
+    modifier: Modifier = Modifier,
+    xs2aWizardViewModel: XS2AWizardViewModel = viewModel()
+) {
     val form by xs2aWizardViewModel.form.observeAsState(null)
     val loadingIndicatorLock by xs2aWizardViewModel.loadingIndicatorLock.observeAsState(false)
     val currentWebViewUrl by xs2aWizardViewModel.currentWebViewUrl.observeAsState(null)
@@ -46,7 +61,7 @@ fun XS2AWizard(
 
     DisposableEffect(xs2aWizardViewModel) {
         // Initialize ViewModel
-        xs2aWizardViewModel.onStart(xS2AWizardConfig, context as Activity)
+        xs2aWizardViewModel.onStart(context as Activity)
 
         // Cleanup
         onDispose {
@@ -55,7 +70,7 @@ fun XS2AWizard(
     }
 
     // Render
-    XS2ATheme(xS2ATheme = xS2AWizardConfig.theme) {
+    XS2ATheme(xS2ATheme = xs2aWizardViewModel.config.theme) {
         Box(modifier) {
             Column(
                 modifier = Modifier

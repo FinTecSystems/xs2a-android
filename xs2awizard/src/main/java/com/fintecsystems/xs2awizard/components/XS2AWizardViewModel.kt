@@ -5,6 +5,7 @@ import android.app.Application
 import android.content.Context
 import android.net.*
 import android.os.Build
+import android.os.Bundle
 import androidx.annotation.RequiresApi
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
@@ -13,14 +14,12 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import com.fintecsystems.xs2awizard.BuildConfig
 import com.fintecsystems.xs2awizard.R
 import com.fintecsystems.xs2awizard.components.networking.ConnectionState
 import com.fintecsystems.xs2awizard.form.*
-import com.fintecsystems.xs2awizard.helper.Crypto
-import com.fintecsystems.xs2awizard.helper.JSONFormatter
-import com.fintecsystems.xs2awizard.helper.MarkupParser
-import com.fintecsystems.xs2awizard.helper.Utils
+import com.fintecsystems.xs2awizard.helper.*
 import com.fintecsystems.xs2awizard_networking.NetworkingInstance
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.*
@@ -31,8 +30,12 @@ import java.util.*
 /**
  * Holds data of the Wizard-Instance and performs all Business-Logic.
  */
-class XS2AWizardViewModel(application: Application) : AndroidViewModel(application) {
-    private lateinit var config: XS2AWizardConfig
+class XS2AWizardViewModel(
+    application: Application,
+    savedStateHandle: SavedStateHandle
+) : AndroidViewModel(application) {
+
+    lateinit var config: XS2AWizardConfig
 
     val form = MutableLiveData<List<FormLineData>?>()
 
@@ -67,8 +70,24 @@ class XS2AWizardViewModel(application: Application) : AndroidViewModel(applicati
 
     private var currentBiometricPromp: BiometricPrompt? = null
 
-    fun onStart(_config: XS2AWizardConfig, activity: Activity) {
-        config = _config
+    init {
+        val xs2aWizardBundle = savedStateHandle.get<Bundle>("xs2aWizardConfig")
+
+        if (xs2aWizardBundle != null) {
+            val xS2AWizardConfigReference = xs2aWizardBundle.getSerializable("config")
+
+            if (xS2AWizardConfigReference != null && xS2AWizardConfigReference is TrackedReference<*>)
+                config = xS2AWizardConfigReference.get as XS2AWizardConfig
+        }
+
+        savedStateHandle.setSavedStateProvider("xs2aWizardConfig") {
+            Bundle().apply {
+                this.putSerializable("config", TrackedReference(config))
+            }
+        }
+    }
+
+    fun onStart(activity: Activity) {
         currentActivity = WeakReference(activity)
 
         NetworkingInstance.getInstance(context).apply {

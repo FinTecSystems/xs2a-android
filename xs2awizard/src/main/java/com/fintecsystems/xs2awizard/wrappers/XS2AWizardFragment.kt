@@ -31,6 +31,8 @@ class XS2AWizardFragment() : Fragment() {
             setContent {
                 if (mConfig != null)
                     XS2AWizard(xS2AWizardConfig = mConfig!!)
+                else
+                    XS2AWizard()
             }
         }
     }

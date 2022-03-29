@@ -4,6 +4,7 @@ plugins {
     id 'org.jetbrains.kotlin.plugin.serialization' version '1.4.21'
     id 'maven-publish'
     id 'signing'
+    id 'kotlin-parcelize'
 }
 
 android {
