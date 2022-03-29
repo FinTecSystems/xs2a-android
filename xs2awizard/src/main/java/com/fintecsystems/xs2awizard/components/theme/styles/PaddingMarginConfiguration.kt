@@ -6,7 +6,7 @@ import androidx.compose.ui.unit.dp
 /**
  * Size of padding or margin of an element.
  */
-class PaddingMarginConfiguration(
+data class PaddingMarginConfiguration(
     val start: Dp,
     val end: Dp,
     val top: Dp,
