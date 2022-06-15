@@ -85,7 +85,6 @@ fun CheckBoxLine(formData: CheckBoxLineData, viewModel: XS2AWizardViewModel) {
 
             ClickableText(
                 modifier = Modifier
-                    .padding(0.dp, 14.dp, 0.dp, 0.dp)
                     .mutateInteractionSource(interactionSource = interactionSource),
                 text = annotatedString,
                 style = TextStyle(
