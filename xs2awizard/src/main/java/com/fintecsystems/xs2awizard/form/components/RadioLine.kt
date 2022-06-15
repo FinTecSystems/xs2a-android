@@ -1,12 +1,16 @@
 package com.fintecsystems.xs2awizard.form.components
 
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.RadioButton
 import androidx.compose.material.RadioButtonDefaults
+import androidx.compose.material.ripple.LocalRippleTheme
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.fintecsystems.xs2awizard.components.theme.NoRippleTheme
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.RadioLineData
 import com.fintecsystems.xs2awizard.form.components.shared.FormText
@@ -27,25 +31,34 @@ fun LabelledRadioButton(
     label: String,
     disabled: Boolean = false,
 ) {
+    val interactionSource = remember {
+        MutableInteractionSource()
+    }
+
     Row(
         Modifier
             .fillMaxWidth()
             .selectable(
                 selected = selected,
                 onClick = onClick,
-                enabled = !disabled
+                enabled = !disabled,
+                indication = rememberRipple(),
+                interactionSource = interactionSource
             ),
     ) {
-        RadioButton(
-            selected = selected,
-            onClick = onClick,
-            colors = RadioButtonDefaults.colors(
-                selectedColor = XS2ATheme.CURRENT.tintColor,
-                unselectedColor = XS2ATheme.CURRENT.unselectedColor,
-                disabledColor = XS2ATheme.CURRENT.disabledColor,
-            ),
-            enabled = !disabled,
-        )
+        CompositionLocalProvider(LocalRippleTheme provides NoRippleTheme) {
+            RadioButton(
+                selected = selected,
+                onClick = onClick,
+                interactionSource = interactionSource,
+                colors = RadioButtonDefaults.colors(
+                    selectedColor = XS2ATheme.CURRENT.tintColor,
+                    unselectedColor = XS2ATheme.CURRENT.unselectedColor,
+                    disabledColor = XS2ATheme.CURRENT.disabledColor,
+                ),
+                enabled = !disabled,
+            )
+        }
         FormText(
             text = label,
             color = if (disabled) XS2ATheme.CURRENT.disabledColor else XS2ATheme.CURRENT.textColor
