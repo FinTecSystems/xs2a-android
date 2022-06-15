@@ -47,7 +47,6 @@ fun LabelledRadioButton(
             enabled = !disabled,
         )
         FormText(
-            Modifier.padding(0.dp, 14.dp, 0.dp, 0.dp),
             text = label,
             color = if (disabled) XS2ATheme.CURRENT.disabledColor else XS2ATheme.CURRENT.textColor
         )
