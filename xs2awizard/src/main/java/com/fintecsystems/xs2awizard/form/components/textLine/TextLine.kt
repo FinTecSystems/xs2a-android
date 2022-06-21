@@ -155,9 +155,11 @@ fun TextLine(formData: TextLineData, viewModel: XS2AWizardViewModel) {
                                         .fillMaxWidth()
                                         .padding(2.dp, 4.dp)
                                 ) {
+                                    val bankObject = it.bankObject
+
                                     AnimatedAutoScrollContainer {
                                         FormText(
-                                            text = it.value,
+                                            text = "${bankObject.name} (${bankObject.city})",
                                             color = XS2ATheme.CURRENT.textColor,
                                             fontSize = 17.sp,
                                             maxLines = 1,
@@ -167,7 +169,7 @@ fun TextLine(formData: TextLineData, viewModel: XS2AWizardViewModel) {
 
                                     AnimatedAutoScrollContainer {
                                         FormText(
-                                            text = it.label,
+                                            text = "${bankObject.bankCode} [${bankObject.bic}]",
                                             color = XS2ATheme.CURRENT.textColor,
                                             fontSize = 15.sp,
                                             maxLines = 1,

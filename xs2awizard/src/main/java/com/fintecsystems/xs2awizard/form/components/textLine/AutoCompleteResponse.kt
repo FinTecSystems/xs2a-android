@@ -4,12 +4,28 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 /**
+ * The bank metadata of an [AutoCompleteEntry].
+ */
+@Serializable
+data class AutoCompleteEntryBankObject (
+    val name: String,
+    val city: String,
+    @SerialName("bank_code")
+    val bankCode: String,
+    val bic: String,
+    @SerialName("country_id")
+    val countryId: String,
+)
+
+/**
  * Single entry of [AutoCompleteData]
  */
 @Serializable
 data class AutoCompleteEntry(
     val value: String,
     val label: String,
+    @SerialName("object")
+    val bankObject: AutoCompleteEntryBankObject
 ) {
     override fun toString() = value
 }
