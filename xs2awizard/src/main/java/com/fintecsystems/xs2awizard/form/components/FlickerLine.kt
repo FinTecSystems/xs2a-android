@@ -86,7 +86,9 @@ fun FlickerLine(formData: FlickerLineData) {
         formData.value = JsonPrimitive(newValue.text)
     }
 
-    LabelledContainer(formData.label) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(5.dp)
+    ) {
         // Flicker container
         Column(
             verticalArrangement = Arrangement.spacedBy(5.dp)
@@ -109,7 +111,10 @@ fun FlickerLine(formData: FlickerLineData) {
                         colors = ButtonDefaults.buttonColors(backgroundColor = XS2ATheme.CURRENT.tintColor),
                         onClick = {
                             flickerContainerWidth =
-                                max(flickerContainerMinWidth, flickerContainerWidth - sizeStepSize)
+                                max(
+                                    flickerContainerMinWidth,
+                                    flickerContainerWidth - sizeStepSize
+                                )
                         }
                     ) {
                         Image(
@@ -187,10 +192,12 @@ fun FlickerLine(formData: FlickerLineData) {
             }
         }
 
-        FormTextField(
-            value = textFieldValue,
-            onValueChange = ::onValueChange,
-            placeholder = formData.placeholder
-        )
+        LabelledContainer(formData.label) {
+            FormTextField(
+                value = textFieldValue,
+                onValueChange = ::onValueChange,
+                placeholder = formData.placeholder
+            )
+        }
     }
 }
