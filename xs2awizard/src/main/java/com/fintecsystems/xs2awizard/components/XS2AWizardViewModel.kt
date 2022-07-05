@@ -21,6 +21,8 @@ import com.fintecsystems.xs2awizard.components.networking.ConnectionState
 import com.fintecsystems.xs2awizard.form.*
 import com.fintecsystems.xs2awizard.helper.*
 import com.fintecsystems.xs2awizard_networking.NetworkingInstance
+import com.fintecsystems.xs2awizard_networking.registerNetworkCallback
+import com.fintecsystems.xs2awizard_networking.unregisterNetworkCallback
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.*
 import java.lang.ref.WeakReference
@@ -98,7 +100,7 @@ class XS2AWizardViewModel(
             backendURL = config.backendURL
         }
 
-        registerNetworkCallback()
+        context.registerNetworkCallback(networkCallback)
 
         initForm()
     }
@@ -111,37 +113,9 @@ class XS2AWizardViewModel(
         currentStep = null
         currentActivity = WeakReference(null)
         connectionState.value = ConnectionState.UNKNOWN
+        NetworkingInstance.getInstance(context).finalize()
 
-        unregisterNetworkCallback()
-    }
-
-    /**
-     * Registers [networkCallback] to the ConnectivityManager to be informed of the current
-     * network status.
-     */
-    private fun registerNetworkCallback() {
-        val connectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            connectivityManager.registerDefaultNetworkCallback(networkCallback)
-        } else {
-            val networkRequest = NetworkRequest.Builder()
-                .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-                .build()
-
-            connectivityManager.registerNetworkCallback(networkRequest, networkCallback)
-        }
-    }
-
-    /**
-     * Unregisters [networkCallback] from the ConnectivityManager.
-     */
-    private fun unregisterNetworkCallback() {
-        val connectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-
-        connectivityManager.unregisterNetworkCallback(networkCallback)
+        context.unregisterNetworkCallback(networkCallback)
     }
 
     /**

@@ -67,7 +67,7 @@ dependencies {
 
     implementation "androidx.browser:browser:1.4.0"
 
-    implementation "com.fintecsystems:xs2awizard_networking:1.1.0"
+    implementation "com.fintecsystems:xs2awizard_networking:1.2.0"
 }
 
 publishing {
