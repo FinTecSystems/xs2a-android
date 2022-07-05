@@ -145,6 +145,7 @@ fun URLBarWebView(viewModel: XS2AWizardViewModel) {
                     addJavascriptInterface(XS2AJavascriptInterface(callbackHandler), "App")
 
                     webViewClient = object : WebViewClient() {
+                        @Deprecated("Deprecated in Java")
                         override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
                             view.loadUrl(url)
                             return true
