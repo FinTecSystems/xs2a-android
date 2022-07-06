@@ -2,7 +2,6 @@ package com.fintecsystems.xs2awizard.form.components
 
 import android.app.Activity
 import android.util.DisplayMetrics
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,11 +20,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.rememberImagePainter
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.fintecsystems.xs2awizard.R
 import com.fintecsystems.xs2awizard.components.XS2AWizardViewModel
-import com.fintecsystems.xs2awizard.components.theme.styles.LogoVariation
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
+import com.fintecsystems.xs2awizard.components.theme.styles.LogoVariation
 import com.fintecsystems.xs2awizard.form.components.shared.FormText
 import com.fintecsystems.xs2awizard.helper.Utils.getActivity
 
@@ -58,8 +58,11 @@ fun LogoLine(viewModel: XS2AWizardViewModel) {
 
     var showAlertDialog by remember { mutableStateOf(false) }
 
-    Image(
-        painter = rememberImagePainter(stringResource(id = getImageUrlId())),
+    AsyncImage(
+        model = ImageRequest.Builder(LocalContext.current)
+            .data(stringResource(id = getImageUrlId()))
+            .crossfade(true)
+            .build(),
         contentDescription = stringResource(R.string.logo_image_description),
         modifier = Modifier
             .fillMaxWidth()
