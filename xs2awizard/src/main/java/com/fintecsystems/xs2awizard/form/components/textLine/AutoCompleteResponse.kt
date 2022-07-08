@@ -1,5 +1,6 @@
 package com.fintecsystems.xs2awizard.form.components.textLine
 
+import com.fintecsystems.xs2awizard.components.XS2AWizardLanguage
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -46,5 +47,5 @@ data class AutoCompleteData(
 data class AutoCompleteResponse(
     @SerialName("autocomplete")
     val autoCompleteData: AutoCompleteData,
-    val language: String? = null,
+    val language: XS2AWizardLanguage? = null,
 )
