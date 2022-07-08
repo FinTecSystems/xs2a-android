@@ -17,5 +17,13 @@ enum class XS2AWizardLanguage {
     @SerialName("it")
     IT,
     @SerialName("es")
-    ES
+    ES;
+
+    companion object {
+        fun fromString(value: String, default: XS2AWizardLanguage = EN) = try {
+            valueOf(value.uppercase())
+        } catch(e: IllegalArgumentException) {
+            default
+        }
+    }
 }
