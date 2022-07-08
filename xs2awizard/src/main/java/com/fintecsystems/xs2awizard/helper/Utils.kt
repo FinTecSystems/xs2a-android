@@ -13,6 +13,7 @@ import androidx.annotation.ChecksSdkIntAtLeast
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import com.fintecsystems.xs2awizard.R
+import com.fintecsystems.xs2awizard.components.XS2AWizardLanguage
 import java.util.*
 import kotlin.reflect.KClass
 import kotlin.reflect.cast
@@ -73,8 +74,6 @@ object Utils {
         return null
     }
 
-    private val languageWhitelist = listOf("de", "en", "fr", "it", "es")
-
     /**
      * Checks if the language matches the device language.
      * If the language doesn't match, the device language will be checked against our
@@ -84,14 +83,17 @@ object Utils {
      *
      * @return true if language should be changed, false otherwise.
      */
-    fun checkIfLanguageNeedsToBeChanged(language: String?): Boolean {
+    fun checkIfLanguageNeedsToBeChanged(
+        language: XS2AWizardLanguage?,
+        targetLanguage: XS2AWizardLanguage? = null
+    ): Boolean {
         if (language != null) {
-            val deviceLanguage = Locale.getDefault().language
-            val formLanguage = Locale(language).language
+            val languageToCheck = targetLanguage ?: XS2AWizardLanguage.fromString(
+                Locale.getDefault().language
+            )
 
-            return languageWhitelist.contains(deviceLanguage) && !(deviceLanguage.equals(
-                formLanguage
-            ))
+            return XS2AWizardLanguage.values()
+                .contains(languageToCheck) && languageToCheck != language
         }
 
         return false

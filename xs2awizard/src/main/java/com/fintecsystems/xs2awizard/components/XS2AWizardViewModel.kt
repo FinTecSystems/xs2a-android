@@ -3,7 +3,9 @@ package com.fintecsystems.xs2awizard.components
 import android.app.Activity
 import android.app.Application
 import android.content.Context
-import android.net.*
+import android.net.ConnectivityManager
+import android.net.Network
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import androidx.annotation.RequiresApi
@@ -295,11 +297,22 @@ class XS2AWizardViewModel(
         val formResponse = JSONFormatter.formatter.decodeFromString<FormResponse>(jsonString)
 
         // Check if we're in the right language. If not change it.
-        if (Utils.checkIfLanguageNeedsToBeChanged(formResponse.language)) {
+        if (Utils.checkIfLanguageNeedsToBeChanged(
+                formResponse.language,
+                config.language
+            )
+        ) {
+            val languageToChangeTo = config.language ?: XS2AWizardLanguage.fromString(
+                Locale.getDefault().language
+            )
+
             submitForm(
                 buildJsonObject {
                     put("action", "change-language")
-                    put("language", Locale.getDefault().language)
+                    put(
+                        "language",
+                        languageToChangeTo.toString().lowercase()
+                    )
                 }
             )
 
