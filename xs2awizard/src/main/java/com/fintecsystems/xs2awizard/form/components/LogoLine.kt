@@ -30,7 +30,7 @@ import com.fintecsystems.xs2awizard.form.components.shared.FormText
 import com.fintecsystems.xs2awizard.helper.Utils.getActivity
 
 /**
- * Displays the FTS-Logo and shows the FTS-Imprint in an Alert on click.
+ * Displays the Logo and shows the Imprint in an Alert on click.
  *
  * @param viewModel ViewModel of the Wizard-Instance.
  */
