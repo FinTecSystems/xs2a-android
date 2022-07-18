@@ -66,7 +66,7 @@ fun LogoLine(viewModel: XS2AWizardViewModel) {
         contentDescription = stringResource(R.string.logo_image_description),
         modifier = Modifier
             .fillMaxWidth()
-            .height(60.dp)
+            .height(80.dp)
             .clickable { showAlertDialog = true }
     )
 
