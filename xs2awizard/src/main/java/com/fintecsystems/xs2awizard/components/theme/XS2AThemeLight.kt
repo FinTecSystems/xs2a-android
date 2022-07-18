@@ -17,7 +17,7 @@ object XS2AThemeLight : IXS2ATheme {
     override val tintColor: Color = XS2AColors.primary
     override val onTintColor: Color = XS2AColors.textColorLight
     override val fontFamily: FontFamily = FontFamily.Default
-    override val backgroundColor: Color = XS2AColors.backgroundNone
+    override val backgroundColor: Color = XS2AColors.backgroundLight
     override val surfaceColor: Color = XS2AColors.surfaceColor
     override val textColor: Color = XS2AColors.textColor
     override val placeholderColor: Color = XS2AColors.darkGrey
