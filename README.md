@@ -1,11 +1,15 @@
-![header](https://fintecsystems.com/android-sdk-header.jpg)
+![header](https://demo.xs2a.com/img/android-sdk-header.png)
+
 # XS2A Android - Native Android SDK for XS2A
+![License](https://img.shields.io/badge/License-MIT%20%2B%20File%20LICENSE-F89572.svg)
+![Platform](https://img.shields.io/badge/Platform-Android-F89572.svg)
+![Languages](https://img.shields.io/badge/Languages-Kotlin-F89572.svg)
+[![Maven Central](https://img.shields.io/maven-central/v/com.fintecsystems/xs2awizard.svg?label=Maven%20Central&color=F89572)](https://search.maven.org/search?q=g:%22com.fintecsystems%22%20AND%20a:%22xs2awizard%22)
 
 ## Demo Screencast
-<img src="https://fintecsystems.com/android_sdk_testbank_screencast.webp" alt="Screencast Demo" height="400"/>
+<img src="https://demo.xs2a.com/img/android-screencast.webp" alt="Screencast Demo" height="400"/>
 
 ## Installation
-[![Maven Central](https://img.shields.io/maven-central/v/com.fintecsystems/xs2awizard.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22com.fintecsystems%22%20AND%20a:%22xs2awizard%22)
 
 > Your projects `minSDK` has to be 21 or higher.
 
@@ -363,4 +367,4 @@ class MainActivity : AppCompatActivity() {
 
 ## License
 
-Please note that this mobile SDK is subject to the MIT license. MIT license does not apply to the logo of FinTecSystems GmbH, the terms of use and the privacy policy of FinTecSystems GmbH. The license terms of the logo of FinTecSystems GmbH, the terms of use and the privacy policy of FinTecSystems GmbH are included in the LICENSE as FTS LICENSE.
+Please note that this mobile SDK is subject to the MIT license. MIT license does not apply to the logo of Tink Germany GmbH, the terms of use and the privacy policy of Tink Germany GmbH. The license terms of the logo of Tink Germany GmbH, the terms of use and the privacy policy of Tink Germany GmbH are included in the LICENSE as Tink Germany LICENSE.
