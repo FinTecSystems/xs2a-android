@@ -184,8 +184,8 @@ fun onBack() {
 
 ## Credentials saving
 
-> This feature must be activated on your FinTecSystems-Account.<br>
-> For more details on this feature contact the technical support of FinTecSystems.
+> This feature must be activated on your XS2A-Account.<br>
+> For more details on this feature contact the technical support of Tink Germany.
 
 On API-Level 23+ the user is able to decide to save their credentials for use in future transactions.
 
