@@ -1,10 +1,10 @@
 ![header](https://demo.xs2a.com/img/android-sdk-header.png)
 
 # XS2A Android - Native Android SDK for XS2A
-![License](https://img.shields.io/badge/License-MIT%20%2B%20File%20LICENSE-F89572.svg)
-![Platform](https://img.shields.io/badge/Platform-Android-F89572.svg)
-![Languages](https://img.shields.io/badge/Languages-Kotlin-F89572.svg)
-[![Maven Central](https://img.shields.io/maven-central/v/com.fintecsystems/xs2awizard.svg?label=Maven%20Central&color=F89572)](https://search.maven.org/search?q=g:%22com.fintecsystems%22%20AND%20a:%22xs2awizard%22)
+![License](https://img.shields.io/badge/License-MIT%20%2B%20File%20LICENSE-427783.svg)
+![Platform](https://img.shields.io/badge/Platform-Android-427783.svg)
+![Languages](https://img.shields.io/badge/Languages-Kotlin-427783.svg)
+[![Maven Central](https://img.shields.io/maven-central/v/com.fintecsystems/xs2awizard.svg?label=Maven%20Central&color=427783)](https://search.maven.org/search?q=g:%22com.fintecsystems%22%20AND%20a:%22xs2awizard%22)
 
 ## Demo Screencast
 <img src="https://demo.xs2a.com/img/android-screencast.webp" alt="Screencast Demo" height="400"/>
