@@ -20,7 +20,7 @@ class XS2ASupportTheme(
     onTintColor: SupportColor = SupportColor(XS2AColors.textColorLight),
     fontFamily: SupportFontFamily = SupportFontFamily.Default,
     backgroundColor: SupportColor = SupportColor(XS2AColors.backgroundNone),
-    surfaceColor: SupportColor = SupportColor(Color.White),
+    surfaceColor: SupportColor = SupportColor(XS2AColors.surfaceColor),
     textColor: SupportColor = SupportColor(XS2AColors.textColor),
     placeholderColor: SupportColor = SupportColor(XS2AColors.darkGrey),
     override val logoVariation: LogoVariation = LogoVariation.STANDARD,
@@ -51,12 +51,12 @@ class XS2ASupportTheme(
     override val paragraphPadding: PaddingMarginConfiguration =
         PaddingMarginConfiguration(4.dp, 8.dp),
     webViewIconColor: SupportColor = SupportColor(XS2AColors.textColor),
-    webViewBackgroundColor: SupportColor = SupportColor(Color.White),
+    webViewBackgroundColor: SupportColor = SupportColor(XS2AColors.surfaceColor),
     webViewBorderColor: SupportColor = SupportColor(XS2AColors.darkGrey),
     webViewTextColor: SupportColor = SupportColor(XS2AColors.textColor),
     unselectedColor: SupportColor = SupportColor(XS2AColors.unselected),
     disabledColor: SupportColor = SupportColor(XS2AColors.disabled),
-    connectionStatusBannerBackgroundColor: SupportColor = SupportColor(Color.Yellow),
+    connectionStatusBannerBackgroundColor: SupportColor = SupportColor(XS2AColors.backgroundWarning),
     connectionStatusBannerTextColor: SupportColor = SupportColor(XS2AColors.textColor),
 ) : IXS2ATheme {
     override val tintColor: Color = tintColor.colorValue

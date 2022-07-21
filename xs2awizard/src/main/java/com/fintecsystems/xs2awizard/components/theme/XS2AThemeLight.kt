@@ -17,8 +17,8 @@ object XS2AThemeLight : IXS2ATheme {
     override val tintColor: Color = XS2AColors.primary
     override val onTintColor: Color = XS2AColors.textColorLight
     override val fontFamily: FontFamily = FontFamily.Default
-    override val backgroundColor: Color = XS2AColors.backgroundNone
-    override val surfaceColor: Color = Color.White
+    override val backgroundColor: Color = XS2AColors.backgroundLight
+    override val surfaceColor: Color = XS2AColors.surfaceColor
     override val textColor: Color = XS2AColors.textColor
     override val placeholderColor: Color = XS2AColors.darkGrey
     override val logoVariation: LogoVariation = LogoVariation.STANDARD
@@ -51,7 +51,7 @@ object XS2AThemeLight : IXS2ATheme {
     override val paragraphPadding: PaddingMarginConfiguration = PaddingMarginConfiguration(4.dp, 8.dp)
 
     override val webViewIconColor: Color = XS2AColors.textColor
-    override val webViewBackgroundColor: Color = Color.White
+    override val webViewBackgroundColor: Color = XS2AColors.surfaceColor
     override val webViewBorderColor: Color = XS2AColors.darkGrey
     override val webViewTextColor: Color = XS2AColors.textColor
 

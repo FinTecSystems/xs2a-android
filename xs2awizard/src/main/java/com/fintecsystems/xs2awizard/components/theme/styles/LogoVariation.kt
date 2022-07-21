@@ -1,7 +1,7 @@
 package com.fintecsystems.xs2awizard.components.theme.styles
 
 /**
- * Variations of the FTS-Logo
+ * Variations of the XS2A-Logo
  */
 enum class LogoVariation {
     STANDARD, // logo_standard
