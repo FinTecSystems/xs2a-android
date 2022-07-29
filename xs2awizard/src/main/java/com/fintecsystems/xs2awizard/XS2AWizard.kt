@@ -1,12 +1,9 @@
 package com.fintecsystems.xs2awizard
 
 import android.app.Activity
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
@@ -161,10 +158,17 @@ fun FormLines(formData: List<FormLineData>, viewModel: XS2AWizardViewModel) {
  * @param viewModel ViewModel of the Wizard-Instance.
  */
 @Composable
-fun FormLinesContainer(formData: List<FormLineData>, viewModel: XS2AWizardViewModel) {
+fun FormLinesContainer(
+    formData: List<FormLineData>,
+    viewModel: XS2AWizardViewModel
+) {
+
     Column(
         verticalArrangement = Arrangement.spacedBy(10.dp),
-        modifier = Modifier.verticalScroll(rememberScrollState())
+        modifier = if (viewModel.config.enableScroll)
+            Modifier.verticalScroll(rememberScrollState())
+        else
+            Modifier
     ) {
         FormLines(formData, viewModel)
     }

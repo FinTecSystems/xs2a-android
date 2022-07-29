@@ -19,6 +19,8 @@ import com.fintecsystems.xs2awizard.components.theme.IXS2ATheme
  * @property theme Theme to be used.
  *                 If null the default Light- or Dark-Theme, depending on the device settings, is used.
  * @property language Wizard language. If null the device language will be used.
+ * @property enableScroll If enabled, the form will add an vertical scroll component.
+ *                        Disable this if the wizard is wrapped inside another scrollable view to avoid crashes.
  */
 data class XS2AWizardConfig(
     val sessionKey: String,
@@ -30,5 +32,6 @@ data class XS2AWizardConfig(
     val onStep: (XS2AWizardStep) -> Unit = {},
     val onBack: () -> Unit = {},
     val theme: IXS2ATheme? = null,
-    val language: XS2AWizardLanguage? = null
+    val language: XS2AWizardLanguage? = null,
+    val enableScroll: Boolean = true
 )
