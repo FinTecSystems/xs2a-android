@@ -40,7 +40,9 @@ fun SelectLine(formData: SelectLineData) {
             is JsonArray -> {
                 textFieldValue =
                     TextFieldValue(formData.options.jsonArray[index].jsonPrimitive.content)
-                formData.value = JsonPrimitive(index)
+
+                // The backend expects strings
+                formData.value = JsonPrimitive(index.toString())
             }
             is JsonObject -> {
                 textFieldValue = TextFieldValue(
