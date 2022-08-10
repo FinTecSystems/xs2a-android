@@ -198,7 +198,7 @@ class XS2AWizardViewModel(
         when (formLineData) {
             is ValueFormLineData -> jsonBuilder.put(
                 formLineData.name,
-                formLineData.value?.jsonPrimitive?.content
+                formLineData.value?.jsonPrimitive ?: JsonNull
             )
             is MultiLineData -> {
                 jsonBuilder.put(formLineData.name, formLineData.selected)
