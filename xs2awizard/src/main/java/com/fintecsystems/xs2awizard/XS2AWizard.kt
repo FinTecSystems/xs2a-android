@@ -1,18 +1,21 @@
 package com.fintecsystems.xs2awizard
 
 import android.app.Activity
-import androidx.compose.foundation.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.fintecsystems.xs2awizard.components.LoadingIndicator
 import com.fintecsystems.xs2awizard.components.XS2AWizardConfig
 import com.fintecsystems.xs2awizard.components.XS2AWizardViewModel
+import com.fintecsystems.xs2awizard.components.loadingIndicator.PopupLoadingIndicator
 import com.fintecsystems.xs2awizard.components.networking.ConnectionState
 import com.fintecsystems.xs2awizard.components.networking.ConnectivityStatusBanner
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
@@ -85,7 +88,7 @@ fun XS2AWizard(
             }
 
             if (loadingIndicatorLock) {
-                LoadingIndicator(
+                PopupLoadingIndicator(
                     modifier = Modifier
                         .fillMaxSize()
                         .clickable(
