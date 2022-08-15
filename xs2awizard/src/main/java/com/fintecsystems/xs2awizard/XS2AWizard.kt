@@ -90,8 +90,9 @@ fun XS2AWizard(
                         .fillMaxSize()
                         .clickable(
                             interactionSource = remember { MutableInteractionSource() },
-                            indication = null
-                        ) {}
+                            indication = null,
+                            onClick = {}
+                        )
                         .background(XS2ATheme.CURRENT.loadingIndicatorBackgroundColor),
                 )
             }
