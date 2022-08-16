@@ -250,6 +250,63 @@ val theme = XS2ASupportTheme(
 )
 ```
 
+## Accessing the ViewModel
+It is possible to access the ViewModel to call form functions like `goBack` or `abort`.
+
+> The ViewModel dependencies are required to access the ViewModel.<br>
+> See [here](https://developer.android.com/topic/libraries/architecture/viewmodel) for more information.
+
+### Compose
+Pass your ViewModel, using the `viewModels` function, and pass it to the `XS2AWizard`.
+
+> It is possible to freely define the ViewModel-Scope.
+> Please refer to [this answer](https://stackoverflow.com/a/68971296) for more information.
+
+#### Example
+
+```kotlin
+val xS2AWizardViewModel = viewModel<XS2AWizardViewModel>()
+
+Column {
+    Button({
+        // Access form functions
+        xS2AWizardViewModel.abort()
+    }) {
+        Text("Abort")
+    }
+
+    XS2AWizard(
+        xS2AWizardConfig = <your-config>,
+        xs2aWizardViewModel = xS2AWizardViewModel
+    )
+}
+```
+
+### Fragment
+The ViewModel-Scope of `XS2AWizardFragment` is the Host-Activity, because of that just access the Activity's `viewModels()` directly or if you need to access it within a Fragment with `activityViewModels()`.
+
+#### Example
+
+```kotlin
+class MainActivity : AppCompatActivity() {
+    val xs2aWizardViewModel: XS2AWizardViewModel by viewModels()
+
+    ...
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setContentView(R.layout.activity_main)
+
+        findViewById<Button>(R.id.backButton).setOnClickListener {
+            xs2aWizardViewModel.goBack()
+        }
+    }
+
+    ...
+}
+```
+
 ## Example (Jetpack Compose)
 <details>
     <summary>Code</summary>
