@@ -4,9 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelStoreOwner
+import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import com.fintecsystems.xs2awizard.XS2AWizard
 import com.fintecsystems.xs2awizard.components.XS2AWizardConfig
 
@@ -29,10 +32,14 @@ class XS2AWizardFragment() : Fragment() {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
 
             setContent {
-                if (mConfig != null)
-                    XS2AWizard(xS2AWizardConfig = mConfig!!)
-                else
-                    XS2AWizard()
+                CompositionLocalProvider(
+                    LocalViewModelStoreOwner provides (activity as ViewModelStoreOwner)
+                ) {
+                    if (mConfig != null)
+                        XS2AWizard(xS2AWizardConfig = mConfig!!)
+                    else
+                        XS2AWizard()
+                }
             }
         }
     }
