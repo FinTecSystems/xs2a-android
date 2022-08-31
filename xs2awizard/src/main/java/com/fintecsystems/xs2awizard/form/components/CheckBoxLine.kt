@@ -91,10 +91,11 @@ fun CheckBoxLine(formData: CheckBoxLineData, viewModel: XS2AWizardViewModel) {
             val activity = LocalContext.current.getActivity<Activity>()
 
             ClickableText(
-                modifier = Modifier.apply {
-                    if (enabled)
-                        mutateInteractionSource(interactionSource = interactionSource)
-                },
+                modifier = Modifier
+                    .mutateInteractionSource(
+                        interactionSource = interactionSource,
+                        enabled = enabled
+                    ),
                 text = annotatedString,
                 style = TextStyle(
                     color = if (enabled) XS2ATheme.CURRENT.textColor else XS2ATheme.CURRENT.disabledColor,
