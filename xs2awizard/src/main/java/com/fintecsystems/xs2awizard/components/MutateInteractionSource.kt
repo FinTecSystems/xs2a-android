@@ -19,6 +19,8 @@ fun Modifier.mutateInteractionSource(
     minDelayMillis: Long = 5,
     delayDecayFactor: Float = .20f
 ): Modifier = pointerInput(interactionSource, enabled) {
+    if (!enabled) return@pointerInput
+
     forEachGesture {
         coroutineScope {
             awaitPointerEventScope {
