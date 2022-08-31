@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.Checkbox
 import androidx.compose.material.CheckboxDefaults
-import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -19,7 +18,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.fintecsystems.xs2awizard.components.XS2AWizardViewModel
 import com.fintecsystems.xs2awizard.components.mutateInteractionSource
-import com.fintecsystems.xs2awizard.components.theme.NoRippleTheme
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.CheckBoxLineData
 import com.fintecsystems.xs2awizard.helper.MarkupParser
@@ -48,6 +46,8 @@ fun CheckBoxLine(formData: CheckBoxLineData, viewModel: XS2AWizardViewModel) {
 
     val localFocusManager = LocalFocusManager.current
 
+    val enabled = formData.disabled == false
+
     /**
      * Callback for when value of the TextField changed.
      *
@@ -65,34 +65,39 @@ fun CheckBoxLine(formData: CheckBoxLineData, viewModel: XS2AWizardViewModel) {
         modifier = Modifier
             .fillMaxWidth()
             .offset((-14).dp, 0.dp)
-            .clickable(interactionSource, rememberRipple()) {
+            .clickable(
+                interactionSource,
+                rememberRipple(),
+                enabled
+            ) {
                 onCheckedChange(!checkBoxValue)
             },
-        ) {
+    ) {
 
-        CompositionLocalProvider(LocalRippleTheme provides NoRippleTheme) {
-            Checkbox(
-                checked = checkBoxValue,
-                onCheckedChange = ::onCheckedChange,
-                interactionSource = interactionSource,
-                colors = CheckboxDefaults.colors(
-                    checkedColor = XS2ATheme.CURRENT.tintColor,
-                    uncheckedColor = XS2ATheme.CURRENT.unselectedColor,
-                    checkmarkColor = XS2ATheme.CURRENT.onTintColor
-                )
+        Checkbox(
+            checked = checkBoxValue,
+            onCheckedChange = ::onCheckedChange,
+            interactionSource = interactionSource,
+            enabled = enabled,
+            colors = CheckboxDefaults.colors(
+                checkedColor = XS2ATheme.CURRENT.tintColor,
+                uncheckedColor = XS2ATheme.CURRENT.unselectedColor,
+                checkmarkColor = XS2ATheme.CURRENT.onTintColor
             )
-        }
+        )
 
         if (!formData.label.isNullOrEmpty()) {
             val annotatedString = MarkupParser.parseMarkupText(formData.label)
             val activity = LocalContext.current.getActivity<Activity>()
 
             ClickableText(
-                modifier = Modifier
-                    .mutateInteractionSource(interactionSource = interactionSource),
+                modifier = Modifier.apply {
+                    if (enabled)
+                        mutateInteractionSource(interactionSource = interactionSource)
+                },
                 text = annotatedString,
                 style = TextStyle(
-                    color = XS2ATheme.CURRENT.textColor,
+                    color = if (enabled) XS2ATheme.CURRENT.textColor else XS2ATheme.CURRENT.disabledColor,
                     fontFamily = XS2ATheme.CURRENT.fontFamily
                 ),
                 onClick = {
@@ -100,7 +105,7 @@ fun CheckBoxLine(formData: CheckBoxLineData, viewModel: XS2AWizardViewModel) {
                         .firstOrNull().let { annotation ->
                             if (annotation != null)
                                 viewModel.handleAnnotationClick(activity!!, annotation)
-                            else onCheckedChange(!checkBoxValue)
+                            else if (enabled) onCheckedChange(!checkBoxValue)
                         }
                 }
             )
