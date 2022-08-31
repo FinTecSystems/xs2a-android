@@ -14,6 +14,7 @@ import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.fintecsystems.xs2awizard.components.XS2AWizardViewModel
@@ -45,6 +46,8 @@ fun CheckBoxLine(formData: CheckBoxLineData, viewModel: XS2AWizardViewModel) {
         MutableInteractionSource()
     }
 
+    val localFocusManager = LocalFocusManager.current
+
     /**
      * Callback for when value of the TextField changed.
      *
@@ -54,6 +57,8 @@ fun CheckBoxLine(formData: CheckBoxLineData, viewModel: XS2AWizardViewModel) {
         checkBoxValue = newValue
         // Update formData.value as well
         formData.value = JsonPrimitive(newValue)
+
+        localFocusManager.clearFocus()
     }
 
     Row(

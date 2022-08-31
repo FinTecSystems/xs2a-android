@@ -9,6 +9,7 @@ import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import com.fintecsystems.xs2awizard.components.theme.NoRippleTheme
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
@@ -79,6 +80,8 @@ fun RadioLine(formData: RadioLineData) {
         )
     }
 
+    val localFocusManager = LocalFocusManager.current
+
     /**
      * Callback for when the selected RadioButton changed.
      *
@@ -88,6 +91,8 @@ fun RadioLine(formData: RadioLineData) {
         selectedValue = newValue
         // Update formData.value as well
         formData.value = JsonPrimitive(newValue)
+
+        localFocusManager.clearFocus()
     }
 
     LabelledContainer(label = formData.label) {
