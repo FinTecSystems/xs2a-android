@@ -12,6 +12,7 @@ import androidx.compose.material.TextButton
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
@@ -118,6 +119,8 @@ fun LogoLine(viewModel: XS2AWizardViewModel) {
 
                 val activity = LocalContext.current.getActivity<Activity>()
 
+                val localFocusManager = LocalFocusManager.current
+
                 ClickableText(
                     modifier = Modifier.fillMaxWidth(),
                     text = annotatedString,
@@ -129,6 +132,8 @@ fun LogoLine(viewModel: XS2AWizardViewModel) {
                         annotatedString.getStringAnnotations(it, it)
                             .firstOrNull()?.let { annotation ->
                                 viewModel.handleAnnotationClick(activity!!, annotation)
+
+                                localFocusManager.clearFocus()
                             }
                     }
                 )

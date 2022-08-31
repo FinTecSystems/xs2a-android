@@ -9,6 +9,7 @@ import androidx.compose.foundation.text.ClickableText
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
@@ -90,6 +91,8 @@ fun ParagraphLine(formData: ParagraphLineData, viewModel: XS2AWizardViewModel) {
                 val annotatedString = MarkupParser.parseMarkupText(formData.text)
                 val activity = LocalContext.current.getActivity<Activity>()
 
+                val localFocusManager = LocalFocusManager.current
+
                 ClickableText(
                     text = annotatedString,
                     style = TextStyle(
@@ -101,6 +104,8 @@ fun ParagraphLine(formData: ParagraphLineData, viewModel: XS2AWizardViewModel) {
                         annotatedString.getStringAnnotations(it, it)
                             .firstOrNull()?.let { annotation ->
                                 viewModel.handleAnnotationClick(activity!!, annotation)
+
+                                localFocusManager.clearFocus()
                             }
                     }
                 )
