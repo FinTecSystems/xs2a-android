@@ -13,7 +13,6 @@ object JSONFormatter {
     // Serializer Module used to de-/serialize between json and our FormLineData classes.
     private val formLineDataModule = SerializersModule {
         polymorphic(FormLineData::class) {
-            subclass(MultiLineData::class)
             subclass(TabsLineData::class)
             subclass(RestartLineData::class)
             subclass(AbortLineData::class)

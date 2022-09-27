@@ -146,7 +146,6 @@ fun FormLines(formData: List<FormLineData>, viewModel: XS2AWizardViewModel) {
                 is RestartLineData -> RestartLine(formLineData, viewModel)
                 is TabsLineData -> TabsLine(formLineData, viewModel)
                 is RedirectLineData -> RedirectLine(formLineData, viewModel)
-                is MultiLineData -> MultiLine(formLineData, viewModel)
                 is HiddenLineData -> {
                     /* no-op */
                 }

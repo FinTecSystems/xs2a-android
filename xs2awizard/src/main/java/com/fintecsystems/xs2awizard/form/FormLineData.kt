@@ -44,21 +44,6 @@ abstract class CredentialFormLineData : ValueFormLineData() {
     fun getProviderName(provider: String) = "${provider}_$name"
 }
 
-@Serializable
-data class MultiForm(
-    val form: List<FormLineData>,
-    val label: String,
-    val value: String,
-)
-
-@SerialName("multi")
-@Serializable
-class MultiLineData(
-    val name: String,
-    var selected: String,
-    val forms: List<MultiForm>,
-) : FormLineData()
-
 @SerialName("tabs")
 @Serializable
 class TabsLineData(

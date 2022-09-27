@@ -178,35 +178,19 @@ class XS2AWizardViewModel(
      * @return built [JsonObject]
      */
     fun constructJsonBody(action: String, values: JsonObject? = null) = buildJsonObject {
-        form.value?.forEach { appendValueToJson(this, it) }
+        form.value?.forEach {
+            if (it is ValueFormLineData) {
+                put(
+                    it.name,
+                    it.value?.jsonPrimitive ?: JsonNull
+                )
+            }
+        }
 
         put("action", JsonPrimitive(action))
 
         values?.entries?.forEach {
             put(it.key, it.value.jsonPrimitive.content)
-        }
-    }
-
-    /**
-     * Append data of formLine to the resulting jsonObject.
-     * Used for recursion purposes on MultiLine.
-     *
-     * @param jsonBuilder current [JsonBuilder] instance.
-     * @param formLineData [FormLineData] element used for appending it's data to [JsonBuilder].
-     */
-    private fun appendValueToJson(jsonBuilder: JsonObjectBuilder, formLineData: FormLineData) {
-        when (formLineData) {
-            is ValueFormLineData -> jsonBuilder.put(
-                formLineData.name,
-                formLineData.value?.jsonPrimitive ?: JsonNull
-            )
-            is MultiLineData -> {
-                jsonBuilder.put(formLineData.name, formLineData.selected)
-
-                formLineData.forms
-                    .find { it.value == formLineData.selected }
-                    ?.form?.forEach { appendValueToJson(jsonBuilder, it) }
-            }
         }
     }
 
