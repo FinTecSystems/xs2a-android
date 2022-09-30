@@ -5,11 +5,8 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import com.fintecsystems.xs2awizard.components.theme.IXS2ATheme
-import com.fintecsystems.xs2awizard.components.theme.styles.LogoVariation
-import com.fintecsystems.xs2awizard.components.theme.styles.PaddingMarginConfiguration
 import com.fintecsystems.xs2awizard.components.theme.XS2AColors
-import com.fintecsystems.xs2awizard.components.theme.styles.ButtonStyle
-import com.fintecsystems.xs2awizard.components.theme.styles.ParagraphStyle
+import com.fintecsystems.xs2awizard.components.theme.styles.*
 
 /**
  * Support class for [IXS2ATheme] to be used in non-compose projects.
@@ -28,6 +25,7 @@ class XS2ASupportTheme(
     inputTextColor: SupportColor = SupportColor(XS2AColors.textColor),
     inputBackgroundColor: SupportColor = SupportColor(XS2AColors.backgroundInput),
     inputShape: SupportShape = SupportShape(4.dp, SupportShape.ShapeType.ROUNDED),
+    override val inputType: TextFieldType = TextFieldType.NORMAL,
     override val submitButtonStyle: ButtonStyle =
         ButtonStyle(XS2AColors.primary, XS2AColors.textColorLight),
     override val abortButtonStyle: ButtonStyle =

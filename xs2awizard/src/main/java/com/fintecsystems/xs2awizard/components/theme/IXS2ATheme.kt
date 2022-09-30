@@ -3,10 +3,7 @@ package com.fintecsystems.xs2awizard.components.theme
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.font.FontFamily
-import com.fintecsystems.xs2awizard.components.theme.styles.ButtonStyle
-import com.fintecsystems.xs2awizard.components.theme.styles.LogoVariation
-import com.fintecsystems.xs2awizard.components.theme.styles.PaddingMarginConfiguration
-import com.fintecsystems.xs2awizard.components.theme.styles.ParagraphStyle
+import com.fintecsystems.xs2awizard.components.theme.styles.*
 
 /**
  * Interface of all styleable attributes of the wizard.
@@ -27,6 +24,7 @@ interface IXS2ATheme {
     val inputTextColor: Color
     val inputBackgroundColor: Color
     val inputShape: Shape
+    val inputType: TextFieldType
 
     // Button
     val submitButtonStyle: ButtonStyle

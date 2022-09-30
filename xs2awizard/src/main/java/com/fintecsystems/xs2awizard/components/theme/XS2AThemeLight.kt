@@ -5,10 +5,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
-import com.fintecsystems.xs2awizard.components.theme.styles.ButtonStyle
-import com.fintecsystems.xs2awizard.components.theme.styles.LogoVariation
-import com.fintecsystems.xs2awizard.components.theme.styles.PaddingMarginConfiguration
-import com.fintecsystems.xs2awizard.components.theme.styles.ParagraphStyle
+import com.fintecsystems.xs2awizard.components.theme.styles.*
 
 /**
  * Implementation of a Light-Theme.
@@ -27,6 +24,7 @@ object XS2AThemeLight : IXS2ATheme {
     override val inputTextColor: Color = XS2AColors.textColor
     override val inputBackgroundColor: Color = XS2AColors.backgroundInput
     override val inputShape: Shape = RoundedCornerShape(4.dp)
+    override val inputType: TextFieldType = TextFieldType.NORMAL
 
     override val submitButtonStyle: ButtonStyle =
         ButtonStyle(XS2AColors.primary, XS2AColors.textColorLight)
