@@ -46,6 +46,10 @@ fun FormTextField(
     val focusManager = LocalFocusManager.current
 
     RelevantTextField(
+        modifier = Modifier
+            .fillMaxWidth()
+            .onFocusChanged(onFocusChanged)
+            .onGloballyPositioned(onGloballyPositioned),
         textFieldType = XS2ATheme.CURRENT.inputType,
         value = value,
         onValueChange = onValueChange,
@@ -59,10 +63,6 @@ fun FormTextField(
                 )
         },
         shape = XS2ATheme.CURRENT.inputShape,
-        modifier = Modifier
-            .fillMaxWidth()
-            .onFocusChanged(onFocusChanged)
-            .onGloballyPositioned(onGloballyPositioned),
         colors = TextFieldDefaults.textFieldColors(
             textColor = XS2ATheme.CURRENT.inputTextColor,
             backgroundColor = XS2ATheme.CURRENT.inputBackgroundColor,
