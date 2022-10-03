@@ -1,7 +1,6 @@
 package com.fintecsystems.xs2awizard.form.components.shared
 
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.OutlinedTextField
@@ -131,17 +130,6 @@ private fun RelevantTextField(
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
         trailingIcon = trailingIcon,
-        singleLine = singleLine,
-    )
-    TextFieldType.BASIC -> BasicTextField(
-        value = value,
-        onValueChange = onValueChange,
-        enabled = enabled,
-        readOnly = readOnly,
-        modifier = modifier,
-        visualTransformation = visualTransformation,
-        keyboardOptions = keyboardOptions,
-        keyboardActions = keyboardActions,
         singleLine = singleLine,
     )
 }
