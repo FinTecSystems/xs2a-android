@@ -33,6 +33,7 @@ interface IXS2ATheme {
     val restartButtonStyle: ButtonStyle
     val redirectButtonStyle: ButtonStyle
     val buttonShape: Shape
+    val buttonSize: SizeConstraint
 
     // Paragraph
     val errorParagraphStyle: ParagraphStyle

@@ -37,6 +37,7 @@ class XS2ASupportTheme(
     override val redirectButtonStyle: ButtonStyle =
         ButtonStyle(XS2AColors.primary, XS2AColors.textColorLight),
     buttonShape: SupportShape = SupportShape(4.dp, SupportShape.ShapeType.ROUNDED),
+    override val buttonSize: SizeConstraint = SizeConstraint.FillMaxWidth,
     override val errorParagraphStyle: ParagraphStyle =
         ParagraphStyle(XS2AColors.backgroundError, XS2AColors.textColorLight),
     override val infoParagraphStyle: ParagraphStyle =

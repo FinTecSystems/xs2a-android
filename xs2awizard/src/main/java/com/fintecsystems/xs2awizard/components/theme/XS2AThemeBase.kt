@@ -32,6 +32,7 @@ object XS2AThemeBase : IXS2ATheme {
     override val restartButtonStyle: ButtonStyle = ButtonStyle.Unspecified
     override val redirectButtonStyle: ButtonStyle = ButtonStyle.Unspecified
     override val buttonShape: Shape = RoundedCornerShape(4.dp)
+    override val buttonSize: SizeConstraint = SizeConstraint.FillMaxWidth
 
     override val errorParagraphStyle: ParagraphStyle = ParagraphStyle.Unspecified
     override val infoParagraphStyle: ParagraphStyle = ParagraphStyle.Unspecified

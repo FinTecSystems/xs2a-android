@@ -1,6 +1,8 @@
 package com.fintecsystems.xs2awizard.form.components.shared
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.runtime.Composable
@@ -8,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.components.theme.styles.ButtonStyle
+import com.fintecsystems.xs2awizard.components.theme.styles.SizeConstraint
 
 /**
  * Basic button used in the form.
@@ -24,18 +27,32 @@ fun FormButton(
 ) {
     val focusManager = LocalFocusManager.current
 
-    Button(
-        shape = XS2ATheme.CURRENT.buttonShape,
-        modifier = Modifier.fillMaxWidth(),
-        onClick = {
-            focusManager.clearFocus()
-            onClick()
-        },
-        colors = ButtonDefaults.buttonColors(backgroundColor = buttonStyle.backgroundColor)
+    Column(
+        Modifier.fillMaxWidth(),
     ) {
-        FormText(
-            text = label,
-            color = buttonStyle.textColor
-        )
+        Button(
+            shape = XS2ATheme.CURRENT.buttonShape,
+            modifier = Modifier
+                .then(
+                    when(XS2ATheme.CURRENT.buttonSize) {
+                        is SizeConstraint.FillMaxWidth -> Modifier.fillMaxWidth()
+                        is SizeConstraint.WrapContent -> Modifier
+                        is SizeConstraint.Specified -> Modifier.size(
+                            (XS2ATheme.CURRENT.buttonSize as SizeConstraint.Specified).width,
+                            (XS2ATheme.CURRENT.buttonSize as SizeConstraint.Specified).height,
+                        )
+                    }
+                ),
+            onClick = {
+                focusManager.clearFocus()
+                onClick()
+            },
+            colors = ButtonDefaults.buttonColors(backgroundColor = buttonStyle.backgroundColor)
+        ) {
+            FormText(
+                text = label,
+                color = buttonStyle.textColor
+            )
+        }
     }
 }
