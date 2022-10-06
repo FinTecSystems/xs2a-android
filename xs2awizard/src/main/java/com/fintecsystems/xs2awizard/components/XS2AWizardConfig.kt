@@ -21,6 +21,9 @@ import com.fintecsystems.xs2awizard.components.theme.IXS2ATheme
  * @property language Wizard language. If null the device language will be used.
  * @property enableScroll If enabled, the form will add an vertical scroll component.
  *                        Disable this if the wizard is wrapped inside another scrollable view to avoid crashes.
+ * @property enableBackButton If enabled, the back button of the form will be rendered.
+ *                            Only disable this if you need to implement your own back button logic.
+ *                            See [XS2AWizardViewModel.goBack] and [XS2AWizardViewModel.backButtonIsPresent] for your own implementation.
  */
 data class XS2AWizardConfig(
     val sessionKey: String,
@@ -33,5 +36,6 @@ data class XS2AWizardConfig(
     val onBack: () -> Unit = {},
     val theme: IXS2ATheme? = null,
     val language: XS2AWizardLanguage? = null,
-    val enableScroll: Boolean = true
+    val enableScroll: Boolean = true,
+    val enableBackButton: Boolean = true,
 )

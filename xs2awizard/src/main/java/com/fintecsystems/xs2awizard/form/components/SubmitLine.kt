@@ -29,7 +29,7 @@ fun SubmitLine(formData: SubmitLineData, viewModel: XS2AWizardViewModel) {
             viewModel.submitForm()
         }
 
-        if (formData.backLabel != null) {
+        if (viewModel.config.enableBackButton && formData.backLabel != null) {
             FormButton(
                 label = formData.backLabel,
                 buttonStyle = XS2ATheme.CURRENT.backButtonStyle
