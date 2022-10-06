@@ -38,6 +38,7 @@ class XS2ASupportTheme(
         ButtonStyle(XS2AColors.primary, XS2AColors.textColorLight),
     buttonShape: SupportShape = SupportShape(4.dp, SupportShape.ShapeType.ROUNDED),
     override val buttonSize: SizeConstraint = SizeConstraint.FillMaxWidth,
+    buttonHorizontalAlignment: SupportAlignment = SupportAlignment.CENTER_HORIZONTALLY,
     override val errorParagraphStyle: ParagraphStyle =
         ParagraphStyle(XS2AColors.backgroundError, XS2AColors.textColorLight),
     override val infoParagraphStyle: ParagraphStyle =
@@ -72,6 +73,7 @@ class XS2ASupportTheme(
     override val inputShape: Shape = inputShape.shapeValue
 
     override val buttonShape: Shape = buttonShape.shapeValue
+    override val buttonHorizontalAlignment = buttonHorizontalAlignment.alignmentValue
 
     override val paragraphShape: Shape = paragraphShape.shapeValue
 

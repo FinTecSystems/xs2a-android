@@ -1,6 +1,7 @@
 package com.fintecsystems.xs2awizard.components.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.font.FontFamily
@@ -38,6 +39,8 @@ object XS2AThemeLight : IXS2ATheme {
         ButtonStyle(XS2AColors.primary, XS2AColors.textColorLight)
     override val buttonShape: Shape = RoundedCornerShape(4.dp)
     override val buttonSize: SizeConstraint = SizeConstraint.FillMaxWidth
+    override val buttonHorizontalAlignment = Alignment.CenterHorizontally
+
     override val errorParagraphStyle =
         ParagraphStyle(XS2AColors.backgroundError, XS2AColors.textColorLight)
     override val infoParagraphStyle =

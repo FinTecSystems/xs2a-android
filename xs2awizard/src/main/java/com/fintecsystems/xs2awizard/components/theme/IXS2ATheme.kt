@@ -1,5 +1,6 @@
 package com.fintecsystems.xs2awizard.components.theme
 
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.font.FontFamily
@@ -34,6 +35,7 @@ interface IXS2ATheme {
     val redirectButtonStyle: ButtonStyle
     val buttonShape: Shape
     val buttonSize: SizeConstraint
+    val buttonHorizontalAlignment: Alignment.Horizontal
 
     // Paragraph
     val errorParagraphStyle: ParagraphStyle

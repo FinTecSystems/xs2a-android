@@ -29,6 +29,7 @@ fun FormButton(
 
     Column(
         Modifier.fillMaxWidth(),
+        horizontalAlignment = XS2ATheme.CURRENT.buttonHorizontalAlignment
     ) {
         Button(
             shape = XS2ATheme.CURRENT.buttonShape,
@@ -37,9 +38,9 @@ fun FormButton(
                     when(XS2ATheme.CURRENT.buttonSize) {
                         is SizeConstraint.FillMaxWidth -> Modifier.fillMaxWidth()
                         is SizeConstraint.WrapContent -> Modifier
-                        is SizeConstraint.Specified -> Modifier.size(
-                            (XS2ATheme.CURRENT.buttonSize as SizeConstraint.Specified).width,
-                            (XS2ATheme.CURRENT.buttonSize as SizeConstraint.Specified).height,
+                        is SizeConstraint.Size -> Modifier.size(
+                            (XS2ATheme.CURRENT.buttonSize as SizeConstraint.Size).width,
+                            (XS2ATheme.CURRENT.buttonSize as SizeConstraint.Size).height,
                         )
                     }
                 ),
