@@ -135,9 +135,16 @@ class XS2AWizardViewModel(
     )
 
     /**
-     * Tells the server to go one step back and calls onBack if supplied.
+     *  Returns true if a back button is present on the current form.
+     */
+    fun backButtonIsPresent() = form.value?.any { it is SubmitLineData && !it.backLabel.isNullOrEmpty() } ?: false
+
+    /**
+     * Tells the server to go one step back and calls onBack if supplied but only if a back button is present.
      */
     fun goBack() {
+        if (!backButtonIsPresent()) return
+
         config.onBack()
 
         submitForm(
