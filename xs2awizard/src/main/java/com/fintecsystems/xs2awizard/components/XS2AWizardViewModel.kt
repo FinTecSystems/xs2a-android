@@ -115,8 +115,6 @@ class XS2AWizardViewModel(
         currentStep = null
         currentActivity = WeakReference(null)
         connectionState.value = ConnectionState.UNKNOWN
-        NetworkingInstance.getInstance(context).finalize()
-
         context.unregisterNetworkCallback(networkCallback)
     }
 
