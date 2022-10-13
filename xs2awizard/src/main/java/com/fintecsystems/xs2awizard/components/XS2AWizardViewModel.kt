@@ -38,7 +38,6 @@ class XS2AWizardViewModel(
     application: Application,
     savedStateHandle: SavedStateHandle
 ) : AndroidViewModel(application) {
-
     lateinit var config: XS2AWizardConfig
 
     val form = MutableLiveData<List<FormLineData>?>()
@@ -73,6 +72,8 @@ class XS2AWizardViewModel(
     private var currentActivity: WeakReference<Activity?> = WeakReference(null)
 
     private var currentBiometricPromp: BiometricPrompt? = null
+
+    private var currentState: String? = null
 
     init {
         val xs2aWizardBundle = savedStateHandle.get<Bundle>("xs2aWizardConfig")
@@ -471,6 +472,8 @@ class XS2AWizardViewModel(
      * @param response [FormResponse] to parse.
      */
     private fun parseCallback(response: FormResponse) {
+        currentState = response.step
+
         when (response.callback) {
             "finish" -> config.onFinish(response.callbackParams?.getOrNull(0)?.jsonPrimitive?.content)
             "abort" -> config.onAbort()
