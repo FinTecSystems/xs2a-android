@@ -517,6 +517,16 @@ class XS2AWizardViewModel(
         currentWebViewUrl.value = null
     }
 
+    /**
+     * Checks if the current form is the bank search.
+     */
+    fun isBankSearch() = currentState == "bank"
+
+    /**
+     * Checks if the current form is the first login screen.
+     */
+    fun isLogin() = currentState == "login"
+
     companion object {
         private const val rememberLoginName = "store_credentials"
         private const val sharedPreferencesFileName = "xs2a_credentials"
