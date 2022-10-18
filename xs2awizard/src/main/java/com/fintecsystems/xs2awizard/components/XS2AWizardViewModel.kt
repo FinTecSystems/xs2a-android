@@ -111,6 +111,7 @@ class XS2AWizardViewModel(
     fun onStop() {
         // Cleanup in case the viewModel gets reused for a future request.
         loadingIndicatorLock.value = false
+        config.onLoading.invoke(false)
         currentWebViewUrl.value = null
         form.value = emptyList()
         currentStep = null
@@ -231,6 +232,7 @@ class XS2AWizardViewModel(
     private fun submitForm(jsonBody: String, showIndicator: Boolean) {
         if (showIndicator) {
             loadingIndicatorLock.value = true
+            config.onLoading.invoke(true)
         }
 
         // Cancel and close any open biometric prompt.
@@ -319,6 +321,7 @@ class XS2AWizardViewModel(
         }
 
         loadingIndicatorLock.value = false
+        config.onLoading.invoke(false)
     }
 
     /**

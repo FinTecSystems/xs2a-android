@@ -16,6 +16,7 @@ import com.fintecsystems.xs2awizard.components.theme.IXS2ATheme
  * @property onNetworkError Called when a Network-Error occurred.
  * @property onStep Called when a new Wizard-Step is reached.
  * @property onBack Called when the Back-Button of the form is pressed.
+ * @property onLoading Called when the  loading state change
  * @property theme Theme to be used.
  *                 If null the default Light- or Dark-Theme, depending on the device settings, is used.
  * @property language Wizard language. If null the device language will be used.
@@ -34,6 +35,7 @@ data class XS2AWizardConfig(
     val onNetworkError: () -> Unit = {},
     val onStep: (XS2AWizardStep) -> Unit = {},
     val onBack: () -> Unit = {},
+    val onLoading: (isLoading: Boolean) -> Unit = {},
     val theme: IXS2ATheme? = null,
     val language: XS2AWizardLanguage? = null,
     val enableScroll: Boolean = true,
