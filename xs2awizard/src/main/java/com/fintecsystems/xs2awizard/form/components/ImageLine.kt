@@ -25,7 +25,8 @@ fun ImageLine(formData: ImageLineData) {
     val imageBitmap = Utils.decodeBase64Image(formData.data)
 
     Box(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
+        contentAlignment = Alignment.Center
     ) {
         Image(
             bitmap = imageBitmap,
@@ -33,8 +34,7 @@ fun ImageLine(formData: ImageLineData) {
             contentScale = ContentScale.Fit,
             alignment = Alignment.Center,
             modifier = Modifier
-                .defaultMinSize(minHeight = 100.dp)
-                .fillMaxSize()
+                .defaultMinSize(minHeight = 200.dp, minWidth = 200.dp)
         )
     }
 }
