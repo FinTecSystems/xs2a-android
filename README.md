@@ -7,7 +7,8 @@
 [![Maven Central](https://img.shields.io/maven-central/v/com.fintecsystems/xs2awizard.svg?label=Maven%20Central&color=427783)](https://search.maven.org/search?q=g:%22com.fintecsystems%22%20AND%20a:%22xs2awizard%22)
 
 ## Demo Screencast
-<img src="https://demo.xs2a.com/img/android-screencast.webp" alt="Screencast Demo" height="400"/>
+
+A demo screencast of the test bank login flow can be found [here](https://demo.xs2a.com/img/android-screencast.webp).
 
 ## Installation
 
