@@ -72,7 +72,7 @@ fun XS2AWizard(
     }
 
     // Render
-    XS2ATheme(xS2ATheme = xs2aWizardViewModel.config.theme) {
+    XS2ATheme(xS2ATheme = xs2aWizardViewModel.config?.theme) {
         Box(modifier) {
             Column(
                 modifier = Modifier
@@ -171,7 +171,7 @@ fun FormLinesContainer(
 
     Column(
         verticalArrangement = Arrangement.spacedBy(10.dp),
-        modifier = if (viewModel.config.enableScroll)
+        modifier = if (viewModel.config?.enableScroll == true)
             Modifier.verticalScroll(rememberScrollState())
         else
             Modifier

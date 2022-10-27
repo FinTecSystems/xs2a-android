@@ -38,7 +38,7 @@ class XS2AWizardViewModel(
     application: Application,
     savedStateHandle: SavedStateHandle
 ) : AndroidViewModel(application) {
-    lateinit var config: XS2AWizardConfig
+    var config: XS2AWizardConfig? = null
 
     val form = MutableLiveData<List<FormLineData>?>()
 
@@ -82,14 +82,16 @@ class XS2AWizardViewModel(
             val xS2AWizardConfigReference = xs2aWizardBundle.getSerializable("config")
 
             if (xS2AWizardConfigReference != null && xS2AWizardConfigReference is TrackedReference<*>)
-                config = xS2AWizardConfigReference.get as XS2AWizardConfig
+                config = xS2AWizardConfigReference.get as? XS2AWizardConfig
 
             currentWebViewUrl.value = xs2aWizardBundle.getString("currentWebViewUrl")
         }
 
         savedStateHandle.setSavedStateProvider("xs2aWizardConfig") {
             Bundle().apply {
-                this.putSerializable("config", TrackedReference(config))
+                if (config != null) {
+                    this.putSerializable("config", TrackedReference(config!!))
+                }
                 this.putString("currentWebViewUrl", currentWebViewUrl.value)
             }
         }
@@ -99,8 +101,8 @@ class XS2AWizardViewModel(
         currentActivity = WeakReference(activity)
 
         NetworkingInstance.getInstance(context).apply {
-            sessionKey = config.sessionKey
-            backendURL = config.backendURL
+            sessionKey = config?.sessionKey
+            backendURL = config?.backendURL
         }
 
         context.registerNetworkCallback(networkCallback)
@@ -145,7 +147,7 @@ class XS2AWizardViewModel(
     fun goBack() {
         if (!backButtonIsPresent()) return
 
-        config.onBack()
+        config?.onBack?.invoke()
 
         submitForm(
             buildJsonObject
@@ -243,7 +245,7 @@ class XS2AWizardViewModel(
             .encodeAndSendMessage(
                 jsonBody,
                 onSuccess = ::onFormReceived,
-                onError = { config.onNetworkError() }
+                onError = { config?.onNetworkError?.invoke() }
             )
     }
 
@@ -258,7 +260,7 @@ class XS2AWizardViewModel(
             .encodeAndSendMessage(
                 constructJsonBody(action).toString(),
                 onSuccess = onSuccess,
-                onError = { config.onNetworkError() }
+                onError = { config?.onNetworkError?.invoke() }
             )
 
     /**
@@ -290,10 +292,10 @@ class XS2AWizardViewModel(
         // Check if we're in the right language. If not change it.
         if (Utils.checkIfLanguageNeedsToBeChanged(
                 formResponse.language,
-                config.language
+                config?.language
             )
         ) {
-            val languageToChangeTo = config.language ?: XS2AWizardLanguage.fromString(
+            val languageToChangeTo = config?.language ?: XS2AWizardLanguage.fromString(
                 Locale.getDefault().language
             )
 
@@ -475,13 +477,13 @@ class XS2AWizardViewModel(
         currentState = response.step
 
         when (response.callback) {
-            "finish" -> config.onFinish(response.callbackParams?.getOrNull(0)?.jsonPrimitive?.content)
-            "abort" -> config.onAbort()
+            "finish" -> config?.onFinish?.invoke((response.callbackParams?.getOrNull(0)?.jsonPrimitive?.content))
+            "abort" -> config?.onAbort?.invoke()
             else -> {
                 currentStep = XS2AWizardStep.getRelevantStep(response.callback)
 
                 if (currentStep != null)
-                    config.onStep(currentStep!!)
+                    config?.onStep?.invoke((currentStep!!))
             }
         }
 
@@ -492,7 +494,7 @@ class XS2AWizardViewModel(
         }
 
         if (response.error != null) {
-            config.onError(
+            config?.onError?.invoke(
                 XS2AWizardError.getRelevantError(
                     response.error,
                     response.isErrorRecoverable ?: false
