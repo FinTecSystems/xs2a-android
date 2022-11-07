@@ -231,6 +231,9 @@ class XS2AWizardViewModel(
      * @param showIndicator show loading indicator during request.
      */
     private fun submitForm(jsonBody: String, showIndicator: Boolean) {
+        if (connectionState.value == ConnectionState.DISCONNECTED) {
+            return
+        }
         if (showIndicator) {
             loadingIndicatorLock.value = true
         }
@@ -245,7 +248,10 @@ class XS2AWizardViewModel(
             .encodeAndSendMessage(
                 jsonBody,
                 onSuccess = ::onFormReceived,
-                onError = { config?.onNetworkError?.invoke() }
+                onError = {
+                    config?.onNetworkError?.invoke()
+                    loadingIndicatorLock.value = false
+                }
             )
     }
 
@@ -255,13 +261,20 @@ class XS2AWizardViewModel(
      * @param action action to use.
      * @param onSuccess on success callback to use.
      */
-    fun submitFormWithCallback(action: String, onSuccess: (String) -> Unit) =
+    fun submitFormWithCallback(action: String, onSuccess: (String) -> Unit)  {
+        if (connectionState.value == ConnectionState.DISCONNECTED) {
+            return
+        }
         NetworkingInstance.getInstance(context)
             .encodeAndSendMessage(
                 constructJsonBody(action).toString(),
                 onSuccess = onSuccess,
-                onError = { config?.onNetworkError?.invoke() }
+                onError = {
+                    config?.onNetworkError?.invoke()
+                    loadingIndicatorLock.value = false
+                }
             )
+    }
 
     /**
      * Handles onClick of ClickableText's with string annotations.
