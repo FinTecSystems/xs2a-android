@@ -139,7 +139,15 @@ class XS2AWizardViewModel(
      *  Returns true if a back button is present on the current form.
      */
     @Suppress("MemberVisibilityCanBePrivate")
-    fun backButtonIsPresent() = form.value?.any { it is SubmitLineData && !it.backLabel.isNullOrEmpty() } ?: false
+    fun backButtonIsPresent() =
+        form.value?.any { it is SubmitLineData && !it.backLabel.isNullOrEmpty() } ?: false
+
+    /**
+     * Returns true, if network requests should abort.
+     * This only may return true if [XS2AWizardConfig.enableAutomaticRetry] is false.
+     */
+    private fun shouldAbortNetworkRequest() = config?.enableAutomaticRetry != true
+            && connectionState.value == ConnectionState.DISCONNECTED
 
     /**
      * Tells the server to go one step back and calls onBack if supplied but only if a back button is present.
@@ -205,11 +213,13 @@ class XS2AWizardViewModel(
 
     /**
      * Submits form using standard "submit" action.
+     * Will not fire when [XS2AWizardConfig.enableAutomaticRetry] is not set and device is offline.
      */
     fun submitForm(): Unit = submitForm("submit")
 
     /**
      * Constructs request body and submits form using the specified action.
+     * Will not fire when [XS2AWizardConfig.enableAutomaticRetry] is not set and device is offline.
      *
      * @param action action to use.
      */
@@ -217,6 +227,7 @@ class XS2AWizardViewModel(
 
     /**
      * Submits form using the specified request body.
+     * Will not fire when [XS2AWizardConfig.enableAutomaticRetry] is not set and device is offline.
      *
      * @param jsonBody request body.
      * @param showIndicator show loading indicator during request.
@@ -226,11 +237,16 @@ class XS2AWizardViewModel(
 
     /**
      * Submits form using the specified request body.
+     * Will not fire when [XS2AWizardConfig.enableAutomaticRetry] is not set and device is offline.
      *
      * @param jsonBody stringified request body.
      * @param showIndicator show loading indicator during request.
      */
     private fun submitForm(jsonBody: String, showIndicator: Boolean) {
+        if (shouldAbortNetworkRequest()) {
+            return
+        }
+
         if (showIndicator) {
             loadingIndicatorLock.value = true
         }
@@ -245,23 +261,35 @@ class XS2AWizardViewModel(
             .encodeAndSendMessage(
                 jsonBody,
                 onSuccess = ::onFormReceived,
-                onError = { config?.onNetworkError?.invoke() }
+                onError = {
+                    config?.onNetworkError?.invoke()
+                    loadingIndicatorLock.value = false
+                }
             )
     }
 
     /**
      * Submits form with specified action and calls specified callback on success.
+     * Will not fire when [XS2AWizardConfig.enableAutomaticRetry] is not set and device is offline.
      *
      * @param action action to use.
      * @param onSuccess on success callback to use.
      */
-    fun submitFormWithCallback(action: String, onSuccess: (String) -> Unit) =
+    fun submitFormWithCallback(action: String, onSuccess: (String) -> Unit) {
+        if (shouldAbortNetworkRequest()) {
+            return
+        }
+
         NetworkingInstance.getInstance(context)
             .encodeAndSendMessage(
                 constructJsonBody(action).toString(),
                 onSuccess = onSuccess,
-                onError = { config?.onNetworkError?.invoke() }
+                onError = {
+                    config?.onNetworkError?.invoke()
+                    loadingIndicatorLock.value = false
+                }
             )
+    }
 
     /**
      * Handles onClick of ClickableText's with string annotations.
