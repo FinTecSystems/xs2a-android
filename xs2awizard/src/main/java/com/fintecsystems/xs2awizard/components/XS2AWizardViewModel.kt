@@ -143,9 +143,10 @@ class XS2AWizardViewModel(
         form.value?.any { it is SubmitLineData && !it.backLabel.isNullOrEmpty() } ?: false
 
     /**
-     * Returns true, if network requests should abort when device is offline.
+     * Returns true, if network requests should abort.
+     * This only may return true if [XS2AWizardConfig.enableAutomaticRetry] is false.
      */
-    private fun shouldAbortNetworkRequestWhenOffline() = config?.enableAutomaticRetry != true
+    private fun shouldAbortNetworkRequest() = config?.enableAutomaticRetry != true
             && connectionState.value == ConnectionState.DISCONNECTED
 
     /**
@@ -242,7 +243,7 @@ class XS2AWizardViewModel(
      * @param showIndicator show loading indicator during request.
      */
     private fun submitForm(jsonBody: String, showIndicator: Boolean) {
-        if (shouldAbortNetworkRequestWhenOffline()) {
+        if (shouldAbortNetworkRequest()) {
             return
         }
 
@@ -275,7 +276,7 @@ class XS2AWizardViewModel(
      * @param onSuccess on success callback to use.
      */
     fun submitFormWithCallback(action: String, onSuccess: (String) -> Unit) {
-        if (shouldAbortNetworkRequestWhenOffline()) {
+        if (shouldAbortNetworkRequest()) {
             return
         }
 
