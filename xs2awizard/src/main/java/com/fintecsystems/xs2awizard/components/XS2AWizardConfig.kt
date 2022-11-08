@@ -24,6 +24,8 @@ import com.fintecsystems.xs2awizard.components.theme.IXS2ATheme
  * @property enableBackButton If enabled, the back button of the form will be rendered.
  *                            Only disable this if you need to implement your own back button logic.
  *                            See [XS2AWizardViewModel.goBack] and [XS2AWizardViewModel.backButtonIsPresent] for your own implementation.
+ * @property enableAutomaticRetry If enabled, all network request will be automatically retried if the device is offline.
+ *                                Otherwise the requests will be directly aborted and the loading indicator hides.
  */
 data class XS2AWizardConfig(
     val sessionKey: String,
@@ -38,4 +40,5 @@ data class XS2AWizardConfig(
     val language: XS2AWizardLanguage? = null,
     val enableScroll: Boolean = true,
     val enableBackButton: Boolean = true,
+    val enableAutomaticRetry: Boolean = true,
 )
