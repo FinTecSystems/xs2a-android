@@ -63,17 +63,16 @@ fun XS2AWizard(
     val context = LocalContext.current
 
     DisposableEffect(sessionKey) {
-        xs2aWizardViewModel.language = language
-        xs2aWizardViewModel.enableScroll = enableScroll
-        xs2aWizardViewModel.enableBackButton = enableBackButton
-        xs2aWizardViewModel.enableAutomaticRetry = enableAutomaticRetry
-
         xs2aWizardViewModel.eventListener = eventListener
 
         // Initialize ViewModel
         xs2aWizardViewModel.onStart(
             sessionKey,
             backendURL,
+            language,
+            enableScroll,
+            enableBackButton,
+            enableAutomaticRetry,
             context as Activity
         )
 

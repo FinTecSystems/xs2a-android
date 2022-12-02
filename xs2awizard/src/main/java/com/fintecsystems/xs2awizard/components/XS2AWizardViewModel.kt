@@ -117,8 +117,16 @@ class XS2AWizardViewModel(
     fun onStart(
         sessionKey: String,
         backendURL: String?,
+        language: XS2AWizardLanguage?,
+        enableScroll: Boolean,
+        enableBackButton: Boolean,
+        enableAutomaticRetry: Boolean,
         activity: Activity
     ) {
+        this.language = language
+        this.enableScroll = enableScroll
+        this.enableBackButton = enableBackButton
+        this.enableAutomaticRetry = enableAutomaticRetry
         currentActivity = WeakReference(activity)
 
         NetworkingInstance.getInstance(context).apply {
@@ -136,7 +144,11 @@ class XS2AWizardViewModel(
         loadingIndicatorLock.value = false
         currentWebViewUrl.value = null
         form.value = emptyList()
+        language = null
         currentStep = null
+        enableScroll = true
+        enableBackButton = true
+        enableAutomaticRetry = true
         currentActivity = WeakReference(null)
         connectionState.value = ConnectionState.UNKNOWN
         context.unregisterNetworkCallback(networkCallback)
