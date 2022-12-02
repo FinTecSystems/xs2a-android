@@ -1,7 +1,6 @@
 package com.fintecsystems.xs2awizard.wrappers
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,8 +39,6 @@ class XS2AWizardFragment() : Fragment(), XS2AWizardEventListener {
             putBoolean(XS2AWizardBundleKeys.enableBackButton, enableBackButton)
             putBoolean(XS2AWizardBundleKeys.enableAutomaticRetry, enableAutomaticRetry)
         }
-
-        Log.d("XS2AWizard", "init: $arguments")
     }
 
     override fun onCreateView(
@@ -56,9 +53,6 @@ class XS2AWizardFragment() : Fragment(), XS2AWizardEventListener {
                 CompositionLocalProvider(
                     LocalViewModelStoreOwner provides (activity as ViewModelStoreOwner)
                 ) {
-                    Log.d("XS2AWizard", "compose: $arguments")
-                    Log.d("XS2AWizard", "compose: ${arguments?.getString("sessionKey")}")
-
                     val arguments = requireArguments()
 
                     assert(arguments.containsKey("sessionKey"))
@@ -79,26 +73,44 @@ class XS2AWizardFragment() : Fragment(), XS2AWizardEventListener {
     }
 
     override fun onFinish(credentials: String?) {
-        Log.d("XS2AWizard", "onFinish: $credentials")
+        parentFragmentManager.setFragmentResult(onFinishKey, Bundle().apply {
+            putString(onFinishArgumentKey, credentials)
+        })
     }
 
     override fun onAbort() {
-        Log.d("XS2AWizard", "onAbort")
+        parentFragmentManager.setFragmentResult(onAbortKey, Bundle.EMPTY)
     }
 
     override fun onError(xs2aWizardError: XS2AWizardError) {
-        Log.d("XS2AWizard", "onError: $xs2aWizardError")
+        parentFragmentManager.setFragmentResult(onErrorKey, Bundle().apply {
+            putSerializable(onErrorArgumentKey, xs2aWizardError)
+        })
     }
 
     override fun onNetworkError() {
-        Log.d("XS2AWizard", "onNetworkError")
+        parentFragmentManager.setFragmentResult(onNetworkErrorKey, Bundle.EMPTY)
     }
 
     override fun onStep(newStep: XS2AWizardStep) {
-        Log.d("XS2AWizard", "onStep: $newStep")
+        parentFragmentManager.setFragmentResult(onStepKey, Bundle().apply {
+            putSerializable(onStepArgumentKey, newStep)
+        })
     }
 
     override fun onBack() {
-        Log.d("XS2AWizard", "onBack")
+        parentFragmentManager.setFragmentResult(onBackKey, Bundle.EMPTY)
+    }
+
+    companion object {
+        const val onFinishKey = "onFinish"
+        const val onFinishArgumentKey = "credentials"
+        const val onAbortKey = "onAbort"
+        const val onErrorKey = "onError"
+        const val onErrorArgumentKey = "error"
+        const val onNetworkErrorKey = "onNetworkError"
+        const val onStepKey = "onStep"
+        const val onStepArgumentKey = "step"
+        const val onBackKey = "onBack"
     }
 }
