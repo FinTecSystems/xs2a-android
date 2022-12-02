@@ -43,34 +43,34 @@ class XS2AWizardViewModel(
     /**
      * Wizard language. If null the device language will be used.
      */
-    var language: XS2AWizardLanguage? = null
+    private var language: XS2AWizardLanguage? = null
 
     /**
      * If enabled, the form will add an vertical scroll component.
      * Disable this if the wizard is wrapped inside another scrollable view to avoid crashes.
      */
-    var enableScroll: Boolean = true
+    internal var enableScroll: Boolean = true
 
     /**
      * If enabled, the back button of the form will be rendered.
      * Only disable this if you need to implement your own back button logic.
      * See [XS2AWizardViewModel.goBack] and [XS2AWizardViewModel.backButtonIsPresent] for your own implementation.
      */
-    var enableBackButton: Boolean = true
+    internal var enableBackButton: Boolean = true
 
     /**
      * If enabled, all network request will be automatically retried if the device is offline.
      * Otherwise the requests will be directly aborted and the loading indicator hides.
      */
-    var enableAutomaticRetry: Boolean = true
+    private var enableAutomaticRetry: Boolean = true
 
-    val form = MutableLiveData<List<FormLineData>?>()
+    internal val form = MutableLiveData<List<FormLineData>?>()
 
-    val loadingIndicatorLock = MutableLiveData(false)
+    val loadingIndicatorLock = MutableLiveData(false) // TODO: Internal?
 
-    val currentWebViewUrl = MutableLiveData<String?>(null)
+    internal val currentWebViewUrl = MutableLiveData<String?>(null)
 
-    val connectionState = MutableLiveData(ConnectionState.UNKNOWN)
+    internal val connectionState = MutableLiveData(ConnectionState.UNKNOWN)
 
     private val networkCallback = object : ConnectivityManager.NetworkCallback() {
         override fun onAvailable(network: Network) {
@@ -114,7 +114,7 @@ class XS2AWizardViewModel(
         }
     }
 
-    fun onStart(
+    internal fun onStart(
         sessionKey: String,
         backendURL: String?,
         language: XS2AWizardLanguage?,
@@ -139,7 +139,7 @@ class XS2AWizardViewModel(
         initForm()
     }
 
-    fun onStop() {
+    internal fun onStop() {
         // Cleanup in case the viewModel gets reused for a future request.
         loadingIndicatorLock.value = false
         currentWebViewUrl.value = null
@@ -227,7 +227,7 @@ class XS2AWizardViewModel(
      *
      * @return built [JsonObject]
      */
-    fun constructJsonBody(action: String, values: JsonObject? = null) = buildJsonObject {
+    internal fun constructJsonBody(action: String, values: JsonObject? = null) = buildJsonObject {
         form.value?.forEach {
             if (it is ValueFormLineData) {
                 put(
@@ -248,7 +248,7 @@ class XS2AWizardViewModel(
      * Submits form using standard "submit" action.
      * Will not fire when [enableAutomaticRetry] is not set and device is offline.
      */
-    fun submitForm(): Unit = submitForm("submit")
+    internal fun submitForm(): Unit = submitForm("submit")
 
     /**
      * Constructs request body and submits form using the specified action.
@@ -256,7 +256,7 @@ class XS2AWizardViewModel(
      *
      * @param action action to use.
      */
-    fun submitForm(action: String): Unit = submitForm(constructJsonBody(action), true)
+    internal fun submitForm(action: String): Unit = submitForm(constructJsonBody(action), true)
 
     /**
      * Submits form using the specified request body.
@@ -265,7 +265,7 @@ class XS2AWizardViewModel(
      * @param jsonBody request body.
      * @param showIndicator show loading indicator during request.
      */
-    fun submitForm(jsonBody: JsonElement, showIndicator: Boolean = true) =
+    internal fun submitForm(jsonBody: JsonElement, showIndicator: Boolean = true) =
         submitForm(jsonBody.toString(), showIndicator)
 
     /**
@@ -308,7 +308,7 @@ class XS2AWizardViewModel(
      * @param action action to use.
      * @param onSuccess on success callback to use.
      */
-    fun submitFormWithCallback(action: String, onSuccess: (String) -> Unit) {
+    internal fun submitFormWithCallback(action: String, onSuccess: (String) -> Unit) {
         if (shouldAbortNetworkRequest()) {
             return
         }
@@ -329,7 +329,10 @@ class XS2AWizardViewModel(
      *
      * @param annotation clicked annotation
      */
-    fun handleAnnotationClick(activity: Activity, annotation: AnnotatedString.Range<String>) {
+    internal fun handleAnnotationClick(
+        activity: Activity,
+        annotation: AnnotatedString.Range<String>
+    ) {
         when (annotation.tag) {
             "autosubmit" -> {
                 val jsonBody = MarkupParser.parseAutoSubmitPayloadAsJson(annotation.item)
@@ -569,14 +572,14 @@ class XS2AWizardViewModel(
      *
      * @param url url to open.
      */
-    fun openWebView(url: String) {
+    internal fun openWebView(url: String) {
         currentWebViewUrl.value = url
     }
 
     /**
      * Hides the WebView and shows the form again.
      */
-    fun closeWebView() {
+    internal fun closeWebView() {
         currentWebViewUrl.value = null
     }
 
