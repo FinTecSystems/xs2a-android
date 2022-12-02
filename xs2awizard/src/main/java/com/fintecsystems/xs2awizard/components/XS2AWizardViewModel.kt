@@ -113,28 +113,12 @@ class XS2AWizardViewModel(
         val xs2aWizardBundle = savedStateHandle.get<Bundle>(XS2AWizardBundleKeys.bundleName)
 
         if (xs2aWizardBundle != null) {
-            sessionKey = xs2aWizardBundle.getString(XS2AWizardBundleKeys.sessionKey)
-            backendURL = xs2aWizardBundle.getString(XS2AWizardBundleKeys.backendURL)
-
-            language = xs2aWizardBundle.getSerializable(XS2AWizardBundleKeys.language) as? XS2AWizardLanguage
-            enableScroll = xs2aWizardBundle.getBoolean(XS2AWizardBundleKeys.enableScroll)
-            enableBackButton = xs2aWizardBundle.getBoolean(XS2AWizardBundleKeys.enableBackButton)
-            enableAutomaticRetry = xs2aWizardBundle.getBoolean(XS2AWizardBundleKeys.enableAutomaticRetry)
-
-            currentWebViewUrl.value = xs2aWizardBundle.getString(XS2AWizardBundleKeys.currentWebViewUrl)
+            currentWebViewUrl.value =
+                xs2aWizardBundle.getString(XS2AWizardBundleKeys.currentWebViewUrl)
         }
 
         savedStateHandle.setSavedStateProvider(XS2AWizardBundleKeys.bundleName) {
             Bundle().apply {
-                putString(XS2AWizardBundleKeys.sessionKey, sessionKey)
-                putString(XS2AWizardBundleKeys.backendURL, backendURL)
-
-                putSerializable(XS2AWizardBundleKeys.language, language)
-
-                putBoolean(XS2AWizardBundleKeys.enableScroll, enableScroll)
-                putBoolean(XS2AWizardBundleKeys.enableBackButton, enableBackButton)
-                putBoolean(XS2AWizardBundleKeys.enableAutomaticRetry, enableAutomaticRetry)
-
                 putString(XS2AWizardBundleKeys.currentWebViewUrl, currentWebViewUrl.value)
             }
         }
