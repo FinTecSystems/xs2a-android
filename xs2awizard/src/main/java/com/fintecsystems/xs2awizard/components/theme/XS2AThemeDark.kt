@@ -1,7 +1,6 @@
 package com.fintecsystems.xs2awizard.components.theme
 
 import androidx.compose.ui.graphics.Color
-import androidx.core.graphics.toColorInt
 import com.fintecsystems.xs2awizard.components.theme.styles.LogoVariation
 
 /**
