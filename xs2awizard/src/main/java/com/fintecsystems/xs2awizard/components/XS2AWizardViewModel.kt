@@ -38,16 +38,6 @@ class XS2AWizardViewModel(
     application: Application,
     savedStateHandle: SavedStateHandle
 ) : AndroidViewModel(application) {
-    /**
-     * Session-Key to be used.
-     */
-    var sessionKey: String? = null
-
-    /**
-     * URL to the Backend.
-     */
-    var backendURL: String? = null
-
     var eventListener: XS2AWizardEventListener? = null
 
     /**
@@ -124,12 +114,16 @@ class XS2AWizardViewModel(
         }
     }
 
-    fun onStart(activity: Activity) {
+    fun onStart(
+        sessionKey: String,
+        backendURL: String?,
+        activity: Activity
+    ) {
         currentActivity = WeakReference(activity)
 
         NetworkingInstance.getInstance(context).apply {
-            sessionKey = this@XS2AWizardViewModel.sessionKey
-            backendURL = this@XS2AWizardViewModel.backendURL
+            this.sessionKey = sessionKey
+            this.backendURL = backendURL
         }
 
         context.registerNetworkCallback(networkCallback)
