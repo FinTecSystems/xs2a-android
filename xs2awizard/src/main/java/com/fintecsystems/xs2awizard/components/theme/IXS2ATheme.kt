@@ -9,7 +9,7 @@ import com.fintecsystems.xs2awizard.components.theme.styles.*
 /**
  * Interface of all styleable attributes of the wizard.
  */
-interface IXS2ATheme {
+interface IXS2ATheme: java.io.Serializable {
     // General
     val tintColor: Color
     val onTintColor: Color
