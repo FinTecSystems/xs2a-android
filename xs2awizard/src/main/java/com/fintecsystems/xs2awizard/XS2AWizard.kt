@@ -16,11 +16,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.fintecsystems.xs2awizard.components.XS2AWizardConfig
+import com.fintecsystems.xs2awizard.components.XS2AWizardEventListener
+import com.fintecsystems.xs2awizard.components.XS2AWizardLanguage
 import com.fintecsystems.xs2awizard.components.XS2AWizardViewModel
 import com.fintecsystems.xs2awizard.components.loadingIndicator.LoadingIndicator
 import com.fintecsystems.xs2awizard.components.networking.ConnectionState
 import com.fintecsystems.xs2awizard.components.networking.ConnectivityStatusBanner
+import com.fintecsystems.xs2awizard.components.theme.IXS2ATheme
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.components.webview.URLBarWebView
 import com.fintecsystems.xs2awizard.form.*
@@ -28,30 +30,29 @@ import com.fintecsystems.xs2awizard.form.components.*
 import com.fintecsystems.xs2awizard.form.components.textLine.TextLine
 
 /**
- * Renders the XS2A-Wizard.
- *
- * @param xS2AWizardConfig Config of the Wizard-Instance.
- * @param xs2aWizardViewModel ViewModel of the Wizard-Instance.
+ * Theme to be used.
+ * If null the default Light- or Dark-Theme, depending on the device settings, is used.
  */
-@Composable
-fun XS2AWizard(
-    modifier: Modifier = Modifier,
-    xS2AWizardConfig: XS2AWizardConfig,
-    xs2aWizardViewModel: XS2AWizardViewModel = viewModel()
-) {
-    xs2aWizardViewModel.config = xS2AWizardConfig
 
-    XS2AWizard(modifier, xs2aWizardViewModel)
-}
 
 /**
  * Renders the XS2A-Wizard.
  *
  * @param xs2aWizardViewModel ViewModel of the Wizard-Instance.
+ * @param theme Theme to be used.
+ *              If null the default Light- or Dark-Theme, depending on the device settings, is used.
  */
 @Composable
 fun XS2AWizard(
     modifier: Modifier = Modifier,
+    sessionKey: String,
+    backendURL: String? = null,
+    theme: IXS2ATheme? = null,
+    language: XS2AWizardLanguage? = null,
+    enableScroll: Boolean = true,
+    enableBackButton: Boolean = true,
+    enableAutomaticRetry: Boolean = true,
+    eventListener: XS2AWizardEventListener? = null,
     xs2aWizardViewModel: XS2AWizardViewModel = viewModel()
 ) {
     val form by xs2aWizardViewModel.form.observeAsState(null)
@@ -61,7 +62,16 @@ fun XS2AWizard(
 
     val context = LocalContext.current
 
-    DisposableEffect(xs2aWizardViewModel) {
+    DisposableEffect(sessionKey) {
+        xs2aWizardViewModel.sessionKey = sessionKey
+        xs2aWizardViewModel.backendURL = backendURL
+        xs2aWizardViewModel.language = language
+        xs2aWizardViewModel.enableScroll = enableScroll
+        xs2aWizardViewModel.enableBackButton = enableBackButton
+        xs2aWizardViewModel.enableAutomaticRetry = enableAutomaticRetry
+
+        xs2aWizardViewModel.eventListener = eventListener
+
         // Initialize ViewModel
         xs2aWizardViewModel.onStart(context as Activity)
 
@@ -72,7 +82,7 @@ fun XS2AWizard(
     }
 
     // Render
-    XS2ATheme(xS2ATheme = xs2aWizardViewModel.config?.theme) {
+    XS2ATheme(xS2ATheme = theme) {
         Box(modifier) {
             Column(
                 modifier = Modifier
@@ -171,7 +181,7 @@ fun FormLinesContainer(
 
     Column(
         verticalArrangement = Arrangement.spacedBy(10.dp),
-        modifier = if (viewModel.config?.enableScroll == true)
+        modifier = if (viewModel.enableScroll)
             Modifier.verticalScroll(rememberScrollState())
         else
             Modifier
