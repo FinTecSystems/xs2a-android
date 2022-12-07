@@ -9,13 +9,11 @@ import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.staticCompositionLocalOf
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
-import com.fintecsystems.xs2awizard.components.theme.styles.*
-import com.fintecsystems.xs2awizard.components.theme.interop.XS2AFontFamily
 import com.fintecsystems.xs2awizard.components.theme.interop.XS2AAlignmentHorizontal
 import com.fintecsystems.xs2awizard.components.theme.interop.XS2AColor
 import com.fintecsystems.xs2awizard.components.theme.interop.XS2AShape
+import com.fintecsystems.xs2awizard.components.theme.styles.*
 import kotlinx.parcelize.Parcelize
 
 private val LocalExtendedStyle = staticCompositionLocalOf { XS2ATheme.light }
@@ -29,15 +27,14 @@ private val LocalExtendedStyle = staticCompositionLocalOf { XS2ATheme.light }
 fun XS2ATheme(
     xS2ATheme: XS2ATheme? = null,
     colors: Colors = lightColors(),
+    typography: Typography = MaterialTheme.typography,
     content: @Composable () -> Unit
 ) {
     val theme = xS2ATheme ?: if (isSystemInDarkTheme()) XS2ATheme.dark else XS2ATheme.light
     CompositionLocalProvider(LocalExtendedStyle provides theme) {
         MaterialTheme(
             colors = colors,
-            typography = Typography(
-                defaultFontFamily = XS2ATheme.CURRENT.fontFamily?.value ?: FontFamily.Default
-            ),
+            typography = typography,
             content = content
         )
     }
@@ -48,7 +45,6 @@ class XS2ATheme(
     // General
     val tintColor: XS2AColor = XS2AColors.primary,
     val onTintColor: XS2AColor = XS2AColors.textColorLight,
-    val fontFamily: XS2AFontFamily? = null, // Has to be nullable, because default theme isn't available on compile level
     val backgroundColor: XS2AColor = XS2AColors.backgroundLight,
     val surfaceColor: XS2AColor = XS2AColors.surfaceColor,
     val textColor: XS2AColor = XS2AColors.textColor,

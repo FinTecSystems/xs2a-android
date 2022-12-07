@@ -7,6 +7,7 @@ object XS2AWizardBundleKeys {
     const val backendURL = "backendURL"
     const val language = "language"
     const val theme = "theme"
+    const val fontResId = "fontResId"
     const val enableScroll = "enableScroll"
     const val enableBackButton = "enableBackButton"
     const val enableAutomaticRetry = "enableAutomaticRetry"

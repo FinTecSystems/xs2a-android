@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Typography
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
@@ -40,6 +42,8 @@ import com.fintecsystems.xs2awizard.form.components.textLine.TextLine
  * @param xs2aWizardViewModel ViewModel of the Wizard-Instance.
  * @param theme Theme to be used.
  *              If null the default Light- or Dark-Theme, depending on the device settings, is used.
+ *
+ *              //TODO: Add remaining
  */
 @Composable
 fun XS2AWizard(
@@ -47,6 +51,7 @@ fun XS2AWizard(
     sessionKey: String,
     backendURL: String? = null,
     theme: XS2ATheme? = null,
+    typography: Typography = MaterialTheme.typography,
     language: XS2AWizardLanguage? = null,
     enableScroll: Boolean = true,
     enableBackButton: Boolean = true,
@@ -82,7 +87,10 @@ fun XS2AWizard(
     }
 
     // Render
-    XS2ATheme(xS2ATheme = theme) {
+    XS2ATheme(
+        xS2ATheme = theme,
+        typography = typography,
+    ) {
         Box(modifier) {
             Column(
                 modifier = Modifier

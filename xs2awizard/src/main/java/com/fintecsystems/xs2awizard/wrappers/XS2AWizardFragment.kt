@@ -4,9 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Typography
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
@@ -23,6 +27,7 @@ class XS2AWizardFragment() : Fragment(), XS2AWizardEventListener {
         sessionKey: String,
         backendURL: String? = null,
         theme: XS2ATheme? = null,
+        fontResId: Int? = null,
         language: XS2AWizardLanguage? = null,
         enableScroll: Boolean = true,
         enableBackButton: Boolean = true,
@@ -38,6 +43,10 @@ class XS2AWizardFragment() : Fragment(), XS2AWizardEventListener {
             putBoolean(XS2AWizardBundleKeys.enableScroll, enableScroll)
             putBoolean(XS2AWizardBundleKeys.enableBackButton, enableBackButton)
             putBoolean(XS2AWizardBundleKeys.enableAutomaticRetry, enableAutomaticRetry)
+
+            if (fontResId != null) {
+                putInt(XS2AWizardBundleKeys.fontResId, fontResId)
+            }
         }
     }
 
@@ -57,10 +66,25 @@ class XS2AWizardFragment() : Fragment(), XS2AWizardEventListener {
 
                     assert(arguments.containsKey("sessionKey"))
 
+                    val typography = if (arguments.containsKey(XS2AWizardBundleKeys.fontResId))
+                        Typography(
+                            defaultFontFamily = FontFamily(
+                                Font(
+                                    arguments.getInt(
+                                        XS2AWizardBundleKeys.fontResId
+                                    )
+                                )
+                            )
+                        )
+                    else
+                        MaterialTheme.typography
+
+
                     XS2AWizard(
                         sessionKey = arguments.getString(XS2AWizardBundleKeys.sessionKey)!!,
                         backendURL = arguments.getString(XS2AWizardBundleKeys.backendURL),
                         theme = arguments.getParcelable(XS2AWizardBundleKeys.theme),
+                        typography = typography,
                         language = arguments.getSerializable(XS2AWizardBundleKeys.language) as? XS2AWizardLanguage,
                         enableScroll = arguments.getBoolean(XS2AWizardBundleKeys.enableScroll),
                         enableBackButton = arguments.getBoolean(XS2AWizardBundleKeys.enableBackButton),
