@@ -25,8 +25,8 @@ fun FormTabs(
 ) {
     TabRow(
         selectedTabIndex = selected,
-        backgroundColor = XS2ATheme.CURRENT.backgroundColor,
-        contentColor = XS2ATheme.CURRENT.tintColor,
+        backgroundColor = XS2ATheme.CURRENT.backgroundColor.value,
+        contentColor = XS2ATheme.CURRENT.tintColor.value,
     ) {
         tabs.forEachIndexed { index, label ->
             Tab(
@@ -38,7 +38,7 @@ fun FormTabs(
             ) {
                 FormText(
                     text = label,
-                    color = XS2ATheme.CURRENT.textColor,
+                    color = XS2ATheme.CURRENT.textColor.value,
                     fontWeight = FontWeight.Medium,
                     fontSize = 14.sp,
                 )

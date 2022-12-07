@@ -86,7 +86,7 @@ fun XS2AWizard(
         Box(modifier) {
             Column(
                 modifier = Modifier
-                    .background(XS2ATheme.CURRENT.backgroundColor)
+                    .background(XS2ATheme.CURRENT.backgroundColor.value)
             ) {
                 ConnectivityStatusBanner(connectionState)
 
@@ -109,7 +109,7 @@ fun XS2AWizard(
                             indication = null,
                             onClick = {}
                         )
-                        .background(XS2ATheme.CURRENT.loadingIndicatorBackgroundColor),
+                        .background(XS2ATheme.CURRENT.loadingIndicatorBackgroundColor.value),
                 )
             }
 

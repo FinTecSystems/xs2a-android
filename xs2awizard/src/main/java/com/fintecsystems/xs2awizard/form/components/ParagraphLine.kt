@@ -68,8 +68,8 @@ fun ParagraphLine(formData: ParagraphLineData, viewModel: XS2AWizardViewModel) {
             modifier = Modifier
                 .fillMaxWidth()
                 .background(
-                    color = backgroundColor,
-                    shape = XS2ATheme.CURRENT.paragraphShape
+                    color = backgroundColor.value,
+                    shape = XS2ATheme.CURRENT.paragraphShape.value
                 )
                 .padding(
                     padding.start,
@@ -81,7 +81,7 @@ fun ParagraphLine(formData: ParagraphLineData, viewModel: XS2AWizardViewModel) {
             if (formData.title?.isNotEmpty() == true) {
                 FormText(
                     text = formData.title,
-                    color = textColor,
+                    color = textColor.value,
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp
                 )
@@ -96,9 +96,8 @@ fun ParagraphLine(formData: ParagraphLineData, viewModel: XS2AWizardViewModel) {
                 ClickableText(
                     text = annotatedString,
                     style = TextStyle(
-                        color = textColor,
+                        color = textColor.value,
                         fontSize = 17.sp,
-                        fontFamily = XS2ATheme.CURRENT.fontFamily
                     ),
                     onClick = {
                         annotatedString.getStringAnnotations(it, it)

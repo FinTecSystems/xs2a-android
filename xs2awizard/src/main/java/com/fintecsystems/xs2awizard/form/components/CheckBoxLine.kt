@@ -83,9 +83,9 @@ fun CheckBoxLine(formData: CheckBoxLineData, viewModel: XS2AWizardViewModel) {
                 interactionSource = interactionSource,
                 enabled = enabled,
                 colors = CheckboxDefaults.colors(
-                    checkedColor = XS2ATheme.CURRENT.tintColor,
-                    uncheckedColor = XS2ATheme.CURRENT.unselectedColor,
-                    checkmarkColor = XS2ATheme.CURRENT.onTintColor
+                    checkedColor = XS2ATheme.CURRENT.tintColor.value,
+                    uncheckedColor = XS2ATheme.CURRENT.unselectedColor.value,
+                    checkmarkColor = XS2ATheme.CURRENT.onTintColor.value
                 )
             )
         }
@@ -102,8 +102,7 @@ fun CheckBoxLine(formData: CheckBoxLineData, viewModel: XS2AWizardViewModel) {
                     ),
                 text = annotatedString,
                 style = TextStyle(
-                    color = if (enabled) XS2ATheme.CURRENT.textColor else XS2ATheme.CURRENT.disabledColor,
-                    fontFamily = XS2ATheme.CURRENT.fontFamily
+                    color = if (enabled) XS2ATheme.CURRENT.textColor.value else XS2ATheme.CURRENT.disabledColor.value,
                 ),
                 onClick = {
                     annotatedString.getStringAnnotations(it, it)

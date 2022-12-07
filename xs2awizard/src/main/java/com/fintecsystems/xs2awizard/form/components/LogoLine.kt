@@ -78,7 +78,7 @@ fun LogoLine(viewModel: XS2AWizardViewModel) {
             confirmButton = {},
             dismissButton = {
                 TextButton(
-                    shape = XS2ATheme.CURRENT.buttonShape,
+                    shape = XS2ATheme.CURRENT.buttonShape.value,
                     onClick = { showAlertDialog = false }
                 ) {
                     FormText(
@@ -86,11 +86,11 @@ fun LogoLine(viewModel: XS2AWizardViewModel) {
                     )
                 }
             },
-            backgroundColor = XS2ATheme.CURRENT.surfaceColor,
+            backgroundColor = XS2ATheme.CURRENT.surfaceColor.value,
             title = {
                 FormText(
                     text = stringResource(id = R.string.dialog_imprint_title),
-                    color = XS2ATheme.CURRENT.tintColor,
+                    color = XS2ATheme.CURRENT.tintColor.value,
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp
                 )
@@ -107,7 +107,7 @@ fun LogoLine(viewModel: XS2AWizardViewModel) {
 
                     withStyle(
                         style = SpanStyle(
-                            color = XS2ATheme.CURRENT.tintColor,
+                            color = XS2ATheme.CURRENT.tintColor.value,
                             fontWeight = FontWeight.Bold
                         )
                     ) {
@@ -125,8 +125,7 @@ fun LogoLine(viewModel: XS2AWizardViewModel) {
                     modifier = Modifier.fillMaxWidth(),
                     text = annotatedString,
                     style = TextStyle(
-                        color = XS2ATheme.CURRENT.textColor,
-                        fontFamily = XS2ATheme.CURRENT.fontFamily
+                        color = XS2ATheme.CURRENT.textColor.value,
                     ),
                     onClick = {
                         annotatedString.getStringAnnotations(it, it)

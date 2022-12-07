@@ -29,7 +29,7 @@ fun LabelledContainer(label: String?, content: @Composable ColumnScope.() -> Uni
         if (label != null) {
             FormText(
                 text = label,
-                color = XS2ATheme.CURRENT.textColor,
+                color = XS2ATheme.CURRENT.textColor.value,
                 fontWeight = FontWeight.Bold,
                 fontSize = 17.sp
             )

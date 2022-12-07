@@ -135,8 +135,8 @@ fun TextLine(formData: TextLineData, viewModel: XS2AWizardViewModel) {
             modifier = Modifier
                 .width(with(LocalDensity.current) { textFieldSize.width.toDp() })
                 .background(
-                    XS2ATheme.CURRENT.surfaceColor,
-                    XS2ATheme.CURRENT.inputShape,
+                    XS2ATheme.CURRENT.surfaceColor.value,
+                    XS2ATheme.CURRENT.inputShape.value,
                 )
         ) {
             if (autoCompleteRequestFinished) {
@@ -160,7 +160,7 @@ fun TextLine(formData: TextLineData, viewModel: XS2AWizardViewModel) {
                                     AnimatedAutoScrollContainer {
                                         FormText(
                                             text = "${bankObject.name} (${bankObject.city})",
-                                            color = XS2ATheme.CURRENT.textColor,
+                                            color = XS2ATheme.CURRENT.textColor.value,
                                             fontSize = 17.sp,
                                             maxLines = 1,
                                             fontWeight = FontWeight.Bold,
@@ -170,7 +170,7 @@ fun TextLine(formData: TextLineData, viewModel: XS2AWizardViewModel) {
                                     AnimatedAutoScrollContainer {
                                         FormText(
                                             text = "${bankObject.bankCode} [${bankObject.bic}]",
-                                            color = XS2ATheme.CURRENT.textColor,
+                                            color = XS2ATheme.CURRENT.textColor.value,
                                             fontSize = 15.sp,
                                             maxLines = 1,
                                         )
@@ -186,7 +186,7 @@ fun TextLine(formData: TextLineData, viewModel: XS2AWizardViewModel) {
                         ) {
                             FormText(
                                 text = stringResource(R.string.no_search_results),
-                                color = XS2ATheme.CURRENT.textColor,
+                                color = XS2ATheme.CURRENT.textColor.value,
                                 fontSize = 17.sp,
                                 maxLines = 1,
                                 fontWeight = FontWeight.Bold,

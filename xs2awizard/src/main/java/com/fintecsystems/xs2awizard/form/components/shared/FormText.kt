@@ -34,6 +34,5 @@ fun FormText(
         textAlign = textAlign,
         modifier = modifier,
         overflow = TextOverflow.Ellipsis,
-        fontFamily = XS2ATheme.CURRENT.fontFamily
     )
 }

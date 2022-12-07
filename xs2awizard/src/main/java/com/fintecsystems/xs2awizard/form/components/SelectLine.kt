@@ -87,7 +87,7 @@ fun SelectLine(formData: SelectLineData) {
             trailingIcon = {
                 Icon(
                     Icons.Filled.ArrowDropDown, null,
-                    tint = XS2ATheme.CURRENT.textColor
+                    tint = XS2ATheme.CURRENT.textColor.value
                 )
             }
         )
@@ -105,8 +105,8 @@ fun SelectLine(formData: SelectLineData) {
             modifier = Modifier
                 .width(with(LocalDensity.current) { textFieldSize.width.toDp() })
                 .background(
-                    XS2ATheme.CURRENT.surfaceColor,
-                    XS2ATheme.CURRENT.inputShape,
+                    XS2ATheme.CURRENT.surfaceColor.value,
+                    XS2ATheme.CURRENT.inputShape.value,
                 )
         ) {
             val optionsArray = when (formData.options) {
@@ -125,7 +125,7 @@ fun SelectLine(formData: SelectLineData) {
                     ) {
                         FormText(
                             text = item.jsonPrimitive.content,
-                            color = XS2ATheme.CURRENT.textColor,
+                            color = XS2ATheme.CURRENT.textColor.value,
                             fontSize = 17.sp,
                             maxLines = 1,
                         )

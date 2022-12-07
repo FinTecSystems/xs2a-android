@@ -7,6 +7,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.fintecsystems.xs2awizard.helper.DpParceler
+import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.TypeParceler
 
@@ -23,6 +24,7 @@ class XS2AShape(
     private val bottomStart: Dp,
     private val type: ShapeType
 ) : Parcelable {
+    @IgnoredOnParcel
     val value: Shape = createShape(topStart, topEnd, bottomEnd, bottomStart, type)
 
     constructor(all: Dp, type: ShapeType) : this(all, all, all, all, type)

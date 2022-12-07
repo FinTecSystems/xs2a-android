@@ -71,7 +71,7 @@ fun URLBarWebView(viewModel: XS2AWizardViewModel) {
         Modifier
             .fillMaxSize()
             .background(
-                color = XS2ATheme.CURRENT.webViewBackgroundColor
+                color = XS2ATheme.CURRENT.webViewBackgroundColor.value
             )
     ) {
         // Top Bar
@@ -87,13 +87,13 @@ fun URLBarWebView(viewModel: XS2AWizardViewModel) {
             ) {
                 TextButton(
                     modifier = Modifier.width(48.dp),
-                    colors = ButtonDefaults.buttonColors(backgroundColor = XS2ATheme.CURRENT.webViewBackgroundColor),
+                    colors = ButtonDefaults.buttonColors(backgroundColor = XS2ATheme.CURRENT.webViewBackgroundColor.value),
                     onClick = { viewModel.closeWebView() }
                 ) {
                     Image(
                         painter = painterResource(R.drawable.ic_close),
                         contentDescription = stringResource(R.string.close_webview),
-                        colorFilter = ColorFilter.tint(XS2ATheme.CURRENT.webViewIconColor)
+                        colorFilter = ColorFilter.tint(XS2ATheme.CURRENT.webViewIconColor.value)
                     )
                 }
 
@@ -101,7 +101,7 @@ fun URLBarWebView(viewModel: XS2AWizardViewModel) {
                     text = currentUrl?.toUri()?.host ?: currentUrl ?: "",
                     fontSize = 15.sp,
                     maxLines = 1,
-                    color = XS2ATheme.CURRENT.webViewTextColor,
+                    color = XS2ATheme.CURRENT.webViewTextColor.value,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.pointerInput(Unit) {
                         detectTapGestures(
@@ -120,7 +120,7 @@ fun URLBarWebView(viewModel: XS2AWizardViewModel) {
                     contentDescription = stringResource(
                         if (hasCertificate) R.string.connection_secure else R.string.connection_unsecure
                     ),
-                    colorFilter = ColorFilter.tint(XS2ATheme.CURRENT.webViewIconColor)
+                    colorFilter = ColorFilter.tint(XS2ATheme.CURRENT.webViewIconColor.value)
                 )
             }
 
@@ -129,7 +129,7 @@ fun URLBarWebView(viewModel: XS2AWizardViewModel) {
                     .fillMaxWidth()
                     .height(2.dp),
                 progress = loadingIndicatorProgress / 100f,
-                color = XS2ATheme.CURRENT.tintColor
+                color = XS2ATheme.CURRENT.tintColor.value
             )
         }
 
