@@ -1,22 +1,29 @@
-package com.fintecsystems.xs2awizard.components.theme.support
+package com.fintecsystems.xs2awizard.components.theme.interop
 
+import android.os.Parcelable
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.fintecsystems.xs2awizard.helper.DpParceler
+import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.TypeParceler
 
 /**
- * [Shape] Wrapper for non-compose projects
+ * [Shape] wrapper for interoperability with non-compose projects.
  */
-class SupportShape(
-    topStart: Dp,
-    topEnd: Dp,
-    bottomEnd: Dp,
-    bottomStart: Dp,
-    type: ShapeType
-) {
-    val shapeValue: Shape = createShape(topStart, topEnd, bottomEnd, bottomStart, type)
+@Suppress("CanBeParameter", "unused") // Needed for @Parcelize
+@Parcelize
+@TypeParceler<Dp, DpParceler>()
+class XS2AShape(
+    private val topStart: Dp,
+    private val topEnd: Dp,
+    private val bottomEnd: Dp,
+    private val bottomStart: Dp,
+    private val type: ShapeType
+) : Parcelable {
+    val value: Shape = createShape(topStart, topEnd, bottomEnd, bottomStart, type)
 
     constructor(all: Dp, type: ShapeType) : this(all, all, all, all, type)
 

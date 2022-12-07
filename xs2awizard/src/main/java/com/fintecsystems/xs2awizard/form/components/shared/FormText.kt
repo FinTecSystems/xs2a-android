@@ -19,7 +19,7 @@ import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 fun FormText(
     modifier: Modifier = Modifier,
     text: String,
-    color: Color = XS2ATheme.CURRENT.textColor,
+    color: Color = XS2ATheme.CURRENT.textColor.value,
     fontSize: TextUnit = TextUnit.Unspecified,
     fontWeight: FontWeight? = null,
     maxLines: Int = Int.MAX_VALUE,

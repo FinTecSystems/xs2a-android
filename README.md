@@ -234,13 +234,13 @@ Please refer to [here](xs2awizard/src/main/java/com/fintecsystems/xs2awizard/com
 In non-compose projects you won't have access to classes like `Color`, `Shape` and `FontFamily`.
 
 For these please use the support classes
-  - [`SupportColor`](xs2awizard/src/main/java/com/fintecsystems/xs2awizard/components/theme/support/SupportColor.kt)
-  - [`SupportShape`](xs2awizard/src/main/java/com/fintecsystems/xs2awizard/components/theme/support/SupportShape.kt)
-  - [`SupportFontFamily`](xs2awizard/src/main/java/com/fintecsystems/xs2awizard/components/theme/support/SupportFontFamily.kt)
+  - [`SupportColor`](xs2awizard/src/main/java/com/fintecsystems/xs2awizard/components/theme/interop/SupportColor.kt)
+  - [`SupportShape`](xs2awizard/src/main/java/com/fintecsystems/xs2awizard/components/theme/interop/SupportShape.kt)
+  - [`SupportFontFamily`](xs2awizard/src/main/java/com/fintecsystems/xs2awizard/components/theme/interop/SupportFontFamily.kt)
 
 > Because `ButtonStyle`, `ParagraphStyle`, `PaddingMarginConfiguration` and `LogoVariation` are custom classes, they already have proper non-compose support.
 
-And instead of creating an implementation of `IXS2ATheme` yourself, create an instance of [`XS2ASupportTheme`](xs2awizard/src/main/java/com/fintecsystems/xs2awizard/components/theme/support/XS2ASupportTheme.kt) and pass your overrides to the constructor.
+And instead of creating an implementation of `IXS2ATheme` yourself, create an instance of [`XS2ASupportTheme`](xs2awizard/src/main/java/com/fintecsystems/xs2awizard/components/theme/interop/XS2ASupportTheme.kt) and pass your overrides to the constructor.
 
 ```kotlin
 val theme = XS2ASupportTheme(

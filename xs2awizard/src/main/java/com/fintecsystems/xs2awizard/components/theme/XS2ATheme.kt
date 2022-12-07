@@ -2,7 +2,6 @@ package com.fintecsystems.xs2awizard.components.theme
 
 import android.os.Parcelable
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Colors
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Typography
@@ -10,12 +9,13 @@ import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.staticCompositionLocalOf
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import com.fintecsystems.xs2awizard.components.theme.styles.*
+import com.fintecsystems.xs2awizard.components.theme.interop.XS2AFontFamily
+import com.fintecsystems.xs2awizard.components.theme.interop.XS2AAlignmentHorizontal
+import com.fintecsystems.xs2awizard.components.theme.interop.XS2AColor
+import com.fintecsystems.xs2awizard.components.theme.interop.XS2AShape
 import kotlinx.parcelize.Parcelize
 
 private val LocalExtendedStyle = staticCompositionLocalOf { XS2ATheme.light }
@@ -35,7 +35,9 @@ fun XS2ATheme(
     CompositionLocalProvider(LocalExtendedStyle provides theme) {
         MaterialTheme(
             colors = colors,
-            typography = Typography(defaultFontFamily = XS2ATheme.CURRENT.fontFamily),
+            typography = Typography(
+                defaultFontFamily = XS2ATheme.CURRENT.fontFamily?.value ?: FontFamily.Default
+            ),
             content = content
         )
     }
@@ -44,20 +46,20 @@ fun XS2ATheme(
 @Parcelize
 class XS2ATheme(
     // General
-    val tintColor: Color = XS2AColors.primary,
-    val onTintColor: Color = XS2AColors.textColorLight,
-    val fontFamily: FontFamily = FontFamily.Default,
-    val backgroundColor: Color = XS2AColors.backgroundLight,
-    val surfaceColor: Color = XS2AColors.surfaceColor,
-    val textColor: Color = XS2AColors.textColor,
-    val placeholderColor: Color = XS2AColors.darkGrey,
+    val tintColor: XS2AColor = XS2AColors.primary,
+    val onTintColor: XS2AColor = XS2AColors.textColorLight,
+    val fontFamily: XS2AFontFamily? = null, // Has to be nullable, because default theme isn't available on compile level
+    val backgroundColor: XS2AColor = XS2AColors.backgroundLight,
+    val surfaceColor: XS2AColor = XS2AColors.surfaceColor,
+    val textColor: XS2AColor = XS2AColors.textColor,
+    val placeholderColor: XS2AColor = XS2AColors.darkGrey,
     val logoVariation: LogoVariation = LogoVariation.STANDARD,
-    val loadingIndicatorBackgroundColor: Color = XS2AColors.backgroundTranslucent,
+    val loadingIndicatorBackgroundColor: XS2AColor = XS2AColors.backgroundTranslucent,
 
     // TextInput
-    val inputTextColor: Color = XS2AColors.textColor,
-    val inputBackgroundColor: Color = XS2AColors.backgroundInput,
-    val inputShape: Shape = RoundedCornerShape(4.dp),
+    val inputTextColor: XS2AColor = XS2AColors.textColor,
+    val inputBackgroundColor: XS2AColor = XS2AColors.backgroundInput,
+    val inputShape: XS2AShape = XS2AShape(4.dp, XS2AShape.ShapeType.ROUNDED),
     val inputType: TextFieldType = TextFieldType.NORMAL,
 
     // Button
@@ -72,9 +74,9 @@ class XS2ATheme(
         XS2AColors.primary,
         XS2AColors.textColorLight
     ),
-    val buttonShape: Shape = RoundedCornerShape(4.dp),
+    val buttonShape: XS2AShape = XS2AShape(4.dp, XS2AShape.ShapeType.ROUNDED),
     val buttonSize: SizeConstraint = SizeConstraint.FillMaxWidth,
-    val buttonHorizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
+    val buttonHorizontalAlignment: XS2AAlignmentHorizontal = XS2AAlignmentHorizontal.CENTER_HORIZONTALLY,
 
     // Paragraph
     val errorParagraphStyle: ParagraphStyle = ParagraphStyle(
@@ -89,23 +91,23 @@ class XS2ATheme(
         XS2AColors.backgroundWarning,
         XS2AColors.textColor
     ),
-    val paragraphShape: Shape = RoundedCornerShape(4.dp),
+    val paragraphShape: XS2AShape = XS2AShape(4.dp, XS2AShape.ShapeType.ROUNDED),
     val paragraphPadding: PaddingMarginConfiguration = PaddingMarginConfiguration(0.dp),
     val paragraphMargin: PaddingMarginConfiguration = PaddingMarginConfiguration(4.dp, 8.dp),
 
     // WebView
-    val webViewIconColor: Color = XS2AColors.textColor,
-    val webViewBackgroundColor: Color = XS2AColors.surfaceColor,
-    val webViewBorderColor: Color = XS2AColors.darkGrey,
-    val webViewTextColor: Color = XS2AColors.textColor,
+    val webViewIconColor: XS2AColor = XS2AColors.textColor,
+    val webViewBackgroundColor: XS2AColor = XS2AColors.surfaceColor,
+    val webViewBorderColor: XS2AColor = XS2AColors.darkGrey,
+    val webViewTextColor: XS2AColor = XS2AColors.textColor,
 
     // Checkbox/Radio
-    val unselectedColor: Color = XS2AColors.unselected,
-    val disabledColor: Color = XS2AColors.disabled,
+    val unselectedColor: XS2AColor = XS2AColors.unselected,
+    val disabledColor: XS2AColor = XS2AColors.disabled,
 
     // Connection status Banner
-    val connectionStatusBannerBackgroundColor: Color = XS2AColors.backgroundWarning,
-    val connectionStatusBannerTextColor: Color = XS2AColors.textColor,
+    val connectionStatusBannerBackgroundColor: XS2AColor = XS2AColors.backgroundWarning,
+    val connectionStatusBannerTextColor: XS2AColor = XS2AColors.textColor,
 ) : Parcelable {
     companion object {
         /**
