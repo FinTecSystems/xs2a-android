@@ -12,7 +12,7 @@ object DpParceler : Parceler<Dp> {
 }
 
 object ColorParceler : Parceler<Color> {
-    override fun create(parcel: Parcel) = Color(parcel.readLong())
+    override fun create(parcel: Parcel) = Color(parcel.readLong().toULong())
 
     override fun Color.write(parcel: Parcel, flags: Int) = parcel.writeLong(value.toLong())
 }
