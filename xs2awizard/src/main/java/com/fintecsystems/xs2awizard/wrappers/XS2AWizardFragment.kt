@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import com.fintecsystems.xs2awizard.XS2AWizard
 import com.fintecsystems.xs2awizard.components.*
-import com.fintecsystems.xs2awizard.components.theme.IXS2ATheme
+import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 
 /**
  * Wrapper for the XS2A-Wizard Compose Component
@@ -22,7 +22,7 @@ class XS2AWizardFragment() : Fragment(), XS2AWizardEventListener {
     constructor(
         sessionKey: String,
         backendURL: String? = null,
-        theme: IXS2ATheme? = null,
+        theme: XS2ATheme? = null,
         language: XS2AWizardLanguage? = null,
         enableScroll: Boolean = true,
         enableBackButton: Boolean = true,
@@ -32,7 +32,7 @@ class XS2AWizardFragment() : Fragment(), XS2AWizardEventListener {
             putString(XS2AWizardBundleKeys.sessionKey, sessionKey)
             putString(XS2AWizardBundleKeys.backendURL, backendURL)
 
-            putSerializable(XS2AWizardBundleKeys.theme, theme)
+            putParcelable(XS2AWizardBundleKeys.theme, theme)
             putSerializable(XS2AWizardBundleKeys.language, language)
 
             putBoolean(XS2AWizardBundleKeys.enableScroll, enableScroll)
@@ -60,7 +60,7 @@ class XS2AWizardFragment() : Fragment(), XS2AWizardEventListener {
                     XS2AWizard(
                         sessionKey = arguments.getString(XS2AWizardBundleKeys.sessionKey)!!,
                         backendURL = arguments.getString(XS2AWizardBundleKeys.backendURL),
-                        theme = arguments.getSerializable(XS2AWizardBundleKeys.theme) as? IXS2ATheme,
+                        theme = arguments.getParcelable(XS2AWizardBundleKeys.theme),
                         language = arguments.getSerializable(XS2AWizardBundleKeys.language) as? XS2AWizardLanguage,
                         enableScroll = arguments.getBoolean(XS2AWizardBundleKeys.enableScroll),
                         enableBackButton = arguments.getBoolean(XS2AWizardBundleKeys.enableBackButton),

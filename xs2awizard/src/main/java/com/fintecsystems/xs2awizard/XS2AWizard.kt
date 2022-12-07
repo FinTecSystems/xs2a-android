@@ -22,7 +22,6 @@ import com.fintecsystems.xs2awizard.components.XS2AWizardViewModel
 import com.fintecsystems.xs2awizard.components.loadingIndicator.LoadingIndicator
 import com.fintecsystems.xs2awizard.components.networking.ConnectionState
 import com.fintecsystems.xs2awizard.components.networking.ConnectivityStatusBanner
-import com.fintecsystems.xs2awizard.components.theme.IXS2ATheme
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.components.webview.URLBarWebView
 import com.fintecsystems.xs2awizard.form.*
@@ -47,7 +46,7 @@ fun XS2AWizard(
     modifier: Modifier = Modifier,
     sessionKey: String,
     backendURL: String? = null,
-    theme: IXS2ATheme? = null,
+    theme: XS2ATheme? = null,
     language: XS2AWizardLanguage? = null,
     enableScroll: Boolean = true,
     enableBackButton: Boolean = true,

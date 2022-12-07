@@ -4,14 +4,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
-import com.fintecsystems.xs2awizard.components.theme.IXS2ATheme
 import com.fintecsystems.xs2awizard.components.theme.XS2AColors
+import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.components.theme.styles.*
 
 /**
- * Support class for [IXS2ATheme] to be used in non-compose projects.
+ * Support class for [XS2ATheme] to be used in non-compose projects.
  * The default constructor is the Light-Theme.
  */
+/*
 class XS2ASupportTheme(
     tintColor: SupportColor = SupportColor(XS2AColors.primary),
     onTintColor: SupportColor = SupportColor(XS2AColors.textColorLight),
@@ -58,7 +59,7 @@ class XS2ASupportTheme(
     disabledColor: SupportColor = SupportColor(XS2AColors.disabled),
     connectionStatusBannerBackgroundColor: SupportColor = SupportColor(XS2AColors.backgroundWarning),
     connectionStatusBannerTextColor: SupportColor = SupportColor(XS2AColors.textColor),
-) : IXS2ATheme {
+) : XS2ATheme() {
     override val tintColor: Color = tintColor.colorValue
     override val onTintColor: Color = onTintColor.colorValue
     override val fontFamily: FontFamily = fontFamily.fontFamilyValue
@@ -88,3 +89,4 @@ class XS2ASupportTheme(
     override val connectionStatusBannerBackgroundColor: Color = connectionStatusBannerBackgroundColor.colorValue
     override val connectionStatusBannerTextColor: Color = connectionStatusBannerTextColor.colorValue
 }
+ */
