@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
@@ -17,12 +18,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
 import androidx.compose.ui.window.PopupProperties
 import com.fintecsystems.xs2awizard.R
-import com.fintecsystems.xs2awizard.components.loadingIndicator.LoadingIndicator
 import com.fintecsystems.xs2awizard.components.XS2AWizardViewModel
+import com.fintecsystems.xs2awizard.components.loadingIndicator.LoadingIndicator
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.TextLineData
 import com.fintecsystems.xs2awizard.form.components.LabelledContainer
@@ -160,19 +160,18 @@ fun TextLine(formData: TextLineData, viewModel: XS2AWizardViewModel) {
                                     AnimatedAutoScrollContainer {
                                         FormText(
                                             text = "${bankObject.name} (${bankObject.city})",
-                                            color = XS2ATheme.CURRENT.textColor.value,
-                                            fontSize = 17.sp,
                                             maxLines = 1,
-                                            fontWeight = FontWeight.Bold,
+                                            style = MaterialTheme.typography.subtitle1.copy(
+                                                fontWeight = FontWeight.Bold
+                                            )
                                         )
                                     }
 
                                     AnimatedAutoScrollContainer {
                                         FormText(
                                             text = "${bankObject.bankCode} [${bankObject.bic}]",
-                                            color = XS2ATheme.CURRENT.textColor.value,
-                                            fontSize = 15.sp,
                                             maxLines = 1,
+                                            style = MaterialTheme.typography.subtitle2
                                         )
                                     }
                                 }
@@ -186,11 +185,11 @@ fun TextLine(formData: TextLineData, viewModel: XS2AWizardViewModel) {
                         ) {
                             FormText(
                                 text = stringResource(R.string.no_search_results),
-                                color = XS2ATheme.CURRENT.textColor.value,
-                                fontSize = 17.sp,
                                 maxLines = 1,
-                                fontWeight = FontWeight.Bold,
                                 textAlign = TextAlign.Center,
+                                style = MaterialTheme.typography.subtitle1.copy(
+                                    fontWeight = FontWeight.Bold
+                                ),
                                 modifier = Modifier.fillMaxWidth()
                             )
                         }

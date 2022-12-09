@@ -32,9 +32,53 @@ fun XS2ATheme(
 ) {
     val theme = xS2ATheme ?: if (isSystemInDarkTheme()) XS2ATheme.dark else XS2ATheme.light
     CompositionLocalProvider(LocalExtendedStyle provides theme) {
+        val patchedTypography = with(typography) {
+            copy(
+                h1.copy(
+                    color = XS2ATheme.CURRENT.textColor.value
+                ),
+                h2.copy(
+                    color = XS2ATheme.CURRENT.textColor.value
+                ),
+                h3.copy(
+                    color = XS2ATheme.CURRENT.textColor.value
+                ),
+                h4.copy(
+                    color = XS2ATheme.CURRENT.textColor.value
+                ),
+                h5.copy(
+                    color = XS2ATheme.CURRENT.textColor.value
+                ),
+                h6.copy(
+                    color = XS2ATheme.CURRENT.textColor.value
+                ),
+                subtitle1.copy(
+                    color = XS2ATheme.CURRENT.textColor.value
+                ),
+                subtitle2.copy(
+                    color = XS2ATheme.CURRENT.textColor.value
+                ),
+                body1.copy(
+                    color = XS2ATheme.CURRENT.textColor.value
+                ),
+                body2.copy(
+                    color = XS2ATheme.CURRENT.textColor.value
+                ),
+                button.copy(
+                    color = XS2ATheme.CURRENT.textColor.value
+                ),
+                caption.copy(
+                    color = XS2ATheme.CURRENT.textColor.value
+                ),
+                overline.copy(
+                    color = XS2ATheme.CURRENT.textColor.value
+                )
+            )
+        }
+
         MaterialTheme(
             colors = colors,
-            typography = typography,
+            typography = patchedTypography,
             content = content
         )
     }

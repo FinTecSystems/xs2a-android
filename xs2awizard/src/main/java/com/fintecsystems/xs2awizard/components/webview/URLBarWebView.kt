@@ -21,7 +21,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.net.toUri
 import com.fintecsystems.xs2awizard.R
@@ -99,9 +98,10 @@ fun URLBarWebView(viewModel: XS2AWizardViewModel) {
 
                 Text(
                     text = currentUrl?.toUri()?.host ?: currentUrl ?: "",
-                    fontSize = 15.sp,
                     maxLines = 1,
-                    color = XS2ATheme.CURRENT.webViewTextColor.value,
+                    style = MaterialTheme.typography.subtitle1.copy(
+                        color = XS2ATheme.CURRENT.webViewTextColor.value,
+                    ),
                     textAlign = TextAlign.Center,
                     modifier = Modifier.pointerInput(Unit) {
                         detectTapGestures(

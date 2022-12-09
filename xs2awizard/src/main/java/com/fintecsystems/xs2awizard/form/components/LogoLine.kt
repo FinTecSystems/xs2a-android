@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.AlertDialog
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -15,12 +16,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.fintecsystems.xs2awizard.R
@@ -90,9 +89,10 @@ fun LogoLine(viewModel: XS2AWizardViewModel) {
             title = {
                 FormText(
                     text = stringResource(id = R.string.dialog_imprint_title),
-                    color = XS2ATheme.CURRENT.tintColor.value,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp
+                    style = MaterialTheme.typography.h6.copy(
+                        color = XS2ATheme.CURRENT.tintColor.value,
+                        fontWeight = FontWeight.Bold,
+                    )
                 )
             },
             text = {
@@ -124,9 +124,7 @@ fun LogoLine(viewModel: XS2AWizardViewModel) {
                 ClickableText(
                     modifier = Modifier.fillMaxWidth(),
                     text = annotatedString,
-                    style = TextStyle(
-                        color = XS2ATheme.CURRENT.textColor.value,
-                    ),
+                    style = MaterialTheme.typography.body1,
                     onClick = {
                         annotatedString.getStringAnnotations(it, it)
                             .firstOrNull()?.let { annotation ->

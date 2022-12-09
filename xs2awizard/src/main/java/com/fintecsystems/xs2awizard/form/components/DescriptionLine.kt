@@ -3,14 +3,12 @@ package com.fintecsystems.xs2awizard.form.components
 import android.app.Activity
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.ClickableText
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.unit.sp
 import com.fintecsystems.xs2awizard.components.XS2AWizardViewModel
-import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.DescriptionLineData
 import com.fintecsystems.xs2awizard.helper.MarkupParser
 import com.fintecsystems.xs2awizard.helper.Utils.getActivity
@@ -32,10 +30,7 @@ fun DescriptionLine(formData: DescriptionLineData, viewModel: XS2AWizardViewMode
         ClickableText(
             modifier = Modifier.fillMaxWidth(),
             text = annotatedString,
-            style = TextStyle(
-                color = XS2ATheme.CURRENT.textColor.value,
-                fontSize = 15.3.sp
-            ),
+            style = MaterialTheme.typography.body2,
             onClick = {
                 annotatedString.getStringAnnotations(it, it)
                     .firstOrNull()?.let { annotation ->

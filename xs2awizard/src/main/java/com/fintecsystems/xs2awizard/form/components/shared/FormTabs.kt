@@ -1,13 +1,12 @@
 package com.fintecsystems.xs2awizard.form.components.shared
 
 import androidx.compose.foundation.layout.height
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Tab
 import androidx.compose.material.TabRow
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 
 /**
@@ -38,9 +37,7 @@ fun FormTabs(
             ) {
                 FormText(
                     text = label,
-                    color = XS2ATheme.CURRENT.textColor.value,
-                    fontWeight = FontWeight.Medium,
-                    fontSize = 14.sp,
+                    style = MaterialTheme.typography.subtitle2
                 )
             }
         }
