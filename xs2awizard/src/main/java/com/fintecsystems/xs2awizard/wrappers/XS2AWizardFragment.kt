@@ -97,33 +97,57 @@ class XS2AWizardFragment() : Fragment(), XS2AWizardEventListener {
     }
 
     override fun onFinish(credentials: String?) {
-        parentFragmentManager.setFragmentResult(onFinishKey, Bundle().apply {
-            putString(onFinishArgumentKey, credentials)
-        })
+        try {
+            parentFragmentManager.setFragmentResult(onFinishKey, Bundle().apply {
+                putString(onFinishArgumentKey, credentials)
+            })
+        } catch (_: IllegalStateException) {
+            /* no-op */
+        }
     }
 
     override fun onAbort() {
-        parentFragmentManager.setFragmentResult(onAbortKey, Bundle.EMPTY)
+        try {
+            parentFragmentManager.setFragmentResult(onAbortKey, Bundle.EMPTY)
+        } catch (_: IllegalStateException) {
+            /* no-op */
+        }
     }
 
     override fun onError(xs2aWizardError: XS2AWizardError) {
-        parentFragmentManager.setFragmentResult(onErrorKey, Bundle().apply {
-            putSerializable(onErrorArgumentKey, xs2aWizardError)
-        })
+        try {
+            parentFragmentManager.setFragmentResult(onErrorKey, Bundle().apply {
+                putSerializable(onErrorArgumentKey, xs2aWizardError)
+            })
+        } catch (_: IllegalStateException) {
+            /* no-op */
+        }
     }
 
     override fun onNetworkError() {
-        parentFragmentManager.setFragmentResult(onNetworkErrorKey, Bundle.EMPTY)
+        try {
+            parentFragmentManager.setFragmentResult(onNetworkErrorKey, Bundle.EMPTY)
+        } catch (_: IllegalStateException) {
+            /* no-op */
+        }
     }
 
     override fun onStep(newStep: XS2AWizardStep) {
-        parentFragmentManager.setFragmentResult(onStepKey, Bundle().apply {
-            putSerializable(onStepArgumentKey, newStep)
-        })
+        try {
+            parentFragmentManager.setFragmentResult(onStepKey, Bundle().apply {
+                putSerializable(onStepArgumentKey, newStep)
+            })
+        } catch (_: IllegalStateException) {
+            /* no-op */
+        }
     }
 
     override fun onBack() {
-        parentFragmentManager.setFragmentResult(onBackKey, Bundle.EMPTY)
+        try {
+            parentFragmentManager.setFragmentResult(onBackKey, Bundle.EMPTY)
+        } catch (_: IllegalStateException) {
+            /* no-op */
+        }
     }
 
     companion object {
