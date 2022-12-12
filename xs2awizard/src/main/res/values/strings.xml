@@ -28,7 +28,6 @@
     <string name="connection_unsecure">Connection unsecure</string>
     <string name="no_search_results">No search results</string>
 
-    <string name="remember_login">Remember login</string>
     <string name="fill_credentials_prompt_title">Use stored credentials?</string>
     <string name="fill_credentials_prompt_description">You have access data for this bank stored on your device. Should we use these credentials to automatically log you into the bank and carry out the next steps?</string>
     <string name="save_credentials_prompt_title">Store credentials?</string>
