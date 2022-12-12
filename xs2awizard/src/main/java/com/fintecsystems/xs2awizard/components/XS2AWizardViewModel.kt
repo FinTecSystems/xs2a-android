@@ -66,7 +66,7 @@ class XS2AWizardViewModel(
 
     internal val form = MutableLiveData<List<FormLineData>?>()
 
-    val loadingIndicatorLock = MutableLiveData(false) // TODO: Internal?
+    internal val loadingIndicatorLock = MutableLiveData(false)
 
     internal val currentWebViewUrl = MutableLiveData<String?>(null)
 
