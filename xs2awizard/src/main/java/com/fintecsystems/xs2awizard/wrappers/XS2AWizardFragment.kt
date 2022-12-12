@@ -21,7 +21,7 @@ import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 /**
  * Wrapper for the XS2A-Wizard Compose Component
  */
-class XS2AWizardFragment() : Fragment(), XS2AWizardEventListener {
+class XS2AWizardFragment() : Fragment(), XS2AWizardCallbackListener {
     @Suppress("unused")
     constructor(
         sessionKey: String,
@@ -89,7 +89,7 @@ class XS2AWizardFragment() : Fragment(), XS2AWizardEventListener {
                         enableScroll = arguments.getBoolean(XS2AWizardBundleKeys.enableScroll),
                         enableBackButton = arguments.getBoolean(XS2AWizardBundleKeys.enableBackButton),
                         enableAutomaticRetry = arguments.getBoolean(XS2AWizardBundleKeys.enableAutomaticRetry),
-                        eventListener = this@XS2AWizardFragment
+                        callbackListener = this@XS2AWizardFragment
                     )
                 }
             }

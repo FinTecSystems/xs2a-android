@@ -38,7 +38,7 @@ class XS2AWizardViewModel(
     application: Application,
     savedStateHandle: SavedStateHandle
 ) : AndroidViewModel(application) {
-    var eventListener: XS2AWizardEventListener? = null
+    var callbackListener: XS2AWizardCallbackListener? = null
 
     /**
      * Wizard language. If null the device language will be used.
@@ -188,7 +188,7 @@ class XS2AWizardViewModel(
     fun goBack() {
         if (!backButtonIsPresent()) return
 
-        eventListener?.onBack()
+        callbackListener?.onBack()
 
         submitForm(
             buildJsonObject
@@ -295,7 +295,7 @@ class XS2AWizardViewModel(
                 jsonBody,
                 onSuccess = ::onFormReceived,
                 onError = {
-                    eventListener?.onNetworkError()
+                    callbackListener?.onNetworkError()
                     loadingIndicatorLock.value = false
                 }
             )
@@ -318,7 +318,7 @@ class XS2AWizardViewModel(
                 constructJsonBody(action).toString(),
                 onSuccess = onSuccess,
                 onError = {
-                    eventListener?.onNetworkError()
+                    callbackListener?.onNetworkError()
                     loadingIndicatorLock.value = false
                 }
             )
@@ -541,13 +541,13 @@ class XS2AWizardViewModel(
         currentState = response.step
 
         when (response.callback) {
-            "finish" -> eventListener?.onFinish((response.callbackParams?.getOrNull(0)?.jsonPrimitive?.content))
-            "abort" -> eventListener?.onAbort()
+            "finish" -> callbackListener?.onFinish((response.callbackParams?.getOrNull(0)?.jsonPrimitive?.content))
+            "abort" -> callbackListener?.onAbort()
             else -> {
                 currentStep = XS2AWizardStep.getRelevantStep(response.callback)
 
                 if (currentStep != null)
-                    eventListener?.onStep((currentStep!!))
+                    callbackListener?.onStep((currentStep!!))
             }
         }
 
@@ -558,7 +558,7 @@ class XS2AWizardViewModel(
         }
 
         if (response.error != null) {
-            eventListener?.onError(
+            callbackListener?.onError(
                 XS2AWizardError.getRelevantError(
                     response.error,
                     response.isErrorRecoverable ?: false

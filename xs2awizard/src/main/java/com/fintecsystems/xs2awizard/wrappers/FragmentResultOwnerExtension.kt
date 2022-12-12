@@ -4,7 +4,7 @@ import androidx.fragment.app.FragmentResultListener
 import androidx.fragment.app.FragmentResultOwner
 import androidx.lifecycle.LifecycleOwner
 import com.fintecsystems.xs2awizard.components.XS2AWizardError
-import com.fintecsystems.xs2awizard.components.XS2AWizardEventListener
+import com.fintecsystems.xs2awizard.components.XS2AWizardCallbackListener
 import com.fintecsystems.xs2awizard.components.XS2AWizardStep
 
 /**
@@ -13,28 +13,28 @@ import com.fintecsystems.xs2awizard.components.XS2AWizardStep
 @Suppress("unused")
 fun FragmentResultOwner.setXs2aCallbacks(
     lifecycleOwner: LifecycleOwner,
-    xS2AWizardEventListener: XS2AWizardEventListener
+    xS2AWizardCallbackListener: XS2AWizardCallbackListener
 ) {
     val fragmentResultListener = FragmentResultListener { requestKey, result ->
         when (requestKey) {
-            XS2AWizardFragment.onFinishKey -> xS2AWizardEventListener.onFinish(
+            XS2AWizardFragment.onFinishKey -> xS2AWizardCallbackListener.onFinish(
                 result.getString(
                     XS2AWizardFragment.onFinishArgumentKey
                 )
             )
-            XS2AWizardFragment.onAbortKey -> xS2AWizardEventListener.onAbort()
-            XS2AWizardFragment.onErrorKey -> xS2AWizardEventListener.onError(
+            XS2AWizardFragment.onAbortKey -> xS2AWizardCallbackListener.onAbort()
+            XS2AWizardFragment.onErrorKey -> xS2AWizardCallbackListener.onError(
                 result.getSerializable(
                     XS2AWizardFragment.onErrorArgumentKey
                 ) as XS2AWizardError
             )
-            XS2AWizardFragment.onNetworkErrorKey -> xS2AWizardEventListener.onNetworkError()
-            XS2AWizardFragment.onStepKey -> xS2AWizardEventListener.onStep(
+            XS2AWizardFragment.onNetworkErrorKey -> xS2AWizardCallbackListener.onNetworkError()
+            XS2AWizardFragment.onStepKey -> xS2AWizardCallbackListener.onStep(
                 result.getSerializable(
                     XS2AWizardFragment.onStepArgumentKey
                 ) as XS2AWizardStep
             )
-            XS2AWizardFragment.onBackKey -> xS2AWizardEventListener.onBack()
+            XS2AWizardFragment.onBackKey -> xS2AWizardCallbackListener.onBack()
         }
     }
 

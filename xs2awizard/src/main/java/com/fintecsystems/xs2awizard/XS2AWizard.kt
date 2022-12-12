@@ -18,7 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.fintecsystems.xs2awizard.components.XS2AWizardEventListener
+import com.fintecsystems.xs2awizard.components.XS2AWizardCallbackListener
 import com.fintecsystems.xs2awizard.components.XS2AWizardLanguage
 import com.fintecsystems.xs2awizard.components.XS2AWizardViewModel
 import com.fintecsystems.xs2awizard.components.loadingIndicator.LoadingIndicator
@@ -56,7 +56,7 @@ fun XS2AWizard(
     enableScroll: Boolean = true,
     enableBackButton: Boolean = true,
     enableAutomaticRetry: Boolean = true,
-    eventListener: XS2AWizardEventListener? = null,
+    callbackListener: XS2AWizardCallbackListener? = null,
     xs2aWizardViewModel: XS2AWizardViewModel = viewModel()
 ) {
     val form by xs2aWizardViewModel.form.observeAsState(null)
@@ -67,7 +67,7 @@ fun XS2AWizard(
     val context = LocalContext.current
 
     DisposableEffect(sessionKey) {
-        xs2aWizardViewModel.eventListener = eventListener
+        xs2aWizardViewModel.callbackListener = callbackListener
 
         // Initialize ViewModel
         xs2aWizardViewModel.onStart(

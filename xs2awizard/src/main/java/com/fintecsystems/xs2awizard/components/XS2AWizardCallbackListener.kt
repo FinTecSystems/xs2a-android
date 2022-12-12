@@ -1,6 +1,6 @@
 package com.fintecsystems.xs2awizard.components
 
-interface XS2AWizardEventListener {
+interface XS2AWizardCallbackListener {
     /**
      * Called when the session is finished successfully.
      *
