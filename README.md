@@ -34,14 +34,10 @@ Since we use reflection for our serialization, please add the following to your
 -keepclassmembers class com.fintecsystems.xs2awizard.** { *; }
 ```
 
-## Migration from V2
-The integration into Android apps using Fragments is mostly the same as before, but here are the Changes:
-  - **The minSDK is increased to 21.**
-  - The new name of the Fragment is `XS2AWizardFragment`.
-  - The theme provider is now a object of type `IXS2ATheme`.
-    - Please use `XS2ASupportTheme` as your theme instance because it provides Wrapper-Classes for the Compose types like `Color`. 
-      - Please refer to [here](https://github.com/FinTecSystems/xs2a-android#support-customization).
-  - The styleable attributes and the `XS2ATheme`-theme are removed.
+## Migration from v3
+
+Please refer to the [v4 release notes](releases/tag/3.14.0).
+
 
 ## Initialization
 
