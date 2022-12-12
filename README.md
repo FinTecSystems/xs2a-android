@@ -36,7 +36,7 @@ Since we use reflection for our serialization, please add the following to your
 
 ## Migration from v3
 
-Please refer to the [v4 release notes](releases/tag/3.14.0).
+Please refer to the [v4 release notes](/releases/tag/3.14.0).
 
 
 ## Initialization
