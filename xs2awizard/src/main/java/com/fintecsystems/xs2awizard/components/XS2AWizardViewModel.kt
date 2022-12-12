@@ -85,8 +85,7 @@ class XS2AWizardViewModel(
     private val context: Context
         get() = getApplication<Application>().applicationContext
 
-    var currentStep: XS2AWizardStep? = null
-        private set
+    private var currentStep: XS2AWizardStep? = null
 
     /**
      * Bank-Transport of this session.

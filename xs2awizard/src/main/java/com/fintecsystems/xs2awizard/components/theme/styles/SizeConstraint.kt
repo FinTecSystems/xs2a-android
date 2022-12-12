@@ -10,6 +10,7 @@ import kotlinx.parcelize.TypeParceler
 /**
  * Wrapper Class to specify different sizing behaviours.
  */
+@Suppress("unused")
 sealed class SizeConstraint : Parcelable {
     /**
      * Sets the [height] and [width] of the component.

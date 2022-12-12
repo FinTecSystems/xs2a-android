@@ -13,7 +13,6 @@ object XS2AColors {
     val textColorLight = XS2AColor(Color.White)
     val darkGrey = XS2AColor("#BFBFBF")
 
-    val backgroundNone = XS2AColor(Color.Transparent)
     val backgroundLight = XS2AColor(Color.White)
     val backgroundDark = XS2AColor("#121212")
     val backgroundTranslucent = XS2AColor("#AAFFFFFF")

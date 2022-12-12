@@ -10,6 +10,7 @@ import kotlinx.parcelize.TypeParceler
 /**
  * Size of padding or margin of an element.
  */
+@Suppress("unused")
 @Parcelize
 @TypeParceler<Dp, DpParceler>()
 data class PaddingMarginConfiguration(

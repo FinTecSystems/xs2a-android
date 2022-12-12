@@ -5,6 +5,7 @@ import kotlinx.serialization.Serializable
 /**
  * Enum-Like-Class to differentiate the different Wizard-Errors.
  */
+@Suppress("unused")
 @Serializable
 sealed class XS2AWizardError(val code: String, val recoverable: Boolean) : java.io.Serializable {
     /**
