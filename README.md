@@ -166,52 +166,55 @@ You'll be able to delete the credentials by calling
 
 ## Customization
 
-You are able to define your own theme for the wizard.
-An example would be the following:
+> For interoperability reasons wrapper classes are excusively used for the theme.
 
 ```kotlin
-val theme = object : IXS2ATheme by XS2AThemeLight {
-    override val tintColor: Color = Color.Red
-    override val backgroundColor: Color = Color("#FFFFFF".toColorInt())
-
-    override val submitButtonStyle: ButtonStyle = ButtonStyle(
-        backgroundColor = Color.Blue,
-        textColor = Color.White
-    )
-}
-```
-
-> It's recommended to use `XS2AThemeLight` or `XS2AThemeDark` as your Base, please use [Delegation](https://kotlinlang.org/docs/delegation.html) to further customize your theme.
-
-Please refer to [here](xs2awizard/src/main/java/com/fintecsystems/xs2awizard/components/theme/IXS2ATheme.kt) for all customizable attributes.
-
-### Support customization
-
-In non-compose projects you won't have access to classes like `Color`, `Shape` and `FontFamily`.
-
-For these please use the support classes
-  - [`SupportColor`](xs2awizard/src/main/java/com/fintecsystems/xs2awizard/components/theme/interop/SupportColor.kt)
-  - [`SupportShape`](xs2awizard/src/main/java/com/fintecsystems/xs2awizard/components/theme/interop/SupportShape.kt)
-  - [`SupportFontFamily`](xs2awizard/src/main/java/com/fintecsystems/xs2awizard/components/theme/interop/SupportFontFamily.kt)
-
-> Because `ButtonStyle`, `ParagraphStyle`, `PaddingMarginConfiguration` and `LogoVariation` are custom classes, they already have proper non-compose support.
-
-And instead of creating an implementation of `IXS2ATheme` yourself, create an instance of [`XS2ASupportTheme`](xs2awizard/src/main/java/com/fintecsystems/xs2awizard/components/theme/interop/XS2ASupportTheme.kt) and pass your overrides to the constructor.
-
-```kotlin
-val theme = XS2ASupportTheme(
-    tintColor = SupportColor("#FF0000"),
-    backgroundColor = SupportColor(255, 255, 255, 255),
+val theme = XS2ATheme(
+    tintColor = XS2AColor("#ff0000"),
+    backgroundColor = XS2AColor("#00ff00"),
     submitButtonStyle = ButtonStyle(
-        backgroundColor = SupportColor("#0000FF"),
-        textColor = SupportColor(android.graphics.Color.WHITE)
-    ),
-    buttonShape = SupportShape(
-        45,
-        SupportShape.ShapeType.ROUNDED
-    ),
+        backgroundColor = XS2AColor("#ffffff"),
+        textColor = XS2AColor("#000000")
+    )
+
+    // ... Other arguments
+)
+
+// Now pass the theme
+
+// Compose
+XS2AWizard(
+    // ...
+    theme = theme
+)
+
+//Fragment
+XS2AWizardFragment(
+    // ...
+    theme = theme
 )
 ```
+
+### Typography
+
+Instead of within `XS2ATheme` a custom font has to be defined differently depending on the Framework used.
+
+```kotlin
+// Compose
+XS2AWizard(
+    // ...
+    typography = Typography(
+        defaultFontFamily = FontFamily.Default
+    )
+)
+
+//Fragment
+XS2AWizardFragment(
+    // ...
+    fontResId = <id-of-your-font>
+)
+```
+
 
 ## Accessing the ViewModel
 It is possible to access the ViewModel to call form functions like `goBack` or `abort`.
