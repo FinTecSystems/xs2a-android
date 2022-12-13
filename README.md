@@ -76,8 +76,7 @@ val callbackListener = object : XS2AWizardCallbackListener {
 }
 
 XS2AWizard(
-    modifier = Modifier.fillMaxSize(),
-    sessionKey = xS2ASessionKey!!,
+    // ...
     callbackListener = callbackListener,
 )
 ```
