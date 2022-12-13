@@ -139,11 +139,11 @@ override fun onDestroy() {
 
 ### Wizard-Step handling
 
-> In case you need to know if the current form is the bank search or first login screen, you can use the following convenience methods:
-> - `XS2AWizardViewModel.isBankSearch`
-> - `XS2AWizardViewModel.isLogin`
-> 
-> Refer to [Accessing the ViewModel](#accessing-the-viewmodel) for accessing these methods.
+In case you need to know if the current form is the bank search or first login screen, you can use the following convenience methods:
+ - `XS2AWizardViewModel.isBankSearch`
+ - `XS2AWizardViewModel.isLogin`
+ 
+Refer to [Accessing the ViewModel](#accessing-the-viewmodel) for accessing these methods.
 
 ## Credentials saving
 
