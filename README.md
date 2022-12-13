@@ -115,8 +115,8 @@ override fun onCreate(savedInstanceState: Bundle?) {
 
     val callbackListener = object : XS2AWizardCallbackListener {
         /**
-            * interface implementation
-            */
+        * interface implementation
+        */
     }
 
     supportFragmentManager.setXs2aCallbacks(
