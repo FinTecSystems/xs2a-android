@@ -21,7 +21,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.net.toUri
 import com.fintecsystems.xs2awizard.R
@@ -71,7 +70,7 @@ fun URLBarWebView(viewModel: XS2AWizardViewModel) {
         Modifier
             .fillMaxSize()
             .background(
-                color = XS2ATheme.CURRENT.webViewBackgroundColor
+                color = XS2ATheme.CURRENT.webViewBackgroundColor.value
             )
     ) {
         // Top Bar
@@ -87,21 +86,22 @@ fun URLBarWebView(viewModel: XS2AWizardViewModel) {
             ) {
                 TextButton(
                     modifier = Modifier.width(48.dp),
-                    colors = ButtonDefaults.buttonColors(backgroundColor = XS2ATheme.CURRENT.webViewBackgroundColor),
+                    colors = ButtonDefaults.buttonColors(backgroundColor = XS2ATheme.CURRENT.webViewBackgroundColor.value),
                     onClick = { viewModel.closeWebView() }
                 ) {
                     Image(
                         painter = painterResource(R.drawable.ic_close),
                         contentDescription = stringResource(R.string.close_webview),
-                        colorFilter = ColorFilter.tint(XS2ATheme.CURRENT.webViewIconColor)
+                        colorFilter = ColorFilter.tint(XS2ATheme.CURRENT.webViewIconColor.value)
                     )
                 }
 
                 Text(
                     text = currentUrl?.toUri()?.host ?: currentUrl ?: "",
-                    fontSize = 15.sp,
                     maxLines = 1,
-                    color = XS2ATheme.CURRENT.webViewTextColor,
+                    style = MaterialTheme.typography.subtitle1.copy(
+                        color = XS2ATheme.CURRENT.webViewTextColor.value,
+                    ),
                     textAlign = TextAlign.Center,
                     modifier = Modifier.pointerInput(Unit) {
                         detectTapGestures(
@@ -120,7 +120,7 @@ fun URLBarWebView(viewModel: XS2AWizardViewModel) {
                     contentDescription = stringResource(
                         if (hasCertificate) R.string.connection_secure else R.string.connection_unsecure
                     ),
-                    colorFilter = ColorFilter.tint(XS2ATheme.CURRENT.webViewIconColor)
+                    colorFilter = ColorFilter.tint(XS2ATheme.CURRENT.webViewIconColor.value)
                 )
             }
 
@@ -129,7 +129,7 @@ fun URLBarWebView(viewModel: XS2AWizardViewModel) {
                     .fillMaxWidth()
                     .height(2.dp),
                 progress = loadingIndicatorProgress / 100f,
-                color = XS2ATheme.CURRENT.tintColor
+                color = XS2ATheme.CURRENT.tintColor.value
             )
         }
 

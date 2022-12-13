@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.fintecsystems.xs2awizard.form
 
 import com.fintecsystems.xs2awizard.form.serializers.CheckBoxLineDataSerializer

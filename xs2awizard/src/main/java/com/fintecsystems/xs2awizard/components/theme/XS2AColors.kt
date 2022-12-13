@@ -1,37 +1,36 @@
 package com.fintecsystems.xs2awizard.components.theme
 
 import androidx.compose.ui.graphics.Color
-import androidx.core.graphics.toColorInt
+import com.fintecsystems.xs2awizard.components.theme.interop.XS2AColor
 
 /**
  * Default color-palette of the wizard.
  */
 object XS2AColors {
-    val primary = Color("#427783".toColorInt())
+    val primary = XS2AColor("#427783")
 
-    val textColor = Color("#262626".toColorInt())
-    val textColorLight = Color.White
-    val darkGrey = Color("#BFBFBF".toColorInt())
+    val textColor = XS2AColor("#262626")
+    val textColorLight = XS2AColor(Color.White)
+    val darkGrey = XS2AColor("#BFBFBF")
 
-    val backgroundNone = Color.Transparent
-    val backgroundLight = Color.White
-    val backgroundDark = Color("#121212".toColorInt())
-    val backgroundTranslucent = Color("#AAFFFFFF".toColorInt())
-    val backgroundTranslucentDark = Color("#AA121212".toColorInt())
-    val backgroundWarning = Color("#FEAE22".toColorInt())
-    val backgroundInfo = Color("#0E9EC2".toColorInt())
-    val backgroundError = Color("#EA544A".toColorInt())
-    val backgroundInput = Color("#14000000".toColorInt())
-    val backgroundInputDark = Color("#14FFFFFF".toColorInt())
-    val surfaceColor = Color.White
+    val backgroundLight = XS2AColor(Color.White)
+    val backgroundDark = XS2AColor("#121212")
+    val backgroundTranslucent = XS2AColor("#AAFFFFFF")
+    val backgroundTranslucentDark = XS2AColor("#AA121212")
+    val backgroundWarning = XS2AColor("#FEAE22")
+    val backgroundInfo = XS2AColor("#0E9EC2")
+    val backgroundError = XS2AColor("#EA544A")
+    val backgroundInput = XS2AColor("#14000000")
+    val backgroundInputDark = XS2AColor("#14FFFFFF")
+    val surfaceColor = XS2AColor(Color.White)
 
-    val flickerBackground = Color.Black
-    val flickerForeground = Color.White
-    val flickerMarker = Color("#BFBFBF".toColorInt())
+    val flickerBackground = XS2AColor(Color.Black)
+    val flickerForeground = XS2AColor(Color.White)
+    val flickerMarker = XS2AColor("#BFBFBF")
 
-    val unselected = Color.Gray
-    val disabled = Color.LightGray
+    val unselected = XS2AColor(Color.Gray)
+    val disabled = XS2AColor(Color.LightGray)
 
-    val unselectedDark = Color.LightGray
-    val disabledDark = Color.Gray
+    val unselectedDark = XS2AColor(Color.LightGray)
+    val disabledDark = XS2AColor(Color.Gray)
 }

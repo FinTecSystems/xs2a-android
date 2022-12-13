@@ -29,10 +29,10 @@ fun FormButton(
 
     Column(
         Modifier.fillMaxWidth(),
-        horizontalAlignment = XS2ATheme.CURRENT.buttonHorizontalAlignment
+        horizontalAlignment = XS2ATheme.CURRENT.buttonHorizontalAlignment.value
     ) {
         Button(
-            shape = XS2ATheme.CURRENT.buttonShape,
+            shape = XS2ATheme.CURRENT.buttonShape.value,
             modifier = Modifier
                 .then(
                     when(XS2ATheme.CURRENT.buttonSize) {
@@ -48,11 +48,11 @@ fun FormButton(
                 focusManager.clearFocus()
                 onClick()
             },
-            colors = ButtonDefaults.buttonColors(backgroundColor = buttonStyle.backgroundColor)
+            colors = ButtonDefaults.buttonColors(backgroundColor = buttonStyle.backgroundColor.value)
         ) {
             FormText(
                 text = label,
-                color = buttonStyle.textColor
+                color = buttonStyle.textColor.value
             )
         }
     }

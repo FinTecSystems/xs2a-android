@@ -38,15 +38,39 @@ class XS2AWizardViewModel(
     application: Application,
     savedStateHandle: SavedStateHandle
 ) : AndroidViewModel(application) {
-    var config: XS2AWizardConfig? = null
+    var callbackListener: XS2AWizardCallbackListener? = null
 
-    val form = MutableLiveData<List<FormLineData>?>()
+    /**
+     * Wizard language. If null the device language will be used.
+     */
+    private var language: XS2AWizardLanguage? = null
 
-    val loadingIndicatorLock = MutableLiveData(false)
+    /**
+     * If enabled, the form will add an vertical scroll component.
+     * Disable this if the wizard is wrapped inside another scrollable view to avoid crashes.
+     */
+    internal var enableScroll: Boolean = true
 
-    val currentWebViewUrl = MutableLiveData<String?>(null)
+    /**
+     * If enabled, the back button of the form will be rendered.
+     * Only disable this if you need to implement your own back button logic.
+     * See [XS2AWizardViewModel.goBack] and [XS2AWizardViewModel.backButtonIsPresent] for your own implementation.
+     */
+    internal var enableBackButton: Boolean = true
 
-    val connectionState = MutableLiveData(ConnectionState.UNKNOWN)
+    /**
+     * If enabled, all network request will be automatically retried if the device is offline.
+     * Otherwise the requests will be directly aborted and the loading indicator hides.
+     */
+    private var enableAutomaticRetry: Boolean = true
+
+    internal val form = MutableLiveData<List<FormLineData>?>()
+
+    internal val loadingIndicatorLock = MutableLiveData(false)
+
+    internal val currentWebViewUrl = MutableLiveData<String?>(null)
+
+    internal val connectionState = MutableLiveData(ConnectionState.UNKNOWN)
 
     private val networkCallback = object : ConnectivityManager.NetworkCallback() {
         override fun onAvailable(network: Network) {
@@ -61,8 +85,7 @@ class XS2AWizardViewModel(
     private val context: Context
         get() = getApplication<Application>().applicationContext
 
-    var currentStep: XS2AWizardStep? = null
-        private set
+    private var currentStep: XS2AWizardStep? = null
 
     /**
      * Bank-Transport of this session.
@@ -76,33 +99,38 @@ class XS2AWizardViewModel(
     private var currentState: String? = null
 
     init {
-        val xs2aWizardBundle = savedStateHandle.get<Bundle>("xs2aWizardConfig")
+        val xs2aWizardBundle = savedStateHandle.get<Bundle>(XS2AWizardBundleKeys.bundleName)
 
         if (xs2aWizardBundle != null) {
-            val xS2AWizardConfigReference = xs2aWizardBundle.getSerializable("config")
-
-            if (xS2AWizardConfigReference != null && xS2AWizardConfigReference is TrackedReference<*>)
-                config = xS2AWizardConfigReference.get as? XS2AWizardConfig
-
-            currentWebViewUrl.value = xs2aWizardBundle.getString("currentWebViewUrl")
+            currentWebViewUrl.value =
+                xs2aWizardBundle.getString(XS2AWizardBundleKeys.currentWebViewUrl)
         }
 
-        savedStateHandle.setSavedStateProvider("xs2aWizardConfig") {
+        savedStateHandle.setSavedStateProvider(XS2AWizardBundleKeys.bundleName) {
             Bundle().apply {
-                if (config != null) {
-                    this.putSerializable("config", TrackedReference(config!!))
-                }
-                this.putString("currentWebViewUrl", currentWebViewUrl.value)
+                putString(XS2AWizardBundleKeys.currentWebViewUrl, currentWebViewUrl.value)
             }
         }
     }
 
-    fun onStart(activity: Activity) {
+    internal fun onStart(
+        sessionKey: String,
+        backendURL: String?,
+        language: XS2AWizardLanguage?,
+        enableScroll: Boolean,
+        enableBackButton: Boolean,
+        enableAutomaticRetry: Boolean,
+        activity: Activity
+    ) {
+        this.language = language
+        this.enableScroll = enableScroll
+        this.enableBackButton = enableBackButton
+        this.enableAutomaticRetry = enableAutomaticRetry
         currentActivity = WeakReference(activity)
 
         NetworkingInstance.getInstance(context).apply {
-            sessionKey = config?.sessionKey
-            backendURL = config?.backendURL
+            this.sessionKey = sessionKey
+            this.backendURL = backendURL
         }
 
         context.registerNetworkCallback(networkCallback)
@@ -110,12 +138,16 @@ class XS2AWizardViewModel(
         initForm()
     }
 
-    fun onStop() {
+    internal fun onStop() {
         // Cleanup in case the viewModel gets reused for a future request.
         loadingIndicatorLock.value = false
         currentWebViewUrl.value = null
         form.value = emptyList()
+        language = null
         currentStep = null
+        enableScroll = true
+        enableBackButton = true
+        enableAutomaticRetry = true
         currentActivity = WeakReference(null)
         connectionState.value = ConnectionState.UNKNOWN
         context.unregisterNetworkCallback(networkCallback)
@@ -144,10 +176,10 @@ class XS2AWizardViewModel(
 
     /**
      * Returns true, if network requests should abort.
-     * This only may return true if [XS2AWizardConfig.enableAutomaticRetry] is false.
+     * This only may return true if [enableAutomaticRetry] is false.
      */
-    private fun shouldAbortNetworkRequest() = config?.enableAutomaticRetry != true
-            && connectionState.value == ConnectionState.DISCONNECTED
+    private fun shouldAbortNetworkRequest() =
+        !enableAutomaticRetry && connectionState.value == ConnectionState.DISCONNECTED
 
     /**
      * Tells the server to go one step back and calls onBack if supplied but only if a back button is present.
@@ -155,7 +187,7 @@ class XS2AWizardViewModel(
     fun goBack() {
         if (!backButtonIsPresent()) return
 
-        config?.onBack?.invoke()
+        callbackListener?.onBack()
 
         submitForm(
             buildJsonObject
@@ -194,7 +226,7 @@ class XS2AWizardViewModel(
      *
      * @return built [JsonObject]
      */
-    fun constructJsonBody(action: String, values: JsonObject? = null) = buildJsonObject {
+    internal fun constructJsonBody(action: String, values: JsonObject? = null) = buildJsonObject {
         form.value?.forEach {
             if (it is ValueFormLineData) {
                 put(
@@ -213,31 +245,31 @@ class XS2AWizardViewModel(
 
     /**
      * Submits form using standard "submit" action.
-     * Will not fire when [XS2AWizardConfig.enableAutomaticRetry] is not set and device is offline.
+     * Will not fire when [enableAutomaticRetry] is not set and device is offline.
      */
-    fun submitForm(): Unit = submitForm("submit")
+    internal fun submitForm(): Unit = submitForm("submit")
 
     /**
      * Constructs request body and submits form using the specified action.
-     * Will not fire when [XS2AWizardConfig.enableAutomaticRetry] is not set and device is offline.
+     * Will not fire when [enableAutomaticRetry] is not set and device is offline.
      *
      * @param action action to use.
      */
-    fun submitForm(action: String): Unit = submitForm(constructJsonBody(action), true)
+    internal fun submitForm(action: String): Unit = submitForm(constructJsonBody(action), true)
 
     /**
      * Submits form using the specified request body.
-     * Will not fire when [XS2AWizardConfig.enableAutomaticRetry] is not set and device is offline.
+     * Will not fire when [enableAutomaticRetry] is not set and device is offline.
      *
      * @param jsonBody request body.
      * @param showIndicator show loading indicator during request.
      */
-    fun submitForm(jsonBody: JsonElement, showIndicator: Boolean = true) =
+    internal fun submitForm(jsonBody: JsonElement, showIndicator: Boolean = true) =
         submitForm(jsonBody.toString(), showIndicator)
 
     /**
      * Submits form using the specified request body.
-     * Will not fire when [XS2AWizardConfig.enableAutomaticRetry] is not set and device is offline.
+     * Will not fire when [enableAutomaticRetry] is not set and device is offline.
      *
      * @param jsonBody stringified request body.
      * @param showIndicator show loading indicator during request.
@@ -262,7 +294,7 @@ class XS2AWizardViewModel(
                 jsonBody,
                 onSuccess = ::onFormReceived,
                 onError = {
-                    config?.onNetworkError?.invoke()
+                    callbackListener?.onNetworkError()
                     loadingIndicatorLock.value = false
                 }
             )
@@ -270,12 +302,12 @@ class XS2AWizardViewModel(
 
     /**
      * Submits form with specified action and calls specified callback on success.
-     * Will not fire when [XS2AWizardConfig.enableAutomaticRetry] is not set and device is offline.
+     * Will not fire when [enableAutomaticRetry] is not set and device is offline.
      *
      * @param action action to use.
      * @param onSuccess on success callback to use.
      */
-    fun submitFormWithCallback(action: String, onSuccess: (String) -> Unit) {
+    internal fun submitFormWithCallback(action: String, onSuccess: (String) -> Unit) {
         if (shouldAbortNetworkRequest()) {
             return
         }
@@ -285,7 +317,7 @@ class XS2AWizardViewModel(
                 constructJsonBody(action).toString(),
                 onSuccess = onSuccess,
                 onError = {
-                    config?.onNetworkError?.invoke()
+                    callbackListener?.onNetworkError()
                     loadingIndicatorLock.value = false
                 }
             )
@@ -296,7 +328,10 @@ class XS2AWizardViewModel(
      *
      * @param annotation clicked annotation
      */
-    fun handleAnnotationClick(activity: Activity, annotation: AnnotatedString.Range<String>) {
+    internal fun handleAnnotationClick(
+        activity: Activity,
+        annotation: AnnotatedString.Range<String>
+    ) {
         when (annotation.tag) {
             "autosubmit" -> {
                 val jsonBody = MarkupParser.parseAutoSubmitPayloadAsJson(annotation.item)
@@ -320,10 +355,10 @@ class XS2AWizardViewModel(
         // Check if we're in the right language. If not change it.
         if (Utils.checkIfLanguageNeedsToBeChanged(
                 formResponse.language,
-                config?.language
+                language
             )
         ) {
-            val languageToChangeTo = config?.language ?: XS2AWizardLanguage.fromString(
+            val languageToChangeTo = language ?: XS2AWizardLanguage.fromString(
                 Locale.getDefault().language
             )
 
@@ -505,13 +540,13 @@ class XS2AWizardViewModel(
         currentState = response.step
 
         when (response.callback) {
-            "finish" -> config?.onFinish?.invoke((response.callbackParams?.getOrNull(0)?.jsonPrimitive?.content))
-            "abort" -> config?.onAbort?.invoke()
+            "finish" -> callbackListener?.onFinish((response.callbackParams?.getOrNull(0)?.jsonPrimitive?.content))
+            "abort" -> callbackListener?.onAbort()
             else -> {
                 currentStep = XS2AWizardStep.getRelevantStep(response.callback)
 
                 if (currentStep != null)
-                    config?.onStep?.invoke((currentStep!!))
+                    callbackListener?.onStep((currentStep!!))
             }
         }
 
@@ -522,7 +557,7 @@ class XS2AWizardViewModel(
         }
 
         if (response.error != null) {
-            config?.onError?.invoke(
+            callbackListener?.onError(
                 XS2AWizardError.getRelevantError(
                     response.error,
                     response.isErrorRecoverable ?: false
@@ -536,25 +571,27 @@ class XS2AWizardViewModel(
      *
      * @param url url to open.
      */
-    fun openWebView(url: String) {
+    internal fun openWebView(url: String) {
         currentWebViewUrl.value = url
     }
 
     /**
      * Hides the WebView and shows the form again.
      */
-    fun closeWebView() {
+    internal fun closeWebView() {
         currentWebViewUrl.value = null
     }
 
     /**
      * Checks if the current form is the bank search.
      */
+    @Suppress("unused")
     fun isBankSearch() = currentState == "bank"
 
     /**
      * Checks if the current form is the first login screen.
      */
+    @Suppress("unused")
     fun isLogin() = currentState == "login"
 
     companion object {

@@ -53,16 +53,16 @@ fun LabelledRadioButton(
                 onClick = onClick,
                 interactionSource = interactionSource,
                 colors = RadioButtonDefaults.colors(
-                    selectedColor = XS2ATheme.CURRENT.tintColor,
-                    unselectedColor = XS2ATheme.CURRENT.unselectedColor,
-                    disabledColor = XS2ATheme.CURRENT.disabledColor,
+                    selectedColor = XS2ATheme.CURRENT.tintColor.value,
+                    unselectedColor = XS2ATheme.CURRENT.unselectedColor.value,
+                    disabledColor = XS2ATheme.CURRENT.disabledColor.value,
                 ),
                 enabled = !disabled,
             )
         }
         FormText(
             text = label,
-            color = if (disabled) XS2ATheme.CURRENT.disabledColor else XS2ATheme.CURRENT.textColor
+            color = if (disabled) XS2ATheme.CURRENT.disabledColor.value else XS2ATheme.CURRENT.textColor.value
         )
     }
 }
