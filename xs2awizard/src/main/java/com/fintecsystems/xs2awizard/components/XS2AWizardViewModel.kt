@@ -229,6 +229,10 @@ class XS2AWizardViewModel(
     internal fun constructJsonBody(action: String, values: JsonObject? = null) = buildJsonObject {
         form.value?.forEach {
             if (it is ValueFormLineData) {
+                if (it is CheckBoxLineData && it.value?.jsonPrimitive?.booleanOrNull != true) {
+                    return@forEach
+                }
+
                 put(
                     it.name,
                     it.value?.jsonPrimitive ?: JsonNull
