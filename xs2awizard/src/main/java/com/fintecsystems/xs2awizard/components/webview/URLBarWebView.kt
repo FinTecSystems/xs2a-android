@@ -24,6 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.compose.ui.zIndex
 import androidx.core.net.toUri
 import com.fintecsystems.xs2awizard.R
 import com.fintecsystems.xs2awizard.components.XS2AWizardViewModel
@@ -80,6 +81,7 @@ fun URLBarWebView(viewModel: XS2AWizardViewModel) {
             Modifier
                 .fillMaxWidth()
                 .height(48.dp)
+                .zIndex(1f)
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
