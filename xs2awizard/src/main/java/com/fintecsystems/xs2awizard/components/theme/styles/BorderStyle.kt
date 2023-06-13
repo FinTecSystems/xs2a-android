@@ -6,12 +6,12 @@ import com.fintecsystems.xs2awizard.components.theme.interop.XS2AColor
 import kotlinx.parcelize.Parcelize
 
 /**
- * Style-Attributes of a button.
+ * Border style definition.
  */
 @Immutable
 @Parcelize
-data class ButtonStyle(
-    val backgroundColor: XS2AColor,
-    val textColor: XS2AColor,
-    val borderStyle: BorderStyle
+data class BorderStyle(
+    val color: XS2AColor,
+    val width: Float,
+    val radius: Float
 ) : Parcelable
