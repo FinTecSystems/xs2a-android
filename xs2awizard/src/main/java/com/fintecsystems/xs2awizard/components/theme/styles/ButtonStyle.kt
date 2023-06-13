@@ -13,5 +13,5 @@ import kotlinx.parcelize.Parcelize
 data class ButtonStyle(
     val backgroundColor: XS2AColor,
     val textColor: XS2AColor,
-    val borderStyle: BorderStyle
+    val borderStyle: BorderStyle = BorderStyle.Unspecified
 ) : Parcelable

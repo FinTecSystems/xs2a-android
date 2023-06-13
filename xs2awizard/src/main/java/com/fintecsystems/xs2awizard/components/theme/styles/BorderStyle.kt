@@ -33,4 +33,8 @@ data class BorderStyle(
         width?.dp ?: Dp.Unspecified,
         radius?.dp ?: Dp.Unspecified
     )
+
+    companion object {
+        val Unspecified = BorderStyle(color = XS2AColor.Unspecified, width = Dp.Unspecified, radius = Dp.Unspecified)
+    }
 }
