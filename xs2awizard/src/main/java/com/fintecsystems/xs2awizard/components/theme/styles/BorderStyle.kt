@@ -25,7 +25,7 @@ data class BorderStyle(
     @Suppress("unused")
     constructor(
         color: XS2AColor = XS2AColor.Unspecified,
-        width: Int? = null
+        width: Float? = null
     ) : this(
         color,
         width?.dp ?: Dp.Unspecified
