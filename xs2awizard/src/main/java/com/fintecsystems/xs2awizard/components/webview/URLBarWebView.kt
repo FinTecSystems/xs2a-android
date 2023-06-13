@@ -2,6 +2,8 @@ package com.fintecsystems.xs2awizard.components.webview
 
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
+import android.view.ViewGroup
+import android.webkit.CookieManager
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -140,8 +142,11 @@ fun URLBarWebView(viewModel: XS2AWizardViewModel) {
                 WebView(it).apply {
                     webView = this
 
-                    settings.javaScriptEnabled = true
+                    layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+
+                    CookieManager.getInstance().setAcceptThirdPartyCookies(this, true)
                     settings.domStorageEnabled = true
+                    settings.javaScriptEnabled = true
                     addJavascriptInterface(XS2AJavascriptInterface(callbackHandler), "App")
 
                     webViewClient = object : WebViewClient() {
