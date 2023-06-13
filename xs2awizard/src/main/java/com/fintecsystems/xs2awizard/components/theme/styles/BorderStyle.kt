@@ -17,8 +17,7 @@ import kotlinx.parcelize.TypeParceler
 @TypeParceler<Dp, DpParceler>()
 data class BorderStyle(
     val color: XS2AColor = XS2AColor.Unspecified,
-    val width: Dp = Dp.Unspecified,
-    val radius: Dp = Dp.Unspecified
+    val width: Dp = Dp.Unspecified
 ) : Parcelable {
     /**
      * Secondary constructor for non-compose projects.
@@ -26,15 +25,13 @@ data class BorderStyle(
     @Suppress("unused")
     constructor(
         color: XS2AColor = XS2AColor.Unspecified,
-        width: Int? = null,
-        radius: Int? = null
+        width: Int? = null
     ) : this(
         color,
-        width?.dp ?: Dp.Unspecified,
-        radius?.dp ?: Dp.Unspecified
+        width?.dp ?: Dp.Unspecified
     )
 
     companion object {
-        val Unspecified = BorderStyle(color = XS2AColor.Unspecified, width = Dp.Unspecified, radius = Dp.Unspecified)
+        val Unspecified = BorderStyle(color = XS2AColor.Unspecified, width = Dp.Unspecified)
     }
 }
