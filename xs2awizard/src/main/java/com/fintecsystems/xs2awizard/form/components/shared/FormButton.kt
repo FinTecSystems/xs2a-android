@@ -1,10 +1,9 @@
 package com.fintecsystems.xs2awizard.form.components.shared
 
-import androidx.compose.foundation.border
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.runtime.Composable
@@ -30,20 +29,18 @@ fun FormButton(
     val focusManager = LocalFocusManager.current
 
     Column(
-        Modifier
-            .fillMaxWidth()
-            .border(
-                width = buttonStyle.borderStyle.width,
-                color = buttonStyle.borderStyle.color.value,
-                shape = RoundedCornerShape(buttonStyle.borderStyle.radius),
-            ),
+        Modifier.fillMaxWidth(),
         horizontalAlignment = XS2ATheme.CURRENT.buttonHorizontalAlignment.value
     ) {
         Button(
             shape = XS2ATheme.CURRENT.buttonShape.value,
+            border = BorderStroke(
+                buttonStyle.borderStyle.width,
+                buttonStyle.borderStyle.color.value
+            ),
             modifier = Modifier
                 .then(
-                    when(XS2ATheme.CURRENT.buttonSize) {
+                    when (XS2ATheme.CURRENT.buttonSize) {
                         is SizeConstraint.FillMaxWidth -> Modifier.fillMaxWidth()
                         is SizeConstraint.WrapContent -> Modifier
                         is SizeConstraint.Size -> Modifier.size(
