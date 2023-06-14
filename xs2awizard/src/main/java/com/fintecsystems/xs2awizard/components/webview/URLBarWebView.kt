@@ -82,6 +82,7 @@ fun URLBarWebView(viewModel: XS2AWizardViewModel) {
                 .fillMaxWidth()
                 .height(48.dp)
                 .zIndex(1f)
+                .background(XS2ATheme.CURRENT.webViewBackgroundColor.value)
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -133,18 +134,24 @@ fun URLBarWebView(viewModel: XS2AWizardViewModel) {
                     .fillMaxWidth()
                     .height(2.dp),
                 progress = loadingIndicatorProgress / 100f,
-                color = XS2ATheme.CURRENT.tintColor.value
+                color = XS2ATheme.CURRENT.tintColor.value,
+                backgroundColor = XS2ATheme.CURRENT.webViewBorderColor.value
             )
         }
 
         // WebView
         AndroidView(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(XS2ATheme.CURRENT.webViewBackgroundColor.value),
             factory = {
                 WebView(it).apply {
                     webView = this
 
-                    layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+                    layoutParams = ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT
+                    )
 
                     CookieManager.getInstance().setAcceptThirdPartyCookies(this, true)
                     settings.domStorageEnabled = true
