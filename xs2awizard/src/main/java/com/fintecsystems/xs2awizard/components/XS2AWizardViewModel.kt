@@ -171,8 +171,10 @@ class XS2AWizardViewModel(
      *  Returns true if a back button is present on the current form.
      */
     @Suppress("MemberVisibilityCanBePrivate")
-    fun backButtonIsPresent() =
-        form.value?.any { it is SubmitLineData && !it.backLabel.isNullOrEmpty() } ?: false
+    fun backButtonIsPresent() = form.value?.any {
+        (it is SubmitLineData && !it.backLabel.isNullOrEmpty())
+                || (it is RedirectLineData && !it.backLabel.isNullOrEmpty())
+    } ?: false
 
     /**
      * Returns true, if network requests should abort.

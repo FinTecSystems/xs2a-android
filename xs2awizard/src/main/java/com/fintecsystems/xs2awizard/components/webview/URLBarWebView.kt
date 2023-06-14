@@ -1,7 +1,8 @@
 package com.fintecsystems.xs2awizard.components.webview
 
 import android.annotation.SuppressLint
-import android.graphics.Bitmap
+import android.view.ViewGroup
+import android.webkit.CookieManager
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -22,6 +23,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.compose.ui.zIndex
 import androidx.core.net.toUri
 import com.fintecsystems.xs2awizard.R
 import com.fintecsystems.xs2awizard.components.XS2AWizardViewModel
@@ -61,6 +63,7 @@ fun URLBarWebView(viewModel: XS2AWizardViewModel) {
     }
 
     DisposableEffect(targetUrl, webView) {
+        currentUrl = targetUrl
         webView?.loadUrl(targetUrl ?: "about:blank")
 
         onDispose { /* no-op */ }
@@ -78,6 +81,8 @@ fun URLBarWebView(viewModel: XS2AWizardViewModel) {
             Modifier
                 .fillMaxWidth()
                 .height(48.dp)
+                .zIndex(1f)
+                .background(XS2ATheme.CURRENT.webViewBackgroundColor.value)
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -129,32 +134,36 @@ fun URLBarWebView(viewModel: XS2AWizardViewModel) {
                     .fillMaxWidth()
                     .height(2.dp),
                 progress = loadingIndicatorProgress / 100f,
-                color = XS2ATheme.CURRENT.tintColor.value
+                color = XS2ATheme.CURRENT.tintColor.value,
+                backgroundColor = XS2ATheme.CURRENT.webViewBorderColor.value
             )
         }
 
         // WebView
         AndroidView(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(XS2ATheme.CURRENT.webViewBackgroundColor.value),
             factory = {
                 WebView(it).apply {
                     webView = this
 
-                    settings.javaScriptEnabled = true
+                    layoutParams = ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT
+                    )
+
+                    CookieManager.getInstance().setAcceptThirdPartyCookies(this, true)
                     settings.domStorageEnabled = true
+                    settings.javaScriptEnabled = true
                     addJavascriptInterface(XS2AJavascriptInterface(callbackHandler), "App")
 
                     webViewClient = object : WebViewClient() {
                         @Deprecated("Deprecated in Java")
                         override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
+                            currentUrl = url
                             view.loadUrl(url)
                             return true
-                        }
-
-                        override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
-                            super.onPageStarted(view, url, favicon)
-
-                            currentUrl = url
                         }
 
                         override fun onPageFinished(view: WebView?, url: String?) {
