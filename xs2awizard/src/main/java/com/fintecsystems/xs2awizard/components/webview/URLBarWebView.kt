@@ -1,7 +1,6 @@
 package com.fintecsystems.xs2awizard.components.webview
 
 import android.annotation.SuppressLint
-import android.graphics.Bitmap
 import android.view.ViewGroup
 import android.webkit.CookieManager
 import android.webkit.WebChromeClient
@@ -64,6 +63,7 @@ fun URLBarWebView(viewModel: XS2AWizardViewModel) {
     }
 
     DisposableEffect(targetUrl, webView) {
+        currentUrl = targetUrl
         webView?.loadUrl(targetUrl ?: "about:blank")
 
         onDispose { /* no-op */ }
@@ -161,14 +161,9 @@ fun URLBarWebView(viewModel: XS2AWizardViewModel) {
                     webViewClient = object : WebViewClient() {
                         @Deprecated("Deprecated in Java")
                         override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
+                            currentUrl = url
                             view.loadUrl(url)
                             return true
-                        }
-
-                        override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
-                            super.onPageStarted(view, url, favicon)
-
-                            currentUrl = url
                         }
 
                         override fun onPageFinished(view: WebView?, url: String?) {
