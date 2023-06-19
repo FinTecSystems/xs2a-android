@@ -46,6 +46,6 @@ data class AutoCompleteData(
 @Serializable
 data class AutoCompleteResponse(
     @SerialName("autocomplete")
-    val autoCompleteData: AutoCompleteData,
+    val autoCompleteData: AutoCompleteData? = null,
     val language: XS2AWizardLanguage? = null,
 )
