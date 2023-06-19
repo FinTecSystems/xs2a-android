@@ -140,66 +140,78 @@ fun TextLine(formData: TextLineData, viewModel: XS2AWizardViewModel) {
                 )
         ) {
             if (autoCompleteRequestFinished) {
-                autoCompleteResponse?.autoCompleteData?.data?.let {
-                    if (it.isNotEmpty()) {
-                        it.forEach {
-                            DropdownMenuItem(onClick = {
-                                textFieldValue =
-                                    TextFieldValue(it.value, TextRange(it.value.length))
-                                formData.value = JsonPrimitive(it.value)
-                                showAutoCompleteDropdown = false
-                            }) {
-
-                                Column(
-                                    Modifier
-                                        .fillMaxWidth()
-                                        .padding(2.dp, 4.dp)
-                                ) {
-                                    val bankObject = it.bankObject
-
-                                    AnimatedAutoScrollContainer {
-                                        FormText(
-                                            text = "${bankObject.name} (${bankObject.city})",
-                                            maxLines = 1,
-                                            style = MaterialTheme.typography.subtitle1.copy(
-                                                fontWeight = FontWeight.Bold
-                                            )
-                                        )
-                                    }
-
-                                    AnimatedAutoScrollContainer {
-                                        FormText(
-                                            text = "${bankObject.bankCode} [${bankObject.bic}]",
-                                            maxLines = 1,
-                                            style = MaterialTheme.typography.subtitle2
-                                        )
-                                    }
-                                }
-                            }
-                        }
-                    } else {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(2.dp, 4.dp)
-                        ) {
-                            FormText(
-                                text = stringResource(R.string.no_search_results),
-                                maxLines = 1,
-                                textAlign = TextAlign.Center,
-                                style = MaterialTheme.typography.subtitle1.copy(
-                                    fontWeight = FontWeight.Bold
-                                ),
-                                modifier = Modifier.fillMaxWidth()
-                            )
-                        }
+                AutoCompleteDropdownContent(
+                    autoCompleteData = autoCompleteResponse?.autoCompleteData,
+                    onItemClick = {
+                        textFieldValue =
+                            TextFieldValue(it, TextRange(it.length))
+                        formData.value = JsonPrimitive(it)
+                        showAutoCompleteDropdown = false
                     }
-                }
+                )
             } else {
                 LoadingIndicator(
                     Modifier
                         .fillMaxWidth()
                         .padding(0.dp, 5.dp)
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun AutoCompleteDropdownContent(
+    autoCompleteData: AutoCompleteData?,
+    onItemClick: (String) -> Unit,
+) {
+    autoCompleteData?.data?.let {
+        if (it.isNotEmpty()) {
+            it.forEach {
+                DropdownMenuItem(onClick = {
+                    onItemClick(it.value)
+                }) {
+                    Column(
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(2.dp, 4.dp)
+                    ) {
+                        val bankObject = it.bankObject
+
+                        AnimatedAutoScrollContainer {
+                            FormText(
+                                text = "${bankObject.name} (${bankObject.city})",
+                                maxLines = 1,
+                                style = MaterialTheme.typography.subtitle1.copy(
+                                    fontWeight = FontWeight.Bold
+                                )
+                            )
+                        }
+
+                        AnimatedAutoScrollContainer {
+                            FormText(
+                                text = "${bankObject.bankCode} [${bankObject.bic}]",
+                                maxLines = 1,
+                                style = MaterialTheme.typography.subtitle2
+                            )
+                        }
+                    }
+                }
+            }
+        } else {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(2.dp, 4.dp)
+            ) {
+                FormText(
+                    text = stringResource(R.string.no_search_results),
+                    maxLines = 1,
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.subtitle1.copy(
+                        fontWeight = FontWeight.Bold
+                    ),
+                    modifier = Modifier.fillMaxWidth()
                 )
             }
         }
