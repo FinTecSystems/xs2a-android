@@ -165,9 +165,9 @@ private fun AutoCompleteDropdownContent(
     autoCompleteData: AutoCompleteData?,
     onItemClick: (String) -> Unit,
 ) {
-    autoCompleteData?.data?.let {
-        if (it.isNotEmpty()) {
-            it.forEach {
+    if (autoCompleteData?.data != null) {
+        if (autoCompleteData.data.isNotEmpty()) {
+            autoCompleteData.data.forEach {
                 DropdownMenuItem(onClick = {
                     onItemClick(it.value)
                 }) {
@@ -214,6 +214,22 @@ private fun AutoCompleteDropdownContent(
                     modifier = Modifier.fillMaxWidth()
                 )
             }
+        }
+    } else {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(2.dp, 4.dp)
+        ) {
+            FormText(
+                text = "Network error",
+                maxLines = 1,
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.subtitle1.copy(
+                    fontWeight = FontWeight.Bold
+                ),
+                modifier = Modifier.fillMaxWidth()
+            )
         }
     }
 }
