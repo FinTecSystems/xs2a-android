@@ -1,10 +1,7 @@
 package com.fintecsystems.xs2awizard.form.components.textLine
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.MaterialTheme
@@ -171,11 +168,7 @@ private fun AutoCompleteDropdownContent(
                 DropdownMenuItem(onClick = {
                     onItemClick(it.value)
                 }) {
-                    Column(
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(2.dp, 4.dp)
-                    ) {
+                    AutoCompleteDropdownItemContainer {
                         val bankObject = it.bankObject
 
                         AnimatedAutoScrollContainer {
@@ -199,11 +192,7 @@ private fun AutoCompleteDropdownContent(
                 }
             }
         } else {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(2.dp, 4.dp)
-            ) {
+            AutoCompleteDropdownItemContainer {
                 FormText(
                     text = stringResource(R.string.no_search_results),
                     maxLines = 1,
@@ -216,11 +205,7 @@ private fun AutoCompleteDropdownContent(
             }
         }
     } else {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(2.dp, 4.dp)
-        ) {
+        AutoCompleteDropdownItemContainer {
             FormText(
                 text = "Network error",
                 maxLines = 1,
@@ -232,4 +217,14 @@ private fun AutoCompleteDropdownContent(
             )
         }
     }
+}
+
+@Composable
+private fun AutoCompleteDropdownItemContainer(content: @Composable ColumnScope.() -> Unit) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(2.dp, 4.dp),
+        content = content
+    )
 }
