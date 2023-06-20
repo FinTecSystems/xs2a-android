@@ -1,14 +1,18 @@
 package com.fintecsystems.xs2awizard.form.components.textLine
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.font.FontWeight
@@ -206,15 +210,29 @@ private fun AutoCompleteDropdownContent(
         }
     } else {
         AutoCompleteDropdownItemContainer {
-            FormText(
-                text = "Network error",
-                maxLines = 1,
-                textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.subtitle1.copy(
-                    fontWeight = FontWeight.Bold
-                ),
-                modifier = Modifier.fillMaxWidth()
-            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(0.dp, 5.dp),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Image(
+                    modifier = Modifier.width(48.dp),
+                    painter = painterResource(R.drawable.ic_warning),
+                    contentDescription = stringResource(R.string.server_error),
+                    colorFilter = ColorFilter.tint(XS2ATheme.CURRENT.textColor.value)
+                )
+
+                FormText(
+                    text = stringResource(R.string.server_error),
+                    maxLines = 1,
+                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.subtitle1.copy(
+                        fontWeight = FontWeight.Bold
+                    ),
+                )
+            }
         }
     }
 }
