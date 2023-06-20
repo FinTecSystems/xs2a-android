@@ -218,7 +218,8 @@ private fun AutoCompleteDropdownContent(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
-                    modifier = Modifier.width(48.dp),
+                    modifier = Modifier
+                        .width(48.dp),
                     painter = painterResource(R.drawable.ic_warning),
                     contentDescription = stringResource(R.string.server_error),
                     colorFilter = ColorFilter.tint(XS2ATheme.CURRENT.textColor.value)
