@@ -17,11 +17,11 @@
     <string name="dialog_imprint_message">Tink Germany GmbH\nGottfried-Keller-Straße 33\n81245 München\n\nTribunale locale: München\nHRB 210653\n\nAutorità di supervisione: Bundesanstalt für Finanzdienstleistungsaufsicht.</string>
     <string name="dialog_imprint_link_text">Per saperne di più</string>
     <string name="no_search_results">Nessun risultato di ricerca</string>
-    <string name="remember_login">Ricorda il login</string>
     <string name="fill_credentials_prompt_description">Hai i dati di accesso a questa banca memorizzati sul tuo dispositivo. Dovremmo usare queste credenziali per registrarla automaticamente nella banca ed eseguire i passi successivi?</string>
     <string name="save_credentials_prompt_title">Conservare le credenziali?</string>
     <string name="save_credentials_prompt_description">Memorizzare le credenziali per un uso futuro?</string>
     <string name="cancel">Cancella</string>
     <string name="fill_credentials_prompt_title">Usare i dati salvati?</string>
     <string name="no_internet_connection">Nessuna connessione Internet</string>
+    <string name="server_error">Errore del server</string>
 </resources>

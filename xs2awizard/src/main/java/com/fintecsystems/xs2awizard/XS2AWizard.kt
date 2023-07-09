@@ -10,13 +10,16 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Typography
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.fintecsystems.xs2awizard.components.XS2AWizardConfig
+import com.fintecsystems.xs2awizard.components.XS2AWizardCallbackListener
+import com.fintecsystems.xs2awizard.components.XS2AWizardLanguage
 import com.fintecsystems.xs2awizard.components.XS2AWizardViewModel
 import com.fintecsystems.xs2awizard.components.loadingIndicator.LoadingIndicator
 import com.fintecsystems.xs2awizard.components.networking.ConnectionState
@@ -30,28 +33,36 @@ import com.fintecsystems.xs2awizard.form.components.textLine.TextLine
 /**
  * Renders the XS2A-Wizard.
  *
- * @param xS2AWizardConfig Config of the Wizard-Instance.
- * @param xs2aWizardViewModel ViewModel of the Wizard-Instance.
+ * @param modifier - Modifier used for the form-elements layout.
+ * @param sessionKey - Session key used by the wizard.
+ * @param backendURL - Optional URL to target a different backend.
+ * @param theme - Theme to be used.
+ *                If null the default Light- or Dark-Theme, depending on the device settings, is used.
+ * @param typography - Custom typography to be used by all form elements.
+ * @param language - Specifies the wizard language.
+ *                   Defaults to the device language if supported, [XS2AWizardLanguage.EN] otherwise.
+ * @param enableScroll - If true the form container allows for automatic scrolling.
+ *                       Disable if you need to implement nested scrolling.
+ * @param enableBackButton - If true renders back button on some forms.
+ *                           Disable this only if you implement your own back-handling-logic.
+ *                           The user needs to have a way to "go-back".
+ * @param enableAutomaticRetry - If true requests to the backend will be retried if the device is offline and goes online again.
+ *                               This also means that the loading indicator will stay during that time.
+ * @param callbackListener - Listener to all XS2A callbacks.
+ * @param xs2aWizardViewModel - ViewModel of the Wizard-Instance.
  */
 @Composable
 fun XS2AWizard(
     modifier: Modifier = Modifier,
-    xS2AWizardConfig: XS2AWizardConfig,
-    xs2aWizardViewModel: XS2AWizardViewModel = viewModel()
-) {
-    xs2aWizardViewModel.config = xS2AWizardConfig
-
-    XS2AWizard(modifier, xs2aWizardViewModel)
-}
-
-/**
- * Renders the XS2A-Wizard.
- *
- * @param xs2aWizardViewModel ViewModel of the Wizard-Instance.
- */
-@Composable
-fun XS2AWizard(
-    modifier: Modifier = Modifier,
+    sessionKey: String,
+    backendURL: String? = null,
+    theme: XS2ATheme? = null,
+    typography: Typography = MaterialTheme.typography,
+    language: XS2AWizardLanguage? = null,
+    enableScroll: Boolean = true,
+    enableBackButton: Boolean = true,
+    enableAutomaticRetry: Boolean = true,
+    callbackListener: XS2AWizardCallbackListener? = null,
     xs2aWizardViewModel: XS2AWizardViewModel = viewModel()
 ) {
     val form by xs2aWizardViewModel.form.observeAsState(null)
@@ -61,9 +72,19 @@ fun XS2AWizard(
 
     val context = LocalContext.current
 
-    DisposableEffect(xs2aWizardViewModel) {
+    DisposableEffect(sessionKey) {
+        xs2aWizardViewModel.callbackListener = callbackListener
+
         // Initialize ViewModel
-        xs2aWizardViewModel.onStart(context as Activity)
+        xs2aWizardViewModel.onStart(
+            sessionKey,
+            backendURL,
+            language,
+            enableScroll,
+            enableBackButton,
+            enableAutomaticRetry,
+            context as Activity
+        )
 
         // Cleanup
         onDispose {
@@ -72,11 +93,14 @@ fun XS2AWizard(
     }
 
     // Render
-    XS2ATheme(xS2ATheme = xs2aWizardViewModel.config?.theme) {
+    XS2ATheme(
+        xS2ATheme = theme,
+        typography = typography,
+    ) {
         Box(modifier) {
             Column(
                 modifier = Modifier
-                    .background(XS2ATheme.CURRENT.backgroundColor)
+                    .background(XS2ATheme.CURRENT.backgroundColor.value)
             ) {
                 ConnectivityStatusBanner(connectionState)
 
@@ -99,7 +123,7 @@ fun XS2AWizard(
                             indication = null,
                             onClick = {}
                         )
-                        .background(XS2ATheme.CURRENT.loadingIndicatorBackgroundColor),
+                        .background(XS2ATheme.CURRENT.loadingIndicatorBackgroundColor.value),
                 )
             }
 
@@ -171,7 +195,7 @@ fun FormLinesContainer(
 
     Column(
         verticalArrangement = Arrangement.spacedBy(10.dp),
-        modifier = if (viewModel.config?.enableScroll == true)
+        modifier = if (viewModel.enableScroll)
             Modifier.verticalScroll(rememberScrollState())
         else
             Modifier

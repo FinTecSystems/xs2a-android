@@ -17,11 +17,11 @@
     <string name="dialog_imprint_message">Tink Germany GmbH\nGottfried-Keller-Straße 33\n81245 München\n\nAmtsgericht München\nHRB 210653\n\nAufsichtsbehörde: Bundesanstalt für Finanzdienstleistungsaufsicht.</string>
     <string name="dialog_imprint_link_text">Mehr Erfahren</string>
     <string name="no_search_results">Keine Suchergebnisse</string>
-    <string name="remember_login">Anmeldung merken</string>
     <string name="fill_credentials_prompt_title">Gespeicherte Daten verwenden?</string>
     <string name="fill_credentials_prompt_description">Auf Ihrem Gerät haben Sie Zugangsdaten für diese Bank gespeichert. Sollen wir diese verwenden, um Sie automatisch in der Bank einzuloggen und die nächsten Schritte durchzuführen?</string>
     <string name="save_credentials_prompt_title">Anmeldedaten speichern?</string>
     <string name="save_credentials_prompt_description">Anmeldeinformationen für die zukünftige Verwendung speichern?</string>
     <string name="cancel">Abbrechen</string>
     <string name="no_internet_connection">Keine Internetverbindung</string>
+    <string name="server_error">Serverfehler</string>
 </resources>

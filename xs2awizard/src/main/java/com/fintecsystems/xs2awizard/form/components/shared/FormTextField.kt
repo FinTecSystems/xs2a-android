@@ -58,15 +58,15 @@ fun FormTextField(
             if (placeholder != null)
                 FormText(
                     text = placeholder,
-                    color = XS2ATheme.CURRENT.textColor,
+                    color = XS2ATheme.CURRENT.textColor.value,
                 )
         },
-        shape = XS2ATheme.CURRENT.inputShape,
+        shape = XS2ATheme.CURRENT.inputShape.value,
         colors = TextFieldDefaults.textFieldColors(
-            textColor = XS2ATheme.CURRENT.inputTextColor,
-            backgroundColor = XS2ATheme.CURRENT.inputBackgroundColor,
-            focusedIndicatorColor = XS2ATheme.CURRENT.tintColor,
-            cursorColor = XS2ATheme.CURRENT.tintColor,
+            textColor = XS2ATheme.CURRENT.inputTextColor.value,
+            backgroundColor = XS2ATheme.CURRENT.inputBackgroundColor.value,
+            focusedIndicatorColor = XS2ATheme.CURRENT.tintColor.value,
+            cursorColor = XS2ATheme.CURRENT.tintColor.value,
         ),
         visualTransformation = visualTransformation,
         keyboardOptions = KeyboardOptions(

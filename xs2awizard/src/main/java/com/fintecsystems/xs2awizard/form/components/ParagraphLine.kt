@@ -6,16 +6,15 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.ClickableText
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
 import com.fintecsystems.xs2awizard.components.XS2AWizardViewModel
-import com.fintecsystems.xs2awizard.components.theme.styles.PaddingMarginConfiguration
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
+import com.fintecsystems.xs2awizard.components.theme.styles.PaddingMarginConfiguration
 import com.fintecsystems.xs2awizard.form.ParagraphLineData
 import com.fintecsystems.xs2awizard.form.components.shared.FormText
 import com.fintecsystems.xs2awizard.helper.MarkupParser
@@ -68,8 +67,8 @@ fun ParagraphLine(formData: ParagraphLineData, viewModel: XS2AWizardViewModel) {
             modifier = Modifier
                 .fillMaxWidth()
                 .background(
-                    color = backgroundColor,
-                    shape = XS2ATheme.CURRENT.paragraphShape
+                    color = backgroundColor.value,
+                    shape = XS2ATheme.CURRENT.paragraphShape.value
                 )
                 .padding(
                     padding.start,
@@ -81,9 +80,10 @@ fun ParagraphLine(formData: ParagraphLineData, viewModel: XS2AWizardViewModel) {
             if (formData.title?.isNotEmpty() == true) {
                 FormText(
                     text = formData.title,
-                    color = textColor,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp
+                    color = textColor.value,
+                    style = MaterialTheme.typography.h6.copy(
+                        fontWeight = FontWeight.Bold
+                    )
                 )
             }
 
@@ -95,10 +95,8 @@ fun ParagraphLine(formData: ParagraphLineData, viewModel: XS2AWizardViewModel) {
 
                 ClickableText(
                     text = annotatedString,
-                    style = TextStyle(
-                        color = textColor,
-                        fontSize = 17.sp,
-                        fontFamily = XS2ATheme.CURRENT.fontFamily
+                    style = MaterialTheme.typography.body1.copy(
+                        color = textColor.value
                     ),
                     onClick = {
                         annotatedString.getStringAnnotations(it, it)

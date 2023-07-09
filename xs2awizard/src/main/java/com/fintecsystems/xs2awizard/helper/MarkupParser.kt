@@ -63,21 +63,21 @@ object MarkupParser {
                             }
 
                             SpanStyle(
-                                color = XS2ATheme.CURRENT.tintColor,
+                                color = XS2ATheme.CURRENT.tintColor.value,
                                 fontWeight = FontWeight.Bold
                             )
                         } else {
                             when (annotationType) {
                                 "bold" -> SpanStyle(
-                                    color = XS2ATheme.CURRENT.textColor,
+                                    color = XS2ATheme.CURRENT.textColor.value,
                                     fontWeight = FontWeight.Bold
                                 )
                                 "italic" -> SpanStyle(
-                                    color = XS2ATheme.CURRENT.textColor,
+                                    color = XS2ATheme.CURRENT.textColor.value,
                                     fontStyle = FontStyle.Italic
                                 )
                                 else -> SpanStyle(
-                                    color = XS2ATheme.CURRENT.textColor,
+                                    color = XS2ATheme.CURRENT.textColor.value,
                                 )
                             }
                         }

@@ -5,6 +5,7 @@ import android.webkit.JavascriptInterface
 /**
  * JavaScript interface used to catch callback methods of redirects.
  */
+@Suppress("unused")
 class XS2AJavascriptInterface (
     private val callbackHandler: XS2AJavascriptInterfaceCallback
 ) {

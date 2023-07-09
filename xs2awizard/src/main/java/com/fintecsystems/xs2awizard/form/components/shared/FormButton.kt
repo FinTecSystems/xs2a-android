@@ -1,5 +1,6 @@
 package com.fintecsystems.xs2awizard.form.components.shared
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
@@ -29,13 +30,17 @@ fun FormButton(
 
     Column(
         Modifier.fillMaxWidth(),
-        horizontalAlignment = XS2ATheme.CURRENT.buttonHorizontalAlignment
+        horizontalAlignment = XS2ATheme.CURRENT.buttonHorizontalAlignment.value
     ) {
         Button(
-            shape = XS2ATheme.CURRENT.buttonShape,
+            shape = XS2ATheme.CURRENT.buttonShape.value,
+            border = BorderStroke(
+                buttonStyle.borderStyle.width,
+                buttonStyle.borderStyle.color.value
+            ),
             modifier = Modifier
                 .then(
-                    when(XS2ATheme.CURRENT.buttonSize) {
+                    when (XS2ATheme.CURRENT.buttonSize) {
                         is SizeConstraint.FillMaxWidth -> Modifier.fillMaxWidth()
                         is SizeConstraint.WrapContent -> Modifier
                         is SizeConstraint.Size -> Modifier.size(
@@ -48,11 +53,11 @@ fun FormButton(
                 focusManager.clearFocus()
                 onClick()
             },
-            colors = ButtonDefaults.buttonColors(backgroundColor = buttonStyle.backgroundColor)
+            colors = ButtonDefaults.buttonColors(backgroundColor = buttonStyle.backgroundColor.value)
         ) {
             FormText(
                 text = label,
-                color = buttonStyle.textColor
+                color = buttonStyle.textColor.value
             )
         }
     }

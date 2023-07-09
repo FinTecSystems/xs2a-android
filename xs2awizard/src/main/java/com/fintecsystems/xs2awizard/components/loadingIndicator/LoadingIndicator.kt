@@ -14,7 +14,7 @@ fun LoadingIndicator(
     Box(modifier) {
         CircularProgressIndicator(
             modifier = Modifier.align(Alignment.Center),
-            color = XS2ATheme.CURRENT.tintColor
+            color = XS2ATheme.CURRENT.tintColor.value
         )
     }
 }

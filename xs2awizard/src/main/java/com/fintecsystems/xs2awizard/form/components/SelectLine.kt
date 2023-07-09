@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.*
@@ -16,7 +17,6 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
 import androidx.compose.ui.window.PopupProperties
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
@@ -87,7 +87,7 @@ fun SelectLine(formData: SelectLineData) {
             trailingIcon = {
                 Icon(
                     Icons.Filled.ArrowDropDown, null,
-                    tint = XS2ATheme.CURRENT.textColor
+                    tint = XS2ATheme.CURRENT.textColor.value
                 )
             }
         )
@@ -105,8 +105,8 @@ fun SelectLine(formData: SelectLineData) {
             modifier = Modifier
                 .width(with(LocalDensity.current) { textFieldSize.width.toDp() })
                 .background(
-                    XS2ATheme.CURRENT.surfaceColor,
-                    XS2ATheme.CURRENT.inputShape,
+                    XS2ATheme.CURRENT.surfaceColor.value,
+                    XS2ATheme.CURRENT.inputShape.value,
                 )
         ) {
             val optionsArray = when (formData.options) {
@@ -125,8 +125,7 @@ fun SelectLine(formData: SelectLineData) {
                     ) {
                         FormText(
                             text = item.jsonPrimitive.content,
-                            color = XS2ATheme.CURRENT.textColor,
-                            fontSize = 17.sp,
+                            style = MaterialTheme.typography.subtitle1,
                             maxLines = 1,
                         )
                     }

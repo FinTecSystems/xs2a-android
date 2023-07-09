@@ -12,6 +12,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 // https://proandroiddev.com/jetpack-compose-interactionsources-the-ripple-effect-and-you-f451b60fcd37
+@Suppress("KotlinConstantConditions")
 fun Modifier.mutateInteractionSource(
     interactionSource: MutableInteractionSource,
     enabled: Boolean = true,

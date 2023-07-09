@@ -5,6 +5,7 @@ import kotlinx.serialization.Serializable
 /**
  * Enum-Like-Class to differentiate the different Wizard-Steps.
  */
+@Suppress("unused")
 @Serializable
 sealed class XS2AWizardStep(val stepName: String) : java.io.Serializable {
     /**
