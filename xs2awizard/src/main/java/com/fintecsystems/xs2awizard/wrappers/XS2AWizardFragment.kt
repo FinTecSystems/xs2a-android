@@ -21,34 +21,7 @@ import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 /**
  * Wrapper for the XS2A-Wizard Compose Component
  */
-class XS2AWizardFragment() : Fragment(), XS2AWizardCallbackListener {
-    @Suppress("unused")
-    constructor(
-        sessionKey: String,
-        backendURL: String? = null,
-        theme: XS2ATheme? = null,
-        fontResId: Int? = null,
-        language: XS2AWizardLanguage? = null,
-        enableScroll: Boolean = true,
-        enableBackButton: Boolean = true,
-        enableAutomaticRetry: Boolean = true
-    ) : this() {
-        arguments = Bundle().apply {
-            putString(XS2AWizardBundleKeys.sessionKey, sessionKey)
-            putString(XS2AWizardBundleKeys.backendURL, backendURL)
-
-            putParcelable(XS2AWizardBundleKeys.theme, theme)
-            putSerializable(XS2AWizardBundleKeys.language, language)
-
-            putBoolean(XS2AWizardBundleKeys.enableScroll, enableScroll)
-            putBoolean(XS2AWizardBundleKeys.enableBackButton, enableBackButton)
-            putBoolean(XS2AWizardBundleKeys.enableAutomaticRetry, enableAutomaticRetry)
-
-            if (fontResId != null) {
-                putInt(XS2AWizardBundleKeys.fontResId, fontResId)
-            }
-        }
-    }
+class XS2AWizardFragment : Fragment(), XS2AWizardCallbackListener {
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -160,5 +133,36 @@ class XS2AWizardFragment() : Fragment(), XS2AWizardCallbackListener {
         const val onStepKey = "onStep"
         const val onStepArgumentKey = "step"
         const val onBackKey = "onBack"
+        fun newInstance(
+            sessionKey: String,
+            backendURL: String? = null,
+            theme: XS2ATheme? = null,
+            fontResId: Int? = null,
+            language: XS2AWizardLanguage? = null,
+            enableScroll: Boolean = true,
+            enableBackButton: Boolean = true,
+            enableAutomaticRetry: Boolean = true
+        ): XS2AWizardFragment {
+            val args = Bundle().apply {
+                putString(XS2AWizardBundleKeys.sessionKey, sessionKey)
+                putString(XS2AWizardBundleKeys.backendURL, backendURL)
+
+                putParcelable(XS2AWizardBundleKeys.theme, theme)
+                putSerializable(XS2AWizardBundleKeys.language, language)
+
+                putBoolean(XS2AWizardBundleKeys.enableScroll, enableScroll)
+                putBoolean(XS2AWizardBundleKeys.enableBackButton, enableBackButton)
+                putBoolean(XS2AWizardBundleKeys.enableAutomaticRetry, enableAutomaticRetry)
+
+                if (fontResId != null) {
+                    putInt(XS2AWizardBundleKeys.fontResId, fontResId)
+                }
+            }
+
+            val fragment = XS2AWizardFragment()
+            fragment.arguments = args
+            return fragment
+        }
+
     }
 }
