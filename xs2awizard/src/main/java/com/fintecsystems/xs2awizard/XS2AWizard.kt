@@ -197,13 +197,15 @@ fun FormLinesContainer(
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(10.dp),
-        modifier = if (viewModel.enableScroll)
-            Modifier
-                .fillMaxSize()
-                .height(IntrinsicSize.Min)
-                .verticalScroll(rememberScrollState())
-        else
-            Modifier
+        modifier = Modifier
+            .fillMaxSize()
+            .height(IntrinsicSize.Min)
+            .then(
+                if (viewModel.enableScroll)
+                    Modifier.verticalScroll(rememberScrollState())
+                else
+                    Modifier
+            )
     ) {
         FormLines(formData, viewModel)
     }
