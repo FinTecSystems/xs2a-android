@@ -121,9 +121,11 @@ fun XS2AWizard(
                 LoadingIndicator(
                     modifier = Modifier
                         .matchParentSize()
-                        .clickable(interactionSource = remember { MutableInteractionSource() },
+                        .clickable(
+                            interactionSource = remember { MutableInteractionSource() },
                             indication = null,
-                            onClick = {})
+                            onClick = {}
+                        )
                         .background(XS2ATheme.CURRENT.loadingIndicatorBackgroundColor.value),
                 )
             }
@@ -190,17 +192,21 @@ fun FormLines(formData: List<FormLineData>, viewModel: XS2AWizardViewModel) {
  */
 @Composable
 fun FormLinesContainer(
-    formData: List<FormLineData>, viewModel: XS2AWizardViewModel
+    formData: List<FormLineData>,
+    viewModel: XS2AWizardViewModel
 ) {
     Column(
-        verticalArrangement = Arrangement.spacedBy(10.dp), modifier = if (viewModel.enableScroll) {
-            Modifier
-                .fillMaxSize()
-                .height(IntrinsicSize.Min)
-                .verticalScroll(rememberScrollState())
-        } else {
-            Modifier
-        }
+        verticalArrangement = Arrangement.spacedBy(10.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .then(
+                if (viewModel.enableScroll)
+                    Modifier
+                        .height(IntrinsicSize.Min)
+                        .verticalScroll(rememberScrollState())
+                else
+                    Modifier
+            )
     ) {
         FormLines(formData, viewModel)
     }
