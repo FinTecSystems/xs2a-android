@@ -9,12 +9,15 @@ import android.net.Network
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import androidx.activity.ComponentActivity
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.ui.text.AnnotatedString
 import androidx.core.net.toUri
+import androidx.core.util.Consumer
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
@@ -106,6 +109,14 @@ class XS2AWizardViewModel(
 
     private var currentState: String? = null
 
+    private val onNewIntentListener = Consumer<Intent> {
+        if (it.action != Intent.ACTION_VIEW || it.data == null) return@Consumer
+
+        if (it.dataString == redirectURL) {
+            redirectionCallback(true)
+        }
+    }
+
     init {
         val xs2aWizardBundle = savedStateHandle.get<Bundle>(XS2AWizardBundleKeys.bundleName)
 
@@ -145,6 +156,8 @@ class XS2AWizardViewModel(
 
         context.registerNetworkCallback(networkCallback)
 
+        (activity as? ComponentActivity)?.addOnNewIntentListener(onNewIntentListener)
+
         initForm()
     }
 
@@ -159,6 +172,9 @@ class XS2AWizardViewModel(
         enableBackButton = true
         enableAutomaticRetry = true
         redirectURL = null
+        (currentActivity.get() as? ComponentActivity)?.removeOnNewIntentListener(
+            onNewIntentListener
+        )
         currentActivity = WeakReference(null)
         connectionState.value = ConnectionState.UNKNOWN
         context.unregisterNetworkCallback(networkCallback)
@@ -623,7 +639,16 @@ class XS2AWizardViewModel(
      */
     internal fun openRedirectURL(url: String) {
         if (urlSupportsAppRedirection(url)) {
-            openExternalUrl(url)
+            AlertDialog.Builder(currentActivity.get()!!).apply {
+                setMessage("Open in WebView or external App?")
+                setPositiveButton("External App") { _, _ ->
+                    openExternalUrl(url)
+                }
+                setNegativeButton("WebView") { _, _ ->
+                    openWebView(url)
+                }
+                show()
+            }
         } else {
             openWebView(url)
         }
@@ -657,6 +682,18 @@ class XS2AWizardViewModel(
      * @return true if it's the [redirectURL]
      */
     internal fun isRedirectURL(url: String) = url == redirectURL
+
+    /**
+     * Callback method for the redirection result.
+     *
+     * @param success True if redirection operation was successful.
+     */
+    internal fun redirectionCallback(success: Boolean) {
+        closeWebView()
+
+        if (success)
+            submitForm("post-code")
+    }
 
     companion object {
         private const val rememberLoginName = "store_credentials"
