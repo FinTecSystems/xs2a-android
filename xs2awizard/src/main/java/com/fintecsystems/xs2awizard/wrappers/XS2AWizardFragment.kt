@@ -22,6 +22,27 @@ import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
  * Wrapper for the XS2A-Wizard Compose Component
  */
 class XS2AWizardFragment() : Fragment(), XS2AWizardCallbackListener {
+    /**
+     * Renders the XS2A-Wizard.
+     *
+     * @param sessionKey - Session key used by the wizard.
+     * @param backendURL - Optional URL to target a different backend.
+     * @param theme - Theme to be used.
+     *                If null the default Light- or Dark-Theme, depending on the device settings, is used.
+     * @param fontResId - Custom typography to be used by all form elements.
+     * @param language - Specifies the wizard language.
+     *                   Defaults to the device language if supported, [XS2AWizardLanguage.EN] otherwise.
+     * @param enableScroll - If true the form container allows for automatic scrolling.
+     *                       Disable if you need to implement nested scrolling.
+     * @param enableBackButton - If true renders back button on some forms.
+     *                           Disable this only if you implement your own back-handling-logic.
+     *                           The user needs to have a way to "go-back".
+     * @param enableAutomaticRetry - If true requests to the backend will be retried if the device is offline and goes online again.
+     *                               This also means that the loading indicator will stay during that time.
+     * @param redirectDeepLink - Deep Link of Host-App used for returning App2App redirection.
+     *                           Must match your scheme and host declared in your AndroidManifest.
+     *                           e.g "<scheme>://<host>".
+     */
     @Suppress("unused")
     constructor(
         sessionKey: String,

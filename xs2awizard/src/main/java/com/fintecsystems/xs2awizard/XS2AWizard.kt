@@ -52,6 +52,9 @@ import com.fintecsystems.xs2awizard.form.components.textLine.TextLine
  * @param enableAutomaticRetry - If true requests to the backend will be retried if the device is offline and goes online again.
  *                               This also means that the loading indicator will stay during that time.
  * @param callbackListener - Listener to all XS2A callbacks.
+ * @param redirectDeepLink - Deep Link of Host-App used for returning App2App redirection.
+ *                           Must match your scheme and host declared in your AndroidManifest.
+ *                           e.g "<scheme>://<host>".
  * @param xs2aWizardViewModel - ViewModel of the Wizard-Instance.
  */
 @Composable
