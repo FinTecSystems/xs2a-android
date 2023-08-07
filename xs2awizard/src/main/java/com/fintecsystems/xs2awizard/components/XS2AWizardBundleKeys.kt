@@ -11,7 +11,7 @@ object XS2AWizardBundleKeys {
     const val enableScroll = "enableScroll"
     const val enableBackButton = "enableBackButton"
     const val enableAutomaticRetry = "enableAutomaticRetry"
-    const val redirectURL = "redirectURL"
+    const val redirectDeepLink = "redirectDeepLink"
 
     const val currentWebViewUrl = "currentWebViewUrl"
 }

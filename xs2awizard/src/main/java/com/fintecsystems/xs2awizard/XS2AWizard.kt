@@ -66,7 +66,7 @@ fun XS2AWizard(
     enableBackButton: Boolean = true,
     enableAutomaticRetry: Boolean = true,
     callbackListener: XS2AWizardCallbackListener? = null,
-    redirectUrl: String? = null,
+    redirectDeepLink: String? = null,
     xs2aWizardViewModel: XS2AWizardViewModel = viewModel()
 ) {
     val form by xs2aWizardViewModel.form.observeAsState(null)
@@ -87,7 +87,7 @@ fun XS2AWizard(
             enableScroll,
             enableBackButton,
             enableAutomaticRetry,
-            redirectUrl,
+            redirectDeepLink,
             context as Activity
         )
 

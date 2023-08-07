@@ -73,7 +73,7 @@ class XS2AWizardViewModel(
      * Used for App2App redirection.
      * URL of Host-App to return to.
      */
-    private var redirectURL: String? = null
+    private var redirectDeepLink: String? = null
 
     internal val form = MutableLiveData<List<FormLineData>?>()
 
@@ -112,7 +112,7 @@ class XS2AWizardViewModel(
     private val onNewIntentListener = Consumer<Intent> {
         if (it.action != Intent.ACTION_VIEW || it.data == null) return@Consumer
 
-        if (it.dataString == redirectURL) {
+        if (isRedirectDeepLink(it.dataString)) {
             redirectionCallback(true)
         }
     }
@@ -139,14 +139,14 @@ class XS2AWizardViewModel(
         enableScroll: Boolean,
         enableBackButton: Boolean,
         enableAutomaticRetry: Boolean,
-        redirectURL: String?,
+        redirectDeepLink: String?,
         activity: Activity
     ) {
         this.language = language
         this.enableScroll = enableScroll
         this.enableBackButton = enableBackButton
         this.enableAutomaticRetry = enableAutomaticRetry
-        this.redirectURL = redirectURL
+        this.redirectDeepLink = redirectDeepLink
         currentActivity = WeakReference(activity)
 
         NetworkingInstance.getInstance(context).apply {
@@ -171,7 +171,7 @@ class XS2AWizardViewModel(
         enableScroll = true
         enableBackButton = true
         enableAutomaticRetry = true
-        redirectURL = null
+        redirectDeepLink = null
         (currentActivity.get() as? ComponentActivity)?.removeOnNewIntentListener(
             onNewIntentListener
         )
@@ -191,8 +191,8 @@ class XS2AWizardViewModel(
             put("version", JsonPrimitive(BuildConfig.VERSION))
             put("client", JsonPrimitive(context.getString(R.string.xs2a_client_tag)))
 
-            if (redirectURL != null) {
-                put("location", JsonPrimitive(redirectURL))
+            if (redirectDeepLink != null) {
+                put("location", JsonPrimitive(redirectDeepLink))
             }
         },
         true
@@ -677,12 +677,12 @@ class XS2AWizardViewModel(
         supportedAppRedirectionURLs.contains(url.toUri().host)
 
     /**
-     * Checks if provided [url] is the [redirectURL].
+     * Checks if provided [url] is the [redirectDeepLink].
      *
      * @param url URL to check
-     * @return true if it's the [redirectURL]
+     * @return true if it's the [redirectDeepLink]
      */
-    internal fun isRedirectURL(url: String) = url == redirectURL
+    internal fun isRedirectDeepLink(url: String?) = url == redirectDeepLink
 
     /**
      * Callback method for the redirection result.
