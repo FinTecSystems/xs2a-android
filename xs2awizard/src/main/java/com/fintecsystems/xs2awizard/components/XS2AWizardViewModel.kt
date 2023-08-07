@@ -657,7 +657,8 @@ class XS2AWizardViewModel(
         private const val masterKeyAlias = "xs2a_credentials_master_key"
 
         private val supportedAppRedirectionProviders = listOf(
-            "api.xs2a.com"
+            "manage.xs2a.com",
+            "myaccount.ing.com"
         )
 
         /**
