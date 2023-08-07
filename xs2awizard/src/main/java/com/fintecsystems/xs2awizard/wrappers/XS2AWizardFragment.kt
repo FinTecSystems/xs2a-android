@@ -31,7 +31,8 @@ class XS2AWizardFragment() : Fragment(), XS2AWizardCallbackListener {
         language: XS2AWizardLanguage? = null,
         enableScroll: Boolean = true,
         enableBackButton: Boolean = true,
-        enableAutomaticRetry: Boolean = true
+        enableAutomaticRetry: Boolean = true,
+        redirectURL: String? = null
     ) : this() {
         arguments = Bundle().apply {
             putString(XS2AWizardBundleKeys.sessionKey, sessionKey)
@@ -43,6 +44,7 @@ class XS2AWizardFragment() : Fragment(), XS2AWizardCallbackListener {
             putBoolean(XS2AWizardBundleKeys.enableScroll, enableScroll)
             putBoolean(XS2AWizardBundleKeys.enableBackButton, enableBackButton)
             putBoolean(XS2AWizardBundleKeys.enableAutomaticRetry, enableAutomaticRetry)
+            putString(XS2AWizardBundleKeys.redirectURL, redirectURL)
 
             if (fontResId != null) {
                 putInt(XS2AWizardBundleKeys.fontResId, fontResId)
@@ -89,7 +91,8 @@ class XS2AWizardFragment() : Fragment(), XS2AWizardCallbackListener {
                         enableScroll = arguments.getBoolean(XS2AWizardBundleKeys.enableScroll),
                         enableBackButton = arguments.getBoolean(XS2AWizardBundleKeys.enableBackButton),
                         enableAutomaticRetry = arguments.getBoolean(XS2AWizardBundleKeys.enableAutomaticRetry),
-                        callbackListener = this@XS2AWizardFragment
+                        callbackListener = this@XS2AWizardFragment,
+                        redirectUrl = arguments.getString(XS2AWizardBundleKeys.redirectURL)
                     )
                 }
             }

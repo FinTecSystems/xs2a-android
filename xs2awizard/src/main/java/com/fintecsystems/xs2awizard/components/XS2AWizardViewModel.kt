@@ -64,6 +64,12 @@ class XS2AWizardViewModel(
      */
     private var enableAutomaticRetry: Boolean = true
 
+    /**
+     * Used for App2App redirection.
+     * URL of Host-App to return to.
+     */
+    private var redirectURL: String? = null
+
     internal val form = MutableLiveData<List<FormLineData>?>()
 
     internal val loadingIndicatorLock = MutableLiveData(false)
@@ -120,12 +126,14 @@ class XS2AWizardViewModel(
         enableScroll: Boolean,
         enableBackButton: Boolean,
         enableAutomaticRetry: Boolean,
+        redirectURL: String?,
         activity: Activity
     ) {
         this.language = language
         this.enableScroll = enableScroll
         this.enableBackButton = enableBackButton
         this.enableAutomaticRetry = enableAutomaticRetry
+        this.redirectURL = redirectURL
         currentActivity = WeakReference(activity)
 
         NetworkingInstance.getInstance(context).apply {
@@ -148,6 +156,7 @@ class XS2AWizardViewModel(
         enableScroll = true
         enableBackButton = true
         enableAutomaticRetry = true
+        redirectURL = null
         currentActivity = WeakReference(null)
         connectionState.value = ConnectionState.UNKNOWN
         context.unregisterNetworkCallback(networkCallback)
