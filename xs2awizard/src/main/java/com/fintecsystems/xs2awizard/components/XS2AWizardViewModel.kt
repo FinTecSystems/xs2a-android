@@ -622,7 +622,7 @@ class XS2AWizardViewModel(
      * @param url the URL to open.
      */
     internal fun openRedirectURL(url: String) {
-        if (supportsAppRedirection(url)) {
+        if (urlSupportsAppRedirection(url)) {
             openExternalUrl(url)
         } else {
             openWebView(url)
@@ -647,8 +647,8 @@ class XS2AWizardViewModel(
      * @param url URL to check
      * @return true if URL supports App2App redirection
      */
-    private fun supportsAppRedirection(url: String) =
-        supportedAppRedirectionProviders.contains(url.toUri().host)
+    private fun urlSupportsAppRedirection(url: String) =
+        supportedAppRedirectionURLs.contains(url.toUri().host)
 
     /**
      * Checks if provided [url] is the [redirectURL].
@@ -664,7 +664,7 @@ class XS2AWizardViewModel(
         private const val storedProvidersKey = "providers"
         private const val masterKeyAlias = "xs2a_credentials_master_key"
 
-        private val supportedAppRedirectionProviders = listOf(
+        private val supportedAppRedirectionURLs = listOf(
             "manage.xs2a.com",
             "myaccount.ing.com"
         )
