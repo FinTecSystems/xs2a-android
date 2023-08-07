@@ -172,6 +172,10 @@ class XS2AWizardViewModel(
         buildJsonObject {
             put("version", JsonPrimitive(BuildConfig.VERSION))
             put("client", JsonPrimitive(context.getString(R.string.xs2a_client_tag)))
+
+            if (redirectURL != null) {
+                put("location", JsonPrimitive(redirectURL))
+            }
         },
         true
     )
