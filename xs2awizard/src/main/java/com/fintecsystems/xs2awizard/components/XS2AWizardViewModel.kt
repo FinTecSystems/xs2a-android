@@ -640,11 +640,12 @@ class XS2AWizardViewModel(
     internal fun openRedirectURL(url: String) {
         if (urlSupportsAppRedirection(url)) {
             AlertDialog.Builder(currentActivity.get()!!).apply {
-                setMessage("Open in WebView or external App?")
-                setPositiveButton("External App") { _, _ ->
+                setTitle(R.string.redirect_dialog_title)
+                setMessage(R.string.redirect_dialog_message)
+                setPositiveButton(R.string.redirect_dialog_banking_app_button_title) { _, _ ->
                     openExternalUrl(url)
                 }
-                setNegativeButton("WebView") { _, _ ->
+                setNegativeButton(R.string.redirect_dialog_website_button_title) { _, _ ->
                     openWebView(url)
                 }
                 show()

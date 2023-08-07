@@ -24,4 +24,8 @@
     <string name="cancel">Abbrechen</string>
     <string name="no_internet_connection">Keine Internetverbindung</string>
     <string name="server_error">Serverfehler</string>
+    <string name="redirect_dialog_title">Authentifizierungs-Methode wählen</string>
+    <string name="redirect_dialog_message">Wie möchtest du dich einloggen? Hast du die App deiner Bank installiert, wähle \\\"Banking App\\\", andernfalls \\\"Webseite\\\".</string>
+    <string name="redirect_dialog_banking_app_button_title">Banking App</string>
+    <string name="redirect_dialog_website_button_title">Webseite</string>
 </resources>
