@@ -650,6 +650,14 @@ class XS2AWizardViewModel(
     private fun supportsAppRedirection(url: String) =
         supportedAppRedirectionProviders.contains(url.toUri().host)
 
+    /**
+     * Checks if provided [url] is the [redirectURL].
+     *
+     * @param url URL to check
+     * @return true if it's the [redirectURL]
+     */
+    internal fun isRedirectURL(url: String) = url == redirectURL
+
     companion object {
         private const val rememberLoginName = "store_credentials"
         private const val sharedPreferencesFileName = "xs2a_credentials"

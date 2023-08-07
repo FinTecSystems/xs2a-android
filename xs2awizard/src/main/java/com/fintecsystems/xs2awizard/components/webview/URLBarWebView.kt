@@ -161,6 +161,13 @@ fun URLBarWebView(viewModel: XS2AWizardViewModel) {
                     webViewClient = object : WebViewClient() {
                         @Deprecated("Deprecated in Java")
                         override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
+                            if (viewModel.isRedirectURL(url)) {
+                                viewModel.closeWebView()
+                                viewModel.submitForm("post-code")
+
+                                return true
+                            }
+
                             currentUrl = url
                             view.loadUrl(url)
                             return true
