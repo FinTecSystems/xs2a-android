@@ -26,7 +26,7 @@ fun RedirectLine(formData: RedirectLineData, viewModel: XS2AWizardViewModel) {
         verticalArrangement = Arrangement.spacedBy(5.dp)
     ) {
         FormButton(label = formData.label!!, buttonStyle = XS2ATheme.CURRENT.redirectButtonStyle) {
-            viewModel.openWebView(formData.url!!)
+            viewModel.openRedirectURL(formData.url!!)
         }
 
         FormButton(

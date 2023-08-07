@@ -3,6 +3,7 @@ package com.fintecsystems.xs2awizard.components
 import android.app.Activity
 import android.app.Application
 import android.content.Context
+import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.Uri
@@ -13,6 +14,7 @@ import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.ui.text.AnnotatedString
+import androidx.core.net.toUri
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
@@ -357,6 +359,7 @@ class XS2AWizardViewModel(
 
                 submitForm(constructJsonBody("autosubmit", jsonBody))
             }
+
             else -> CustomTabsIntent.Builder().build().launchUrl(
                 activity, Uri.parse(annotation.item)
             )
@@ -590,7 +593,7 @@ class XS2AWizardViewModel(
      *
      * @param url url to open.
      */
-    internal fun openWebView(url: String) {
+    private fun openWebView(url: String) {
         currentWebViewUrl.value = url
     }
 
@@ -599,6 +602,31 @@ class XS2AWizardViewModel(
      */
     internal fun closeWebView() {
         currentWebViewUrl.value = null
+    }
+
+    /**
+     * Opens the provided [url] in an external Browser.
+     *
+     * @param url The URl to open.
+     */
+    private fun openExternalUrl(url: String) {
+        val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+
+        currentActivity.get()!!.startActivity(webIntent)
+    }
+
+    /**
+     * Open supplied [url] in either an external Browser or internal Webview,
+     * depending if the current provider supports it.
+     *
+     * @param url the URL to open.
+     */
+    internal fun openRedirectURL(url: String) {
+        if (supportsAppRedirection(url)) {
+            openExternalUrl(url)
+        } else {
+            openWebView(url)
+        }
     }
 
     /**
@@ -613,11 +641,24 @@ class XS2AWizardViewModel(
     @Suppress("unused")
     fun isLogin() = currentState == "login"
 
+    /**
+     * Checks if provided [url] is known to support App2App redirection.
+     *
+     * @param url URL to check
+     * @return true if URL supports App2App redirection
+     */
+    private fun supportsAppRedirection(url: String) =
+        supportedAppRedirectionProviders.contains(url.toUri().host)
+
     companion object {
         private const val rememberLoginName = "store_credentials"
         private const val sharedPreferencesFileName = "xs2a_credentials"
         private const val storedProvidersKey = "providers"
         private const val masterKeyAlias = "xs2a_credentials_master_key"
+
+        private val supportedAppRedirectionProviders = listOf(
+            "api.xs2a.com"
+        )
 
         /**
          * Delete all saved credentials.
