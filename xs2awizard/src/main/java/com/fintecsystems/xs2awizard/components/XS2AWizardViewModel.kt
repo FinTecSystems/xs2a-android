@@ -3,16 +3,21 @@ package com.fintecsystems.xs2awizard.components
 import android.app.Activity
 import android.app.Application
 import android.content.Context
+import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import androidx.activity.ComponentActivity
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.ui.text.AnnotatedString
+import androidx.core.net.toUri
+import androidx.core.util.Consumer
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
@@ -64,6 +69,12 @@ class XS2AWizardViewModel(
      */
     private var enableAutomaticRetry: Boolean = true
 
+    /**
+     * Used for App2App redirection.
+     * URL of Host-App to return to.
+     */
+    private var redirectDeepLink: String? = null
+
     internal val form = MutableLiveData<List<FormLineData>?>()
 
     internal val loadingIndicatorLock = MutableLiveData(false)
@@ -98,6 +109,14 @@ class XS2AWizardViewModel(
 
     private var currentState: String? = null
 
+    private val onNewIntentListener = Consumer<Intent> {
+        if (it.action != Intent.ACTION_VIEW || it.data == null) return@Consumer
+
+        if (isRedirectDeepLink(it.dataString)) {
+            redirectionCallback(true)
+        }
+    }
+
     init {
         val xs2aWizardBundle = savedStateHandle.get<Bundle>(XS2AWizardBundleKeys.bundleName)
 
@@ -120,12 +139,14 @@ class XS2AWizardViewModel(
         enableScroll: Boolean,
         enableBackButton: Boolean,
         enableAutomaticRetry: Boolean,
+        redirectDeepLink: String?,
         activity: Activity
     ) {
         this.language = language
         this.enableScroll = enableScroll
         this.enableBackButton = enableBackButton
         this.enableAutomaticRetry = enableAutomaticRetry
+        this.redirectDeepLink = redirectDeepLink
         currentActivity = WeakReference(activity)
 
         NetworkingInstance.getInstance(context).apply {
@@ -134,6 +155,8 @@ class XS2AWizardViewModel(
         }
 
         context.registerNetworkCallback(networkCallback)
+
+        (activity as? ComponentActivity)?.addOnNewIntentListener(onNewIntentListener)
 
         initForm()
     }
@@ -148,6 +171,10 @@ class XS2AWizardViewModel(
         enableScroll = true
         enableBackButton = true
         enableAutomaticRetry = true
+        redirectDeepLink = null
+        (currentActivity.get() as? ComponentActivity)?.removeOnNewIntentListener(
+            onNewIntentListener
+        )
         currentActivity = WeakReference(null)
         connectionState.value = ConnectionState.UNKNOWN
         context.unregisterNetworkCallback(networkCallback)
@@ -163,6 +190,10 @@ class XS2AWizardViewModel(
         buildJsonObject {
             put("version", JsonPrimitive(BuildConfig.VERSION))
             put("client", JsonPrimitive(context.getString(R.string.xs2a_client_tag)))
+
+            if (redirectDeepLink != null) {
+                put("location", JsonPrimitive(redirectDeepLink))
+            }
         },
         true
     )
@@ -344,6 +375,7 @@ class XS2AWizardViewModel(
 
                 submitForm(constructJsonBody("autosubmit", jsonBody))
             }
+
             else -> CustomTabsIntent.Builder().build().launchUrl(
                 activity, Uri.parse(annotation.item)
             )
@@ -577,7 +609,7 @@ class XS2AWizardViewModel(
      *
      * @param url url to open.
      */
-    internal fun openWebView(url: String) {
+    private fun openWebView(url: String) {
         currentWebViewUrl.value = url
     }
 
@@ -586,6 +618,41 @@ class XS2AWizardViewModel(
      */
     internal fun closeWebView() {
         currentWebViewUrl.value = null
+    }
+
+    /**
+     * Opens the provided [url] in an external Browser.
+     *
+     * @param url The URl to open.
+     */
+    private fun openExternalUrl(url: String) {
+        val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+
+        currentActivity.get()!!.startActivity(webIntent)
+    }
+
+    /**
+     * Open supplied [url] in either an external Browser or internal Webview,
+     * depending if the current provider supports it.
+     *
+     * @param url the URL to open.
+     */
+    internal fun openRedirectURL(url: String) {
+        if (urlSupportsAppRedirection(url)) {
+            AlertDialog.Builder(currentActivity.get()!!).apply {
+                setTitle(R.string.redirect_dialog_title)
+                setMessage(R.string.redirect_dialog_message)
+                setPositiveButton(R.string.redirect_dialog_banking_app_button_title) { _, _ ->
+                    openExternalUrl(url)
+                }
+                setNegativeButton(R.string.redirect_dialog_website_button_title) { _, _ ->
+                    openWebView(url)
+                }
+                show()
+            }
+        } else {
+            openWebView(url)
+        }
     }
 
     /**
@@ -600,11 +667,45 @@ class XS2AWizardViewModel(
     @Suppress("unused")
     fun isLogin() = currentState == "login"
 
+    /**
+     * Checks if provided [url] is known to support App2App redirection.
+     *
+     * @param url URL to check
+     * @return true if URL supports App2App redirection
+     */
+    private fun urlSupportsAppRedirection(url: String) =
+        supportedAppRedirectionURLs.contains(url.toUri().host)
+
+    /**
+     * Checks if provided [url] is the [redirectDeepLink].
+     *
+     * @param url URL to check
+     * @return true if it's the [redirectDeepLink]
+     */
+    internal fun isRedirectDeepLink(url: String?) = url == redirectDeepLink
+
+    /**
+     * Callback method for the redirection result.
+     *
+     * @param success True if redirection operation was successful.
+     */
+    internal fun redirectionCallback(success: Boolean) {
+        closeWebView()
+
+        if (success)
+            submitForm("post-code")
+    }
+
     companion object {
         private const val rememberLoginName = "store_credentials"
         private const val sharedPreferencesFileName = "xs2a_credentials"
         private const val storedProvidersKey = "providers"
         private const val masterKeyAlias = "xs2a_credentials_master_key"
+
+        private val supportedAppRedirectionURLs = listOf(
+            "manage.xs2a.com",
+            "myaccount.ing.com"
+        )
 
         /**
          * Delete all saved credentials.

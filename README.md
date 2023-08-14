@@ -227,6 +227,52 @@ Pass your ViewModel, using the `viewModels` function, and pass it to the `XS2AWi
 > It is possible to freely define the ViewModel-Scope.
 > Please refer to [this answer](https://stackoverflow.com/a/68971296) for more information.
 
+## App to App redirection (Beta)
+Some banks support redirecting to their banking app.
+Per default the SDK will not redirect to the banking app and opens the internal WebView instead.
+
+If you'd like to make use of this feature you can configure the SDK the following way:
+
+Modify your `AndroidManifest.xml` with the following:
+
+```xml
+<activity
+    android:exported="true" // Required
+    android:launchMode="singleInstance" // Required, other values might be used as well.
+    ...>
+    ...
+    <intent-filter>
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+        <data
+            android:host="<host>"
+            android:scheme="<scheme>" />
+    </intent-filter>
+</activity>
+```
+
+Populate `host` and `scheme` with your the URL of your App.
+
+After that just pass your URL to the SDK:
+
+```kotlin
+// Compose
+XS2AWizard(
+    sessionKey = <your-session-key>,
+    redirectDeepLink = "<scheme>://<host>" // Insert your deep link
+)
+
+// Fragment
+XS2AWizardFragment(
+    sessionKey = <your-session-key>,
+    redirectDeepLink = "<scheme>://<host>" // Insert your deep link
+)
+```
+
+Now every time the SDK encounters an URL to a bank which is known by us to support App2App redirection, the user gets asked if they want
+to perform the action within the WebView or the banking app.
+
 #### Example
 
 ```kotlin

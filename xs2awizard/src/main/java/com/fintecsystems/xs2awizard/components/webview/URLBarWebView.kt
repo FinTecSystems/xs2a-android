@@ -54,10 +54,7 @@ fun URLBarWebView(viewModel: XS2AWizardViewModel) {
     val callbackHandler = object : XS2AJavascriptInterfaceCallback {
         override fun xS2AJavascriptInterfaceCallbackHandler(success: Boolean) {
             coroutineScope.launch {
-                viewModel.closeWebView()
-
-                if (success)
-                    viewModel.submitForm("post-code")
+                viewModel.redirectionCallback(success)
             }
         }
     }
@@ -161,6 +158,11 @@ fun URLBarWebView(viewModel: XS2AWizardViewModel) {
                     webViewClient = object : WebViewClient() {
                         @Deprecated("Deprecated in Java")
                         override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
+                            if (viewModel.isRedirectDeepLink(url)) {
+                                viewModel.redirectionCallback(true)
+                                return true
+                            }
+
                             currentUrl = url
                             view.loadUrl(url)
                             return true
