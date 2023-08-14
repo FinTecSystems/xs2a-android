@@ -227,7 +227,7 @@ Pass your ViewModel, using the `viewModels` function, and pass it to the `XS2AWi
 > It is possible to freely define the ViewModel-Scope.
 > Please refer to [this answer](https://stackoverflow.com/a/68971296) for more information.
 
-## App to App redirection
+## App to App redirection (Beta)
 Some banks support redirecting to their banking app.
 Per default the SDK will not redirect to the banking app and opens the internal WebView instead.
 
