@@ -24,4 +24,8 @@
     <string name="fill_credentials_prompt_title">¿Utilizar los datos guardados?</string>
     <string name="no_internet_connection">Sin conexión a Internet</string>
     <string name="server_error">Error de servidor</string>
+    <string name="redirect_dialog_title">Seleccione el método de autenticación</string>
+    <string name="redirect_dialog_message">¿Cómo quiere conectarse? Si ha instalado la aplicación de su banco, seleccione \"Aplicación bancaria\"; de lo contrario, seleccione \"Página web\".</string>
+    <string name="redirect_dialog_banking_app_button_title">Aplicación bancaria</string>
+    <string name="redirect_dialog_website_button_title">Página web</string>
 </resources>
