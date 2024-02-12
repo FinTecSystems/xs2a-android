@@ -76,7 +76,7 @@ fun LabelledRadioButton(
 fun RadioLine(formData: RadioLineData) {
     var selectedValue by remember {
         mutableStateOf(
-            formData.value?.jsonPrimitive?.int ?: 0
+            formData.value?.jsonPrimitive?.intOrNull ?: 0
         )
     }
 
