@@ -1,12 +1,26 @@
 package com.fintecsystems.xs2awizard.form.components.textLine
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.basicMarquee
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.MaterialTheme
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
@@ -27,7 +41,6 @@ import com.fintecsystems.xs2awizard.components.loadingIndicator.LoadingIndicator
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.TextLineData
 import com.fintecsystems.xs2awizard.form.components.LabelledContainer
-import com.fintecsystems.xs2awizard.form.components.shared.AnimatedAutoScrollContainer
 import com.fintecsystems.xs2awizard.form.components.shared.FormText
 import com.fintecsystems.xs2awizard.form.components.shared.FormTextField
 import com.fintecsystems.xs2awizard.helper.JSONFormatter
@@ -161,6 +174,7 @@ fun TextLine(formData: TextLineData, viewModel: XS2AWizardViewModel) {
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun AutoCompleteDropdownContent(
     autoCompleteData: AutoCompleteData?,
@@ -175,23 +189,21 @@ private fun AutoCompleteDropdownContent(
                     AutoCompleteDropdownItemContainer {
                         val bankObject = it.bankObject
 
-                        AnimatedAutoScrollContainer {
-                            FormText(
-                                text = "${bankObject.name} (${bankObject.city})",
-                                maxLines = 1,
-                                style = MaterialTheme.typography.subtitle1.copy(
-                                    fontWeight = FontWeight.Bold
-                                )
+                        FormText(
+                            modifier = Modifier.basicMarquee(iterations = Int.MAX_VALUE),
+                            text = "${bankObject.name} (${bankObject.city})",
+                            maxLines = 1,
+                            style = MaterialTheme.typography.subtitle1.copy(
+                                fontWeight = FontWeight.Bold
                             )
-                        }
+                        )
 
-                        AnimatedAutoScrollContainer {
-                            FormText(
-                                text = "${bankObject.bankCode} [${bankObject.bic}]",
-                                maxLines = 1,
-                                style = MaterialTheme.typography.subtitle2
-                            )
-                        }
+                        FormText(
+                            modifier = Modifier.basicMarquee(iterations = Int.MAX_VALUE),
+                            text = "${bankObject.bankCode} [${bankObject.bic}]",
+                            maxLines = 1,
+                            style = MaterialTheme.typography.subtitle2
+                        )
                     }
                 }
             }
