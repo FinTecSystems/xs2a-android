@@ -61,7 +61,7 @@ fun AnimatedAutoScrollContainer(
     Layout(modifier = modifier.clipToBounds(), content = children) { measurables, constraints ->
         require(measurables.size == 1)
 
-        val infiniteWidthConstraints = constraints.copy(maxWidth = Int.MAX_VALUE)
+        val infiniteWidthConstraints = constraints.copy(maxWidth = 100_000)
         val measuredContent = measurables.first().measure(infiniteWidthConstraints)
 
         if (measuredContent.width >= constraints.maxWidth) {
