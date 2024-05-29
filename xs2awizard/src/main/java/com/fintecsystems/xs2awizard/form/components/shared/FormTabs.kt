@@ -1,6 +1,10 @@
 package com.fintecsystems.xs2awizard.form.components.shared
 
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Tab
 import androidx.compose.material.TabRow
@@ -22,23 +26,32 @@ fun FormTabs(
     onSelectedChange: (Int) -> Unit,
     tabs: List<String>
 ) {
-    TabRow(
-        selectedTabIndex = selected,
-        backgroundColor = XS2ATheme.CURRENT.backgroundColor.value,
-        contentColor = XS2ATheme.CURRENT.tintColor.value,
+    BoxWithConstraints(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(48.dp) // Material SmallTab height.
     ) {
-        tabs.forEachIndexed { index, label ->
-            Tab(
-                modifier = Modifier.height(48.dp), // Material SmallTab height.
-                selected = index == selected,
-                onClick = {
-                    onSelectedChange(index)
-                },
-            ) {
-                FormText(
-                    text = label,
-                    style = MaterialTheme.typography.subtitle2
-                )
+        TabRow(
+            modifier = Modifier
+                .width(maxWidth)
+                .height(maxHeight),
+            selectedTabIndex = selected,
+            backgroundColor = XS2ATheme.CURRENT.backgroundColor.value,
+            contentColor = XS2ATheme.CURRENT.tintColor.value,
+        ) {
+            tabs.forEachIndexed { index, label ->
+                Tab(
+                    modifier = Modifier.fillMaxHeight(),
+                    selected = index == selected,
+                    onClick = {
+                        onSelectedChange(index)
+                    },
+                ) {
+                    FormText(
+                        text = label,
+                        style = MaterialTheme.typography.subtitle2
+                    )
+                }
             }
         }
     }
