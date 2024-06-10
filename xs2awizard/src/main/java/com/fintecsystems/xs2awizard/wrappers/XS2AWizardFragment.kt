@@ -6,22 +6,27 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Typography
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelStoreOwner
-import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
+import androidx.fragment.app.activityViewModels
 import com.fintecsystems.xs2awizard.XS2AWizard
-import com.fintecsystems.xs2awizard.components.*
+import com.fintecsystems.xs2awizard.components.XS2AWizardBundleKeys
+import com.fintecsystems.xs2awizard.components.XS2AWizardCallbackListener
+import com.fintecsystems.xs2awizard.components.XS2AWizardError
+import com.fintecsystems.xs2awizard.components.XS2AWizardLanguage
+import com.fintecsystems.xs2awizard.components.XS2AWizardStep
+import com.fintecsystems.xs2awizard.components.XS2AWizardViewModel
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 
 /**
  * Wrapper for the XS2A-Wizard Compose Component
  */
 class XS2AWizardFragment() : Fragment(), XS2AWizardCallbackListener {
+    private val xS2AWizardViewModel: XS2AWizardViewModel by activityViewModels()
+
     /**
      * Renders the XS2A-Wizard.
      *
@@ -82,40 +87,37 @@ class XS2AWizardFragment() : Fragment(), XS2AWizardCallbackListener {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
 
             setContent {
-                CompositionLocalProvider(
-                    LocalViewModelStoreOwner provides (activity as ViewModelStoreOwner)
-                ) {
-                    val arguments = requireArguments()
+                val arguments = requireArguments()
 
-                    assert(arguments.containsKey("sessionKey"))
+                assert(arguments.containsKey("sessionKey"))
 
-                    val typography = if (arguments.containsKey(XS2AWizardBundleKeys.fontResId))
-                        Typography(
-                            defaultFontFamily = FontFamily(
-                                Font(
-                                    arguments.getInt(
-                                        XS2AWizardBundleKeys.fontResId
-                                    )
+                val typography = if (arguments.containsKey(XS2AWizardBundleKeys.fontResId))
+                    Typography(
+                        defaultFontFamily = FontFamily(
+                            Font(
+                                arguments.getInt(
+                                    XS2AWizardBundleKeys.fontResId
                                 )
                             )
                         )
-                    else
-                        MaterialTheme.typography
-
-
-                    XS2AWizard(
-                        sessionKey = arguments.getString(XS2AWizardBundleKeys.sessionKey)!!,
-                        backendURL = arguments.getString(XS2AWizardBundleKeys.backendURL),
-                        theme = arguments.getParcelable(XS2AWizardBundleKeys.theme),
-                        typography = typography,
-                        language = arguments.getSerializable(XS2AWizardBundleKeys.language) as? XS2AWizardLanguage,
-                        enableScroll = arguments.getBoolean(XS2AWizardBundleKeys.enableScroll),
-                        enableBackButton = arguments.getBoolean(XS2AWizardBundleKeys.enableBackButton),
-                        enableAutomaticRetry = arguments.getBoolean(XS2AWizardBundleKeys.enableAutomaticRetry),
-                        callbackListener = this@XS2AWizardFragment,
-                        redirectDeepLink = arguments.getString(XS2AWizardBundleKeys.redirectDeepLink)
                     )
-                }
+                else
+                    MaterialTheme.typography
+
+
+                XS2AWizard(
+                    sessionKey = arguments.getString(XS2AWizardBundleKeys.sessionKey)!!,
+                    backendURL = arguments.getString(XS2AWizardBundleKeys.backendURL),
+                    theme = arguments.getParcelable(XS2AWizardBundleKeys.theme),
+                    typography = typography,
+                    language = arguments.getSerializable(XS2AWizardBundleKeys.language) as? XS2AWizardLanguage,
+                    enableScroll = arguments.getBoolean(XS2AWizardBundleKeys.enableScroll),
+                    enableBackButton = arguments.getBoolean(XS2AWizardBundleKeys.enableBackButton),
+                    enableAutomaticRetry = arguments.getBoolean(XS2AWizardBundleKeys.enableAutomaticRetry),
+                    callbackListener = this@XS2AWizardFragment,
+                    redirectDeepLink = arguments.getString(XS2AWizardBundleKeys.redirectDeepLink),
+                    xs2aWizardViewModel = xS2AWizardViewModel
+                )
             }
         }
     }
