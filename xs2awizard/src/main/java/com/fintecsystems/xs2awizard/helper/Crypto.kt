@@ -8,31 +8,12 @@ import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG
 import androidx.biometric.BiometricPrompt
 import androidx.fragment.app.FragmentActivity
 import androidx.security.crypto.EncryptedSharedPreferences
-import androidx.security.crypto.MasterKey
 
 /**
  * Helper object for [EncryptedSharedPreferences] related tasks.
  */
 @RequiresApi(Build.VERSION_CODES.M)
 internal object Crypto {
-    /**
-     * Get's or creates a new Master Key to use with [EncryptedSharedPreferences].
-     *
-     * @param context - Context to use.
-     * @param keyAlias - Name of the key.
-     *
-     * @return New or existing Master Key.
-     */
-    fun createMasterKey(context: Context, keyAlias: String): MasterKey =
-        MasterKey.Builder(context, keyAlias).apply {
-            setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
-            setUserAuthenticationRequired(true)
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                setRequestStrongBoxBacked(true)
-            }
-        }.build()
-
     /**
      * Checks if the device has biometrics and if it's set.
      *
@@ -48,18 +29,18 @@ internal object Crypto {
      *
      * @param context - Context to use.
      * @param fileName - Name of the shared-preferences-file.
-     * @param masterKey - Key do d-/encrypt data.
+     * @param masterKeyAlias - Name of key do d-/encrypt data.
      *
      * @return Created instance.
      */
     fun createEncryptedSharedPreferences(
         context: Context,
         fileName: String,
-        masterKey: MasterKey
+        masterKeyAlias: String
     ) = EncryptedSharedPreferences.create(
-        context,
         fileName,
-        masterKey,
+        masterKeyAlias,
+        context,
         EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
         EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
     )

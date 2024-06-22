@@ -499,7 +499,7 @@ class XS2AWizardViewModel(
         Crypto.createEncryptedSharedPreferences(
             context,
             sharedPreferencesFileName,
-            Crypto.createMasterKey(context, masterKeyAlias)
+            masterKeyAlias
         ).edit().apply {
             form.forEach {
                 if (it is CredentialFormLineData && it.isLoginCredential == true) {
@@ -550,7 +550,7 @@ class XS2AWizardViewModel(
         val sharedPreferences = Crypto.createEncryptedSharedPreferences(
             context,
             sharedPreferencesFileName,
-            Crypto.createMasterKey(context, masterKeyAlias)
+            masterKeyAlias
         )
 
         form.value!!.forEach {
