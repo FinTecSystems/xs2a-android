@@ -8,6 +8,8 @@ plugins {
     signing
 }
 
+val versionName = providers.environmentVariable("VERSION_NAME").getOrElse("LOCAL")
+
 android {
     compileSdk = 34
     namespace = "com.fintecsystems.xs2awizard"
@@ -18,7 +20,6 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
 
-        val versionName = providers.gradleProperty("VERSION_NAME").getOrElse("LOCAL")
         buildConfigField("String", "VERSION", "\"$versionName\"")
     }
 
@@ -76,7 +77,7 @@ publishing {
                 val pomArtifactId = providers.gradleProperty("POM_ARTIFACT_ID").get()
                 groupId = providers.gradleProperty("GROUP").get()
                 artifactId = pomArtifactId
-                version = providers.gradleProperty("VERSION_NAME").get()
+                version = versionName
 
                 artifact(layout.buildDirectory.file("outputs/aar/$pomArtifactId-release.aar"))
 
