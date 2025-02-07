@@ -189,7 +189,10 @@ class XS2AWizardViewModel(
     private fun initForm() = submitForm(
         buildJsonObject {
             put("version", JsonPrimitive(BuildConfig.VERSION))
-            put("client", JsonPrimitive(context.getString(R.string.xs2a_client_tag)))
+            put(
+                "client",
+                JsonPrimitive(context.getString(com.fintecsystems.xs2awizard_networking.R.string.xs2a_client_tag))
+            )
 
             if (redirectDeepLink != null) {
                 put("location", JsonPrimitive(redirectDeepLink))

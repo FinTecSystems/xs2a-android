@@ -10,6 +10,7 @@ plugins {
 
 android {
     compileSdk 34
+    namespace "com.fintecsystems.xs2awizard"
 
     defaultConfig {
         minSdk 21
@@ -26,6 +27,7 @@ android {
     buildFeatures {
         // Enables Jetpack Compose for this module
         compose true
+        buildConfig true
     }
 
     buildTypes {
@@ -66,6 +68,8 @@ dependencies {
     implementation "androidx.browser:browser:1.8.0"
 
     implementation "com.fintecsystems:xs2awizard_networking:1.2.2"
+    // Currently only used for Error-Handling
+    implementation "com.android.volley:volley:1.2.1"
 }
 
 publishing {
