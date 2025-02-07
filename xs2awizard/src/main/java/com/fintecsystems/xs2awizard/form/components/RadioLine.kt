@@ -3,15 +3,15 @@ package com.fintecsystems.xs2awizard.form.components
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.selectable
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.LocalRippleConfiguration
 import androidx.compose.material.RadioButton
 import androidx.compose.material.RadioButtonDefaults
-import androidx.compose.material.ripple.LocalRippleTheme
-import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.material.ripple
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
-import com.fintecsystems.xs2awizard.components.theme.NoRippleTheme
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.RadioLineData
 import com.fintecsystems.xs2awizard.form.components.shared.FormText
@@ -25,6 +25,7 @@ import kotlinx.serialization.json.*
  * @param label Label of the RadioButton
  * @param disabled Disabled state of the Button
  */
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun LabelledRadioButton(
     selected: Boolean,
@@ -43,11 +44,11 @@ fun LabelledRadioButton(
                 selected = selected,
                 onClick = onClick,
                 enabled = !disabled,
-                indication = rememberRipple(),
+                indication = ripple(),
                 interactionSource = interactionSource
             ),
     ) {
-        CompositionLocalProvider(LocalRippleTheme provides NoRippleTheme) {
+        CompositionLocalProvider(LocalRippleConfiguration provides null) {
             RadioButton(
                 selected = selected,
                 onClick = onClick,

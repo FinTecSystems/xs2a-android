@@ -9,9 +9,10 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.Checkbox
 import androidx.compose.material.CheckboxDefaults
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.LocalRippleConfiguration
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.ripple.LocalRippleTheme
-import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.material.ripple
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -19,7 +20,6 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import com.fintecsystems.xs2awizard.components.XS2AWizardViewModel
 import com.fintecsystems.xs2awizard.components.mutateInteractionSource
-import com.fintecsystems.xs2awizard.components.theme.NoRippleTheme
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.CheckBoxLineData
 import com.fintecsystems.xs2awizard.helper.MarkupParser
@@ -34,6 +34,7 @@ import kotlinx.serialization.json.jsonPrimitive
  * @param formData Data of this FormLine
  * @param viewModel ViewModel of the Wizard-Instance.
  */
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun CheckBoxLine(formData: CheckBoxLineData, viewModel: XS2AWizardViewModel) {
     var checkBoxValue by remember {
@@ -68,15 +69,15 @@ fun CheckBoxLine(formData: CheckBoxLineData, viewModel: XS2AWizardViewModel) {
             .fillMaxWidth()
             .offset((-14).dp, 0.dp)
             .clickable(
-                interactionSource,
-                rememberRipple(),
-                enabled
-            ) {
-                onCheckedChange(!checkBoxValue)
-            },
+                interactionSource = interactionSource,
+                indication = ripple(),
+                enabled = enabled,
+                onClick = {
+                    onCheckedChange(!checkBoxValue)
+                }),
     ) {
 
-        CompositionLocalProvider(LocalRippleTheme provides NoRippleTheme) {
+        CompositionLocalProvider(LocalRippleConfiguration provides null) {
             Checkbox(
                 checked = checkBoxValue,
                 onCheckedChange = ::onCheckedChange,

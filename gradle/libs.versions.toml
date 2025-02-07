@@ -1,13 +1,13 @@
 [versions]
 agp = "8.8.0"
 kotlin = "2.1.10"
-compose = "1.6.6"
-coreKtx = "1.13.1"
+compose = "1.7.7"
+coreKtx = "1.15.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
-lifecycleViewModelCompose = "2.7.0"
-fragmentKtx = "1.7.1"
+lifecycleViewModelCompose = "2.8.7"
+fragmentKtx = "1.8.5"
 securityCrypto = "1.0.0"
 biometric = "1.1.0"
 coil = "2.2.0"
@@ -28,6 +28,7 @@ androidx-security-crypto = { group = "androidx.security", name = "security-crypt
 androidx-biometric = { group = "androidx.biometric", name = "biometric", version.ref = "biometric" }
 androidx-browser = { group = "androidx.browser", name = "browser", version.ref = "browser" }
 androidx-material = { group = "androidx.compose.material", name = "material", version.ref = "compose" }
+androidx-material-icons = { group = "androidx.compose.material", name = "material-icons-core", version.ref = "compose" }
 
 coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
