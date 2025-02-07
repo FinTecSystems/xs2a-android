@@ -6,5 +6,5 @@ dependencyResolutionManagement {
     }
 }
 
-include ':xs2awizard'
+include(':xs2awizard')
 rootProject.name = "XS2A Wizard"
