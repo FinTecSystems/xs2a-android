@@ -5,6 +5,7 @@ plugins {
     id 'maven-publish'
     id 'signing'
     id 'kotlin-parcelize'
+    id 'org.jetbrains.kotlin.plugin.compose' version "$kotlin_version"
 }
 
 android {
@@ -39,9 +40,6 @@ android {
     }
     kotlinOptions {
         jvmTarget = '11'
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion '1.5.11'
     }
 }
 
