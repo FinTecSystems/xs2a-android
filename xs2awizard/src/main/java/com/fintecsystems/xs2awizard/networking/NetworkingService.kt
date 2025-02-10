@@ -16,7 +16,7 @@ import com.fintecsystems.xs2awizard.networking.utils.unregisterNetworkCallback
 /**
  * Singleton for everything network related.
  */
-internal class NetworkingInstance(
+internal class NetworkingService(
     private val context: Context
 ) : ConnectivityManager.NetworkCallback() {
     private val requestQueue = Volley.newRequestQueue(context)
@@ -83,5 +83,5 @@ internal class NetworkingInstance(
         Pair("key", sessionKey!!),
     )
 
-    companion object : SingletonHolder<NetworkingInstance, Context>(::NetworkingInstance)
+    companion object : SingletonHolder<NetworkingService, Context>(::NetworkingService)
 }

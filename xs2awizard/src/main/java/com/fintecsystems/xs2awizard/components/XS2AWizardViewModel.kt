@@ -27,7 +27,7 @@ import com.fintecsystems.xs2awizard.R
 import com.fintecsystems.xs2awizard.components.networking.ConnectionState
 import com.fintecsystems.xs2awizard.form.*
 import com.fintecsystems.xs2awizard.helper.*
-import com.fintecsystems.xs2awizard.networking.NetworkingInstance
+import com.fintecsystems.xs2awizard.networking.NetworkingService
 import com.fintecsystems.xs2awizard.networking.utils.registerNetworkCallback
 import com.fintecsystems.xs2awizard.networking.utils.unregisterNetworkCallback
 import kotlinx.serialization.decodeFromString
@@ -149,7 +149,7 @@ class XS2AWizardViewModel(
         this.redirectDeepLink = redirectDeepLink
         currentActivity = WeakReference(activity)
 
-        NetworkingInstance.getInstance(context).apply {
+        NetworkingService.getInstance(context).apply {
             this.sessionKey = sessionKey
             this.backendURL = backendURL
         }
@@ -329,7 +329,7 @@ class XS2AWizardViewModel(
         if (Utils.isMarshmallow && Crypto.isDeviceSecure(context))
             tryToStoreCredentials()
 
-        return NetworkingInstance.getInstance(context)
+        return NetworkingService.getInstance(context)
             .encodeAndSendMessage(
                 jsonBody,
                 onSuccess = ::onFormReceived,
@@ -352,7 +352,7 @@ class XS2AWizardViewModel(
             return
         }
 
-        NetworkingInstance.getInstance(context)
+        NetworkingService.getInstance(context)
             .encodeAndSendMessage(
                 constructJsonBody(action).toString(),
                 onSuccess = onSuccess,
