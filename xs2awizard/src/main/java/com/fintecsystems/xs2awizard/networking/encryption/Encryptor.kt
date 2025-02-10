@@ -12,7 +12,7 @@ import java.security.SecureRandom
 /**
  * Helper class for encryption using RSA and AES
  */
-class Encryptor(
+internal class Encryptor(
     private val publicKey: PublicKey
 ) {
     private val cipher = Cipher.getInstance("RSA/NONE/PKCS1Padding")
