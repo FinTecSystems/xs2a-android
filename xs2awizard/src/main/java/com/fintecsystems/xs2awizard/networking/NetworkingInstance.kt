@@ -23,7 +23,10 @@ class NetworkingInstance private constructor(
     private val context: Context
 ) {
     private val requestQueue = Volley.newRequestQueue(context)
-    private val rsaEncryptor = generatePublicKey()
+    private val encryptor = Encryptor(
+        context.getString(R.string.networking_public_key_modulus),
+        context.getString(R.string.networking_public_key_exponent)
+    )
 
     private var isConnected = false
     private var offlineRequests = mutableListOf<Request<*>>()
@@ -42,13 +45,6 @@ class NetworkingInstance private constructor(
 
     var backendURL: String? = null
     var sessionKey: String? = null
-
-    private fun generatePublicKey(): Encryptor {
-        val modulus = context.getString(R.string.networking_public_key_modulus)
-        val exponent = context.getString(R.string.networking_public_key_exponent)
-
-        return Encryptor(modulus, exponent)
-    }
 
     init {
         context.registerNetworkCallback(networkCallback)
@@ -86,7 +82,7 @@ class NetworkingInstance private constructor(
     private fun constructBody(message: String) = mapOf(
         Pair(
             "data",
-            rsaEncryptor.encodeMessage(message)
+            encryptor.encodeMessage(message)
         ),
         Pair("key", sessionKey!!),
     )
