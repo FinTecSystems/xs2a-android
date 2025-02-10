@@ -1,4 +1,4 @@
-package com.fintecsystems.xs2awizard.networking
+package com.fintecsystems.xs2awizard.networking.utils
 
 /**
  * Helper class to allow singleton instances to have constructors with one parameter.

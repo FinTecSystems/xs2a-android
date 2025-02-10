@@ -28,8 +28,8 @@ import com.fintecsystems.xs2awizard.components.networking.ConnectionState
 import com.fintecsystems.xs2awizard.form.*
 import com.fintecsystems.xs2awizard.helper.*
 import com.fintecsystems.xs2awizard.networking.NetworkingInstance
-import com.fintecsystems.xs2awizard.networking.registerNetworkCallback
-import com.fintecsystems.xs2awizard.networking.unregisterNetworkCallback
+import com.fintecsystems.xs2awizard.networking.utils.registerNetworkCallback
+import com.fintecsystems.xs2awizard.networking.utils.unregisterNetworkCallback
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.*
 import java.lang.ref.WeakReference

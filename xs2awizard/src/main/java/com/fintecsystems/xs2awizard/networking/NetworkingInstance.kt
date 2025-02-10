@@ -10,6 +10,9 @@ import com.android.volley.VolleyError
 import com.android.volley.toolbox.Volley
 import com.fintecsystems.xs2awizard.R
 import com.fintecsystems.xs2awizard.networking.encryption.Encryptor
+import com.fintecsystems.xs2awizard.networking.utils.SingletonHolder
+import com.fintecsystems.xs2awizard.networking.utils.registerNetworkCallback
+import com.fintecsystems.xs2awizard.networking.utils.unregisterNetworkCallback
 
 private const val TAG = "NetworkingInstance"
 

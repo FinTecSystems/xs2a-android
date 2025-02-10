@@ -1,4 +1,4 @@
-package com.fintecsystems.xs2awizard.networking
+package com.fintecsystems.xs2awizard.networking.utils
 
 import android.content.Context
 import android.net.ConnectivityManager
