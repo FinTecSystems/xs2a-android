@@ -9,7 +9,6 @@ import com.android.volley.VolleyError
 import com.android.volley.toolbox.Volley
 import com.fintecsystems.xs2awizard.R
 import com.fintecsystems.xs2awizard.networking.encryption.Encryptor
-import com.fintecsystems.xs2awizard.networking.utils.SingletonHolder
 import com.fintecsystems.xs2awizard.networking.utils.registerNetworkCallback
 import com.fintecsystems.xs2awizard.networking.utils.unregisterNetworkCallback
 
@@ -17,7 +16,9 @@ import com.fintecsystems.xs2awizard.networking.utils.unregisterNetworkCallback
  * Singleton for everything network related.
  */
 internal class NetworkingService(
-    private val context: Context
+    private val context: Context,
+    private val sessionKey: String,
+    private val backendURL: String
 ) : ConnectivityManager.NetworkCallback() {
     private val requestQueue = Volley.newRequestQueue(context)
     private val encryptor = Encryptor(
@@ -27,9 +28,6 @@ internal class NetworkingService(
 
     private var isConnected = false
     private var offlineRequests = mutableListOf<Request<*>>()
-
-    var backendURL: String? = null
-    var sessionKey: String? = null
 
     init {
         context.registerNetworkCallback(this)
@@ -45,7 +43,7 @@ internal class NetworkingService(
         onError: (VolleyError) -> Unit,
     ) {
         val request = UrlEncodedRequest(Request.Method.POST,
-            backendURL ?: context.getString(R.string.networking_backend_url),
+            backendURL,
             constructBody(message),
             { onSuccess(it) },
             { onError(it) }
@@ -80,8 +78,6 @@ internal class NetworkingService(
             "data",
             encryptor.encodeMessage(message)
         ),
-        Pair("key", sessionKey!!),
+        Pair("key", sessionKey),
     )
-
-    companion object : SingletonHolder<NetworkingService, Context>(::NetworkingService)
 }

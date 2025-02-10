@@ -45,6 +45,8 @@ class XS2AWizardViewModel(
 ) : AndroidViewModel(application) {
     var callbackListener: XS2AWizardCallbackListener? = null
 
+    private var networkingService: NetworkingService? = null
+
     /**
      * Wizard language. If null the device language will be used.
      */
@@ -149,10 +151,11 @@ class XS2AWizardViewModel(
         this.redirectDeepLink = redirectDeepLink
         currentActivity = WeakReference(activity)
 
-        NetworkingService.getInstance(context).apply {
-            this.sessionKey = sessionKey
-            this.backendURL = backendURL
-        }
+        this.networkingService = NetworkingService(
+            context,
+            sessionKey,
+            backendURL ?: context.getString(R.string.networking_backend_url)
+        )
 
         context.registerNetworkCallback(networkCallback)
 
@@ -178,6 +181,8 @@ class XS2AWizardViewModel(
         currentActivity = WeakReference(null)
         connectionState.value = ConnectionState.UNKNOWN
         context.unregisterNetworkCallback(networkCallback)
+        networkingService?.finalize()
+        networkingService = null
     }
 
     /**
@@ -315,6 +320,8 @@ class XS2AWizardViewModel(
      * @param showIndicator show loading indicator during request.
      */
     private fun submitForm(jsonBody: String, showIndicator: Boolean) {
+        val networkingService = requireNotNull(networkingService)
+
         if (shouldAbortNetworkRequest()) {
             return
         }
@@ -329,15 +336,14 @@ class XS2AWizardViewModel(
         if (Utils.isMarshmallow && Crypto.isDeviceSecure(context))
             tryToStoreCredentials()
 
-        return NetworkingService.getInstance(context)
-            .encodeAndSendMessage(
-                jsonBody,
-                onSuccess = ::onFormReceived,
-                onError = {
-                    callbackListener?.onNetworkError()
-                    loadingIndicatorLock.value = false
-                }
-            )
+        return networkingService.encodeAndSendMessage(
+            jsonBody,
+            onSuccess = ::onFormReceived,
+            onError = {
+                callbackListener?.onNetworkError()
+                loadingIndicatorLock.value = false
+            }
+        )
     }
 
     /**
@@ -348,19 +354,20 @@ class XS2AWizardViewModel(
      * @param onSuccess on success callback to use.
      */
     internal fun submitFormWithCallback(action: String, onSuccess: (String) -> Unit) {
+        val networkingService = requireNotNull(networkingService)
+
         if (shouldAbortNetworkRequest()) {
             return
         }
 
-        NetworkingService.getInstance(context)
-            .encodeAndSendMessage(
-                constructJsonBody(action).toString(),
-                onSuccess = onSuccess,
-                onError = {
-                    callbackListener?.onNetworkError()
-                    loadingIndicatorLock.value = false
-                }
-            )
+        networkingService.encodeAndSendMessage(
+            constructJsonBody(action).toString(),
+            onSuccess = onSuccess,
+            onError = {
+                callbackListener?.onNetworkError()
+                loadingIndicatorLock.value = false
+            }
+        )
     }
 
     /**
