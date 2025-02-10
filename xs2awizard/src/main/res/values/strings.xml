@@ -1,4 +1,7 @@
 <resources>
+    <!-- This single public declaration marks all other values as private. -->
+    <public />
+
     <string name="captcha_image_description">Captcha Image</string>
     <string name="image_description">Image</string>
     <string name="logo_image_description">Logo</string>
@@ -40,4 +43,9 @@
     <string name="redirect_dialog_message">How do you want to log in? If you have installed your bank\'s app, select \"Banking App\", otherwise select \"Website\".</string>
     <string name="redirect_dialog_banking_app_button_title">Banking App</string>
     <string name="redirect_dialog_website_button_title">Website</string>
+
+    <string name="networking_public_key_modulus" translatable="false">E2C0D3109858831D5494FEE7CD0B5E3FF9C6C8DC8F7E07B8B7CDE40571094E4C40611049ED0DED20242C719D45148685AE709A60FB5CA92897003025AC6BEBAC848968AE9E2909FA84E8694B0683009F7D463E70201E85482DB7516D26D02D5C89E04F3296A051839DB6A9CBB493AB6580D12177ACBDBB1B828D362189958A469163A74BFDF8DC8A9058D9A0AF5F90CA7AE7ACC77C1E329EBF491AB678258ADCBEF415745F281362AD5A88E1C486ACE5FA77A89E2860D1A5D7B8B3CA5153283962DB6E0C00271E6F3004C48F7D10BA7090B8F6F18DFA5016ED4FDE72A84780F75F882A96D88127FD22731E215C0FE6034BC7AA06D9D8019D82F3618C9F8364B1</string>
+    <string name="networking_public_key_exponent" translatable="false">10001</string>
+    <string name="networking_backend_url" translatable="false">https://api.xs2a.com/jsonp</string>
+    <string name="networking_xs2a_client_tag" translatable="false">android_sdk</string>
 </resources>

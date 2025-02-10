@@ -27,9 +27,9 @@ import com.fintecsystems.xs2awizard.R
 import com.fintecsystems.xs2awizard.components.networking.ConnectionState
 import com.fintecsystems.xs2awizard.form.*
 import com.fintecsystems.xs2awizard.helper.*
-import com.fintecsystems.xs2awizard_networking.NetworkingInstance
-import com.fintecsystems.xs2awizard_networking.registerNetworkCallback
-import com.fintecsystems.xs2awizard_networking.unregisterNetworkCallback
+import com.fintecsystems.xs2awizard.networking.NetworkingInstance
+import com.fintecsystems.xs2awizard.networking.registerNetworkCallback
+import com.fintecsystems.xs2awizard.networking.unregisterNetworkCallback
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.*
 import java.lang.ref.WeakReference
@@ -191,7 +191,7 @@ class XS2AWizardViewModel(
             put("version", JsonPrimitive(BuildConfig.VERSION))
             put(
                 "client",
-                JsonPrimitive(context.getString(com.fintecsystems.xs2awizard_networking.R.string.xs2a_client_tag))
+                JsonPrimitive(context.getString(R.string.networking_xs2a_client_tag))
             )
 
             if (redirectDeepLink != null) {

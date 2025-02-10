@@ -63,8 +63,7 @@ dependencies {
 
     implementation(libs.coil)
     implementation(libs.kotlinx.serialization.json)
-
-    implementation(libs.xs2awizard.networking)
+    implementation(libs.aesEverywhere)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
