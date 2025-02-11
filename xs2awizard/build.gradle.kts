@@ -148,7 +148,6 @@ publishing {
 signing {
     val signingKey: String? by project
     val signingPassword: String? by project
-    println("Sizes: ${signingKey?.length} -> ${signingPassword?.length}")
     useInMemoryPgpKeys(signingKey, signingPassword)
     sign(publishing.publications)
 }
