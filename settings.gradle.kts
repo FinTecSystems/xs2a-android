@@ -11,6 +11,7 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+@Suppress("UnstableApiUsage")
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
@@ -21,4 +22,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "XS2A Wizard"
 
-include(':xs2awizard')
+include(":xs2awizard")
