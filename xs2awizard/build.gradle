@@ -50,6 +50,7 @@ dependencies {
 
     // Compose Material Design
     implementation "androidx.compose.material:material:$compose_version"
+    implementation "androidx.compose.material:material-icons-extended:$compose_version"
     // Animations
     implementation "androidx.compose.animation:animation:$compose_version"
     // Tooling support (Previews, etc.)
