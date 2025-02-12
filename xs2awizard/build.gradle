@@ -7,6 +7,8 @@ plugins {
     id 'kotlin-parcelize'
 }
 
+def VERSION_NAME = findProperty("versionName") ?: "LOCAL"
+
 android {
     compileSdk 34
 
@@ -155,5 +157,9 @@ publishing {
 }
 
 signing {
+    def signingKey = findProperty("signingKey")
+    def signingPassword = findProperty("signingPassword")
+    useInMemoryPgpKeys(signingKey, signingPassword)
+
     sign publishing.publications
 }
