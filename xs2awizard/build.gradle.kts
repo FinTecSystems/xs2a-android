@@ -8,7 +8,7 @@ plugins {
     signing
 }
 
-val versionName = providers.environmentVariable("VERSION_NAME").getOrElse("LOCAL")
+val versionName = providers.gradleProperty("versionName").getOrElse("LOCAL")
 
 android {
     compileSdk = 34
