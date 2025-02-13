@@ -7,6 +7,8 @@ plugins {
     id 'kotlin-parcelize'
 }
 
+def VERSION_NAME = findProperty("versionName") ?: "LOCAL"
+
 android {
     compileSdk 34
 
@@ -50,6 +52,7 @@ dependencies {
 
     // Compose Material Design
     implementation "androidx.compose.material:material:$compose_version"
+    implementation "androidx.compose.material:material-icons-extended:$compose_version"
     // Animations
     implementation "androidx.compose.animation:animation:$compose_version"
     // Tooling support (Previews, etc.)
@@ -154,5 +157,9 @@ publishing {
 }
 
 signing {
+    def signingKey = findProperty("signingKey")
+    def signingPassword = findProperty("signingPassword")
+    useInMemoryPgpKeys(signingKey, signingPassword)
+
     sign publishing.publications
 }
