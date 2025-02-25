@@ -10,7 +10,7 @@ import android.os.Build
  * Registers [networkCallback] to the ConnectivityManager to be informed of the current
  * network status.
  */
-fun Context.registerNetworkCallback(networkCallback: ConnectivityManager.NetworkCallback) {
+internal fun Context.registerNetworkCallback(networkCallback: ConnectivityManager.NetworkCallback) {
     val connectivityManager =
         getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
@@ -28,7 +28,7 @@ fun Context.registerNetworkCallback(networkCallback: ConnectivityManager.Network
 /**
  * Unregisters [networkCallback] from the ConnectivityManager.
  */
-fun Context.unregisterNetworkCallback(networkCallback: ConnectivityManager.NetworkCallback) {
+internal fun Context.unregisterNetworkCallback(networkCallback: ConnectivityManager.NetworkCallback) {
     val connectivityManager =
         getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 

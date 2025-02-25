@@ -7,7 +7,7 @@ import com.android.volley.toolbox.StringRequest
  * A simple [StringRequest] subclass.
  * Uses x-www-form-urlencoded bodies.
  */
-class UrlEncodedRequest(
+internal class UrlEncodedRequest(
     requestMethod: Int = Method.GET,
     requestUrl: String,
     private val params: Map<String, String>,
