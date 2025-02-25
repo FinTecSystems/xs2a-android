@@ -20,6 +20,7 @@ import androidx.core.net.toUri
 import androidx.core.util.Consumer
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import com.fintecsystems.xs2awizard.BuildConfig
@@ -77,21 +78,29 @@ class XS2AWizardViewModel(
      */
     private var redirectDeepLink: String? = null
 
-    internal val form = MutableLiveData<List<FormLineData>?>()
+    private val _form = MutableLiveData<List<FormLineData>?>()
+    internal val form: LiveData<List<FormLineData>?>
+        get() = _form
 
-    internal val loadingIndicatorLock = MutableLiveData(false)
+    private val _loadingIndicatorLock = MutableLiveData(false)
+    internal val loadingIndicatorLock: LiveData<Boolean>
+        get() = _loadingIndicatorLock
 
-    internal val currentWebViewUrl = MutableLiveData<String?>(null)
+    private val _currentWebViewUrl = MutableLiveData<String?>(null)
+    internal val currentWebViewUrl: LiveData<String?>
+        get() = _currentWebViewUrl
 
-    internal val connectionState = MutableLiveData(ConnectionState.UNKNOWN)
+    private val _connectionState = MutableLiveData(ConnectionState.UNKNOWN)
+    internal val connectionState: LiveData<ConnectionState>
+        get() = _connectionState
 
     private val networkCallback = object : ConnectivityManager.NetworkCallback() {
         override fun onAvailable(network: Network) {
-            connectionState.postValue(ConnectionState.CONNECTED)
+            _connectionState.postValue(ConnectionState.CONNECTED)
         }
 
         override fun onLost(network: Network) {
-            connectionState.postValue(ConnectionState.DISCONNECTED)
+            _connectionState.postValue(ConnectionState.DISCONNECTED)
         }
     }
 
@@ -123,7 +132,7 @@ class XS2AWizardViewModel(
         val xs2aWizardBundle = savedStateHandle.get<Bundle>(XS2AWizardBundleKeys.bundleName)
 
         if (xs2aWizardBundle != null) {
-            currentWebViewUrl.value =
+            _currentWebViewUrl.value =
                 xs2aWizardBundle.getString(XS2AWizardBundleKeys.currentWebViewUrl)
         }
 
@@ -166,9 +175,9 @@ class XS2AWizardViewModel(
 
     internal fun onStop() {
         // Cleanup in case the viewModel gets reused for a future request.
-        loadingIndicatorLock.value = false
-        currentWebViewUrl.value = null
-        form.value = emptyList()
+        _loadingIndicatorLock.value = false
+        _currentWebViewUrl.value = null
+        _form.value = emptyList()
         language = null
         currentStep = null
         enableScroll = true
@@ -179,7 +188,7 @@ class XS2AWizardViewModel(
             onNewIntentListener
         )
         currentActivity = WeakReference(null)
-        connectionState.value = ConnectionState.UNKNOWN
+        _connectionState.value = ConnectionState.UNKNOWN
         context.unregisterNetworkCallback(networkCallback)
         networkingService?.finalize()
         networkingService = null
@@ -327,7 +336,7 @@ class XS2AWizardViewModel(
         }
 
         if (showIndicator) {
-            loadingIndicatorLock.value = true
+            _loadingIndicatorLock.value = true
         }
 
         // Cancel and close any open biometric prompt.
@@ -341,7 +350,7 @@ class XS2AWizardViewModel(
             onSuccess = ::onFormReceived,
             onError = {
                 callbackListener?.onNetworkError()
-                loadingIndicatorLock.value = false
+                _loadingIndicatorLock.value = false
             }
         )
     }
@@ -365,7 +374,7 @@ class XS2AWizardViewModel(
             onSuccess = onSuccess,
             onError = {
                 callbackListener?.onNetworkError()
-                loadingIndicatorLock.value = false
+                _loadingIndicatorLock.value = false
             }
         )
     }
@@ -425,13 +434,13 @@ class XS2AWizardViewModel(
 
         parseCallback(formResponse)
 
-        form.value = formResponse.form
+        _form.value = formResponse.form
 
         if (Utils.isMarshmallow && Crypto.isDeviceSecure(context)) {
             tryToAutoFillCredentials()
         }
 
-        loadingIndicatorLock.value = false
+        _loadingIndicatorLock.value = false
     }
 
     /**
@@ -620,14 +629,14 @@ class XS2AWizardViewModel(
      * @param url url to open.
      */
     private fun openWebView(url: String) {
-        currentWebViewUrl.value = url
+        _currentWebViewUrl.value = url
     }
 
     /**
      * Hides the WebView and shows the form again.
      */
     internal fun closeWebView() {
-        currentWebViewUrl.value = null
+        _currentWebViewUrl.value = null
     }
 
     /**
