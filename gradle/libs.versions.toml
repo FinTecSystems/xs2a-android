@@ -15,6 +15,7 @@ kotlinxSerialization = "1.8.0"
 browser = "1.8.0"
 volley = "1.2.1"
 aesEverywhere = "1.2.7"
+gradleMavenPublish = "0.31.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -46,3 +47,4 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlinParcelize = { id = "kotlin-parcelize" }
+gradleMavenPublish = { id = "com.vanniktech.maven.publish", version.ref = "gradleMavenPublish" }
