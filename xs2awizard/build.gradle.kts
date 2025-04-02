@@ -13,7 +13,7 @@ plugins {
 val versionName = providers.gradleProperty("versionName").getOrElse("LOCAL")
 
 android {
-    compileSdk = 34
+    compileSdk = 35
     namespace = "com.fintecsystems.xs2awizard"
 
     defaultConfig {
