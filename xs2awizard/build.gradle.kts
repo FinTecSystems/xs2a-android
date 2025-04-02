@@ -82,8 +82,6 @@ mavenPublishing {
     ))
 
     coordinates(
-        groupId = providers.gradleProperty("GROUP").get(),
-        artifactId = providers.gradleProperty("POM_ARTIFACT_ID").get(),
         version = versionName
     )
 
