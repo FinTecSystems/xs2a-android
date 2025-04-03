@@ -20,6 +20,7 @@ import androidx.core.net.toUri
 import androidx.core.util.Consumer
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import com.fintecsystems.xs2awizard.BuildConfig
@@ -27,9 +28,9 @@ import com.fintecsystems.xs2awizard.R
 import com.fintecsystems.xs2awizard.components.networking.ConnectionState
 import com.fintecsystems.xs2awizard.form.*
 import com.fintecsystems.xs2awizard.helper.*
-import com.fintecsystems.xs2awizard_networking.NetworkingInstance
-import com.fintecsystems.xs2awizard_networking.registerNetworkCallback
-import com.fintecsystems.xs2awizard_networking.unregisterNetworkCallback
+import com.fintecsystems.xs2awizard.networking.NetworkingService
+import com.fintecsystems.xs2awizard.networking.utils.registerNetworkCallback
+import com.fintecsystems.xs2awizard.networking.utils.unregisterNetworkCallback
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.*
 import java.lang.ref.WeakReference
@@ -44,6 +45,8 @@ class XS2AWizardViewModel(
     savedStateHandle: SavedStateHandle
 ) : AndroidViewModel(application) {
     var callbackListener: XS2AWizardCallbackListener? = null
+
+    private var networkingService: NetworkingService? = null
 
     /**
      * Wizard language. If null the device language will be used.
@@ -75,21 +78,29 @@ class XS2AWizardViewModel(
      */
     private var redirectDeepLink: String? = null
 
-    internal val form = MutableLiveData<List<FormLineData>?>()
+    private val _form = MutableLiveData<List<FormLineData>?>()
+    internal val form: LiveData<List<FormLineData>?>
+        get() = _form
 
-    internal val loadingIndicatorLock = MutableLiveData(false)
+    private val _loadingIndicatorLock = MutableLiveData(false)
+    internal val loadingIndicatorLock: LiveData<Boolean>
+        get() = _loadingIndicatorLock
 
-    internal val currentWebViewUrl = MutableLiveData<String?>(null)
+    private val _currentWebViewUrl = MutableLiveData<String?>(null)
+    internal val currentWebViewUrl: LiveData<String?>
+        get() = _currentWebViewUrl
 
-    internal val connectionState = MutableLiveData(ConnectionState.UNKNOWN)
+    private val _connectionState = MutableLiveData(ConnectionState.UNKNOWN)
+    internal val connectionState: LiveData<ConnectionState>
+        get() = _connectionState
 
     private val networkCallback = object : ConnectivityManager.NetworkCallback() {
         override fun onAvailable(network: Network) {
-            connectionState.postValue(ConnectionState.CONNECTED)
+            _connectionState.postValue(ConnectionState.CONNECTED)
         }
 
         override fun onLost(network: Network) {
-            connectionState.postValue(ConnectionState.DISCONNECTED)
+            _connectionState.postValue(ConnectionState.DISCONNECTED)
         }
     }
 
@@ -121,7 +132,7 @@ class XS2AWizardViewModel(
         val xs2aWizardBundle = savedStateHandle.get<Bundle>(XS2AWizardBundleKeys.bundleName)
 
         if (xs2aWizardBundle != null) {
-            currentWebViewUrl.value =
+            _currentWebViewUrl.value =
                 xs2aWizardBundle.getString(XS2AWizardBundleKeys.currentWebViewUrl)
         }
 
@@ -149,10 +160,11 @@ class XS2AWizardViewModel(
         this.redirectDeepLink = redirectDeepLink
         currentActivity = WeakReference(activity)
 
-        NetworkingInstance.getInstance(context).apply {
-            this.sessionKey = sessionKey
-            this.backendURL = backendURL
-        }
+        this.networkingService = NetworkingService(
+            context,
+            sessionKey,
+            backendURL ?: context.getString(R.string.networking_backend_url)
+        )
 
         context.registerNetworkCallback(networkCallback)
 
@@ -163,9 +175,9 @@ class XS2AWizardViewModel(
 
     internal fun onStop() {
         // Cleanup in case the viewModel gets reused for a future request.
-        loadingIndicatorLock.value = false
-        currentWebViewUrl.value = null
-        form.value = emptyList()
+        _loadingIndicatorLock.value = false
+        _currentWebViewUrl.value = null
+        _form.value = emptyList()
         language = null
         currentStep = null
         enableScroll = true
@@ -176,8 +188,10 @@ class XS2AWizardViewModel(
             onNewIntentListener
         )
         currentActivity = WeakReference(null)
-        connectionState.value = ConnectionState.UNKNOWN
+        _connectionState.value = ConnectionState.UNKNOWN
         context.unregisterNetworkCallback(networkCallback)
+        networkingService?.finalize()
+        networkingService = null
     }
 
     /**
@@ -189,7 +203,10 @@ class XS2AWizardViewModel(
     private fun initForm() = submitForm(
         buildJsonObject {
             put("version", JsonPrimitive(BuildConfig.VERSION))
-            put("client", JsonPrimitive(context.getString(R.string.xs2a_client_tag)))
+            put(
+                "client",
+                JsonPrimitive(context.getString(R.string.networking_xs2a_client_tag))
+            )
 
             if (redirectDeepLink != null) {
                 put("location", JsonPrimitive(redirectDeepLink))
@@ -312,12 +329,14 @@ class XS2AWizardViewModel(
      * @param showIndicator show loading indicator during request.
      */
     private fun submitForm(jsonBody: String, showIndicator: Boolean) {
+        val networkingService = requireNotNull(networkingService)
+
         if (shouldAbortNetworkRequest()) {
             return
         }
 
         if (showIndicator) {
-            loadingIndicatorLock.value = true
+            _loadingIndicatorLock.value = true
         }
 
         // Cancel and close any open biometric prompt.
@@ -326,15 +345,14 @@ class XS2AWizardViewModel(
         if (Utils.isMarshmallow && Crypto.isDeviceSecure(context))
             tryToStoreCredentials()
 
-        return NetworkingInstance.getInstance(context)
-            .encodeAndSendMessage(
-                jsonBody,
-                onSuccess = ::onFormReceived,
-                onError = {
-                    callbackListener?.onNetworkError()
-                    loadingIndicatorLock.value = false
-                }
-            )
+        return networkingService.encodeAndSendMessage(
+            jsonBody,
+            onSuccess = ::onFormReceived,
+            onError = {
+                callbackListener?.onNetworkError()
+                _loadingIndicatorLock.value = false
+            }
+        )
     }
 
     /**
@@ -345,19 +363,20 @@ class XS2AWizardViewModel(
      * @param onSuccess on success callback to use.
      */
     internal fun submitFormWithCallback(action: String, onSuccess: (String) -> Unit) {
+        val networkingService = requireNotNull(networkingService)
+
         if (shouldAbortNetworkRequest()) {
             return
         }
 
-        NetworkingInstance.getInstance(context)
-            .encodeAndSendMessage(
-                constructJsonBody(action).toString(),
-                onSuccess = onSuccess,
-                onError = {
-                    callbackListener?.onNetworkError()
-                    loadingIndicatorLock.value = false
-                }
-            )
+        networkingService.encodeAndSendMessage(
+            constructJsonBody(action).toString(),
+            onSuccess = onSuccess,
+            onError = {
+                callbackListener?.onNetworkError()
+                _loadingIndicatorLock.value = false
+            }
+        )
     }
 
     /**
@@ -415,13 +434,13 @@ class XS2AWizardViewModel(
 
         parseCallback(formResponse)
 
-        form.value = formResponse.form
+        _form.value = formResponse.form
 
         if (Utils.isMarshmallow && Crypto.isDeviceSecure(context)) {
             tryToAutoFillCredentials()
         }
 
-        loadingIndicatorLock.value = false
+        _loadingIndicatorLock.value = false
     }
 
     /**
@@ -610,14 +629,14 @@ class XS2AWizardViewModel(
      * @param url url to open.
      */
     private fun openWebView(url: String) {
-        currentWebViewUrl.value = url
+        _currentWebViewUrl.value = url
     }
 
     /**
      * Hides the WebView and shows the form again.
      */
     internal fun closeWebView() {
-        currentWebViewUrl.value = null
+        _currentWebViewUrl.value = null
     }
 
     /**
