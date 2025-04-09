@@ -1,6 +1,5 @@
 package com.fintecsystems.xs2awizard.form.components
 
-import android.app.Activity
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Row
@@ -19,16 +18,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import com.fintecsystems.xs2awizard.components.XS2AWizardViewModel
-import com.fintecsystems.xs2awizard.components.mutateInteractionSource
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.CheckBoxLineData
 import com.fintecsystems.xs2awizard.form.components.shared.FormText
 import com.fintecsystems.xs2awizard.helper.MarkupParser
-import com.fintecsystems.xs2awizard.helper.Utils.getActivity
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.boolean
 import kotlinx.serialization.json.jsonPrimitive
@@ -98,24 +94,22 @@ fun CheckBoxLine(formData: CheckBoxLineData, viewModel: XS2AWizardViewModel) {
 
         if (!formData.label.isNullOrEmpty()) {
             val parseResult = MarkupParser.parseMarkupText(formData.label)
-            val activity = LocalContext.current.getActivity<Activity>()
 
             FormText(
-                modifier = Modifier.mutateInteractionSource(
-                    interactionSource = interactionSource,
-                    enabled = enabled
-                ),
+                modifier = Modifier
+                    .clickable(
+                        enabled = enabled,
+                        interactionSource = interactionSource,
+                        indication = null,
+                        onClick = {
+                            onCheckedChange(!checkBoxValue)
+                        }
+                    ),
                 parseResult = parseResult,
                 style = MaterialTheme.typography.body2.copy(
                     color = if (enabled) XS2ATheme.CURRENT.textColor.value else XS2ATheme.CURRENT.disabledColor.value
                 ),
-                onClick = {
-                    if (it != null) {
-                        viewModel.handleLinkAnnotationClick(activity!!, it)
-                    } else if (enabled) {
-                        onCheckedChange(!checkBoxValue)
-                    }
-                }
+                onLinkAnnotationClick = viewModel::handleLinkAnnotationClick
             )
         }
     }

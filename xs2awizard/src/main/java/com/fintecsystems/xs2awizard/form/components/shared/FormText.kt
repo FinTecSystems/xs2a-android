@@ -1,6 +1,5 @@
 package com.fintecsystems.xs2awizard.form.components.shared
 
-import androidx.compose.foundation.clickable
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -56,20 +55,19 @@ fun FormText(
     modifier: Modifier = Modifier,
     parseResult: MarkupParser.ParseResult,
     style: TextStyle = LocalTextStyle.current,
-    onClick: (LinkAnnotation?) -> Unit = {}
+    onLinkAnnotationClick: (LinkAnnotation.Clickable) -> Unit = {}
 ) {
     val linkInteractionListener = remember {
         LinkInteractionListener {
-            onClick(it)
+            if (it is LinkAnnotation.Clickable) {
+                onLinkAnnotationClick(it)
+            }
         }
     }
     val annotatedString = MarkupParser.parseParseResult(parseResult, linkInteractionListener)
 
     Text(
-        modifier = modifier
-            .clickable {
-                onClick(null)
-            },
+        modifier = modifier,
         text = annotatedString,
         style = style,
     )

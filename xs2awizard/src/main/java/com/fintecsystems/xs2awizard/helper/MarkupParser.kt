@@ -67,7 +67,6 @@ object MarkupParser {
                         withLink(
                             LinkAnnotation.Url(
                                 url = parseResultItem.url,
-                                linkInteractionListener = linkInteractionListener,
                                 styles = TextLinkStyles(
                                     SpanStyle(
                                         color = XS2ATheme.CURRENT.tintColor.value,

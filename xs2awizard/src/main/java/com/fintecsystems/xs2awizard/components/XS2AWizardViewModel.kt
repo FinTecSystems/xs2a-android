@@ -14,7 +14,6 @@ import androidx.activity.ComponentActivity
 import androidx.annotation.RequiresApi
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
-import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.ui.text.LinkAnnotation
 import androidx.core.net.toUri
 import androidx.core.util.Consumer
@@ -384,20 +383,10 @@ class XS2AWizardViewModel(
      * @param annotation clicked annotation
      */
     internal fun handleLinkAnnotationClick(
-        activity: Activity,
-        annotation: LinkAnnotation
+        annotation: LinkAnnotation.Clickable
     ) {
-        when (annotation) {
-            is LinkAnnotation.Clickable -> {
-                val jsonBody = MarkupParser.parseAutoSubmitPayloadAsJson(annotation.tag)
-
-                submitForm(constructJsonBody("autosubmit", jsonBody))
-            }
-
-            is LinkAnnotation.Url -> CustomTabsIntent.Builder().build().launchUrl(
-                activity, annotation.url.toUri()
-            )
-        }
+        val jsonBody = MarkupParser.parseAutoSubmitPayloadAsJson(annotation.tag)
+        submitForm(constructJsonBody("autosubmit", jsonBody))
     }
 
     /**
