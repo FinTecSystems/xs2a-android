@@ -1,16 +1,21 @@
 package com.fintecsystems.xs2awizard.form.components.shared
 
+import androidx.compose.foundation.clickable
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.LinkAnnotation
+import androidx.compose.ui.text.LinkInteractionListener
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
+import com.fintecsystems.xs2awizard.helper.MarkupParser
 
 /**
  * Pre-Styled Text used for all FormLines.
@@ -38,5 +43,34 @@ fun FormText(
         modifier = modifier,
         overflow = TextOverflow.Ellipsis,
         style = style
+    )
+}
+
+/**
+ * Pre-Styled Text used for all FormLines.
+ *
+ * Inherits props from [Text]
+ */
+@Composable
+fun FormText(
+    modifier: Modifier = Modifier,
+    parseResult: MarkupParser.ParseResult,
+    style: TextStyle = LocalTextStyle.current,
+    onClick: (LinkAnnotation?) -> Unit = {}
+) {
+    val linkInteractionListener = remember {
+        LinkInteractionListener {
+            onClick(it)
+        }
+    }
+    val annotatedString = MarkupParser.parseParseResult(parseResult, linkInteractionListener)
+
+    Text(
+        modifier = modifier
+            .clickable {
+                onClick(null)
+            },
+        text = annotatedString,
+        style = style,
     )
 }

@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -88,23 +87,21 @@ fun ParagraphLine(formData: ParagraphLineData, viewModel: XS2AWizardViewModel) {
             }
 
             if (formData.text.isNotEmpty()) {
-                val annotatedString = MarkupParser.parseMarkupText(formData.text)
+                val parseResult = MarkupParser.parseMarkupText(formData.text)
                 val activity = LocalContext.current.getActivity<Activity>()
 
                 val localFocusManager = LocalFocusManager.current
 
-                ClickableText(
-                    text = annotatedString,
+                FormText(
+                    parseResult = parseResult,
                     style = MaterialTheme.typography.body1.copy(
                         color = textColor.value
                     ),
                     onClick = {
-                        annotatedString.getStringAnnotations(it, it)
-                            .firstOrNull()?.let { annotation ->
-                                viewModel.handleAnnotationClick(activity!!, annotation)
-
-                                localFocusManager.clearFocus()
-                            }
+                        if (it != null) {
+                            viewModel.handleLinkAnnotationClick(activity!!, it)
+                            localFocusManager.clearFocus()
+                        }
                     }
                 )
             }

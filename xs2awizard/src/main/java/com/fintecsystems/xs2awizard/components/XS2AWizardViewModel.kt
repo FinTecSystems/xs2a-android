@@ -15,7 +15,7 @@ import androidx.annotation.RequiresApi
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.browser.customtabs.CustomTabsIntent
-import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.LinkAnnotation
 import androidx.core.net.toUri
 import androidx.core.util.Consumer
 import androidx.fragment.app.FragmentActivity
@@ -31,7 +31,6 @@ import com.fintecsystems.xs2awizard.helper.*
 import com.fintecsystems.xs2awizard.networking.NetworkingService
 import com.fintecsystems.xs2awizard.networking.utils.registerNetworkCallback
 import com.fintecsystems.xs2awizard.networking.utils.unregisterNetworkCallback
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.*
 import java.lang.ref.WeakReference
 import java.security.KeyStore
@@ -380,23 +379,23 @@ class XS2AWizardViewModel(
     }
 
     /**
-     * Handles onClick of ClickableText's with string annotations.
+     * Handles onClick of [LinkAnnotation]
      *
      * @param annotation clicked annotation
      */
-    internal fun handleAnnotationClick(
+    internal fun handleLinkAnnotationClick(
         activity: Activity,
-        annotation: AnnotatedString.Range<String>
+        annotation: LinkAnnotation
     ) {
-        when (annotation.tag) {
-            "autosubmit" -> {
-                val jsonBody = MarkupParser.parseAutoSubmitPayloadAsJson(annotation.item)
+        when (annotation) {
+            is LinkAnnotation.Clickable -> {
+                val jsonBody = MarkupParser.parseAutoSubmitPayloadAsJson(annotation.tag)
 
                 submitForm(constructJsonBody("autosubmit", jsonBody))
             }
 
-            else -> CustomTabsIntent.Builder().build().launchUrl(
-                activity, Uri.parse(annotation.item)
+            is LinkAnnotation.Url -> CustomTabsIntent.Builder().build().launchUrl(
+                activity, annotation.url.toUri()
             )
         }
     }

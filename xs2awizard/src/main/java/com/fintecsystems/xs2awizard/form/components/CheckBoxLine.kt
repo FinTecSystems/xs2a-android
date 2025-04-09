@@ -6,14 +6,18 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.Checkbox
 import androidx.compose.material.CheckboxDefaults
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.LocalRippleConfiguration
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ripple
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
@@ -22,6 +26,7 @@ import com.fintecsystems.xs2awizard.components.XS2AWizardViewModel
 import com.fintecsystems.xs2awizard.components.mutateInteractionSource
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.CheckBoxLineData
+import com.fintecsystems.xs2awizard.form.components.shared.FormText
 import com.fintecsystems.xs2awizard.helper.MarkupParser
 import com.fintecsystems.xs2awizard.helper.Utils.getActivity
 import kotlinx.serialization.json.JsonPrimitive
@@ -92,26 +97,24 @@ fun CheckBoxLine(formData: CheckBoxLineData, viewModel: XS2AWizardViewModel) {
         }
 
         if (!formData.label.isNullOrEmpty()) {
-            val annotatedString = MarkupParser.parseMarkupText(formData.label)
+            val parseResult = MarkupParser.parseMarkupText(formData.label)
             val activity = LocalContext.current.getActivity<Activity>()
 
-            ClickableText(
-                modifier = Modifier
-                    .mutateInteractionSource(
-                        interactionSource = interactionSource,
-                        enabled = enabled
-                    ),
-                text = annotatedString,
+            FormText(
+                modifier = Modifier.mutateInteractionSource(
+                    interactionSource = interactionSource,
+                    enabled = enabled
+                ),
+                parseResult = parseResult,
                 style = MaterialTheme.typography.body2.copy(
                     color = if (enabled) XS2ATheme.CURRENT.textColor.value else XS2ATheme.CURRENT.disabledColor.value
                 ),
                 onClick = {
-                    annotatedString.getStringAnnotations(it, it)
-                        .firstOrNull().let { annotation ->
-                            if (annotation != null)
-                                viewModel.handleAnnotationClick(activity!!, annotation)
-                            else if (enabled) onCheckedChange(!checkBoxValue)
-                        }
+                    if (it != null) {
+                        viewModel.handleLinkAnnotationClick(activity!!, it)
+                    } else if (enabled) {
+                        onCheckedChange(!checkBoxValue)
+                    }
                 }
             )
         }
