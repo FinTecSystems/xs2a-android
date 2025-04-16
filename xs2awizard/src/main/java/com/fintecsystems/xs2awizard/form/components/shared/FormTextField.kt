@@ -3,10 +3,10 @@ package com.fintecsystems.xs2awizard.form.components.shared
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.TextField
-import androidx.compose.material.TextFieldColors
-import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldColors
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
@@ -63,10 +63,13 @@ fun FormTextField(
                 )
         },
         shape = XS2ATheme.CURRENT.inputShape.value,
-        colors = TextFieldDefaults.textFieldColors(
-            textColor = XS2ATheme.CURRENT.inputTextColor.value,
-            backgroundColor = XS2ATheme.CURRENT.inputBackgroundColor.value,
+        colors = TextFieldDefaults.colors(
+            focusedTextColor = XS2ATheme.CURRENT.inputTextColor.value,
+            unfocusedTextColor = XS2ATheme.CURRENT.inputTextColor.value,
+            focusedContainerColor = XS2ATheme.CURRENT.inputBackgroundColor.value,
+            unfocusedContainerColor = XS2ATheme.CURRENT.inputBackgroundColor.value,
             focusedIndicatorColor = XS2ATheme.CURRENT.tintColor.value,
+            unfocusedIndicatorColor = XS2ATheme.CURRENT.tintColor.value,
             cursorColor = XS2ATheme.CURRENT.tintColor.value,
         ),
         visualTransformation = visualTransformation,

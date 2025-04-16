@@ -4,7 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
@@ -77,7 +77,7 @@ fun ParagraphLine(formData: ParagraphLineData, viewModel: XS2AWizardViewModel) {
                 FormText(
                     text = formData.title,
                     color = textColor.value,
-                    style = MaterialTheme.typography.h6.copy(
+                    style = MaterialTheme.typography.titleLarge.copy(
                         fontWeight = FontWeight.Bold
                     )
                 )
@@ -89,7 +89,7 @@ fun ParagraphLine(formData: ParagraphLineData, viewModel: XS2AWizardViewModel) {
 
                 FormText(
                     parseResult = parseResult,
-                    style = MaterialTheme.typography.body1.copy(
+                    style = MaterialTheme.typography.bodyLarge.copy(
                         color = textColor.value
                     ),
                     onLinkAnnotationClick = {

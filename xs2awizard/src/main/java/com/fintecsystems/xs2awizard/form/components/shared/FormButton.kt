@@ -4,8 +4,8 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
@@ -53,7 +53,7 @@ fun FormButton(
                 focusManager.clearFocus()
                 onClick()
             },
-            colors = ButtonDefaults.buttonColors(backgroundColor = buttonStyle.backgroundColor.value)
+            colors = ButtonDefaults.buttonColors(containerColor = buttonStyle.backgroundColor.value)
         ) {
             FormText(
                 text = label,

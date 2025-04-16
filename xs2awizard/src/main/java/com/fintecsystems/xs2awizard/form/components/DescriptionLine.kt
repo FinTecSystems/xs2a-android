@@ -1,7 +1,7 @@
 package com.fintecsystems.xs2awizard.form.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
@@ -25,7 +25,7 @@ fun DescriptionLine(formData: DescriptionLineData, viewModel: XS2AWizardViewMode
         FormText(
             modifier = Modifier.fillMaxWidth(),
             parseResult = parseResult,
-            style = MaterialTheme.typography.body2,
+            style = MaterialTheme.typography.bodyMedium,
             onLinkAnnotationClick = {
                 viewModel.handleLinkAnnotationClick(it)
                 localFocusManager.clearFocus()

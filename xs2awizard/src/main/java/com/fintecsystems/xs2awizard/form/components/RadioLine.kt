@@ -3,11 +3,11 @@ package com.fintecsystems.xs2awizard.form.components
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.selectable
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.LocalRippleConfiguration
-import androidx.compose.material.RadioButton
-import androidx.compose.material.RadioButtonDefaults
-import androidx.compose.material.ripple
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.LocalRippleConfiguration
+import androidx.compose.material3.RadioButton
+import androidx.compose.material3.RadioButtonDefaults
+import androidx.compose.material3.ripple
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
@@ -25,7 +25,7 @@ import kotlinx.serialization.json.*
  * @param label Label of the RadioButton
  * @param disabled Disabled state of the Button
  */
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LabelledRadioButton(
     selected: Boolean,
@@ -56,7 +56,8 @@ fun LabelledRadioButton(
                 colors = RadioButtonDefaults.colors(
                     selectedColor = XS2ATheme.CURRENT.tintColor.value,
                     unselectedColor = XS2ATheme.CURRENT.unselectedColor.value,
-                    disabledColor = XS2ATheme.CURRENT.disabledColor.value,
+                    disabledSelectedColor = XS2ATheme.CURRENT.disabledColor.value,
+                    disabledUnselectedColor = XS2ATheme.CURRENT.disabledColor.value,
                 ),
                 enabled = !disabled,
             )

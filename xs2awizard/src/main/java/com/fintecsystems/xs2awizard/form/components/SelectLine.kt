@@ -4,13 +4,17 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.DropdownMenu
-import androidx.compose.material.DropdownMenuItem
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.runtime.*
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.platform.LocalDensity
@@ -23,7 +27,12 @@ import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.SelectLineData
 import com.fintecsystems.xs2awizard.form.components.shared.FormText
 import com.fintecsystems.xs2awizard.form.components.shared.FormTextField
-import kotlinx.serialization.json.*
+import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.int
+import kotlinx.serialization.json.jsonArray
+import kotlinx.serialization.json.jsonPrimitive
 
 /**
  * Shows an Select-InputField
@@ -44,12 +53,14 @@ fun SelectLine(formData: SelectLineData) {
                 // The backend expects strings
                 formData.value = JsonPrimitive(index.toString())
             }
+
             is JsonObject -> {
                 textFieldValue = TextFieldValue(
                     formData.options.values.elementAt(index).jsonPrimitive.content
                 )
                 formData.value = JsonPrimitive(formData.options.keys.elementAt(index))
             }
+
             else -> throw IllegalArgumentException()
         }
     }
@@ -63,6 +74,7 @@ fun SelectLine(formData: SelectLineData) {
                 val index = formData.options.keys.indexOf(formData.value!!.jsonPrimitive.content)
                 setValue(index)
             }
+
             else -> throw IllegalArgumentException()
         }
     }
@@ -116,20 +128,22 @@ fun SelectLine(formData: SelectLineData) {
             }
 
             optionsArray.forEachIndexed { index, item ->
-                DropdownMenuItem(onClick = {
-                    setValue(index)
-                    focusManager.clearFocus()
-                }) {
-                    Column(
-                        modifier = Modifier.padding(2.dp, 4.dp)
-                    ) {
-                        FormText(
-                            text = item.jsonPrimitive.content,
-                            style = MaterialTheme.typography.subtitle1,
-                            maxLines = 1,
-                        )
-                    }
-                }
+                DropdownMenuItem(
+                    onClick = {
+                        setValue(index)
+                        focusManager.clearFocus()
+                    },
+                    text = {
+                        Column(
+                            modifier = Modifier.padding(2.dp, 4.dp)
+                        ) {
+                            FormText(
+                                text = item.jsonPrimitive.content,
+                                style = MaterialTheme.typography.titleMedium,
+                                maxLines = 1,
+                            )
+                        }
+                    })
             }
         }
     }

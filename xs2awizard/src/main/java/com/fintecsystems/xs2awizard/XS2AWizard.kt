@@ -13,12 +13,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Typography
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Typography
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.fintecsystems.xs2awizard.components.XS2AWizardCallbackListener
@@ -41,7 +42,7 @@ import com.fintecsystems.xs2awizard.form.components.textLine.TextLine
  * @param backendURL - Optional URL to target a different backend.
  * @param theme - Theme to be used.
  *                If null the default Light- or Dark-Theme, depending on the device settings, is used.
- * @param typography - Custom typography to be used by all form elements.
+ * @param fontFamily - Custom [FontFamily] to be used by all form elements.
  * @param language - Specifies the wizard language.
  *                   Defaults to the device language if supported, [XS2AWizardLanguage.EN] otherwise.
  * @param enableScroll - If true the form container allows for automatic scrolling.
@@ -63,7 +64,7 @@ fun XS2AWizard(
     sessionKey: String,
     backendURL: String? = null,
     theme: XS2ATheme? = null,
-    typography: Typography = MaterialTheme.typography,
+    fontFamily: FontFamily? = null,
     language: XS2AWizardLanguage? = null,
     enableScroll: Boolean = true,
     enableBackButton: Boolean = true,
@@ -103,7 +104,7 @@ fun XS2AWizard(
     // Render
     XS2ATheme(
         xS2ATheme = theme,
-        typography = typography,
+        fontFamily = fontFamily,
     ) {
         Box(modifier) {
             Column(

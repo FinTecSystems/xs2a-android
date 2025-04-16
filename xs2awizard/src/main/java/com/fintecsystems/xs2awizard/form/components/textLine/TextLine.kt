@@ -11,9 +11,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.DropdownMenu
-import androidx.compose.material.DropdownMenuItem
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
@@ -47,7 +47,6 @@ import com.fintecsystems.xs2awizard.helper.JSONFormatter
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.jsonPrimitive
 
@@ -183,29 +182,31 @@ private fun AutoCompleteDropdownContent(
     if (autoCompleteData?.data != null) {
         if (autoCompleteData.data.isNotEmpty()) {
             autoCompleteData.data.forEach {
-                DropdownMenuItem(onClick = {
-                    onItemClick(it.value)
-                }) {
-                    AutoCompleteDropdownItemContainer {
-                        val bankObject = it.bankObject
+                DropdownMenuItem(
+                    onClick = {
+                        onItemClick(it.value)
+                    },
+                    text = {
+                        AutoCompleteDropdownItemContainer {
+                            val bankObject = it.bankObject
 
-                        FormText(
-                            modifier = Modifier.basicMarquee(iterations = Int.MAX_VALUE),
-                            text = "${bankObject.name} (${bankObject.city})",
-                            maxLines = 1,
-                            style = MaterialTheme.typography.subtitle1.copy(
-                                fontWeight = FontWeight.Bold
+                            FormText(
+                                modifier = Modifier.basicMarquee(iterations = Int.MAX_VALUE),
+                                text = "${bankObject.name} (${bankObject.city})",
+                                maxLines = 1,
+                                style = MaterialTheme.typography.titleMedium.copy(
+                                    fontWeight = FontWeight.Bold
+                                )
                             )
-                        )
 
-                        FormText(
-                            modifier = Modifier.basicMarquee(iterations = Int.MAX_VALUE),
-                            text = "${bankObject.bankCode} [${bankObject.bic}]",
-                            maxLines = 1,
-                            style = MaterialTheme.typography.subtitle2
-                        )
-                    }
-                }
+                            FormText(
+                                modifier = Modifier.basicMarquee(iterations = Int.MAX_VALUE),
+                                text = "${bankObject.bankCode} [${bankObject.bic}]",
+                                maxLines = 1,
+                                style = MaterialTheme.typography.titleSmall
+                            )
+                        }
+                    })
             }
         } else {
             AutoCompleteDropdownItemContainer {
@@ -213,7 +214,7 @@ private fun AutoCompleteDropdownContent(
                     text = stringResource(R.string.no_search_results),
                     maxLines = 1,
                     textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.subtitle1.copy(
+                    style = MaterialTheme.typography.titleMedium.copy(
                         fontWeight = FontWeight.Bold
                     ),
                     modifier = Modifier.fillMaxWidth()
@@ -241,7 +242,7 @@ private fun AutoCompleteDropdownContent(
                     text = stringResource(R.string.server_error),
                     maxLines = 1,
                     fontWeight = FontWeight.Bold,
-                    style = MaterialTheme.typography.subtitle1.copy(
+                    style = MaterialTheme.typography.titleMedium.copy(
                         fontWeight = FontWeight.Bold
                     ),
                 )

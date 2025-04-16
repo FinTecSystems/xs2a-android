@@ -5,10 +5,10 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.material.AlertDialog
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -88,11 +88,11 @@ fun LogoLine(viewModel: XS2AWizardViewModel) {
                     )
                 }
             },
-            backgroundColor = XS2ATheme.CURRENT.surfaceColor.value,
+            containerColor = XS2ATheme.CURRENT.surfaceColor.value,
             title = {
                 FormText(
                     text = stringResource(id = R.string.dialog_imprint_title),
-                    style = MaterialTheme.typography.h6.copy(
+                    style = MaterialTheme.typography.titleLarge.copy(
                         color = XS2ATheme.CURRENT.tintColor.value,
                         fontWeight = FontWeight.Bold,
                     )
@@ -120,7 +120,7 @@ fun LogoLine(viewModel: XS2AWizardViewModel) {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     text = annotatedString,
-                    style = MaterialTheme.typography.body1,
+                    style = MaterialTheme.typography.bodyLarge,
                 )
             }
         )

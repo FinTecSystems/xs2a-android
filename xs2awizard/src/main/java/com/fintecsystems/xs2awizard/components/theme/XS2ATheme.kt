@@ -2,18 +2,25 @@ package com.fintecsystems.xs2awizard.components.theme
 
 import android.os.Parcelable
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material.Colors
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Typography
-import androidx.compose.material.lightColors
+import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ProvideTextStyle
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import com.fintecsystems.xs2awizard.components.theme.interop.XS2AAlignmentHorizontal
 import com.fintecsystems.xs2awizard.components.theme.interop.XS2AColor
 import com.fintecsystems.xs2awizard.components.theme.interop.XS2AShape
-import com.fintecsystems.xs2awizard.components.theme.styles.*
+import com.fintecsystems.xs2awizard.components.theme.styles.ButtonStyle
+import com.fintecsystems.xs2awizard.components.theme.styles.LogoVariation
+import com.fintecsystems.xs2awizard.components.theme.styles.PaddingMarginConfiguration
+import com.fintecsystems.xs2awizard.components.theme.styles.ParagraphStyle
+import com.fintecsystems.xs2awizard.components.theme.styles.SizeConstraint
+import com.fintecsystems.xs2awizard.components.theme.styles.TextFieldType
 import kotlinx.parcelize.Parcelize
 
 private val LocalExtendedStyle = staticCompositionLocalOf { XS2ATheme.light }
@@ -26,61 +33,21 @@ private val LocalExtendedStyle = staticCompositionLocalOf { XS2ATheme.light }
 @Composable
 fun XS2ATheme(
     xS2ATheme: XS2ATheme? = null,
-    colors: Colors = lightColors(),
-    typography: Typography = MaterialTheme.typography,
+    colors: ColorScheme = lightColorScheme(),
+    fontFamily: FontFamily? = null,
     content: @Composable () -> Unit
 ) {
     val theme = xS2ATheme ?: if (isSystemInDarkTheme()) XS2ATheme.dark else XS2ATheme.light
     CompositionLocalProvider(LocalExtendedStyle provides theme) {
-        val patchedTypography = with(typography) {
-            copy(
-                h1.copy(
+        MaterialTheme(colorScheme = colors) {
+            ProvideTextStyle(
+                value = TextStyle(
+                    fontFamily = fontFamily,
                     color = XS2ATheme.CURRENT.textColor.value
                 ),
-                h2.copy(
-                    color = XS2ATheme.CURRENT.textColor.value
-                ),
-                h3.copy(
-                    color = XS2ATheme.CURRENT.textColor.value
-                ),
-                h4.copy(
-                    color = XS2ATheme.CURRENT.textColor.value
-                ),
-                h5.copy(
-                    color = XS2ATheme.CURRENT.textColor.value
-                ),
-                h6.copy(
-                    color = XS2ATheme.CURRENT.textColor.value
-                ),
-                subtitle1.copy(
-                    color = XS2ATheme.CURRENT.textColor.value
-                ),
-                subtitle2.copy(
-                    color = XS2ATheme.CURRENT.textColor.value
-                ),
-                body1.copy(
-                    color = XS2ATheme.CURRENT.textColor.value
-                ),
-                body2.copy(
-                    color = XS2ATheme.CURRENT.textColor.value
-                ),
-                button.copy(
-                    color = XS2ATheme.CURRENT.textColor.value
-                ),
-                caption.copy(
-                    color = XS2ATheme.CURRENT.textColor.value
-                ),
-                overline.copy(
-                    color = XS2ATheme.CURRENT.textColor.value
-                )
+                content = content
             )
         }
-
-        MaterialTheme(
-            colors = colors,
-            typography = patchedTypography,
-            content = content
-        )
     }
 }
 

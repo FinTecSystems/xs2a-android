@@ -5,12 +5,12 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
-import androidx.compose.material.Checkbox
-import androidx.compose.material.CheckboxDefaults
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.LocalRippleConfiguration
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.ripple
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.LocalRippleConfiguration
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
@@ -35,12 +35,12 @@ import kotlinx.serialization.json.jsonPrimitive
  * @param formData Data of this FormLine
  * @param viewModel ViewModel of the Wizard-Instance.
  */
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CheckBoxLine(formData: CheckBoxLineData, viewModel: XS2AWizardViewModel) {
     var checkBoxValue by remember {
         mutableStateOf(
-            formData.value?.jsonPrimitive?.boolean ?: false
+            formData.value?.jsonPrimitive?.boolean == true
         )
     }
 
@@ -106,7 +106,7 @@ fun CheckBoxLine(formData: CheckBoxLineData, viewModel: XS2AWizardViewModel) {
                         }
                     ),
                 parseResult = parseResult,
-                style = MaterialTheme.typography.body2.copy(
+                style = MaterialTheme.typography.bodyMedium.copy(
                     color = if (enabled) XS2ATheme.CURRENT.textColor.value else XS2ATheme.CURRENT.disabledColor.value
                 ),
                 onLinkAnnotationClick = viewModel::handleLinkAnnotationClick
