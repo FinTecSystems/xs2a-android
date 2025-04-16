@@ -30,6 +30,7 @@ import com.fintecsystems.xs2awizard.components.theme.styles.TextFieldType
  */
 @Composable
 fun FormTextField(
+    modifier: Modifier = Modifier,
     value: TextFieldValue,
     onValueChange: (TextFieldValue) -> Unit,
     placeholder: String? = null,
@@ -45,7 +46,7 @@ fun FormTextField(
     val focusManager = LocalFocusManager.current
 
     RelevantTextField(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .onFocusChanged(onFocusChanged)
             .onGloballyPositioned(onGloballyPositioned),
