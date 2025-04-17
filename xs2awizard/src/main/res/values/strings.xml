@@ -49,4 +49,5 @@
     <string name="networking_backend_url" translatable="false">https://api.xs2a.com/jsonp</string>
     <string name="networking_xs2a_client_tag" translatable="false">android_sdk</string>
     <string name="labelled_container_input_hint">Fill in the input field below.</string>
+    <string name="dialog_imprint_description">Open Imprint.</string>
 </resources>

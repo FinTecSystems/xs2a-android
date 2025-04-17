@@ -29,4 +29,5 @@
     <string name="redirect_dialog_banking_app_button_title">Aplicación bancaria</string>
     <string name="redirect_dialog_website_button_title">Página web</string>
     <string name="labelled_container_input_hint">Rellene el siguiente campo.</string>
+    <string name="dialog_imprint_description">Pie de imprenta abierta.</string>
 </resources>

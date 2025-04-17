@@ -17,6 +17,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.invisibleToUser
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.traversalIndex
 import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextLinkStyles
@@ -24,6 +27,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withLink
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.fintecsystems.xs2awizard.R
@@ -66,15 +70,16 @@ fun LogoLine(viewModel: XS2AWizardViewModel) {
             .data(stringResource(id = getImageUrlId()))
             .crossfade(true)
             .build(),
-        contentDescription = stringResource(R.string.logo_image_description),
+        contentDescription = stringResource(R.string.dialog_imprint_title),
         modifier = Modifier
             .fillMaxWidth()
             .height(80.dp)
-            .clickable { showAlertDialog = true }
+            .clickable(
+                onClickLabel = stringResource(R.string.dialog_imprint_description)
+            ) { showAlertDialog = true }
     )
 
     if (showAlertDialog) {
-
         AlertDialog(
             onDismissRequest = { showAlertDialog = false },
             confirmButton = {},
@@ -91,6 +96,10 @@ fun LogoLine(viewModel: XS2AWizardViewModel) {
             containerColor = XS2ATheme.CURRENT.surfaceColor.value,
             title = {
                 FormText(
+                    modifier = Modifier.semantics {
+                        invisibleToUser() // FIXME: Remove. At the moment the Title will never be focused first.
+                                          //        When the the title can be announced first, we can re-add it.
+                    },
                     text = stringResource(id = R.string.dialog_imprint_title),
                     style = MaterialTheme.typography.titleLarge.copy(
                         color = XS2ATheme.CURRENT.tintColor.value,
