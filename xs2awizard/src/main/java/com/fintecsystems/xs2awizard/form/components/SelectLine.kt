@@ -77,51 +77,52 @@ fun SelectLine(formData: SelectLineData) {
         mutableStateOf(false)
     }
 
-    ExposedDropdownMenuBox(
-        expanded = selectIsExpanded,
-        onExpandedChange = { selectIsExpanded = it },
-    ) {
-        FormTextField(
-            modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable),
-            readOnly = true,
-            value = textFieldValue,
-            onValueChange = { },
-            singleLine = true,
-            label = formData.label,
-            // Replace tint = XS2ATheme.CURRENT.textColor.value with LocalContentColor
-            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = selectIsExpanded) },
-        )
-
-        ExposedDropdownMenu(
+    LabelledContainer(label = formData.label) {
+        ExposedDropdownMenuBox(
             expanded = selectIsExpanded,
-            onDismissRequest = { selectIsExpanded = false },
-            containerColor = XS2ATheme.CURRENT.surfaceColor.value
+            onExpandedChange = { selectIsExpanded = it },
         ) {
-            val optionsArray = when (formData.options) {
-                is JsonArray -> formData.options.toList()
-                is JsonObject -> formData.options.values.toList()
-                else -> throw IllegalArgumentException()
-            }
+            FormTextField(
+                modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable),
+                readOnly = true,
+                value = textFieldValue,
+                onValueChange = { },
+                singleLine = true,
+                // Replace tint = XS2ATheme.CURRENT.textColor.value with LocalContentColor
+                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = selectIsExpanded) },
+            )
 
-            optionsArray.forEachIndexed { index, option ->
-                DropdownMenuItem(
-                    text = {
-                        Column(
-                            modifier = Modifier.padding(2.dp, 4.dp)
-                        ) {
-                            FormText(
-                                text = option.jsonPrimitive.content,
-                                style = MaterialTheme.typography.titleMedium,
-                                maxLines = 1,
-                            )
-                        }
-                    },
-                    onClick = {
-                        setValue(index)
-                        selectIsExpanded = false
-                    },
-                    contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
-                )
+            ExposedDropdownMenu(
+                expanded = selectIsExpanded,
+                onDismissRequest = { selectIsExpanded = false },
+                containerColor = XS2ATheme.CURRENT.surfaceColor.value
+            ) {
+                val optionsArray = when (formData.options) {
+                    is JsonArray -> formData.options.toList()
+                    is JsonObject -> formData.options.values.toList()
+                    else -> throw IllegalArgumentException()
+                }
+
+                optionsArray.forEachIndexed { index, option ->
+                    DropdownMenuItem(
+                        text = {
+                            Column(
+                                modifier = Modifier.padding(2.dp, 4.dp)
+                            ) {
+                                FormText(
+                                    text = option.jsonPrimitive.content,
+                                    style = MaterialTheme.typography.titleMedium,
+                                    maxLines = 1,
+                                )
+                            }
+                        },
+                        onClick = {
+                            setValue(index)
+                            selectIsExpanded = false
+                        },
+                        contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
+                    )
+                }
             }
         }
     }
