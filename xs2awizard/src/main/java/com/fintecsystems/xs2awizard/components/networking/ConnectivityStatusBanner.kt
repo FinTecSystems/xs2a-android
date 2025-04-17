@@ -12,6 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.LiveRegionMode
+import androidx.compose.ui.semantics.liveRegion
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.fintecsystems.xs2awizard.R
@@ -26,6 +29,9 @@ fun ConnectivityStatusBanner(
     val isDisconnected = connectionState === ConnectionState.DISCONNECTED
 
     AnimatedVisibility(
+        modifier = Modifier.semantics {
+            liveRegion = LiveRegionMode.Assertive
+        },
         visible = isDisconnected,
         enter = slideInVertically(),
         exit = slideOutVertically(),
@@ -40,10 +46,8 @@ fun ConnectivityStatusBanner(
         ) {
             Image(
                 modifier = Modifier.width(48.dp),
-                painter = painterResource(
-                    R.drawable.ic_warning
-                ),
-                contentDescription = stringResource(R.string.no_internet_connection),
+                painter = painterResource(R.drawable.ic_warning),
+                contentDescription = null,
                 colorFilter = ColorFilter.tint(XS2ATheme.CURRENT.connectionStatusBannerTextColor.value)
             )
 
