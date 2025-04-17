@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="dialog_dismiss">Fermer</string>
-    <string name="captcha_image_description">Captcha Image</string>
-    <string name="image_description">Image</string>
-    <string name="logo_image_description">Logo</string>
     <string name="flicker_faster">Plus rapidement</string>
     <string name="flicker_slower">Moin rapidement</string>
     <string name="flicker_bigger">Plus grand</string>

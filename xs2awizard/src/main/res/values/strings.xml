@@ -2,10 +2,6 @@
     <!-- This single public declaration marks all other values as private. -->
     <public />
 
-    <string name="captcha_image_description">Captcha Image</string>
-    <string name="image_description">Image</string>
-    <string name="logo_image_description">Logo</string>
-
     <string name="flicker_faster">Faster</string>
     <string name="flicker_slower">Slower</string>
     <string name="flicker_bigger">Bigger</string>
