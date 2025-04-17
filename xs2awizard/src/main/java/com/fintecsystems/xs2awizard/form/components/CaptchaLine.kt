@@ -38,7 +38,7 @@ fun CaptchaLine(formData: CaptchaLineData) {
     LabelledContainer(formData.label) {
         Image(
             bitmap = imageBitmap,
-            contentDescription = stringResource(id = R.string.captcha_image_description),
+            contentDescription = formData.description,
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
         )

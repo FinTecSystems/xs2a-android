@@ -79,6 +79,7 @@ class SubmitLineData(
 class ImageLineData(
     val data: String,
     val align: String,
+    val description: String? = null
 ) : FormLineData()
 
 @SerialName("logo")
@@ -150,6 +151,7 @@ class CaptchaLineData(
     override var value: JsonElement? = null,
     val placeholder: String,
     val data: String,
+    val description: String? = null
 ) : ValueFormLineData()
 
 @SerialName("flicker")

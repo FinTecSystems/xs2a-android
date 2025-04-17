@@ -29,7 +29,7 @@ fun ImageLine(formData: ImageLineData) {
     ) {
         Image(
             bitmap = imageBitmap,
-            contentDescription = stringResource(id = R.string.image_description),
+            contentDescription = formData.description,
             contentScale = ContentScale.Fit,
             alignment = Alignment.Center,
             modifier = Modifier
