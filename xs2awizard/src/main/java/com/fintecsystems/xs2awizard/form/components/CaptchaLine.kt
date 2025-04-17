@@ -1,12 +1,14 @@
 package com.fintecsystems.xs2awizard.form.components
 
 import androidx.compose.foundation.Image
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
-import com.fintecsystems.xs2awizard.R
 import com.fintecsystems.xs2awizard.form.CaptchaLineData
 import com.fintecsystems.xs2awizard.form.components.shared.FormTextField
 import com.fintecsystems.xs2awizard.helper.Utils
