@@ -56,20 +56,22 @@ fun FormTextField(
         onValueChange = onValueChange,
         enabled = enabled,
         readOnly = readOnly,
-        placeholder = {
-            if (placeholder != null)
+        placeholder = if (placeholder != null) {
+            @Composable {
                 FormText(
                     text = placeholder,
                     color = XS2ATheme.CURRENT.textColor.value,
                 )
-        },
-        label = {
-            if (label != null)
+            }
+        } else null,
+        label = if (label != null) {
+            @Composable {
                 FormText(
                     text = label,
                     color = XS2ATheme.CURRENT.textColor.value,
                 )
-        },
+            }
+        } else null,
         shape = XS2ATheme.CURRENT.inputShape.value,
         colors = TextFieldDefaults.colors(
             focusedTextColor = XS2ATheme.CURRENT.inputTextColor.value,
@@ -90,7 +92,7 @@ fun FormTextField(
                 if (!focusManager.moveFocus(FocusDirection.Down)) {
                     focusManager.clearFocus()
                 }
-             },
+            },
         ),
         trailingIcon = trailingIcon,
         singleLine = singleLine,
@@ -103,8 +105,8 @@ private fun RelevantTextField(
     modifier: Modifier,
     value: TextFieldValue,
     onValueChange: (TextFieldValue) -> Unit,
-    placeholder: @Composable () -> Unit,
-    label: @Composable () -> Unit,
+    placeholder: (@Composable () -> Unit)? = null,
+    label: (@Composable () -> Unit)? = null,
     enabled: Boolean,
     readOnly: Boolean,
     singleLine: Boolean,
@@ -114,7 +116,7 @@ private fun RelevantTextField(
     shape: Shape,
     keyboardOptions: KeyboardOptions,
     keyboardActions: KeyboardActions
-) = when(textFieldType) {
+) = when (textFieldType) {
     TextFieldType.OUTLINED -> OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
@@ -131,6 +133,7 @@ private fun RelevantTextField(
         trailingIcon = trailingIcon,
         singleLine = singleLine,
     )
+
     TextFieldType.NORMAL -> TextField(
         value = value,
         onValueChange = onValueChange,
