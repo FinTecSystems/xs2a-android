@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
@@ -96,6 +97,7 @@ fun RadioLine(formData: RadioLineData) {
 
     LabelledContainer(label = formData.label) {
         Column(
+            modifier = Modifier.selectableGroup(),
             verticalArrangement = Arrangement.spacedBy(5.dp)
         ) {
             formData.options.forEachIndexed { index, radioElement ->
