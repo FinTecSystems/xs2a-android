@@ -7,8 +7,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.fintecsystems.xs2awizard.R
 import com.fintecsystems.xs2awizard.form.components.shared.FormText
 
 /**
@@ -26,7 +30,11 @@ fun LabelledContainer(label: String?, content: @Composable ColumnScope.() -> Uni
         verticalArrangement = Arrangement.spacedBy(5.dp)
     ) {
         if (label != null) {
+            val inputHint = stringResource(R.string.labelled_container_input_hint)
             FormText(
+                modifier = Modifier.semantics {
+                    contentDescription = "$label. $inputHint"
+                },
                 text = label,
                 style = MaterialTheme.typography.titleMedium.copy(
                     fontWeight = FontWeight.Bold,

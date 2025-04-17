@@ -28,4 +28,5 @@
     <string name="redirect_dialog_message">Come si desidera effettuare il login? Se avete installato l\'applicazione della vostra banca, selezionate \"App bancaria\", altrimenti selezionate \"Sito web\".</string>
     <string name="redirect_dialog_banking_app_button_title">App bancaria</string>
     <string name="redirect_dialog_website_button_title">Sito web</string>
+    <string name="labelled_container_input_hint">Compilare il campo di input sottostante.</string>
 </resources>
