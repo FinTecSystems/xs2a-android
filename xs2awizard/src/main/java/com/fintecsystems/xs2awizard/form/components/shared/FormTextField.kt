@@ -84,7 +84,7 @@ fun FormTextField(
         ),
         visualTransformation = visualTransformation,
         keyboardOptions = KeyboardOptions(
-            imeAction = ImeAction.Next,
+            imeAction = ImeAction.Next, // TODO: Add some way to identify the last TextInput of a form
             keyboardType = keyboardType
         ),
         keyboardActions = KeyboardActions(
