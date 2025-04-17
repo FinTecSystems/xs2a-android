@@ -4,7 +4,6 @@
     <string name="flicker_slower">Langsamer</string>
     <string name="flicker_bigger">Größer</string>
     <string name="flicker_smaller">Kleiner</string>
-    <string name="flicker_marker">Markierung</string>
     <string name="dialog_dismiss">Schließen</string>
     <string name="link_copied">Link kopiert</string>
     <string name="close_webview">WebView schließen</string>

@@ -193,7 +193,7 @@ fun FlickerLine(formData: FlickerLineData) {
                         if (index == 0 || index == barColors.lastIndex) {
                             Image(
                                 painter = painterResource(R.drawable.ic_flicker_marker),
-                                contentDescription = stringResource(id = R.string.flicker_marker),
+                                contentDescription = null,
                                 colorFilter = ColorFilter.tint(XS2AColors.flickerMarker.value),
                                 alignment = Alignment.TopCenter,
                                 modifier = Modifier.fillMaxWidth()
