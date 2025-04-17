@@ -102,10 +102,12 @@ object MarkupParser {
             val regexResult = markupRegex.find(text, cursor)
 
             if (regexResult != null) {
-                // Append all text between the cursor and beginning of markup.
-                resultItems.add(
-                    ParseResult.Item.Text(text.slice(cursor until regexResult.range.first))
-                )
+                if (cursor != regexResult.range.first) {
+                    // Append all text between the cursor and beginning of markup.
+                    resultItems.add(
+                        ParseResult.Item.Text(text.slice(cursor until regexResult.range.first))
+                    )
+                }
 
                 // Define start of the annotation
                 val annotationContent = regexResult.groupValues[1]
