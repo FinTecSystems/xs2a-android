@@ -19,7 +19,10 @@ import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.components.shared.FormText
 
 @Composable
-fun ConnectivityStatusBanner(connectionState: ConnectionState) {
+fun ConnectivityStatusBanner(
+    modifier: Modifier = Modifier,
+    connectionState: ConnectionState
+) {
     val isDisconnected = connectionState === ConnectionState.DISCONNECTED
 
     AnimatedVisibility(
@@ -28,7 +31,7 @@ fun ConnectivityStatusBanner(connectionState: ConnectionState) {
         exit = slideOutVertically(),
     ) {
         Row(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxWidth()
                 .background(XS2ATheme.CURRENT.connectionStatusBannerBackgroundColor.value)
                 .padding(0.dp, 5.dp),

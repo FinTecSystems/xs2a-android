@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -21,6 +22,9 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.isTraversalGroup
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.traversalIndex
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -142,12 +146,17 @@ fun XS2AWizard(
         xS2ATheme = theme,
         fontFamily = fontFamily,
     ) {
-        Box(modifier) {
+        Box(modifier.semantics { isTraversalGroup = true }) {
             Column(
                 modifier = Modifier
                     .background(XS2ATheme.CURRENT.backgroundColor.value)
             ) {
-                ConnectivityStatusBanner(connectionState)
+                ConnectivityStatusBanner(
+                    modifier = Modifier.semantics {
+                        traversalIndex = 0f
+                    },
+                    connectionState = connectionState
+                )
 
                 Column(
                     modifier = Modifier
@@ -162,6 +171,9 @@ fun XS2AWizard(
             if (loadingIndicatorLock) {
                 LoadingIndicator(
                     modifier = Modifier
+                        .semantics {
+                            traversalIndex = -1f
+                        }
                         .matchParentSize()
                         .clickable(
                             interactionSource = remember { MutableInteractionSource() },
@@ -188,7 +200,7 @@ fun XS2AWizard(
 fun FormLines(formData: List<FormLineData>, viewModel: XS2AWizardViewModel) {
     val formDataHashString = formData.hashCode().toString()
 
-    formData.forEach { formLineData ->
+    formData.forEachIndexed { index, formLineData ->
         val formLineKey =
         // We have to prepend the formData hashCode, because if there is an validation error
         // and the same formData is received again, because the key would be the same, the
@@ -200,26 +212,34 @@ fun FormLines(formData: List<FormLineData>, viewModel: XS2AWizardViewModel) {
 
         // Because the Composables are cached by their index we need to specify an custom key.
         key(formLineKey) {
-            when (formLineData) {
-                is AutoSubmitLineData -> AutoSubmitLine(formLineData, viewModel)
-                is ParagraphLineData -> ParagraphLine(formLineData, viewModel)
-                is DescriptionLineData -> DescriptionLine(formLineData, viewModel)
-                is TextLineData -> TextLine(formLineData, viewModel)
-                is PasswordLineData -> PasswordLine(formLineData)
-                is CaptchaLineData -> CaptchaLine(formLineData)
-                is SelectLineData -> SelectLine(formLineData)
-                is CheckBoxLineData -> CheckBoxLine(formLineData, viewModel)
-                is RadioLineData -> RadioLine(formLineData)
-                is ImageLineData -> ImageLine(formLineData)
-                is LogoLineData -> LogoLine(viewModel)
-                is FlickerLineData -> FlickerLine(formLineData)
-                is SubmitLineData -> SubmitLine(formLineData, viewModel)
-                is AbortLineData -> AbortLine(formLineData, viewModel)
-                is RestartLineData -> RestartLine(formLineData, viewModel)
-                is TabsLineData -> TabsLine(formLineData, viewModel)
-                is RedirectLineData -> RedirectLine(formLineData, viewModel)
-                is HiddenLineData -> {
-                    /* no-op */
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .semantics {
+                        traversalIndex = (index + 1).toFloat()
+                    }
+            ) {
+                when (formLineData) {
+                    is AutoSubmitLineData -> AutoSubmitLine(formLineData, viewModel)
+                    is ParagraphLineData -> ParagraphLine(formLineData, viewModel)
+                    is DescriptionLineData -> DescriptionLine(formLineData, viewModel)
+                    is TextLineData -> TextLine(formLineData, viewModel)
+                    is PasswordLineData -> PasswordLine(formLineData)
+                    is CaptchaLineData -> CaptchaLine(formLineData)
+                    is SelectLineData -> SelectLine(formLineData)
+                    is CheckBoxLineData -> CheckBoxLine(formLineData, viewModel)
+                    is RadioLineData -> RadioLine(formLineData)
+                    is ImageLineData -> ImageLine(formLineData)
+                    is LogoLineData -> LogoLine(viewModel)
+                    is FlickerLineData -> FlickerLine(formLineData)
+                    is SubmitLineData -> SubmitLine(formLineData, viewModel)
+                    is AbortLineData -> AbortLine(formLineData, viewModel)
+                    is RestartLineData -> RestartLine(formLineData, viewModel)
+                    is TabsLineData -> TabsLine(formLineData, viewModel)
+                    is RedirectLineData -> RedirectLine(formLineData, viewModel)
+                    is HiddenLineData -> {
+                        /* no-op */
+                    }
                 }
             }
         }
