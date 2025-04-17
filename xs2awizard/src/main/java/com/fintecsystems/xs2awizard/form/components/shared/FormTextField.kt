@@ -34,6 +34,7 @@ fun FormTextField(
     value: TextFieldValue,
     onValueChange: (TextFieldValue) -> Unit,
     placeholder: String? = null,
+    label: String? = null,
     enabled: Boolean = true,
     readOnly: Boolean = false,
     singleLine: Boolean = true,
@@ -59,6 +60,13 @@ fun FormTextField(
             if (placeholder != null)
                 FormText(
                     text = placeholder,
+                    color = XS2ATheme.CURRENT.textColor.value,
+                )
+        },
+        label = {
+            if (label != null)
+                FormText(
+                    text = label,
                     color = XS2ATheme.CURRENT.textColor.value,
                 )
         },
@@ -96,6 +104,7 @@ private fun RelevantTextField(
     value: TextFieldValue,
     onValueChange: (TextFieldValue) -> Unit,
     placeholder: @Composable () -> Unit,
+    label: @Composable () -> Unit,
     enabled: Boolean,
     readOnly: Boolean,
     singleLine: Boolean,
@@ -112,6 +121,7 @@ private fun RelevantTextField(
         enabled = enabled,
         readOnly = readOnly,
         placeholder = placeholder,
+        label = label,
         shape = shape,
         modifier = modifier,
         colors = colors,
@@ -127,6 +137,7 @@ private fun RelevantTextField(
         enabled = enabled,
         readOnly = readOnly,
         placeholder = placeholder,
+        label = label,
         shape = shape,
         modifier = modifier,
         colors = colors,
