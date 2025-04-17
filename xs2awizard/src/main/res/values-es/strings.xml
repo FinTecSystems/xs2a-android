@@ -27,4 +27,7 @@
     <string name="redirect_dialog_website_button_title">Página web</string>
     <string name="labelled_container_input_hint">Rellene el siguiente campo.</string>
     <string name="dialog_imprint_description">Pie de imprenta abierta.</string>
+    <string name="paragraph_severity_info">Información</string>
+    <string name="paragraph_severity_warning">Advertencia</string>
+    <string name="paragraph_severity_error">Error</string>
 </resources>

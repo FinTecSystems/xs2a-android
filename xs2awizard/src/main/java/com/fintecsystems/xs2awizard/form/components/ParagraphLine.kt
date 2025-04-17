@@ -8,8 +8,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.font.FontWeight
+import com.fintecsystems.xs2awizard.R
 import com.fintecsystems.xs2awizard.components.XS2AWizardViewModel
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.components.theme.styles.PaddingMarginConfiguration
@@ -60,9 +63,20 @@ fun ParagraphLine(formData: ParagraphLineData, viewModel: XS2AWizardViewModel) {
                 margin.bottom
             )
     ) {
+        val stateDescriptionText = when (formData.severity) {
+            "info" -> stringResource(R.string.paragraph_severity_info)
+            "error" -> stringResource(R.string.paragraph_severity_error)
+            "warning" -> stringResource(R.string.paragraph_severity_warning)
+            else -> null
+        }
+
         Column(
             modifier = Modifier
-                .semantics(true) {}
+                .semantics(true) {
+                    if (stateDescriptionText != null) {
+                        stateDescription = stateDescriptionText
+                    }
+                }
                 .fillMaxWidth()
                 .background(
                     color = backgroundColor.value,

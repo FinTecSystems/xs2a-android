@@ -27,4 +27,7 @@
     <string name="redirect_dialog_website_button_title">Site web</string>
     <string name="labelled_container_input_hint">Remplissez le champ de saisie ci-dessous.</string>
     <string name="dialog_imprint_description">Ouvrir les mentions légales.</string>
+    <string name="paragraph_severity_info">Info</string>
+    <string name="paragraph_severity_warning">Avertissement</string>
+    <string name="paragraph_severity_error">Erreur</string>
 </resources>
