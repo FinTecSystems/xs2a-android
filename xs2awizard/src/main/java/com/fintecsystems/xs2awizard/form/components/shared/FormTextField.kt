@@ -81,11 +81,12 @@ fun FormTextField(
             @Composable {
                 FormText(
                     text = errorMessage ?: stringResource(R.string.input_required_label),
-                    color = if (isError) XS2ATheme.CURRENT.errorParagraphStyle.backgroundColor.value // FIXME: We need a new field here
+                    color = if (isError) XS2ATheme.CURRENT.errorColor.value
                     else XS2ATheme.CURRENT.inputTextColor.value,
                 )
             }
         } else null,
+        isError = isError,
         shape = XS2ATheme.CURRENT.inputShape.value,
         colors = TextFieldDefaults.colors(
             focusedTextColor = XS2ATheme.CURRENT.inputTextColor.value,
@@ -95,6 +96,9 @@ fun FormTextField(
             focusedIndicatorColor = XS2ATheme.CURRENT.tintColor.value,
             unfocusedIndicatorColor = XS2ATheme.CURRENT.tintColor.value,
             cursorColor = XS2ATheme.CURRENT.tintColor.value,
+            errorTextColor = XS2ATheme.CURRENT.errorColor.value,
+            errorIndicatorColor = XS2ATheme.CURRENT.errorColor.value,
+            errorContainerColor = XS2ATheme.CURRENT.errorColor.value,
         ),
         visualTransformation = visualTransformation,
         keyboardOptions = KeyboardOptions(
