@@ -422,13 +422,34 @@ class XS2AWizardViewModel(
 
         parseCallback(formResponse)
 
-        _form.value = formResponse.form
+        _form.value = filterFormResponseForm(formResponse.form)
 
         if (Utils.isMarshmallow && Crypto.isDeviceSecure(context)) {
             tryToAutoFillCredentials()
         }
 
         _loadingIndicatorLock.value = false
+    }
+
+    /**
+     * Filters out duplicate ParagraphLines, which represent an Validation Error.
+     */
+    private fun filterFormResponseForm(form: List<FormLineData>?): List<FormLineData>? {
+        return form?.filter { formLineData ->
+            if (formLineData !is ParagraphLineData) {
+                return@filter true
+            }
+
+            if (formLineData.severity != "error") {
+                return@filter true
+            }
+
+            return@filter form.none {
+                it is ValueFormLineData
+                        && !it.validationError.isNullOrEmpty()
+                        && it.validationError == formLineData.text
+            }
+        }
     }
 
     /**
