@@ -23,7 +23,11 @@ import com.fintecsystems.xs2awizard.form.components.shared.FormText
  * @param content Content of the container.
  */
 @Composable
-fun LabelledContainer(label: String?, content: @Composable ColumnScope.() -> Unit) {
+fun LabelledContainer(
+    label: String?,
+    required: Boolean = false,
+    content: @Composable ColumnScope.() -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth(),
@@ -35,7 +39,7 @@ fun LabelledContainer(label: String?, content: @Composable ColumnScope.() -> Uni
                 modifier = Modifier.semantics {
                     contentDescription = "$label. $inputHint"
                 },
-                text = label,
+                text = label + if (required) "*" else "",
                 style = MaterialTheme.typography.titleMedium.copy(
                     fontWeight = FontWeight.Bold,
                 )

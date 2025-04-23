@@ -51,8 +51,6 @@ fun FormTextField(
 ) {
     val focusManager = LocalFocusManager.current
 
-    val requiredPostfix = if (required) "*" else ""
-
     RelevantTextField(
         modifier = modifier
             .fillMaxWidth()
@@ -66,7 +64,7 @@ fun FormTextField(
         placeholder = if (placeholder != null) {
             @Composable {
                 FormText(
-                    text = placeholder + requiredPostfix,
+                    text = placeholder,
                     color = XS2ATheme.CURRENT.textColor.value,
                 )
             }
@@ -74,7 +72,7 @@ fun FormTextField(
         label = if (label != null) {
             @Composable {
                 FormText(
-                    text = label + requiredPostfix,
+                    text = label + if (required) "*" else "",
                     color = XS2ATheme.CURRENT.textColor.value,
                 )
             }
@@ -84,7 +82,7 @@ fun FormTextField(
                 FormText(
                     text = errorMessage ?: stringResource(R.string.input_required_label),
                     color = if (isError) XS2ATheme.CURRENT.errorParagraphStyle.backgroundColor.value // FIXME: We need a new field here
-                    else XS2ATheme.CURRENT.placeholderColor.value,
+                    else XS2ATheme.CURRENT.inputTextColor.value,
                 )
             }
         } else null,

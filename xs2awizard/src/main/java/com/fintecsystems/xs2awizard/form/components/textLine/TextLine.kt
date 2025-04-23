@@ -128,12 +128,18 @@ fun TextLine(formData: TextLineData, viewModel: XS2AWizardViewModel) {
     }
 
     Column {
-        LabelledContainer(label = formData.label) {
+        LabelledContainer(
+            label = formData.label,
+            required = formData.required
+        ) {
             if (formData.autoCompleteAction == null) {
                 FormTextField(
                     value = textFieldValue,
                     onValueChange = ::onValueChange,
                     placeholder = formData.placeholder,
+                    isError = formData.invalid,
+                    required = formData.required,
+                    errorMessage = formData.validationError
                 )
             } else {
                 DockedSearchBar(
@@ -150,6 +156,7 @@ fun TextLine(formData: TextLineData, viewModel: XS2AWizardViewModel) {
                         containerColor = XS2ATheme.CURRENT.inputBackgroundColor.value
                     ),
                     inputField = {
+                        // FIXME: Add Validation logic
                         SearchBarDefaults.InputField(
                             query = textFieldValue.text,
                             onQueryChange = { onValueChange(TextFieldValue(it)) },

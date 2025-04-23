@@ -37,7 +37,10 @@ fun CaptchaLine(formData: CaptchaLineData) {
         formData.value = JsonPrimitive(newValue.text)
     }
 
-    LabelledContainer(formData.label) {
+    LabelledContainer(
+        label = formData.label,
+        required = formData.required
+    ) {
         Image(
             bitmap = imageBitmap,
             contentDescription = formData.description,
@@ -48,7 +51,10 @@ fun CaptchaLine(formData: CaptchaLineData) {
         FormTextField(
             value = textFieldValue,
             onValueChange = ::onValueChange,
-            placeholder = formData.placeholder
+            placeholder = formData.placeholder,
+            isError = formData.invalid,
+            required = formData.required,
+            errorMessage = formData.validationError
         )
     }
 }

@@ -204,11 +204,17 @@ fun FlickerLine(formData: FlickerLineData) {
             }
         }
 
-        LabelledContainer(formData.label) {
+        LabelledContainer(
+            label = formData.label,
+            required = formData.required
+        ) {
             FormTextField(
                 value = textFieldValue,
                 onValueChange = ::onValueChange,
-                placeholder = formData.placeholder
+                placeholder = formData.placeholder,
+                isError = formData.invalid,
+                required = formData.required,
+                errorMessage = formData.validationError
             )
         }
     }

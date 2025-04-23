@@ -77,7 +77,10 @@ fun SelectLine(formData: SelectLineData) {
         mutableStateOf(false)
     }
 
-    LabelledContainer(label = formData.label) {
+    LabelledContainer(
+        label = formData.label,
+        required = formData.required
+    ) {
         ExposedDropdownMenuBox(
             expanded = selectIsExpanded,
             onExpandedChange = { selectIsExpanded = it },
@@ -90,6 +93,9 @@ fun SelectLine(formData: SelectLineData) {
                 singleLine = true,
                 // Replace tint = XS2ATheme.CURRENT.textColor.value with LocalContentColor
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = selectIsExpanded) },
+                isError = formData.invalid,
+                required = formData.required,
+                errorMessage = formData.validationError
             )
 
             ExposedDropdownMenu(

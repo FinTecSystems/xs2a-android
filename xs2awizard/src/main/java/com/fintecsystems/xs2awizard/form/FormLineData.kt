@@ -36,7 +36,8 @@ abstract class ValueFormLineData : LabelFormLineData() {
     @SerialName("validation_error")
     abstract val validationError: String?
     abstract val validation: String?
-    open val required: Boolean = validation?.contains("required") == true
+    open val required: Boolean
+        get() = validation?.contains("required") == true
 }
 
 /**
