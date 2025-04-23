@@ -16,12 +16,16 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.focused
 import androidx.compose.ui.semantics.isTraversalGroup
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.traversalIndex
@@ -73,6 +77,7 @@ import com.fintecsystems.xs2awizard.form.components.SelectLine
 import com.fintecsystems.xs2awizard.form.components.SubmitLine
 import com.fintecsystems.xs2awizard.form.components.TabsLine
 import com.fintecsystems.xs2awizard.form.components.textLine.TextLine
+import kotlinx.coroutines.delay
 
 /**
  * Renders the XS2A-Wizard.
@@ -114,9 +119,25 @@ fun XS2AWizard(
     xs2aWizardViewModel: XS2AWizardViewModel = viewModel()
 ) {
     val form by xs2aWizardViewModel.form.observeAsState(null)
-    val loadingIndicatorLock by xs2aWizardViewModel.loadingIndicatorLock.observeAsState(false)
+    val viewModelLoadingIndicatorLock by xs2aWizardViewModel.loadingIndicatorLock.observeAsState(false)
     val currentWebViewUrl by xs2aWizardViewModel.currentWebViewUrl.observeAsState(null)
     val connectionState by xs2aWizardViewModel.connectionState.observeAsState(ConnectionState.UNKNOWN)
+
+    var loadingIndicatorLock by remember { mutableStateOf(false) }
+
+    LaunchedEffect(viewModelLoadingIndicatorLock) {
+        if (!viewModelLoadingIndicatorLock) {
+            // Keep loading indicator visible for 150ms longer.
+            // This hack is needed, for TalkBack to be able to focus on the loading indicator.
+            // Otherwise the focus might stay on the submit button after submitting and not move to
+            // the top component.
+            // TODO: Remove this entire hack, if we find a way to tell TalkBack to always focus
+            //       the top element after submitting.
+            delay(150)
+        }
+
+        loadingIndicatorLock = viewModelLoadingIndicatorLock
+    }
 
     val context = LocalContext.current
 
@@ -173,6 +194,7 @@ fun XS2AWizard(
                     modifier = Modifier
                         .semantics {
                             traversalIndex = -1f
+                            focused = true
                         }
                         .matchParentSize()
                         .clickable(
