@@ -29,4 +29,5 @@
     <string name="paragraph_severity_info">Info</string>
     <string name="paragraph_severity_warning">Avertissement</string>
     <string name="paragraph_severity_error">Erreur</string>
+    <string name="input_required_label">*obligatoire</string>
 </resources>

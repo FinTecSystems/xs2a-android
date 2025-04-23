@@ -16,10 +16,12 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
+import com.fintecsystems.xs2awizard.R
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.components.theme.styles.TextFieldType
 
@@ -35,6 +37,9 @@ fun FormTextField(
     onValueChange: (TextFieldValue) -> Unit,
     placeholder: String? = null,
     label: String? = null,
+    errorMessage: String? = null,
+    isError: Boolean = false,
+    required: Boolean = false,
     enabled: Boolean = true,
     readOnly: Boolean = false,
     singleLine: Boolean = true,
@@ -45,6 +50,8 @@ fun FormTextField(
     trailingIcon: @Composable () -> Unit = {},
 ) {
     val focusManager = LocalFocusManager.current
+
+    val requiredPostfix = if (required) "*" else ""
 
     RelevantTextField(
         modifier = modifier
@@ -59,7 +66,7 @@ fun FormTextField(
         placeholder = if (placeholder != null) {
             @Composable {
                 FormText(
-                    text = placeholder,
+                    text = placeholder + requiredPostfix,
                     color = XS2ATheme.CURRENT.textColor.value,
                 )
             }
@@ -67,8 +74,17 @@ fun FormTextField(
         label = if (label != null) {
             @Composable {
                 FormText(
-                    text = label,
+                    text = label + requiredPostfix,
                     color = XS2ATheme.CURRENT.textColor.value,
+                )
+            }
+        } else null,
+        supportingText = if (required || errorMessage != null) {
+            @Composable {
+                FormText(
+                    text = errorMessage ?: stringResource(R.string.input_required_label),
+                    color = if (isError) XS2ATheme.CURRENT.errorParagraphStyle.backgroundColor.value // FIXME: We need a new field here
+                    else XS2ATheme.CURRENT.placeholderColor.value,
                 )
             }
         } else null,
@@ -107,6 +123,8 @@ private fun RelevantTextField(
     onValueChange: (TextFieldValue) -> Unit,
     placeholder: (@Composable () -> Unit)? = null,
     label: (@Composable () -> Unit)? = null,
+    supportingText: (@Composable () -> Unit)? = null,
+    isError: Boolean = false,
     enabled: Boolean,
     readOnly: Boolean,
     singleLine: Boolean,
@@ -123,6 +141,8 @@ private fun RelevantTextField(
         enabled = enabled,
         readOnly = readOnly,
         placeholder = placeholder,
+        supportingText = supportingText,
+        isError = isError,
         label = label,
         shape = shape,
         modifier = modifier,
@@ -140,6 +160,8 @@ private fun RelevantTextField(
         enabled = enabled,
         readOnly = readOnly,
         placeholder = placeholder,
+        supportingText = supportingText,
+        isError = isError,
         label = label,
         shape = shape,
         modifier = modifier,
