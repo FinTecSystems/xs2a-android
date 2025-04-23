@@ -98,7 +98,6 @@ fun FormTextField(
             cursorColor = XS2ATheme.CURRENT.tintColor.value,
             errorTextColor = XS2ATheme.CURRENT.errorColor.value,
             errorIndicatorColor = XS2ATheme.CURRENT.errorColor.value,
-            errorContainerColor = XS2ATheme.CURRENT.errorColor.value,
         ),
         visualTransformation = visualTransformation,
         keyboardOptions = KeyboardOptions(
