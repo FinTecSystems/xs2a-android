@@ -55,6 +55,7 @@ fun XS2ATheme(
 class XS2ATheme(
     // General
     val tintColor: XS2AColor = XS2AColors.primary,
+    val errorColor: XS2AColor = XS2AColors.error,
     val onTintColor: XS2AColor = XS2AColors.textColorLight,
     val backgroundColor: XS2AColor = XS2AColors.backgroundLight,
     val surfaceColor: XS2AColor = XS2AColors.surfaceColor,

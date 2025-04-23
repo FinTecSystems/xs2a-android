@@ -1,6 +1,7 @@
 package com.fintecsystems.xs2awizard.form.components
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.selection.toggleable
@@ -14,8 +15,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
+import com.fintecsystems.xs2awizard.R
 import com.fintecsystems.xs2awizard.components.XS2AWizardViewModel
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.CheckBoxLineData
@@ -70,21 +73,33 @@ fun CheckBoxLine(formData: CheckBoxLineData, viewModel: XS2AWizardViewModel) {
             enabled = enabled,
             colors = CheckboxDefaults.colors(
                 checkedColor = XS2ATheme.CURRENT.tintColor.value,
-                uncheckedColor = XS2ATheme.CURRENT.unselectedColor.value,
+                uncheckedColor = if (formData.invalid) XS2ATheme.CURRENT.errorColor.value else XS2ATheme.CURRENT.unselectedColor.value,
                 checkmarkColor = XS2ATheme.CURRENT.onTintColor.value
             )
         )
 
-        if (!formData.label.isNullOrEmpty()) {
-            val parseResult = MarkupParser.parseMarkupText(formData.label)
+        Column {
+            if (!formData.label.isNullOrEmpty()) {
+                val parseResult = MarkupParser.parseMarkupText(formData.label)
 
-            FormText(
-                parseResult = parseResult,
-                style = MaterialTheme.typography.bodyMedium.copy(
-                    color = if (enabled) XS2ATheme.CURRENT.textColor.value else XS2ATheme.CURRENT.disabledColor.value
-                ),
-                onLinkAnnotationClick = viewModel::handleLinkAnnotationClick
-            )
+                FormText(
+                    parseResult = parseResult,
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        color = if (enabled) XS2ATheme.CURRENT.textColor.value else XS2ATheme.CURRENT.disabledColor.value
+                    ),
+                    onLinkAnnotationClick = viewModel::handleLinkAnnotationClick
+                )
+            }
+
+            if (formData.required || !formData.validationError.isNullOrEmpty()) {
+                val supportText = formData.validationError ?: stringResource(R.string.input_required_label)
+                FormText(
+                    text = supportText,
+                    color = if (formData.invalid) XS2ATheme.CURRENT.errorColor.value else XS2ATheme.CURRENT.textColor.value,
+                    style = MaterialTheme.typography.bodySmall
+                )
+            }
         }
+
     }
 }

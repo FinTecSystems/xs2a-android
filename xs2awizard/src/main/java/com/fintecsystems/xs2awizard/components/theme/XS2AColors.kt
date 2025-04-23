@@ -8,6 +8,7 @@ import com.fintecsystems.xs2awizard.components.theme.interop.XS2AColor
  */
 object XS2AColors {
     val primary = XS2AColor("#427783")
+    val error = XS2AColor("#EA544A")
 
     val textColor = XS2AColor("#262626")
     val textColorLight = XS2AColor(Color.White)
