@@ -32,9 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -65,9 +63,7 @@ fun TextLine(formData: TextLineData, viewModel: XS2AWizardViewModel) {
     // We need an reactive value, because formData.value is not reactive.
     var textFieldValue by remember {
         mutableStateOf(
-            TextFieldValue(
-                formData.value?.jsonPrimitive?.content ?: ""
-            )
+            formData.value?.jsonPrimitive?.content ?: ""
         )
     }
 
@@ -89,7 +85,7 @@ fun TextLine(formData: TextLineData, viewModel: XS2AWizardViewModel) {
     fun performAutoComplete() {
         currentAutoCompleteJob?.cancel()
 
-        if (textFieldValue.text.isEmpty()) {
+        if (textFieldValue.isEmpty()) {
             showAutoCompleteDropdown = false
             autoCompleteRequestFinished = true
 
@@ -117,10 +113,10 @@ fun TextLine(formData: TextLineData, viewModel: XS2AWizardViewModel) {
      *
      * @param newValue
      */
-    fun onValueChange(newValue: TextFieldValue) {
+    fun onValueChange(newValue: String) {
         textFieldValue = newValue
         // Update formData.value as well
-        formData.value = JsonPrimitive(newValue.text)
+        formData.value = JsonPrimitive(newValue)
 
         if (formData.autoCompleteAction != null) {
             performAutoComplete()
@@ -158,20 +154,17 @@ fun TextLine(formData: TextLineData, viewModel: XS2AWizardViewModel) {
                     inputField = {
                         // FIXME: Add Validation logic
                         SearchBarInputField(
-                            query = textFieldValue.text,
-                            onQueryChange = { onValueChange(TextFieldValue(it)) },
-                            onSearch = { onValueChange(TextFieldValue(it)) },
+                            query = textFieldValue,
+                            onQueryChange = { onValueChange(it) },
+                            onSearch = { onValueChange(it) },
                             expanded = showAutoCompleteDropdown,
                             onExpandedChange = {
-                                showAutoCompleteDropdown = textFieldValue.text.isNotEmpty() && it
+                                showAutoCompleteDropdown = textFieldValue.isNotEmpty() && it
                             },
-                            placeholder = {
-                                if (formData.placeholder != null)
-                                    FormText(
-                                        text = formData.placeholder,
-                                        color = XS2ATheme.CURRENT.textColor.value,
-                                    )
-                            },
+                            placeholder = formData.placeholder,
+                            isError = formData.invalid,
+                            required = formData.required,
+                            errorMessage = formData.validationError,
                             colors = TextFieldDefaults.colors(
                                 focusedTextColor = XS2ATheme.CURRENT.inputTextColor.value,
                                 unfocusedTextColor = XS2ATheme.CURRENT.inputTextColor.value,
@@ -191,8 +184,7 @@ fun TextLine(formData: TextLineData, viewModel: XS2AWizardViewModel) {
                         AutoCompleteDropdownContent(
                             autoCompleteData = autoCompleteResponse?.autoCompleteData,
                             onItemClick = {
-                                textFieldValue =
-                                    TextFieldValue(it, TextRange(it.length))
+                                textFieldValue = it
                                 formData.value = JsonPrimitive(it)
                                 showAutoCompleteDropdown = false
                             }

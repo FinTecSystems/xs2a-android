@@ -14,7 +14,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.SelectLineData
@@ -36,22 +35,19 @@ import kotlinx.serialization.json.jsonPrimitive
 @Composable
 fun SelectLine(formData: SelectLineData) {
     // We need an reactive value, because formData.value is not reactive.
-    var textFieldValue by remember { mutableStateOf(TextFieldValue("")) }
+    var textFieldValue by remember { mutableStateOf("") }
 
     fun setValue(index: Int) {
         when (formData.options) {
             is JsonArray -> {
-                textFieldValue =
-                    TextFieldValue(formData.options.jsonArray[index].jsonPrimitive.content)
+                textFieldValue = formData.options.jsonArray[index].jsonPrimitive.content
 
                 // The backend expects strings
                 formData.value = JsonPrimitive(index.toString())
             }
 
             is JsonObject -> {
-                textFieldValue = TextFieldValue(
-                    formData.options.values.elementAt(index).jsonPrimitive.content
-                )
+                textFieldValue = formData.options.values.elementAt(index).jsonPrimitive.content
                 formData.value = JsonPrimitive(formData.options.keys.elementAt(index))
             }
 

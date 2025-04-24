@@ -28,7 +28,6 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.fintecsystems.xs2awizard.R
 import com.fintecsystems.xs2awizard.components.theme.XS2AColors
@@ -70,9 +69,7 @@ fun FlickerLine(formData: FlickerLineData) {
 
     var textFieldValue by remember {
         mutableStateOf(
-            TextFieldValue(
-                formData.value?.jsonPrimitive?.content ?: ""
-            )
+            formData.value?.jsonPrimitive?.content ?: ""
         )
     }
 
@@ -93,9 +90,9 @@ fun FlickerLine(formData: FlickerLineData) {
         }
     }
 
-    fun onValueChange(newValue: TextFieldValue) {
+    fun onValueChange(newValue: String) {
         textFieldValue = newValue
-        formData.value = JsonPrimitive(newValue.text)
+        formData.value = JsonPrimitive(newValue)
     }
 
     Column(

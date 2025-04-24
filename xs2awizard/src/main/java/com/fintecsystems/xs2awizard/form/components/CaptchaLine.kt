@@ -8,7 +8,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.input.TextFieldValue
 import com.fintecsystems.xs2awizard.form.CaptchaLineData
 import com.fintecsystems.xs2awizard.form.components.shared.FormTextField
 import com.fintecsystems.xs2awizard.helper.Utils
@@ -26,15 +25,13 @@ fun CaptchaLine(formData: CaptchaLineData) {
 
     var textFieldValue by remember {
         mutableStateOf(
-            TextFieldValue(
-                formData.value?.jsonPrimitive?.content ?: ""
-            )
+            formData.value?.jsonPrimitive?.content ?: ""
         )
     }
 
-    fun onValueChange(newValue: TextFieldValue) {
+    fun onValueChange(newValue: String) {
         textFieldValue = newValue
-        formData.value = JsonPrimitive(newValue.text)
+        formData.value = JsonPrimitive(newValue)
     }
 
     LabelledContainer(

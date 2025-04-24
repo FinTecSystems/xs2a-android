@@ -1,5 +1,6 @@
 package com.fintecsystems.xs2awizard.form.components.shared
 
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -19,7 +20,6 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import com.fintecsystems.xs2awizard.R
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
@@ -33,8 +33,8 @@ import com.fintecsystems.xs2awizard.components.theme.styles.TextFieldType
 @Composable
 fun FormTextField(
     modifier: Modifier = Modifier,
-    value: TextFieldValue,
-    onValueChange: (TextFieldValue) -> Unit,
+    value: String,
+    onValueChange: (String) -> Unit,
     placeholder: String? = null,
     label: String? = null,
     errorMessage: String? = null,
@@ -48,6 +48,7 @@ fun FormTextField(
     onFocusChanged: (FocusState) -> Unit = {},
     onGloballyPositioned: (LayoutCoordinates) -> Unit = {},
     trailingIcon: @Composable () -> Unit = {},
+    interactionSource: MutableInteractionSource? = null,
 ) {
     val focusManager = LocalFocusManager.current
 
@@ -113,6 +114,7 @@ fun FormTextField(
         ),
         trailingIcon = trailingIcon,
         singleLine = singleLine,
+        interactionSource = interactionSource
     )
 }
 
@@ -120,8 +122,8 @@ fun FormTextField(
 private fun RelevantTextField(
     textFieldType: TextFieldType,
     modifier: Modifier,
-    value: TextFieldValue,
-    onValueChange: (TextFieldValue) -> Unit,
+    value: String,
+    onValueChange: (String) -> Unit,
     placeholder: (@Composable () -> Unit)? = null,
     label: (@Composable () -> Unit)? = null,
     supportingText: (@Composable () -> Unit)? = null,
@@ -134,7 +136,8 @@ private fun RelevantTextField(
     colors: TextFieldColors,
     shape: Shape,
     keyboardOptions: KeyboardOptions,
-    keyboardActions: KeyboardActions
+    keyboardActions: KeyboardActions,
+    interactionSource: MutableInteractionSource? = null,
 ) = when (textFieldType) {
     TextFieldType.OUTLINED -> OutlinedTextField(
         value = value,
@@ -153,6 +156,7 @@ private fun RelevantTextField(
         keyboardActions = keyboardActions,
         trailingIcon = trailingIcon,
         singleLine = singleLine,
+        interactionSource = interactionSource
     )
 
     TextFieldType.NORMAL -> TextField(
@@ -172,5 +176,6 @@ private fun RelevantTextField(
         keyboardActions = keyboardActions,
         trailingIcon = trailingIcon,
         singleLine = singleLine,
+        interactionSource = interactionSource
     )
 }

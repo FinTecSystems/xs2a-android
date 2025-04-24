@@ -3,18 +3,12 @@ package com.fintecsystems.xs2awizard.form.components.textLine
 import androidx.compose.foundation.interaction.Interaction
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.sizeIn
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.SearchBarDefaults.inputFieldColors
 import androidx.compose.material3.TextFieldColors
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -23,7 +17,6 @@ import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
@@ -33,12 +26,10 @@ import androidx.compose.ui.semantics.liveRegion
 import androidx.compose.ui.semantics.onClick
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.fintecsystems.xs2awizard.R
+import com.fintecsystems.xs2awizard.form.components.shared.FormTextField
 import kotlinx.coroutines.delay
 
 private val SearchBarMinWidth: Dp = 360.dp
@@ -82,11 +73,14 @@ fun SearchBarInputField(
     onExpandedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    placeholder: @Composable (() -> Unit)? = null,
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
     colors: TextFieldColors = inputFieldColors(),
     interactionSource: MutableInteractionSource? = null,
+    placeholder: String? = null,
+    isError: Boolean = false,
+    required: Boolean = false,
+    errorMessage: String? = null
 ) {
     @Suppress("NAME_SHADOWING")
     val interactionSource = interactionSource ?: remember { MutableInteractionSource() }
@@ -107,9 +101,13 @@ fun SearchBarInputField(
             }
         }
 
-    BasicTextField(
+    FormTextField(
         value = query,
         onValueChange = onQueryChange,
+        placeholder = placeholder,
+        isError = isError,
+        required = required,
+        errorMessage = errorMessage,
         modifier =
             modifier
                 .sizeIn(
@@ -131,35 +129,11 @@ fun SearchBarInputField(
                 },
         enabled = enabled,
         singleLine = true,
-        textStyle = LocalTextStyle.current.merge(TextStyle(color = textColor)),
-        cursorBrush = SolidColor(colors.cursorColor),
-        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-        keyboardActions = KeyboardActions(onSearch = { onSearch(query) }),
+        //textStyle = LocalTextStyle.current.merge(TextStyle(color = textColor)),
+        //cursorBrush = SolidColor(colors.cursorColor),
+        //keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+        //keyboardActions = KeyboardActions(onSearch = { onSearch(query) }),
         interactionSource = interactionSource,
-        decorationBox =
-            @Composable { innerTextField ->
-                TextFieldDefaults.DecorationBox(
-                    value = query,
-                    innerTextField = innerTextField,
-                    enabled = enabled,
-                    singleLine = true,
-                    visualTransformation = VisualTransformation.None,
-                    interactionSource = interactionSource,
-                    placeholder = placeholder,
-                    leadingIcon =
-                        leadingIcon?.let { leading ->
-                            { Box(Modifier.offset(x = SearchBarIconOffsetX)) { leading() } }
-                        },
-                    trailingIcon =
-                        trailingIcon?.let { trailing ->
-                            { Box(Modifier.offset(x = -SearchBarIconOffsetX)) { trailing() } }
-                        },
-                    shape = SearchBarDefaults.inputFieldShape,
-                    colors = colors,
-                    contentPadding = TextFieldDefaults.contentPaddingWithoutLabel(),
-                    container = {},
-                )
-            }
     )
 
     val shouldClearFocus = !expanded && focused
