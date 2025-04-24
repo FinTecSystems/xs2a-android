@@ -8,6 +8,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -156,7 +157,8 @@ fun URLBarWebView(viewModel: XS2AWizardViewModel) {
         AndroidView(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(XS2ATheme.CURRENT.webViewBackgroundColor.value),
+                .background(XS2ATheme.CURRENT.webViewBackgroundColor.value)
+                .focusable(),
             factory = {
                 WebView(it).apply {
                     webView = this
