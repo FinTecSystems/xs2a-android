@@ -37,6 +37,11 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.LiveRegionMode
+import androidx.compose.ui.semantics.isTraversalGroup
+import androidx.compose.ui.semantics.liveRegion
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.traversalIndex
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -97,6 +102,9 @@ fun URLBarWebView(viewModel: XS2AWizardViewModel) {
                 .height(48.dp)
                 .zIndex(1f)
                 .background(XS2ATheme.CURRENT.webViewBackgroundColor.value)
+                .semantics {
+                    isTraversalGroup = true
+                }
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -143,14 +151,19 @@ fun URLBarWebView(viewModel: XS2AWizardViewModel) {
                 )
             }
 
-            LinearProgressIndicator(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(2.dp),
-                progress = { loadingIndicatorProgress / 100f },
-                color = XS2ATheme.CURRENT.tintColor.value,
-                trackColor = XS2ATheme.CURRENT.webViewBorderColor.value
-            )
+            if (loadingIndicatorProgress != 100) {
+                LinearProgressIndicator(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(2.dp)
+                        .semantics {
+                            liveRegion = LiveRegionMode.Polite
+                        },
+                    progress = { loadingIndicatorProgress / 100f },
+                    color = XS2ATheme.CURRENT.tintColor.value,
+                    trackColor = XS2ATheme.CURRENT.webViewBorderColor.value
+                )
+            }
         }
 
         // WebView
@@ -158,7 +171,10 @@ fun URLBarWebView(viewModel: XS2AWizardViewModel) {
             modifier = Modifier
                 .fillMaxWidth()
                 .background(XS2ATheme.CURRENT.webViewBackgroundColor.value)
-                .focusable(),
+                .focusable()
+                .semantics {
+                    traversalIndex = -1f
+                },
             factory = {
                 WebView(it).apply {
                     webView = this
