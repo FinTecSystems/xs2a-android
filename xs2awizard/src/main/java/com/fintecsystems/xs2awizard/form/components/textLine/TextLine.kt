@@ -157,7 +157,7 @@ fun TextLine(formData: TextLineData, viewModel: XS2AWizardViewModel) {
                     ),
                     inputField = {
                         // FIXME: Add Validation logic
-                        SearchBarDefaults.InputField(
+                        SearchBarInputField(
                             query = textFieldValue.text,
                             onQueryChange = { onValueChange(TextFieldValue(it)) },
                             onSearch = { onValueChange(TextFieldValue(it)) },

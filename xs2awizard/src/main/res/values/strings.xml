@@ -49,4 +49,6 @@
     <string name="paragraph_severity_warning">Warning</string>
     <string name="paragraph_severity_error">Error</string>
     <string name="input_required_label">*required</string>
+    <string name="search_bar_search">Search</string>
+    <string name="search_bar_suggestions_available">Sugg</string>
 </resources>

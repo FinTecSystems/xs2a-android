@@ -30,4 +30,6 @@
     <string name="paragraph_severity_warning">Warnung</string>
     <string name="paragraph_severity_error">Fehler</string>
     <string name="input_required_label">*erforderlich</string>
+    <string name="search_bar_search">Suche</string>
+    <string name="search_bar_suggestions_available">Vorschläge unten</string>
 </resources>

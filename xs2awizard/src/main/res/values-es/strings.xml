@@ -30,4 +30,6 @@
     <string name="paragraph_severity_warning">Advertencia</string>
     <string name="paragraph_severity_error">Error</string>
     <string name="input_required_label">*requerido</string>
+    <string name="search_bar_search">Buscar</string>
+    <string name="search_bar_suggestions_available">Sugerencias a continuación</string>
 </resources>
