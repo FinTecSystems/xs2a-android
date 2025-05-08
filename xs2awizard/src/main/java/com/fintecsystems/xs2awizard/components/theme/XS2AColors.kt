@@ -21,7 +21,7 @@ object XS2AColors {
     val backgroundWarning = XS2AColor("#FEAE22")
     val backgroundInfo = XS2AColor("#0E9EC2")
     val backgroundError = XS2AColor("#EA544A")
-    val backgroundInput = XS2AColor("#14000000")
+    val backgroundInput = XS2AColor("#EBEBEB")
     val backgroundInputDark = XS2AColor("#14FFFFFF")
     val surfaceColor = XS2AColor(Color.White)
 
