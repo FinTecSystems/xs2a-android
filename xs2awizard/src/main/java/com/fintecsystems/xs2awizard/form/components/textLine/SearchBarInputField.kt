@@ -22,7 +22,6 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.liveRegion
 import androidx.compose.ui.semantics.onClick
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.fintecsystems.xs2awizard.R
@@ -73,7 +72,8 @@ fun SearchBarInputField(
     placeholder: String? = null,
     isError: Boolean = false,
     required: Boolean = false,
-    errorMessage: String? = null
+    errorMessage: String? = null,
+    label: String? = null,
 ) {
     @Suppress("NAME_SHADOWING")
     val interactionSource = interactionSource ?: remember { MutableInteractionSource() }
@@ -92,6 +92,7 @@ fun SearchBarInputField(
         isError = isError,
         required = required,
         errorMessage = errorMessage,
+        label = label,
         modifier =
             modifier
                 .sizeIn(

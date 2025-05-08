@@ -1,6 +1,9 @@
 package com.fintecsystems.xs2awizard.form.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -8,6 +11,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.fintecsystems.xs2awizard.form.CaptchaLineData
 import com.fintecsystems.xs2awizard.form.components.shared.FormTextField
 import com.fintecsystems.xs2awizard.helper.Utils
@@ -34,9 +38,10 @@ fun CaptchaLine(formData: CaptchaLineData) {
         formData.value = JsonPrimitive(newValue)
     }
 
-    LabelledContainer(
-        label = formData.label,
-        required = formData.required
+    Column(
+        modifier = Modifier
+            .fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(5.dp)
     ) {
         Image(
             bitmap = imageBitmap,
@@ -51,7 +56,8 @@ fun CaptchaLine(formData: CaptchaLineData) {
             placeholder = formData.placeholder,
             isError = formData.invalid,
             required = formData.required,
-            errorMessage = formData.validationError
+            errorMessage = formData.validationError,
+            label = formData.label
         )
     }
 }

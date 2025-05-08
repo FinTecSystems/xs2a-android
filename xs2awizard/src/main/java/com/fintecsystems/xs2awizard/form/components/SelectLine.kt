@@ -73,58 +73,54 @@ fun SelectLine(formData: SelectLineData) {
         mutableStateOf(false)
     }
 
-    LabelledContainer(
-        label = formData.label,
-        required = formData.required
+    ExposedDropdownMenuBox(
+        expanded = selectIsExpanded,
+        onExpandedChange = { selectIsExpanded = it },
     ) {
-        ExposedDropdownMenuBox(
+        FormTextField(
+            modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable),
+            readOnly = true,
+            value = textFieldValue,
+            onValueChange = { },
+            singleLine = true,
+            // Replace tint = XS2ATheme.CURRENT.textColor.value with LocalContentColor
+            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = selectIsExpanded) },
+            isError = formData.invalid,
+            required = formData.required,
+            errorMessage = formData.validationError,
+            label = formData.label
+        )
+
+        ExposedDropdownMenu(
             expanded = selectIsExpanded,
-            onExpandedChange = { selectIsExpanded = it },
+            onDismissRequest = { selectIsExpanded = false },
+            containerColor = XS2ATheme.CURRENT.surfaceColor.value
         ) {
-            FormTextField(
-                modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable),
-                readOnly = true,
-                value = textFieldValue,
-                onValueChange = { },
-                singleLine = true,
-                // Replace tint = XS2ATheme.CURRENT.textColor.value with LocalContentColor
-                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = selectIsExpanded) },
-                isError = formData.invalid,
-                required = formData.required,
-                errorMessage = formData.validationError
-            )
+            val optionsArray = when (formData.options) {
+                is JsonArray -> formData.options.toList()
+                is JsonObject -> formData.options.values.toList()
+                else -> throw IllegalArgumentException()
+            }
 
-            ExposedDropdownMenu(
-                expanded = selectIsExpanded,
-                onDismissRequest = { selectIsExpanded = false },
-                containerColor = XS2ATheme.CURRENT.surfaceColor.value
-            ) {
-                val optionsArray = when (formData.options) {
-                    is JsonArray -> formData.options.toList()
-                    is JsonObject -> formData.options.values.toList()
-                    else -> throw IllegalArgumentException()
-                }
-
-                optionsArray.forEachIndexed { index, option ->
-                    DropdownMenuItem(
-                        text = {
-                            Column(
-                                modifier = Modifier.padding(2.dp, 4.dp)
-                            ) {
-                                FormText(
-                                    text = option.jsonPrimitive.content,
-                                    style = MaterialTheme.typography.titleMedium,
-                                    maxLines = 1,
-                                )
-                            }
-                        },
-                        onClick = {
-                            setValue(index)
-                            selectIsExpanded = false
-                        },
-                        contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
-                    )
-                }
+            optionsArray.forEachIndexed { index, option ->
+                DropdownMenuItem(
+                    text = {
+                        Column(
+                            modifier = Modifier.padding(2.dp, 4.dp)
+                        ) {
+                            FormText(
+                                text = option.jsonPrimitive.content,
+                                style = MaterialTheme.typography.titleMedium,
+                                maxLines = 1,
+                            )
+                        }
+                    },
+                    onClick = {
+                        setValue(index)
+                        selectIsExpanded = false
+                    },
+                    contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
+                )
             }
         }
     }

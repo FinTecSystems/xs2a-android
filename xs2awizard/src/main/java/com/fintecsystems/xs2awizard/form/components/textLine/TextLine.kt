@@ -40,7 +40,6 @@ import com.fintecsystems.xs2awizard.components.XS2AWizardViewModel
 import com.fintecsystems.xs2awizard.components.loadingIndicator.LoadingIndicator
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.TextLineData
-import com.fintecsystems.xs2awizard.form.components.LabelledContainer
 import com.fintecsystems.xs2awizard.form.components.shared.FormText
 import com.fintecsystems.xs2awizard.form.components.shared.FormTextField
 import com.fintecsystems.xs2awizard.helper.JSONFormatter
@@ -122,76 +121,71 @@ fun TextLine(formData: TextLineData, viewModel: XS2AWizardViewModel) {
         }
     }
 
-    Column {
-        LabelledContainer(
-            label = formData.label,
-            required = formData.required
-        ) {
-            if (formData.autoCompleteAction == null) {
-                FormTextField(
-                    value = textFieldValue,
-                    onValueChange = ::onValueChange,
+    if (formData.autoCompleteAction == null) {
+        FormTextField(
+            value = textFieldValue,
+            onValueChange = ::onValueChange,
+            placeholder = formData.placeholder,
+            isError = formData.invalid,
+            required = formData.required,
+            errorMessage = formData.validationError,
+            label = formData.label
+        )
+    } else {
+        DockedSearchBar(
+            modifier = Modifier
+                .fillMaxWidth()
+                .heightIn(
+                    max = if (
+                        !autoCompleteRequestFinished
+                        || autoCompleteResponse?.autoCompleteData?.data.isNullOrEmpty()
+                    ) 200.dp
+                    else Dp.Unspecified
+                ),
+            colors = SearchBarDefaults.colors(
+                containerColor = XS2ATheme.CURRENT.inputBackgroundColor.value
+            ),
+            inputField = {
+                SearchBarInputField(
+                    query = textFieldValue,
+                    onQueryChange = { onValueChange(it) },
+                    onSearch = { onValueChange(it) },
+                    expanded = showAutoCompleteDropdown,
                     placeholder = formData.placeholder,
                     isError = formData.invalid,
                     required = formData.required,
-                    errorMessage = formData.validationError
+                    errorMessage = formData.validationError,
+                    label = formData.label,
+                    colors = TextFieldDefaults.colors(
+                        focusedTextColor = XS2ATheme.CURRENT.inputTextColor.value,
+                        unfocusedTextColor = XS2ATheme.CURRENT.inputTextColor.value,
+                        focusedContainerColor = XS2ATheme.CURRENT.inputBackgroundColor.value,
+                        unfocusedContainerColor = XS2ATheme.CURRENT.inputBackgroundColor.value,
+                        focusedIndicatorColor = XS2ATheme.CURRENT.tintColor.value,
+                        unfocusedIndicatorColor = XS2ATheme.CURRENT.tintColor.value,
+                        cursorColor = XS2ATheme.CURRENT.tintColor.value,
+                    )
+                )
+            },
+            shape = XS2ATheme.CURRENT.inputShape.value,
+            expanded = showAutoCompleteDropdown,
+            onExpandedChange = { showAutoCompleteDropdown = it }
+        ) {
+            if (autoCompleteRequestFinished) {
+                AutoCompleteDropdownContent(
+                    autoCompleteData = autoCompleteResponse?.autoCompleteData,
+                    onItemClick = {
+                        textFieldValue = it
+                        formData.value = JsonPrimitive(it)
+                        showAutoCompleteDropdown = false
+                    }
                 )
             } else {
-                DockedSearchBar(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .heightIn(
-                            max = if (
-                                !autoCompleteRequestFinished
-                                || autoCompleteResponse?.autoCompleteData?.data.isNullOrEmpty()
-                            ) 200.dp
-                            else Dp.Unspecified
-                        ),
-                    colors = SearchBarDefaults.colors(
-                        containerColor = XS2ATheme.CURRENT.inputBackgroundColor.value
-                    ),
-                    inputField = {
-                        SearchBarInputField(
-                            query = textFieldValue,
-                            onQueryChange = { onValueChange(it) },
-                            onSearch = { onValueChange(it) },
-                            expanded = showAutoCompleteDropdown,
-                            placeholder = formData.placeholder,
-                            isError = formData.invalid,
-                            required = formData.required,
-                            errorMessage = formData.validationError,
-                            colors = TextFieldDefaults.colors(
-                                focusedTextColor = XS2ATheme.CURRENT.inputTextColor.value,
-                                unfocusedTextColor = XS2ATheme.CURRENT.inputTextColor.value,
-                                focusedContainerColor = XS2ATheme.CURRENT.inputBackgroundColor.value,
-                                unfocusedContainerColor = XS2ATheme.CURRENT.inputBackgroundColor.value,
-                                focusedIndicatorColor = XS2ATheme.CURRENT.tintColor.value,
-                                unfocusedIndicatorColor = XS2ATheme.CURRENT.tintColor.value,
-                                cursorColor = XS2ATheme.CURRENT.tintColor.value,
-                            )
-                        )
-                    },
-                    shape = XS2ATheme.CURRENT.inputShape.value,
-                    expanded = showAutoCompleteDropdown,
-                    onExpandedChange = { showAutoCompleteDropdown = it }
-                ) {
-                    if (autoCompleteRequestFinished) {
-                        AutoCompleteDropdownContent(
-                            autoCompleteData = autoCompleteResponse?.autoCompleteData,
-                            onItemClick = {
-                                textFieldValue = it
-                                formData.value = JsonPrimitive(it)
-                                showAutoCompleteDropdown = false
-                            }
-                        )
-                    } else {
-                        LoadingIndicator(
-                            Modifier
-                                .fillMaxSize()
-                                .padding(0.dp, 5.dp)
-                        )
-                    }
-                }
+                LoadingIndicator(
+                    Modifier
+                        .fillMaxSize()
+                        .padding(0.dp, 5.dp)
+                )
             }
         }
     }

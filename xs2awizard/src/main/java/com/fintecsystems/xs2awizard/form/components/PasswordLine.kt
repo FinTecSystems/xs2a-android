@@ -36,20 +36,16 @@ fun PasswordLine(formData: PasswordLineData) {
         formData.value = JsonPrimitive(newValue)
     }
 
-    LabelledContainer(
-        label = formData.label,
-        required = formData.required
-    ) {
-        // TODO: Migrated to SecureTextField/OutlinedSecureTextField
-        FormTextField(
-            value = textFieldValue,
-            onValueChange = ::onValueChange,
-            placeholder = formData.placeholder,
-            visualTransformation = PasswordVisualTransformation(),
-            keyboardType = KeyboardType.Password,
-            isError = formData.invalid,
-            required = formData.required,
-            errorMessage = formData.validationError
-        )
-    }
+    // TODO: Migrated to SecureTextField/OutlinedSecureTextField
+    FormTextField(
+        value = textFieldValue,
+        onValueChange = ::onValueChange,
+        placeholder = formData.placeholder,
+        visualTransformation = PasswordVisualTransformation(),
+        keyboardType = KeyboardType.Password,
+        isError = formData.invalid,
+        required = formData.required,
+        errorMessage = formData.validationError,
+        label = formData.label
+    )
 }
