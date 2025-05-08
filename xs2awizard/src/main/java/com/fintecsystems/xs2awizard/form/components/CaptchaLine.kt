@@ -3,6 +3,7 @@ package com.fintecsystems.xs2awizard.form.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -47,6 +48,8 @@ fun CaptchaLine(formData: CaptchaLineData) {
             bitmap = imageBitmap,
             contentDescription = formData.description,
             modifier = Modifier
+                .fillMaxWidth()
+                .defaultMinSize(minHeight = 200.dp, minWidth = 200.dp)
                 .align(Alignment.CenterHorizontally)
         )
 
