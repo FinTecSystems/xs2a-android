@@ -100,10 +100,11 @@ fun SearchBarInputField(
                 )
                 .focusRequester(focusRequester)
                 .semantics {
-                    liveRegion = LiveRegionMode.Polite
-                    contentDescription = searchSemantics
-                    if (expanded) {
-                        stateDescription = suggestionsAvailableSemantics
+                    liveRegion = LiveRegionMode.Assertive
+                    contentDescription = if (expanded) {
+                        "$searchSemantics. $suggestionsAvailableSemantics"
+                    } else {
+                        searchSemantics
                     }
                     onClick {
                         focusRequester.requestFocus()
