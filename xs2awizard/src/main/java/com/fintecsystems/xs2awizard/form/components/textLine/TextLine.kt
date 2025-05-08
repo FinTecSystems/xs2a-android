@@ -152,15 +152,11 @@ fun TextLine(formData: TextLineData, viewModel: XS2AWizardViewModel) {
                         containerColor = XS2ATheme.CURRENT.inputBackgroundColor.value
                     ),
                     inputField = {
-                        // FIXME: Add Validation logic
                         SearchBarInputField(
                             query = textFieldValue,
                             onQueryChange = { onValueChange(it) },
                             onSearch = { onValueChange(it) },
                             expanded = showAutoCompleteDropdown,
-                            onExpandedChange = {
-                                showAutoCompleteDropdown = textFieldValue.isNotEmpty() && it
-                            },
                             placeholder = formData.placeholder,
                             isError = formData.invalid,
                             required = formData.required,

@@ -5,7 +5,6 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.SearchBarDefaults.inputFieldColors
 import androidx.compose.material3.TextFieldColors
@@ -16,8 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.LiveRegionMode
@@ -34,8 +31,7 @@ import kotlinx.coroutines.delay
 
 private val SearchBarMinWidth: Dp = 360.dp
 private val SearchBarMaxWidth: Dp = 720.dp
-private val SearchBarIconOffsetX: Dp = 4.dp
-private const val AnimationDelayMillis: Int = 100
+private const val AnimationDelayMillis: Long = 100L
 
 /**
  * A text field to input a query in a search bar.
@@ -47,8 +43,6 @@ private const val AnimationDelayMillis: Int = 100
  * @param onSearch the callback to be invoked when the input service triggers the
  *   [ImeAction.Search] action. The current [query] comes as a parameter of the callback.
  * @param expanded whether the search bar is expanded and showing search results.
- * @param onExpandedChange the callback to be invoked when the search bar's expanded state is
- *   changed.
  * @param modifier the [Modifier] to be applied to this input field.
  * @param enabled the enabled state of this input field. When `false`, this component will not
  *   respond to user input, and it will appear visually disabled and disabled to accessibility
@@ -70,7 +64,6 @@ fun SearchBarInputField(
     onQueryChange: (String) -> Unit,
     onSearch: (String) -> Unit,
     expanded: Boolean,
-    onExpandedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     leadingIcon: @Composable (() -> Unit)? = null,
@@ -92,15 +85,6 @@ fun SearchBarInputField(
     val searchSemantics = stringResource(R.string.search_bar_search)
     val suggestionsAvailableSemantics = stringResource(R.string.search_bar_suggestions_available)
 
-    val textColor =
-        LocalTextStyle.current.color.takeOrElse {
-            when {
-                !enabled -> colors.disabledTextColor
-                focused -> colors.focusedTextColor
-                else -> colors.unfocusedTextColor
-            }
-        }
-
     FormTextField(
         value = query,
         onValueChange = onQueryChange,
@@ -115,7 +99,6 @@ fun SearchBarInputField(
                     maxWidth = SearchBarMaxWidth,
                 )
                 .focusRequester(focusRequester)
-                .onFocusChanged { if (it.isFocused) onExpandedChange(true) }
                 .semantics {
                     liveRegion = LiveRegionMode.Polite
                     contentDescription = searchSemantics
@@ -139,9 +122,13 @@ fun SearchBarInputField(
     val shouldClearFocus = !expanded && focused
     LaunchedEffect(expanded) {
         if (shouldClearFocus) {
-            // Not strictly needed according to the motion spec, but since the animation
-            // already has a delay, this works around b/261632544.
-            delay(AnimationDelayMillis.toLong())
+            // Start hack: If we don't do this, the beginning of the entire form will be focused instead of the next element.
+            delay(AnimationDelayMillis)
+            focusManager.clearFocus()
+            delay(AnimationDelayMillis)
+            focusRequester.requestFocus()
+            // End hack.
+            delay(AnimationDelayMillis)
             if (!focusManager.moveFocus(FocusDirection.Down)) {
                 focusManager.clearFocus()
             }
