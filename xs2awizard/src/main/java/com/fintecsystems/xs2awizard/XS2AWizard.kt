@@ -127,13 +127,13 @@ fun XS2AWizard(
 
     LaunchedEffect(viewModelLoadingIndicatorLock) {
         if (!viewModelLoadingIndicatorLock) {
-            // Keep loading indicator visible for 150ms longer.
+            // Keep loading indicator visible for 250ms longer.
             // This hack is needed, for TalkBack to be able to focus on the loading indicator.
             // Otherwise the focus might stay on the submit button after submitting and not move to
             // the top component.
             // TODO: Remove this entire hack, if we find a way to tell TalkBack to always focus
             //       the top element after submitting.
-            delay(150)
+            delay(250)
         }
 
         loadingIndicatorLock = viewModelLoadingIndicatorLock
