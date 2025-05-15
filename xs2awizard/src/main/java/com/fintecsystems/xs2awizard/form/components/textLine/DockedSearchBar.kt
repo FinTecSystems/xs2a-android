@@ -4,6 +4,7 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.FiniteAnimationSpec
 import androidx.compose.animation.core.tween
@@ -24,6 +25,7 @@ import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
@@ -33,7 +35,6 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 
-private val DockedExpandedTableMinHeight: Dp = 240.dp
 private const val DockedExpandedTableMaxHeightScreenRatio: Float = 2f / 3f
 private val SearchBarMinWidth: Dp = 360.dp
 
@@ -126,9 +127,14 @@ fun DockedSearchBar(
     shadowElevation: Dp = SearchBarDefaults.ShadowElevation,
     content: @Composable ColumnScope.() -> Unit,
 ) {
+    val animatedBackgroundColor by animateColorAsState(
+        // We can't use Color.Transparent, because the animation would start with a black flicker.
+        if (expanded) colors.containerColor else colors.containerColor.copy(alpha = 0f)
+    )
+
     Surface(
         shape = shape,
-        color = colors.containerColor,
+        color = animatedBackgroundColor,
         contentColor = contentColorFor(colors.containerColor),
         tonalElevation = tonalElevation,
         shadowElevation = shadowElevation,
