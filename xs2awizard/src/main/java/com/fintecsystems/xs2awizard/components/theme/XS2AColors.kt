@@ -24,6 +24,8 @@ object XS2AColors {
     val backgroundInput = XS2AColor("#EBEBEB")
     val backgroundInputDark = XS2AColor("#14FFFFFF")
     val surfaceColor = XS2AColor(Color.White)
+    val onSurfaceColor = XS2AColor(Color.Black)
+    val onSurfaceVariantColor = XS2AColor(Color.DarkGray)
 
     val flickerBackground = XS2AColor(Color.Black)
     val flickerForeground = XS2AColor(Color.White)

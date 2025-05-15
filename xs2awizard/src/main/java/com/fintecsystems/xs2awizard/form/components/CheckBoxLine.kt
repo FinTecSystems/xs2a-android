@@ -15,6 +15,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
@@ -72,7 +73,7 @@ fun CheckBoxLine(formData: CheckBoxLineData, viewModel: XS2AWizardViewModel) {
             enabled = enabled,
             colors = CheckboxDefaults.colors(
                 uncheckedColor = if (formData.invalid) MaterialTheme.colorScheme.error
-                else MaterialTheme.colorScheme.onSurfaceVariant,
+                else Color.Unspecified,
             )
         )
 
@@ -96,7 +97,7 @@ fun CheckBoxLine(formData: CheckBoxLineData, viewModel: XS2AWizardViewModel) {
                     formData.validationError ?: stringResource(R.string.input_required_label)
                 FormText(
                     text = supportText,
-                    color = if (formData.invalid) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onBackground,
+                    color = if (formData.invalid) MaterialTheme.colorScheme.error else Color.Unspecified,
                     style = MaterialTheme.typography.bodySmall
                 )
             }

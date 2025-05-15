@@ -44,6 +44,11 @@ fun XS2ATheme(
                 background = theme.backgroundColor.value,
                 onBackground = theme.textColor.value,
                 error = theme.errorColor.value,
+                surface = theme.surfaceColor.value,
+                onSurface = theme.onSurfaceColor.value,
+                onSurfaceVariant = theme.onSurfaceVariantColor.value,
+                surfaceContainerHighest = theme.inputBackgroundColor.value,
+                surfaceContainerHigh = theme.inputBackgroundColor.value,
             ),
         ) {
             ProvideTextStyle(
@@ -62,6 +67,8 @@ class XS2ATheme(
     val onTintColor: XS2AColor = XS2AColors.textColorLight,
     val backgroundColor: XS2AColor = XS2AColors.backgroundLight,
     val surfaceColor: XS2AColor = XS2AColors.surfaceColor,
+    val onSurfaceColor: XS2AColor = XS2AColors.onSurfaceColor,
+    val onSurfaceVariantColor: XS2AColor = XS2AColors.onSurfaceVariantColor,
     val textColor: XS2AColor = XS2AColors.textColor,
     val placeholderColor: XS2AColor = XS2AColors.darkGrey,
     val logoVariation: LogoVariation = LogoVariation.STANDARD,

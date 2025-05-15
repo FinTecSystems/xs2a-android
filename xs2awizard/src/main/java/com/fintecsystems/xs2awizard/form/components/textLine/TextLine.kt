@@ -198,6 +198,7 @@ private fun AutoCompleteDropdownContent(
                                 modifier = Modifier.basicMarquee(iterations = Int.MAX_VALUE),
                                 text = "${bankObject.name} (${bankObject.city})",
                                 maxLines = 1,
+                                color = MaterialTheme.colorScheme.onSurface,
                                 style = MaterialTheme.typography.titleMedium.copy(
                                     fontWeight = FontWeight.Bold
                                 )
@@ -208,6 +209,7 @@ private fun AutoCompleteDropdownContent(
                                 modifier = Modifier.basicMarquee(iterations = Int.MAX_VALUE),
                                 text = "${bankObject.bankCode} [${bankObject.bic}]",
                                 maxLines = 1,
+                                color = MaterialTheme.colorScheme.onSurface,
                                 style = MaterialTheme.typography.titleSmall
                             )
                         })
