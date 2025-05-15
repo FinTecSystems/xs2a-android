@@ -1,5 +1,6 @@
 package com.fintecsystems.xs2awizard.form.components
 
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,6 +17,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.invisibleToUser
@@ -45,12 +48,19 @@ fun LabelledRadioButton(
     label: String,
     enabled: Boolean = true,
 ) {
+    val focusRequester = remember { FocusRequester() }
+
     Row(
         Modifier
             .fillMaxWidth()
+            .focusRequester(focusRequester)
+            .focusable()
             .selectable(
                 selected = selected,
-                onClick = onClick,
+                onClick = {
+                    focusRequester.requestFocus()
+                    onClick()
+                },
                 enabled = enabled,
                 role = Role.RadioButton
             ),

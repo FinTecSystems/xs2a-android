@@ -1,5 +1,6 @@
 package com.fintecsystems.xs2awizard.form.components
 
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,6 +16,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
@@ -56,13 +59,20 @@ fun CheckBoxLine(formData: CheckBoxLineData, viewModel: XS2AWizardViewModel) {
         formData.value = JsonPrimitive(newValue)
     }
 
+    val focusRequester = remember { FocusRequester() }
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .focusRequester(focusRequester)
+            .focusable()
             .toggleable(
                 value = checkBoxValue,
                 enabled = enabled,
-                onValueChange = { onCheckedChange(!checkBoxValue) },
+                onValueChange = {
+                    focusRequester.requestFocus()
+                    onCheckedChange(!checkBoxValue)
+                },
                 role = Role.Checkbox
             ),
         horizontalArrangement = Arrangement.spacedBy(14.dp)
