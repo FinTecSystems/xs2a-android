@@ -73,12 +73,10 @@ class XS2ATheme(
     val onSurfaceColor: XS2AColor = XS2AColors.onSurfaceColor,
     val onSurfaceVariantColor: XS2AColor = XS2AColors.onSurfaceVariantColor,
     val textColor: XS2AColor = XS2AColors.textColor,
-    val placeholderColor: XS2AColor = XS2AColors.darkGrey,
     val logoVariation: LogoVariation = LogoVariation.STANDARD,
     val loadingIndicatorBackgroundColor: XS2AColor = XS2AColors.backgroundTranslucent,
 
     // TextInput
-    val inputTextColor: XS2AColor = XS2AColors.textColor,
     val inputBackgroundColor: XS2AColor = XS2AColors.backgroundInput,
     val inputShape: XS2AShape = XS2AShape(4.dp, XS2AShape.ShapeType.ROUNDED),
     val inputType: TextFieldType = TextFieldType.NORMAL,
@@ -116,16 +114,6 @@ class XS2ATheme(
     val paragraphPadding: PaddingMarginConfiguration = PaddingMarginConfiguration(4.dp, 8.dp),
     val paragraphMargin: PaddingMarginConfiguration = PaddingMarginConfiguration(0.dp),
 
-    // WebView
-    val webViewIconColor: XS2AColor = XS2AColors.textColor,
-    val webViewBackgroundColor: XS2AColor = XS2AColors.surfaceColor,
-    val webViewBorderColor: XS2AColor = XS2AColors.darkGrey,
-    val webViewTextColor: XS2AColor = XS2AColors.textColor,
-
-    // Checkbox/Radio
-    val unselectedColor: XS2AColor = XS2AColors.unselected,
-    val disabledColor: XS2AColor = XS2AColors.disabled,
-
     // Connection status Banner
     val connectionStatusBannerBackgroundColor: XS2AColor = XS2AColors.backgroundWarning,
     val connectionStatusBannerTextColor: XS2AColor = XS2AColors.textColor,
@@ -153,15 +141,7 @@ class XS2ATheme(
             logoVariation = LogoVariation.WHITE,
             loadingIndicatorBackgroundColor = XS2AColors.backgroundTranslucentDark,
 
-            inputTextColor = XS2AColors.textColorLight,
             inputBackgroundColor = XS2AColors.backgroundInputDark,
-
-            webViewIconColor = XS2AColors.textColorLight,
-            webViewBackgroundColor = XS2AColors.backgroundDark,
-            webViewTextColor = XS2AColors.textColorLight,
-
-            unselectedColor = XS2AColors.unselectedDark,
-            disabledColor = XS2AColors.disabledDark,
         )
     }
 }

@@ -30,10 +30,4 @@ object XS2AColors {
     val flickerBackground = XS2AColor(Color.Black)
     val flickerForeground = XS2AColor(Color.White)
     val flickerMarker = XS2AColor("#BFBFBF")
-
-    val unselected = XS2AColor(Color.Gray)
-    val disabled = XS2AColor(Color.LightGray)
-
-    val unselectedDark = XS2AColor(Color.LightGray)
-    val disabledDark = XS2AColor(Color.Gray)
 }
