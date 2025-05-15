@@ -23,9 +23,9 @@ object MarkupParser {
     private val autoSubmitPayloadRegex = Regex("(\\w+)=(\\w+)")
 
     /**
-     * Parses provided text for markups.
+     * Parses parse result of [parseMarkupText].
      *
-     * @param textToParse [String] to parse for markups.
+     * @param parseResult [ParseResult] to parse for markups.
      * @return parsed text as [AnnotatedString].
      */
     @Composable
