@@ -125,6 +125,7 @@ fun URLBarWebView(viewModel: XS2AWizardViewModel) {
                 Text(
                     text = currentUrl?.toUri()?.host ?: currentUrl ?: "",
                     maxLines = 1,
+                    color = MaterialTheme.colorScheme.onSurface,
                     style = MaterialTheme.typography.titleMedium,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.pointerInput(Unit) {

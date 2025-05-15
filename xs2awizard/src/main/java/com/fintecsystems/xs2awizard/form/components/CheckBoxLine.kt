@@ -97,7 +97,8 @@ fun CheckBoxLine(formData: CheckBoxLineData, viewModel: XS2AWizardViewModel) {
                     formData.validationError ?: stringResource(R.string.input_required_label)
                 FormText(
                     text = supportText,
-                    color = if (formData.invalid) MaterialTheme.colorScheme.error else Color.Unspecified,
+                    color = if (formData.invalid) MaterialTheme.colorScheme.error
+                    else MaterialTheme.colorScheme.onSurfaceVariant,
                     style = MaterialTheme.typography.bodySmall
                 )
             }

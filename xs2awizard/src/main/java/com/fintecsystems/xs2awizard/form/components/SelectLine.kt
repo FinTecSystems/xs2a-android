@@ -108,6 +108,7 @@ fun SelectLine(formData: SelectLineData) {
                         ) {
                             FormText(
                                 text = option.jsonPrimitive.content,
+                                color = MaterialTheme.colorScheme.onSurface,
                                 style = MaterialTheme.typography.titleMedium,
                                 maxLines = 1,
                             )

@@ -33,7 +33,9 @@ fun DescriptionLine(formData: DescriptionLineData, viewModel: XS2AWizardViewMode
             FormText(
                 modifier = Modifier.fillMaxWidth(),
                 parseResult = parseResult,
-                style = MaterialTheme.typography.bodyMedium,
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    color = MaterialTheme.colorScheme.onBackground
+                ),
                 onLinkAnnotationClick = {
                     viewModel.handleLinkAnnotationClick(it)
                     localFocusManager.clearFocus()

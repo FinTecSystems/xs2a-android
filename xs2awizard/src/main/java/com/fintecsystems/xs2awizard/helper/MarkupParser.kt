@@ -37,9 +37,13 @@ object MarkupParser {
             parseResult.items.forEach { parseResultItem ->
                 when (parseResultItem) {
                     is ParseResult.Item.Text -> {
-                        withStyle(
-                            parseResultItem.spanStyle ?: SpanStyle()
-                        ) {
+                        if (parseResultItem.spanStyle != null) {
+                            withStyle(
+                                parseResultItem.spanStyle
+                            ) {
+                                append(parseResultItem.text)
+                            }
+                        } else {
                             append(parseResultItem.text)
                         }
                     }

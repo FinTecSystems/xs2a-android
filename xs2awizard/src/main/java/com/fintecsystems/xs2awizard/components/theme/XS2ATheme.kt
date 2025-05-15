@@ -52,7 +52,10 @@ fun XS2ATheme(
             ),
         ) {
             ProvideTextStyle(
-                value = TextStyle(fontFamily = fontFamily),
+                value = TextStyle(
+                    fontFamily = fontFamily,
+                    color = MaterialTheme.colorScheme.onBackground
+                ),
                 content = content
             )
         }
