@@ -32,6 +32,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.fintecsystems.xs2awizard.R
 import com.fintecsystems.xs2awizard.components.theme.XS2AColors
+import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.FlickerLineData
 import com.fintecsystems.xs2awizard.form.components.shared.FormTextField
 import kotlinx.coroutines.delay
@@ -123,6 +124,7 @@ fun FlickerLine(formData: FlickerLineData) {
 
                     Button(
                         colors = buttonColors,
+                        shape = XS2ATheme.CURRENT.buttonShape.value,
                         onClick = {
                             flickerContainerWidth =
                                 max(
@@ -139,6 +141,7 @@ fun FlickerLine(formData: FlickerLineData) {
                     }
                     Button(
                         colors = buttonColors,
+                        shape = XS2ATheme.CURRENT.buttonShape.value,
                         onClick = { flickerContainerWidth += sizeStepSize }
                     ) {
                         Image(
@@ -155,6 +158,7 @@ fun FlickerLine(formData: FlickerLineData) {
                 ) {
                     Button(
                         colors = buttonColors,
+                        shape = XS2ATheme.CURRENT.buttonShape.value,
                         onClick = { fps = max(fps - fpsStepSize, 1) }
                     ) {
                         Image(
@@ -165,6 +169,7 @@ fun FlickerLine(formData: FlickerLineData) {
                     }
                     Button(
                         colors = buttonColors,
+                        shape = XS2ATheme.CURRENT.buttonShape.value,
                         onClick = { fps = min(fps + fpsStepSize, 60) }
                     ) {
                         Image(
