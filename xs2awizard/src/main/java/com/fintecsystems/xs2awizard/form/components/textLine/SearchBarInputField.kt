@@ -6,8 +6,6 @@ import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SearchBarDefaults
-import androidx.compose.material3.SearchBarDefaults.inputFieldColors
-import androidx.compose.material3.TextFieldColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -49,8 +47,6 @@ private const val AnimationDelayMillis: Long = 100L
  * @param placeholder the placeholder to be displayed when the [query] is empty.
  * @param leadingIcon the leading icon to be displayed at the start of the input field.
  * @param trailingIcon the trailing icon to be displayed at the end of the input field.
- * @param colors [TextFieldColors] that will be used to resolve the colors used for this input
- *   field in different states. See [SearchBarDefaults.inputFieldColors].
  * @param interactionSource an optional hoisted [MutableInteractionSource] for observing and
  *   emitting [Interaction]s for this input field. You can use this to change the search bar's
  *   appearance or preview the search bar in different states. Note that if `null` is provided,
@@ -67,7 +63,6 @@ fun SearchBarInputField(
     enabled: Boolean = true,
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
-    colors: TextFieldColors = inputFieldColors(),
     interactionSource: MutableInteractionSource? = null,
     placeholder: String? = null,
     isError: Boolean = false,

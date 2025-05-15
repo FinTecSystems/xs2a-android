@@ -20,7 +20,6 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import com.fintecsystems.xs2awizard.R
 import com.fintecsystems.xs2awizard.components.XS2AWizardViewModel
-import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.CheckBoxLineData
 import com.fintecsystems.xs2awizard.form.components.shared.FormText
 import com.fintecsystems.xs2awizard.helper.MarkupParser
@@ -72,9 +71,8 @@ fun CheckBoxLine(formData: CheckBoxLineData, viewModel: XS2AWizardViewModel) {
             onCheckedChange = null,
             enabled = enabled,
             colors = CheckboxDefaults.colors(
-                checkedColor = XS2ATheme.CURRENT.tintColor.value,
-                uncheckedColor = if (formData.invalid) XS2ATheme.CURRENT.errorColor.value else XS2ATheme.CURRENT.unselectedColor.value,
-                checkmarkColor = XS2ATheme.CURRENT.onTintColor.value
+                uncheckedColor = if (formData.invalid) MaterialTheme.colorScheme.error
+                else MaterialTheme.colorScheme.onSurfaceVariant,
             )
         )
 
@@ -85,17 +83,20 @@ fun CheckBoxLine(formData: CheckBoxLineData, viewModel: XS2AWizardViewModel) {
                 FormText(
                     parseResult = parseResult,
                     style = MaterialTheme.typography.bodyMedium.copy(
-                        color = if (enabled) XS2ATheme.CURRENT.textColor.value else XS2ATheme.CURRENT.disabledColor.value
+                        color = if (enabled) MaterialTheme.colorScheme.onBackground
+                        else MaterialTheme.colorScheme.onSurface
+                            .copy(alpha = 0.38f)
                     ),
                     onLinkAnnotationClick = viewModel::handleLinkAnnotationClick
                 )
             }
 
             if (formData.required || !formData.validationError.isNullOrEmpty()) {
-                val supportText = formData.validationError ?: stringResource(R.string.input_required_label)
+                val supportText =
+                    formData.validationError ?: stringResource(R.string.input_required_label)
                 FormText(
                     text = supportText,
-                    color = if (formData.invalid) XS2ATheme.CURRENT.errorColor.value else XS2ATheme.CURRENT.textColor.value,
+                    color = if (formData.invalid) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onBackground,
                     style = MaterialTheme.typography.bodySmall
                 )
             }

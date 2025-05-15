@@ -17,8 +17,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SearchBarDefaults
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
@@ -142,9 +140,6 @@ fun TextLine(formData: TextLineData, viewModel: XS2AWizardViewModel) {
                     ) 200.dp
                     else Dp.Unspecified
                 ),
-            colors = SearchBarDefaults.colors(
-                containerColor = XS2ATheme.CURRENT.inputBackgroundColor.value
-            ),
             inputField = {
                 SearchBarInputField(
                     query = textFieldValue,
@@ -155,16 +150,7 @@ fun TextLine(formData: TextLineData, viewModel: XS2AWizardViewModel) {
                     isError = formData.invalid,
                     required = formData.required,
                     errorMessage = formData.validationError,
-                    label = formData.label,
-                    colors = TextFieldDefaults.colors(
-                        focusedTextColor = XS2ATheme.CURRENT.inputTextColor.value,
-                        unfocusedTextColor = XS2ATheme.CURRENT.inputTextColor.value,
-                        focusedContainerColor = XS2ATheme.CURRENT.inputBackgroundColor.value,
-                        unfocusedContainerColor = XS2ATheme.CURRENT.inputBackgroundColor.value,
-                        focusedIndicatorColor = XS2ATheme.CURRENT.tintColor.value,
-                        unfocusedIndicatorColor = XS2ATheme.CURRENT.tintColor.value,
-                        cursorColor = XS2ATheme.CURRENT.tintColor.value,
-                    )
+                    label = formData.label
                 )
             },
             shape = XS2ATheme.CURRENT.inputShape.value,
@@ -259,7 +245,7 @@ private fun AutoCompleteDropdownContent(
                         .width(48.dp),
                     painter = painterResource(R.drawable.ic_warning),
                     contentDescription = null,
-                    colorFilter = ColorFilter.tint(XS2ATheme.CURRENT.textColor.value)
+                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
                 )
 
                 FormText(

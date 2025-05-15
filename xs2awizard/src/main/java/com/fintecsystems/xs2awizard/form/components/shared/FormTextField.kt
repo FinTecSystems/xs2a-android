@@ -4,15 +4,15 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldColors
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusState
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.layout.onGloballyPositioned
@@ -64,17 +64,13 @@ fun FormTextField(
         readOnly = readOnly,
         placeholder = if (placeholder != null) {
             @Composable {
-                FormText(
-                    text = placeholder,
-                    color = XS2ATheme.CURRENT.textColor.value,
-                )
+                FormText(text = placeholder)
             }
         } else null,
         label = if (label != null) {
             @Composable {
                 FormText(
                     text = label + if (required) "*" else "",
-                    color = XS2ATheme.CURRENT.textColor.value,
                 )
             }
         } else null,
@@ -82,24 +78,13 @@ fun FormTextField(
             @Composable {
                 FormText(
                     text = errorMessage ?: stringResource(R.string.input_required_label),
-                    color = if (isError) XS2ATheme.CURRENT.errorColor.value
-                    else XS2ATheme.CURRENT.inputTextColor.value,
+                    color = if (isError) MaterialTheme.colorScheme.error
+                    else Color.Unspecified,
                 )
             }
         } else null,
         isError = isError,
         shape = XS2ATheme.CURRENT.inputShape.value,
-        colors = TextFieldDefaults.colors(
-            focusedTextColor = XS2ATheme.CURRENT.inputTextColor.value,
-            unfocusedTextColor = XS2ATheme.CURRENT.inputTextColor.value,
-            focusedContainerColor = XS2ATheme.CURRENT.inputBackgroundColor.value,
-            unfocusedContainerColor = XS2ATheme.CURRENT.inputBackgroundColor.value,
-            focusedIndicatorColor = XS2ATheme.CURRENT.tintColor.value,
-            unfocusedIndicatorColor = XS2ATheme.CURRENT.tintColor.value,
-            cursorColor = XS2ATheme.CURRENT.tintColor.value,
-            errorTextColor = XS2ATheme.CURRENT.errorColor.value,
-            errorIndicatorColor = XS2ATheme.CURRENT.errorColor.value,
-        ),
         visualTransformation = visualTransformation,
         keyboardOptions = KeyboardOptions(
             imeAction = ImeAction.Next, // TODO: Add some way to identify the last TextInput of a form
@@ -133,7 +118,6 @@ private fun RelevantTextField(
     singleLine: Boolean,
     visualTransformation: VisualTransformation,
     trailingIcon: @Composable () -> Unit,
-    colors: TextFieldColors,
     shape: Shape,
     keyboardOptions: KeyboardOptions,
     keyboardActions: KeyboardActions,
@@ -150,7 +134,6 @@ private fun RelevantTextField(
         label = label,
         shape = shape,
         modifier = modifier,
-        colors = colors,
         visualTransformation = visualTransformation,
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
@@ -170,7 +153,6 @@ private fun RelevantTextField(
         label = label,
         shape = shape,
         modifier = modifier,
-        colors = colors,
         visualTransformation = visualTransformation,
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,

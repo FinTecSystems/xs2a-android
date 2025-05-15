@@ -19,7 +19,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.invisibleToUser
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.semantics.traversalIndex
 import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextLinkStyles
@@ -27,7 +26,6 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withLink
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.DialogProperties
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.fintecsystems.xs2awizard.R
@@ -93,7 +91,7 @@ fun LogoLine(viewModel: XS2AWizardViewModel) {
                     )
                 }
             },
-            containerColor = XS2ATheme.CURRENT.surfaceColor.value,
+            containerColor = MaterialTheme.colorScheme.surface,
             title = {
                 FormText(
                     modifier = Modifier.semantics {
@@ -102,7 +100,7 @@ fun LogoLine(viewModel: XS2AWizardViewModel) {
                     },
                     text = stringResource(id = R.string.dialog_imprint_title),
                     style = MaterialTheme.typography.titleLarge.copy(
-                        color = XS2ATheme.CURRENT.tintColor.value,
+                        color = MaterialTheme.colorScheme.primary,
                         fontWeight = FontWeight.Bold,
                     )
                 )
@@ -116,7 +114,7 @@ fun LogoLine(viewModel: XS2AWizardViewModel) {
                             url = stringResource(id = R.string.dialog_imprint_link_url),
                             styles = TextLinkStyles(
                                 style = SpanStyle(
-                                    color = XS2ATheme.CURRENT.tintColor.value,
+                                    color = MaterialTheme.colorScheme.primary,
                                     fontWeight = FontWeight.Bold
                                 )
                             )

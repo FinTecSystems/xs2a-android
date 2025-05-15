@@ -15,7 +15,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.SelectLineData
 import com.fintecsystems.xs2awizard.form.components.shared.FormText
 import com.fintecsystems.xs2awizard.form.components.shared.FormTextField
@@ -83,7 +82,6 @@ fun SelectLine(formData: SelectLineData) {
             value = textFieldValue,
             onValueChange = { },
             singleLine = true,
-            // Replace tint = XS2ATheme.CURRENT.textColor.value with LocalContentColor
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = selectIsExpanded) },
             isError = formData.invalid,
             required = formData.required,
@@ -94,7 +92,7 @@ fun SelectLine(formData: SelectLineData) {
         ExposedDropdownMenu(
             expanded = selectIsExpanded,
             onDismissRequest = { selectIsExpanded = false },
-            containerColor = XS2ATheme.CURRENT.surfaceColor.value
+            containerColor = MaterialTheme.colorScheme.surface
         ) {
             val optionsArray = when (formData.options) {
                 is JsonArray -> formData.options.toList()

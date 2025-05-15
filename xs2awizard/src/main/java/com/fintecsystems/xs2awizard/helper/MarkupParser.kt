@@ -1,5 +1,6 @@
 package com.fintecsystems.xs2awizard.helper
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.LinkAnnotation
@@ -11,7 +12,6 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withLink
 import androidx.compose.ui.text.withStyle
-import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 
@@ -38,9 +38,7 @@ object MarkupParser {
                 when (parseResultItem) {
                     is ParseResult.Item.Text -> {
                         withStyle(
-                            parseResultItem.spanStyle ?: SpanStyle(
-                                color = XS2ATheme.CURRENT.textColor.value,
-                            )
+                            parseResultItem.spanStyle ?: SpanStyle()
                         ) {
                             append(parseResultItem.text)
                         }
@@ -53,7 +51,7 @@ object MarkupParser {
                                 linkInteractionListener = linkInteractionListener,
                                 styles = TextLinkStyles(
                                     SpanStyle(
-                                        color = XS2ATheme.CURRENT.tintColor.value,
+                                        color = MaterialTheme.colorScheme.primary,
                                         fontWeight = FontWeight.Bold
                                     )
                                 )
@@ -69,7 +67,7 @@ object MarkupParser {
                                 url = parseResultItem.url,
                                 styles = TextLinkStyles(
                                     SpanStyle(
-                                        color = XS2ATheme.CURRENT.tintColor.value,
+                                        color = MaterialTheme.colorScheme.primary,
                                         fontWeight = FontWeight.Bold
                                     )
                                 )
@@ -134,18 +132,14 @@ object MarkupParser {
                 } else {
                     val spanStyle = when (annotationType) {
                         "bold" -> SpanStyle(
-                            color = XS2ATheme.CURRENT.textColor.value,
                             fontWeight = FontWeight.Bold
                         )
 
                         "italic" -> SpanStyle(
-                            color = XS2ATheme.CURRENT.textColor.value,
                             fontStyle = FontStyle.Italic
                         )
 
-                        else -> SpanStyle(
-                            color = XS2ATheme.CURRENT.textColor.value,
-                        )
+                        else -> SpanStyle()
                     }
 
                     // Append textValue of markup and style it.

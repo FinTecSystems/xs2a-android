@@ -2,7 +2,6 @@ package com.fintecsystems.xs2awizard.components.theme
 
 import android.os.Parcelable
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.lightColorScheme
@@ -33,18 +32,22 @@ private val LocalExtendedStyle = staticCompositionLocalOf { XS2ATheme.light }
 @Composable
 fun XS2ATheme(
     xS2ATheme: XS2ATheme? = null,
-    colors: ColorScheme = lightColorScheme(),
     fontFamily: FontFamily? = null,
     content: @Composable () -> Unit
 ) {
     val theme = xS2ATheme ?: if (isSystemInDarkTheme()) XS2ATheme.dark else XS2ATheme.light
     CompositionLocalProvider(LocalExtendedStyle provides theme) {
-        MaterialTheme(colorScheme = colors) {
+        MaterialTheme(
+            colorScheme = lightColorScheme(
+                primary = theme.tintColor.value,
+                onPrimary = theme.onTintColor.value,
+                background = theme.backgroundColor.value,
+                onBackground = theme.textColor.value,
+                error = theme.errorColor.value,
+            ),
+        ) {
             ProvideTextStyle(
-                value = TextStyle(
-                    fontFamily = fontFamily,
-                    color = XS2ATheme.CURRENT.textColor.value
-                ),
+                value = TextStyle(fontFamily = fontFamily),
                 content = content
             )
         }

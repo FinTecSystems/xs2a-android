@@ -21,7 +21,6 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.invisibleToUser
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
-import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.RadioLineData
 import com.fintecsystems.xs2awizard.form.components.shared.FormText
 import kotlinx.serialization.json.JsonPrimitive
@@ -60,17 +59,12 @@ fun LabelledRadioButton(
         RadioButton(
             selected = selected,
             onClick = null,
-            colors = RadioButtonDefaults.colors(
-                selectedColor = XS2ATheme.CURRENT.tintColor.value,
-                unselectedColor = XS2ATheme.CURRENT.unselectedColor.value,
-                disabledSelectedColor = XS2ATheme.CURRENT.disabledColor.value,
-                disabledUnselectedColor = XS2ATheme.CURRENT.disabledColor.value,
-            ),
             enabled = enabled,
         )
         FormText(
             text = label,
-            color = if (enabled) XS2ATheme.CURRENT.textColor.value else XS2ATheme.CURRENT.disabledColor.value
+            color = if (enabled) MaterialTheme.colorScheme.onBackground
+            else RadioButtonDefaults.colors().disabledUnselectedColor
         )
     }
 }

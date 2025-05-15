@@ -1,6 +1,7 @@
 package com.fintecsystems.xs2awizard.form.components.shared
 
 import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -13,7 +14,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
-import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.helper.MarkupParser
 
 /**
@@ -25,7 +25,7 @@ import com.fintecsystems.xs2awizard.helper.MarkupParser
 fun FormText(
     modifier: Modifier = Modifier,
     text: String,
-    color: Color = XS2ATheme.CURRENT.textColor.value,
+    color: Color = MaterialTheme.colorScheme.onBackground,
     fontSize: TextUnit = TextUnit.Unspecified,
     fontWeight: FontWeight? = null,
     maxLines: Int = Int.MAX_VALUE,

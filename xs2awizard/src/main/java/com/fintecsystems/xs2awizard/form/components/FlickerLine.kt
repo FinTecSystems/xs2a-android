@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -31,7 +32,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.fintecsystems.xs2awizard.R
 import com.fintecsystems.xs2awizard.components.theme.XS2AColors
-import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.FlickerLineData
 import com.fintecsystems.xs2awizard.form.components.shared.FormTextField
 import kotlinx.coroutines.delay
@@ -112,12 +112,17 @@ fun FlickerLine(formData: FlickerLineData) {
                     },
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
+                val buttonColors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary
+                )
                 // Size
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(5.dp)
                 ) {
+
                     Button(
-                        colors = ButtonDefaults.buttonColors(containerColor = XS2ATheme.CURRENT.tintColor.value),
+                        colors = buttonColors,
                         onClick = {
                             flickerContainerWidth =
                                 max(
@@ -129,17 +134,17 @@ fun FlickerLine(formData: FlickerLineData) {
                         Image(
                             painter = painterResource(R.drawable.ic_flicker_smaller),
                             contentDescription = stringResource(id = R.string.flicker_smaller),
-                            colorFilter = ColorFilter.tint(XS2ATheme.CURRENT.onTintColor.value)
+                            colorFilter = ColorFilter.tint(buttonColors.contentColor)
                         )
                     }
                     Button(
-                        colors = ButtonDefaults.buttonColors(containerColor = XS2ATheme.CURRENT.tintColor.value),
+                        colors = buttonColors,
                         onClick = { flickerContainerWidth += sizeStepSize }
                     ) {
                         Image(
                             painter = painterResource(R.drawable.ic_flicker_bigger),
                             contentDescription = stringResource(id = R.string.flicker_bigger),
-                            colorFilter = ColorFilter.tint(XS2ATheme.CURRENT.onTintColor.value)
+                            colorFilter = ColorFilter.tint(buttonColors.contentColor)
                         )
                     }
                 }
@@ -149,23 +154,23 @@ fun FlickerLine(formData: FlickerLineData) {
                     horizontalArrangement = Arrangement.spacedBy(5.dp)
                 ) {
                     Button(
-                        colors = ButtonDefaults.buttonColors(containerColor = XS2ATheme.CURRENT.tintColor.value),
+                        colors = buttonColors,
                         onClick = { fps = max(fps - fpsStepSize, 1) }
                     ) {
                         Image(
                             painter = painterResource(R.drawable.ic_flicker_slower),
                             contentDescription = stringResource(id = R.string.flicker_slower),
-                            colorFilter = ColorFilter.tint(XS2ATheme.CURRENT.onTintColor.value)
+                            colorFilter = ColorFilter.tint(buttonColors.contentColor)
                         )
                     }
                     Button(
-                        colors = ButtonDefaults.buttonColors(containerColor = XS2ATheme.CURRENT.tintColor.value),
+                        colors = buttonColors,
                         onClick = { fps = min(fps + fpsStepSize, 60) }
                     ) {
                         Image(
                             painter = painterResource(R.drawable.ic_flicker_faster),
                             contentDescription = stringResource(id = R.string.flicker_faster),
-                            colorFilter = ColorFilter.tint(XS2ATheme.CURRENT.onTintColor.value)
+                            colorFilter = ColorFilter.tint(buttonColors.contentColor)
                         )
                     }
                 }

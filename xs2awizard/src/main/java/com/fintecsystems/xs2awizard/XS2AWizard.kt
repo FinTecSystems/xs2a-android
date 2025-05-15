@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -170,7 +171,7 @@ fun XS2AWizard(
         Box(modifier.semantics { isTraversalGroup = true }) {
             Column(
                 modifier = Modifier
-                    .background(XS2ATheme.CURRENT.backgroundColor.value)
+                    .background(MaterialTheme.colorScheme.background)
             ) {
                 ConnectivityStatusBanner(
                     modifier = Modifier.semantics {

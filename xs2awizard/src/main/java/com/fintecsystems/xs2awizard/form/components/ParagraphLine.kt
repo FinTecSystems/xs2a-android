@@ -30,23 +30,18 @@ import com.fintecsystems.xs2awizard.helper.MarkupParser
  */
 @Composable
 fun ParagraphLine(formData: ParagraphLineData, viewModel: XS2AWizardViewModel) {
-    val textColor = when (formData.severity) {
-        "info" -> XS2ATheme.CURRENT.infoParagraphStyle.textColor
-        "error" -> XS2ATheme.CURRENT.errorParagraphStyle.textColor
-        "warning" -> XS2ATheme.CURRENT.warningParagraphStyle.textColor
-        else -> XS2ATheme.CURRENT.textColor
+    val paragraphStyleToUse = when (formData.severity) {
+        "info" -> XS2ATheme.CURRENT.infoParagraphStyle
+        "error" -> XS2ATheme.CURRENT.errorParagraphStyle
+        "warning" -> XS2ATheme.CURRENT.warningParagraphStyle
+        else -> null
     }
 
-    val backgroundColor = when (formData.severity) {
-        "info" -> XS2ATheme.CURRENT.infoParagraphStyle.backgroundColor
-        "error" -> XS2ATheme.CURRENT.errorParagraphStyle.backgroundColor
-        "warning" -> XS2ATheme.CURRENT.warningParagraphStyle.backgroundColor
-        else -> XS2ATheme.CURRENT.backgroundColor
-    }
+    val textColor = paragraphStyleToUse?.textColor?.value ?: MaterialTheme.colorScheme.onBackground
+    val backgroundColor =
+        paragraphStyleToUse?.backgroundColor?.value ?: MaterialTheme.colorScheme.background
 
-    val isAlert = formData.severity == "info"
-            || formData.severity == "error"
-            || formData.severity == "warning"
+    val isAlert = paragraphStyleToUse != null
 
     val padding =
         if (isAlert) XS2ATheme.CURRENT.paragraphPadding else PaddingMarginConfiguration.None
@@ -79,7 +74,7 @@ fun ParagraphLine(formData: ParagraphLineData, viewModel: XS2AWizardViewModel) {
                 }
                 .fillMaxWidth()
                 .background(
-                    color = backgroundColor.value,
+                    color = backgroundColor,
                     shape = XS2ATheme.CURRENT.paragraphShape.value
                 )
                 .padding(
@@ -92,7 +87,7 @@ fun ParagraphLine(formData: ParagraphLineData, viewModel: XS2AWizardViewModel) {
             if (formData.title?.isNotEmpty() == true) {
                 FormText(
                     text = formData.title,
-                    color = textColor.value,
+                    color = textColor,
                     style = MaterialTheme.typography.titleLarge.copy(
                         fontWeight = FontWeight.Bold
                     )
@@ -106,7 +101,7 @@ fun ParagraphLine(formData: ParagraphLineData, viewModel: XS2AWizardViewModel) {
                 FormText(
                     parseResult = parseResult,
                     style = MaterialTheme.typography.bodyLarge.copy(
-                        color = textColor.value
+                        color = textColor
                     ),
                     onLinkAnnotationClick = {
                         viewModel.handleLinkAnnotationClick(it)

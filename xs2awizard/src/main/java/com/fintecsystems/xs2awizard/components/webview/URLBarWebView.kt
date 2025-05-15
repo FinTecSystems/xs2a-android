@@ -49,7 +49,6 @@ import androidx.compose.ui.zIndex
 import androidx.core.net.toUri
 import com.fintecsystems.xs2awizard.R
 import com.fintecsystems.xs2awizard.components.XS2AWizardViewModel
-import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.components.webview.XS2AJavascriptInterface.XS2AJavascriptInterfaceCallback
 import com.fintecsystems.xs2awizard.helper.Utils
 import kotlinx.coroutines.launch
@@ -92,7 +91,7 @@ fun URLBarWebView(viewModel: XS2AWizardViewModel) {
         Modifier
             .fillMaxSize()
             .background(
-                color = XS2ATheme.CURRENT.webViewBackgroundColor.value
+                color = MaterialTheme.colorScheme.background
             )
     ) {
         // Top Bar
@@ -101,7 +100,7 @@ fun URLBarWebView(viewModel: XS2AWizardViewModel) {
                 .fillMaxWidth()
                 .height(48.dp)
                 .zIndex(1f)
-                .background(XS2ATheme.CURRENT.webViewBackgroundColor.value)
+                .background(MaterialTheme.colorScheme.surface)
                 .semantics {
                     isTraversalGroup = true
                 }
@@ -113,22 +112,20 @@ fun URLBarWebView(viewModel: XS2AWizardViewModel) {
             ) {
                 TextButton(
                     modifier = Modifier.width(48.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = XS2ATheme.CURRENT.webViewBackgroundColor.value),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.surface),
                     onClick = { viewModel.closeWebView() }
                 ) {
                     Image(
                         painter = painterResource(R.drawable.ic_close),
                         contentDescription = stringResource(R.string.close_webview),
-                        colorFilter = ColorFilter.tint(XS2ATheme.CURRENT.webViewIconColor.value)
+                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
                     )
                 }
 
                 Text(
                     text = currentUrl?.toUri()?.host ?: currentUrl ?: "",
                     maxLines = 1,
-                    style = MaterialTheme.typography.titleMedium.copy(
-                        color = XS2ATheme.CURRENT.webViewTextColor.value,
-                    ),
+                    style = MaterialTheme.typography.titleMedium,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.pointerInput(Unit) {
                         detectTapGestures(
@@ -147,7 +144,7 @@ fun URLBarWebView(viewModel: XS2AWizardViewModel) {
                     contentDescription = stringResource(
                         if (hasCertificate) R.string.connection_secure else R.string.connection_unsecure
                     ),
-                    colorFilter = ColorFilter.tint(XS2ATheme.CURRENT.webViewIconColor.value)
+                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
                 )
             }
 
@@ -160,8 +157,8 @@ fun URLBarWebView(viewModel: XS2AWizardViewModel) {
                             liveRegion = LiveRegionMode.Polite
                         },
                     progress = { loadingIndicatorProgress / 100f },
-                    color = XS2ATheme.CURRENT.tintColor.value,
-                    trackColor = XS2ATheme.CURRENT.webViewBorderColor.value
+                    color = MaterialTheme.colorScheme.primary,
+                    trackColor = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
         }
@@ -170,7 +167,7 @@ fun URLBarWebView(viewModel: XS2AWizardViewModel) {
         AndroidView(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(XS2ATheme.CURRENT.webViewBackgroundColor.value)
+                .background(MaterialTheme.colorScheme.background)
                 .focusable()
                 .semantics {
                     traversalIndex = -1f
