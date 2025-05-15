@@ -103,8 +103,8 @@ class XS2ATheme(
         XS2AColors.textColor
     ),
     val paragraphShape: XS2AShape = XS2AShape(4.dp, XS2AShape.ShapeType.ROUNDED),
-    val paragraphPadding: PaddingMarginConfiguration = PaddingMarginConfiguration(0.dp),
-    val paragraphMargin: PaddingMarginConfiguration = PaddingMarginConfiguration(4.dp, 8.dp),
+    val paragraphPadding: PaddingMarginConfiguration = PaddingMarginConfiguration(4.dp, 8.dp),
+    val paragraphMargin: PaddingMarginConfiguration = PaddingMarginConfiguration(0.dp),
 
     // WebView
     val webViewIconColor: XS2AColor = XS2AColors.textColor,
