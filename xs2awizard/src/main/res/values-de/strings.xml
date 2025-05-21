@@ -24,7 +24,6 @@
     <string name="redirect_dialog_message">Wie möchtest du dich einloggen? Hast du die App deiner Bank installiert, wähle \"Banking App\", andernfalls \"Webseite\".</string>
     <string name="redirect_dialog_banking_app_button_title">Banking App</string>
     <string name="redirect_dialog_website_button_title">Webseite</string>
-    <string name="labelled_container_input_hint">Füllen Sie das untenstehende Eingabefeld aus.</string>
     <string name="dialog_imprint_description">Impressum öffnen.</string>
     <string name="paragraph_severity_info">Info</string>
     <string name="paragraph_severity_warning">Warnung</string>

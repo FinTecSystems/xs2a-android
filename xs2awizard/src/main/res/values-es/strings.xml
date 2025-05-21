@@ -24,7 +24,6 @@
     <string name="redirect_dialog_message">¿Cómo quiere conectarse? Si ha instalado la aplicación de su banco, seleccione \"Aplicación bancaria\"; de lo contrario, seleccione \"Página web\".</string>
     <string name="redirect_dialog_banking_app_button_title">Aplicación bancaria</string>
     <string name="redirect_dialog_website_button_title">Página web</string>
-    <string name="labelled_container_input_hint">Rellene el siguiente campo.</string>
     <string name="dialog_imprint_description">"Abrir aviso legal. "</string>
     <string name="paragraph_severity_info">Información</string>
     <string name="paragraph_severity_warning">Advertencia</string>
