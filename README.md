@@ -167,8 +167,8 @@ You'll be able to delete the credentials by calling
 > For interoperability reasons wrapper classes are excusively used for the theme.
 
 > [!NOTE]  
-> "surfaceColor" is being used for dropdowns or other elevated surfaces like the Top-Bar of the WebView.
-> Meanwhile "onSurfaceColor" is used for unselected items & "onSurfaceColorVariant" for disabled elements and the supporting text below text fields.
+> `surfaceColor` is being used for dropdowns or other elevated surfaces like the Top-Bar of the WebView.
+> Meanwhile `onSurfaceColor` is used for unselected items & `onSurfaceColorVariant` for disabled elements and the supporting text below text fields.
 
 ```kotlin
 val theme = XS2ATheme(
