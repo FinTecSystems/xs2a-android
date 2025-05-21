@@ -172,7 +172,7 @@ You'll be able to delete the credentials by calling
 
 ```kotlin
 val theme = XS2ATheme(
-    tintColor = XS2AColor("#ff0000"),
+    primaryColor = XS2AColor("#ff0000"),
     backgroundColor = XS2AColor("#00ff00"),
     submitButtonStyle = ButtonStyle(
         backgroundColor = XS2AColor("#ffffff"),
