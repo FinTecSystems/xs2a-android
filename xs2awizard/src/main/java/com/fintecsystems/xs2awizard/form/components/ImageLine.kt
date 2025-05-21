@@ -8,9 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.fintecsystems.xs2awizard.R
 import com.fintecsystems.xs2awizard.form.ImageLineData
 import com.fintecsystems.xs2awizard.helper.Utils
 
@@ -29,7 +27,7 @@ fun ImageLine(formData: ImageLineData) {
     ) {
         Image(
             bitmap = imageBitmap,
-            contentDescription = stringResource(id = R.string.image_description),
+            contentDescription = formData.description,
             contentScale = ContentScale.Fit,
             alignment = Alignment.Center,
             modifier = Modifier

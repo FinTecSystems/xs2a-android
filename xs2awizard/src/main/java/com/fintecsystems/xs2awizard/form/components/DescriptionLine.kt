@@ -1,17 +1,16 @@
 package com.fintecsystems.xs2awizard.form.components
 
-import android.app.Activity
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.text.ClickableText
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.semantics.semantics
 import com.fintecsystems.xs2awizard.components.XS2AWizardViewModel
 import com.fintecsystems.xs2awizard.form.DescriptionLineData
+import com.fintecsystems.xs2awizard.form.components.shared.FormText
 import com.fintecsystems.xs2awizard.helper.MarkupParser
-import com.fintecsystems.xs2awizard.helper.Utils.getActivity
 
 /**
  * Displays an description text
@@ -21,23 +20,27 @@ import com.fintecsystems.xs2awizard.helper.Utils.getActivity
  */
 @Composable
 fun DescriptionLine(formData: DescriptionLineData, viewModel: XS2AWizardViewModel) {
-    if (formData.text?.isNotEmpty() == true) {
-        val annotatedString = MarkupParser.parseMarkupText(formData.text)
-        val activity = LocalContext.current.getActivity<Activity>()
+    Column(
+        modifier = Modifier.fillMaxWidth()
+            .semantics(true) {} // FIXME: If we don't do this and there is a LinkAnnotation within the text,
+                                //        the focus will be all over the place. If we find a better solution for this,
+                                //        then we can remove it.
+    ) {
+        if (formData.text?.isNotEmpty() == true) {
+            val parseResult = MarkupParser.parseMarkupText(formData.text)
+            val localFocusManager = LocalFocusManager.current
 
-        val localFocusManager = LocalFocusManager.current
-
-        ClickableText(
-            modifier = Modifier.fillMaxWidth(),
-            text = annotatedString,
-            style = MaterialTheme.typography.body2,
-            onClick = {
-                annotatedString.getStringAnnotations(it, it)
-                    .firstOrNull()?.let { annotation ->
-                        viewModel.handleAnnotationClick(activity!!, annotation)
-                        localFocusManager.clearFocus()
-                    }
-            }
-        )
+            FormText(
+                modifier = Modifier.fillMaxWidth(),
+                parseResult = parseResult,
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    color = MaterialTheme.colorScheme.onBackground
+                ),
+                onLinkAnnotationClick = {
+                    viewModel.handleLinkAnnotationClick(it)
+                    localFocusManager.clearFocus()
+                }
+            )
+        }
     }
 }

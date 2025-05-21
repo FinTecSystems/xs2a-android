@@ -5,13 +5,12 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Tab
-import androidx.compose.material.TabRow
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 
 /**
  * Renders a TabBar.
@@ -35,9 +34,7 @@ fun FormTabs(
             modifier = Modifier
                 .width(maxWidth)
                 .height(maxHeight),
-            selectedTabIndex = selected,
-            backgroundColor = XS2ATheme.CURRENT.backgroundColor.value,
-            contentColor = XS2ATheme.CURRENT.tintColor.value,
+            selectedTabIndex = selected
         ) {
             tabs.forEachIndexed { index, label ->
                 Tab(
@@ -49,7 +46,7 @@ fun FormTabs(
                 ) {
                     FormText(
                         text = label,
-                        style = MaterialTheme.typography.subtitle2
+                        style = MaterialTheme.typography.titleSmall
                     )
                 }
             }

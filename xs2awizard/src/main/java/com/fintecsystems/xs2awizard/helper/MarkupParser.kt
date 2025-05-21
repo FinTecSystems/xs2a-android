@@ -1,13 +1,17 @@
 package com.fintecsystems.xs2awizard.helper
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.LinkAnnotation
+import androidx.compose.ui.text.LinkInteractionListener
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextLinkStyles
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withLink
 import androidx.compose.ui.text.withStyle
-import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 
@@ -19,13 +23,70 @@ object MarkupParser {
     private val autoSubmitPayloadRegex = Regex("(\\w+)=(\\w+)")
 
     /**
-     * Parses provided text for markups.
+     * Parses parse result of [parseMarkupText].
      *
-     * @param textToParse [String] to parse for markups.
+     * @param parseResult [ParseResult] to parse for markups.
      * @return parsed text as [AnnotatedString].
      */
     @Composable
-    fun parseMarkupText(textToParse: String): AnnotatedString {
+    fun parseParseResult(
+        parseResult: ParseResult,
+        linkInteractionListener: LinkInteractionListener? = null
+    ): AnnotatedString {
+        return buildAnnotatedString {
+            parseResult.items.forEach { parseResultItem ->
+                when (parseResultItem) {
+                    is ParseResult.Item.Text -> {
+                        if (parseResultItem.spanStyle != null) {
+                            withStyle(
+                                parseResultItem.spanStyle
+                            ) {
+                                append(parseResultItem.text)
+                            }
+                        } else {
+                            append(parseResultItem.text)
+                        }
+                    }
+
+                    is ParseResult.Item.AutoSubmit -> {
+                        withLink(
+                            LinkAnnotation.Clickable(
+                                tag = parseResultItem.payload,
+                                linkInteractionListener = linkInteractionListener,
+                                styles = TextLinkStyles(
+                                    SpanStyle(
+                                        color = MaterialTheme.colorScheme.primary,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                )
+                            )
+                        ) {
+                            append(parseResultItem.text)
+                        }
+                    }
+
+                    is ParseResult.Item.Link -> {
+                        withLink(
+                            LinkAnnotation.Url(
+                                url = parseResultItem.url,
+                                styles = TextLinkStyles(
+                                    SpanStyle(
+                                        color = MaterialTheme.colorScheme.primary,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                )
+                            )
+                        ) {
+                            append(parseResultItem.text)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Composable
+    fun parseMarkupText(textToParse: String): ParseResult {
         // Replace HTML linebreak and middot with Kotlin String counterparts.
         val text = lineBreakRegex
             .replace(
@@ -33,75 +94,79 @@ object MarkupParser {
                 "\n",
             )
 
-        return buildAnnotatedString {
-            // Cursor used to determine startIndex of the current section.
-            var cursor = 0
+        val resultItems = mutableListOf<ParseResult.Item>()
 
-            do {
-                // Search for markups beginning at the cursor.
-                val regexResult = markupRegex.find(text, cursor)
+        // Cursor used to determine startIndex of the current section.
+        var cursor = 0
 
-                if (regexResult != null) {
+        do {
+            // Search for markups beginning at the cursor.
+            val regexResult = markupRegex.find(text, cursor)
+
+            if (regexResult != null) {
+                if (cursor != regexResult.range.first) {
                     // Append all text between the cursor and beginning of markup.
-                    append(text.slice(cursor until regexResult.range.first))
+                    resultItems.add(
+                        ParseResult.Item.Text(text.slice(cursor until regexResult.range.first))
+                    )
+                }
 
-                    // Define start of the annotation
-                    val annotationType = regexResult.groupValues[3]
-                    val annotationParameter = regexResult.groupValues[5]
-                    val annotationHasParameter = annotationParameter.isNotEmpty()
-                    val style =
-                        if (annotationHasParameter) {
-                            when (annotationType) {
-                                "autosubmit" -> pushStringAnnotation(
-                                    tag = "autosubmit",
-                                    annotation = annotationParameter
-                                )
-                                else -> pushStringAnnotation(
-                                    tag = "URL",
-                                    annotation = annotationParameter
-                                )
-                            }
+                // Define start of the annotation
+                val annotationContent = regexResult.groupValues[1]
+                val annotationType = regexResult.groupValues[3]
+                val annotationParameter = regexResult.groupValues[5]
+                val annotationHasParameter = annotationParameter.isNotEmpty()
 
-                            SpanStyle(
-                                color = XS2ATheme.CURRENT.tintColor.value,
-                                fontWeight = FontWeight.Bold
+                if (annotationHasParameter) {
+                    if (annotationType == "autosubmit") {
+                        resultItems.add(
+                            ParseResult.Item.AutoSubmit(
+                                text = annotationContent,
+                                payload = annotationParameter
                             )
-                        } else {
-                            when (annotationType) {
-                                "bold" -> SpanStyle(
-                                    color = XS2ATheme.CURRENT.textColor.value,
-                                    fontWeight = FontWeight.Bold
-                                )
-                                "italic" -> SpanStyle(
-                                    color = XS2ATheme.CURRENT.textColor.value,
-                                    fontStyle = FontStyle.Italic
-                                )
-                                else -> SpanStyle(
-                                    color = XS2ATheme.CURRENT.textColor.value,
-                                )
-                            }
-                        }
+                        )
+                    } else {
+                        resultItems.add(
+                            ParseResult.Item.Link(
+                                text = annotationContent,
+                                url = annotationParameter
+                            )
+                        )
+                    }
+                } else {
+                    val spanStyle = when (annotationType) {
+                        "bold" -> SpanStyle(
+                            fontWeight = FontWeight.Bold
+                        )
 
-                    // Append textValue of markup and style it.
-                    withStyle(
-                        style = style
-                    ) {
-                        append(regexResult.groupValues[1])
+                        "italic" -> SpanStyle(
+                            fontStyle = FontStyle.Italic
+                        )
+
+                        else -> SpanStyle()
                     }
 
-
-                    // Define end of the annotation
-                    if (annotationHasParameter) pop()
-
-                    cursor = regexResult.range.last + 1
+                    // Append textValue of markup and style it.
+                    resultItems.add(
+                        ParseResult.Item.Text(
+                            text = annotationContent,
+                            spanStyle = spanStyle
+                        )
+                    )
                 }
-            } while (regexResult != null)
 
-            // If there is still text left, append the remaining section.
-            if (cursor < text.length) {
-                append(text.slice(cursor until text.length))
+                cursor = regexResult.range.last + 1
             }
+        } while (regexResult != null)
+
+        // If there is still text left, append the remaining section.
+        if (cursor < text.length) {
+            resultItems.add(
+                ParseResult.Item.Text(text.slice(cursor until text.length))
+            )
         }
+
+        return ParseResult(resultItems)
     }
 
     /**
@@ -118,5 +183,33 @@ object MarkupParser {
                     put(group[1], JsonPrimitive(group[2]))
                 }
             }
+    }
+
+    data class ParseResult(
+        val items: List<Item>
+    ) {
+        fun getText() = items.joinToString(
+            separator = "",
+            transform = { it.text }
+        )
+
+        sealed class Item(
+            val text: String
+        ) {
+            class Text(
+                text: String,
+                val spanStyle: SpanStyle? = null
+            ) : Item(text)
+
+            class Link(
+                text: String,
+                val url: String
+            ) : Item(text)
+
+            class AutoSubmit(
+                text: String,
+                val payload: String
+            ) : Item(text)
+        }
     }
 }

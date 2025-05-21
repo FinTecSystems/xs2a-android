@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="captcha_image_description">Captcha Imagine</string>
-    <string name="image_description">Imagine</string>
-    <string name="logo_image_description">Logo</string>
     <string name="flicker_faster">Più rapido</string>
     <string name="flicker_slower">Più lentamente</string>
     <string name="flicker_bigger">Ingrandisci</string>
     <string name="flicker_smaller">Riduci</string>
-    <string name="flicker_marker">Marcatura</string>
     <string name="dialog_dismiss">Chiudi</string>
     <string name="link_copied">Link copiato</string>
     <string name="close_webview">Chiudi WebView</string>
@@ -28,4 +24,11 @@
     <string name="redirect_dialog_message">Come si desidera effettuare il login? Se avete installato l\'applicazione della vostra banca, selezionate \"App bancaria\", altrimenti selezionate \"Sito web\".</string>
     <string name="redirect_dialog_banking_app_button_title">App bancaria</string>
     <string name="redirect_dialog_website_button_title">Sito web</string>
+    <string name="dialog_imprint_description">Impronta aperta.</string>
+    <string name="paragraph_severity_info">Info</string>
+    <string name="paragraph_severity_warning">Avvertenze</string>
+    <string name="paragraph_severity_error">Errore</string>
+    <string name="input_required_label">*richiesto</string>
+    <string name="search_bar_search">Cerca</string>
+    <string name="search_bar_suggestions_available">Suggerimenti sotto</string>
 </resources>

@@ -8,11 +8,28 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
@@ -20,6 +37,11 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.LiveRegionMode
+import androidx.compose.ui.semantics.isTraversalGroup
+import androidx.compose.ui.semantics.liveRegion
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.traversalIndex
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -27,7 +49,6 @@ import androidx.compose.ui.zIndex
 import androidx.core.net.toUri
 import com.fintecsystems.xs2awizard.R
 import com.fintecsystems.xs2awizard.components.XS2AWizardViewModel
-import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.components.webview.XS2AJavascriptInterface.XS2AJavascriptInterfaceCallback
 import com.fintecsystems.xs2awizard.helper.Utils
 import kotlinx.coroutines.launch
@@ -70,7 +91,7 @@ fun URLBarWebView(viewModel: XS2AWizardViewModel) {
         Modifier
             .fillMaxSize()
             .background(
-                color = XS2ATheme.CURRENT.webViewBackgroundColor.value
+                color = MaterialTheme.colorScheme.background
             )
     ) {
         // Top Bar
@@ -79,7 +100,10 @@ fun URLBarWebView(viewModel: XS2AWizardViewModel) {
                 .fillMaxWidth()
                 .height(48.dp)
                 .zIndex(1f)
-                .background(XS2ATheme.CURRENT.webViewBackgroundColor.value)
+                .background(MaterialTheme.colorScheme.surface)
+                .semantics {
+                    isTraversalGroup = true
+                }
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -88,22 +112,21 @@ fun URLBarWebView(viewModel: XS2AWizardViewModel) {
             ) {
                 TextButton(
                     modifier = Modifier.width(48.dp),
-                    colors = ButtonDefaults.buttonColors(backgroundColor = XS2ATheme.CURRENT.webViewBackgroundColor.value),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.surface),
                     onClick = { viewModel.closeWebView() }
                 ) {
                     Image(
                         painter = painterResource(R.drawable.ic_close),
                         contentDescription = stringResource(R.string.close_webview),
-                        colorFilter = ColorFilter.tint(XS2ATheme.CURRENT.webViewIconColor.value)
+                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
                     )
                 }
 
                 Text(
                     text = currentUrl?.toUri()?.host ?: currentUrl ?: "",
                     maxLines = 1,
-                    style = MaterialTheme.typography.subtitle1.copy(
-                        color = XS2ATheme.CURRENT.webViewTextColor.value,
-                    ),
+                    color = MaterialTheme.colorScheme.onSurface,
+                    style = MaterialTheme.typography.titleMedium,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.pointerInput(Unit) {
                         detectTapGestures(
@@ -122,25 +145,34 @@ fun URLBarWebView(viewModel: XS2AWizardViewModel) {
                     contentDescription = stringResource(
                         if (hasCertificate) R.string.connection_secure else R.string.connection_unsecure
                     ),
-                    colorFilter = ColorFilter.tint(XS2ATheme.CURRENT.webViewIconColor.value)
+                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
                 )
             }
 
-            LinearProgressIndicator(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(2.dp),
-                progress = loadingIndicatorProgress / 100f,
-                color = XS2ATheme.CURRENT.tintColor.value,
-                backgroundColor = XS2ATheme.CURRENT.webViewBorderColor.value
-            )
+            if (loadingIndicatorProgress != 100) {
+                LinearProgressIndicator(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(2.dp)
+                        .semantics {
+                            liveRegion = LiveRegionMode.Polite
+                        },
+                    progress = { loadingIndicatorProgress / 100f },
+                    color = MaterialTheme.colorScheme.primary,
+                    trackColor = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
         }
 
         // WebView
         AndroidView(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(XS2ATheme.CURRENT.webViewBackgroundColor.value),
+                .background(MaterialTheme.colorScheme.background)
+                .focusable()
+                .semantics {
+                    traversalIndex = -1f
+                },
             factory = {
                 WebView(it).apply {
                     webView = this

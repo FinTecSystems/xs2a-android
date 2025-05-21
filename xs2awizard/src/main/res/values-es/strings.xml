@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="dialog_dismiss">Cerrar</string>
-    <string name="captcha_image_description">Imagen Captcha</string>
-    <string name="image_description">Imagen</string>
-    <string name="logo_image_description">Logo</string>
     <string name="flicker_faster">Màs ràpido</string>
     <string name="flicker_slower">Màs lento</string>
     <string name="flicker_bigger">Más grande</string>
     <string name="flicker_smaller">Más pequeño</string>
-    <string name="flicker_marker">Marcador</string>
     <string name="link_copied">Enlace copiado</string>
     <string name="close_webview">Cerrar WebView</string>
     <string name="connection_secure">Conexión segura</string>
@@ -28,4 +24,11 @@
     <string name="redirect_dialog_message">¿Cómo quiere conectarse? Si ha instalado la aplicación de su banco, seleccione \"Aplicación bancaria\"; de lo contrario, seleccione \"Página web\".</string>
     <string name="redirect_dialog_banking_app_button_title">Aplicación bancaria</string>
     <string name="redirect_dialog_website_button_title">Página web</string>
+    <string name="dialog_imprint_description">"Abrir aviso legal. "</string>
+    <string name="paragraph_severity_info">Información</string>
+    <string name="paragraph_severity_warning">Advertencia</string>
+    <string name="paragraph_severity_error">Error</string>
+    <string name="input_required_label">*necesario</string>
+    <string name="search_bar_search">Buscar</string>
+    <string name="search_bar_suggestions_available">Sugerencias a continuación</string>
 </resources>
