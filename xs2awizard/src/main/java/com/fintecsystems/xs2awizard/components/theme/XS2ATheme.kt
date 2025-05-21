@@ -83,11 +83,11 @@ class XS2ATheme(
 
     // Button
     val submitButtonStyle: ButtonStyle = ButtonStyle(XS2AColors.primary, XS2AColors.textColorLight),
-    val abortButtonStyle: ButtonStyle = ButtonStyle(XS2AColors.darkGrey, XS2AColors.textColorLight),
-    val backButtonStyle: ButtonStyle = ButtonStyle(XS2AColors.darkGrey, XS2AColors.textColorLight),
+    val abortButtonStyle: ButtonStyle = ButtonStyle(XS2AColors.darkGrey, XS2AColors.textColor),
+    val backButtonStyle: ButtonStyle = ButtonStyle(XS2AColors.darkGrey, XS2AColors.textColor),
     val restartButtonStyle: ButtonStyle = ButtonStyle(
         XS2AColors.darkGrey,
-        XS2AColors.textColorLight
+        XS2AColors.textColor
     ),
     val redirectButtonStyle: ButtonStyle = ButtonStyle(
         XS2AColors.primary,
@@ -135,12 +135,15 @@ class XS2ATheme(
          * Implementation of a Dark-Theme
          */
         val dark = XS2ATheme(
+            tintColor = XS2AColors.primaryDark,
+            errorColor = XS2AColors.errorDark,
             backgroundColor = XS2AColors.backgroundDark,
-            surfaceColor = XS2AColors.backgroundDark,
+            surfaceColor = XS2AColors.surfaceColorDark,
+            onSurfaceColor = XS2AColors.onSurfaceColorDark,
+            onSurfaceVariantColor = XS2AColors.onSurfaceVariantColorDark,
             textColor = XS2AColors.textColorLight,
             logoVariation = LogoVariation.WHITE,
             loadingIndicatorBackgroundColor = XS2AColors.backgroundTranslucentDark,
-
             inputBackgroundColor = XS2AColors.backgroundInputDark,
         )
     }
