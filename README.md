@@ -168,7 +168,7 @@ You'll be able to delete the credentials by calling
 
 > [!NOTE]  
 > "surfaceColor" is being used for dropdowns or other elevated surfaces like the Top-Bar of the WebView.
-> Meanwhile "onSurfaceColor" is used for unselected items & "onSurfaceColorVariant" for disabled elements.
+> Meanwhile "onSurfaceColor" is used for unselected items & "onSurfaceColorVariant" for disabled elements and the supporting text below text fields.
 
 ```kotlin
 val theme = XS2ATheme(
