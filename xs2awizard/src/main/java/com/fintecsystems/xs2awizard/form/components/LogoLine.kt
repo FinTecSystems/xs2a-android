@@ -25,6 +25,7 @@ import androidx.compose.ui.text.TextLinkStyles
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withLink
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -107,7 +108,11 @@ fun LogoLine(viewModel: XS2AWizardViewModel) {
             },
             text = {
                 val annotatedString = buildAnnotatedString {
-                    appendLine(stringResource(id = R.string.dialog_imprint_message))
+                    withStyle(SpanStyle(
+                        color = MaterialTheme.colorScheme.onSurface
+                    )) {
+                        appendLine(stringResource(id = R.string.dialog_imprint_message))
+                    }
 
                     withLink(
                         LinkAnnotation.Url(

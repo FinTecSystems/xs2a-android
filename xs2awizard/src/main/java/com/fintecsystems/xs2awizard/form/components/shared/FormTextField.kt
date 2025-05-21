@@ -79,7 +79,7 @@ fun FormTextField(
                 FormText(
                     text = errorMessage ?: stringResource(R.string.input_required_label),
                     color = if (isError) MaterialTheme.colorScheme.error
-                    else Color.Unspecified,
+                    else MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
         } else null,
