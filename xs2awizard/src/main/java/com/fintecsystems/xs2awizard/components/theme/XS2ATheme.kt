@@ -39,8 +39,8 @@ fun XS2ATheme(
     CompositionLocalProvider(LocalExtendedStyle provides theme) {
         MaterialTheme(
             colorScheme = lightColorScheme(
-                primary = theme.tintColor.value,
-                onPrimary = theme.onTintColor.value,
+                primary = theme.primaryColor.value,
+                onPrimary = theme.onPrimaryColor.value,
                 background = theme.backgroundColor.value,
                 onBackground = theme.textColor.value,
                 error = theme.errorColor.value,
@@ -65,9 +65,9 @@ fun XS2ATheme(
 @Parcelize
 class XS2ATheme(
     // General
-    val tintColor: XS2AColor = XS2AColors.primary,
+    val primaryColor: XS2AColor = XS2AColors.primary,
+    val onPrimaryColor: XS2AColor = XS2AColors.textColorLight,
     val errorColor: XS2AColor = XS2AColors.error,
-    val onTintColor: XS2AColor = XS2AColors.textColorLight,
     val backgroundColor: XS2AColor = XS2AColors.backgroundLight,
     val surfaceColor: XS2AColor = XS2AColors.surfaceColor,
     val onSurfaceColor: XS2AColor = XS2AColors.onSurfaceColor,
@@ -135,7 +135,7 @@ class XS2ATheme(
          * Implementation of a Dark-Theme
          */
         val dark = XS2ATheme(
-            tintColor = XS2AColors.primaryDark,
+            primaryColor = XS2AColors.primaryDark,
             errorColor = XS2AColors.errorDark,
             backgroundColor = XS2AColors.backgroundDark,
             surfaceColor = XS2AColors.surfaceColorDark,
