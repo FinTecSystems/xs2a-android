@@ -50,8 +50,7 @@ android {
 dependencies {
 
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.material)
-    implementation(libs.androidx.material.icons)
+    implementation(libs.androidx.material3)
     implementation(libs.androidx.compose.animation)
     implementation(libs.androidx.compose.ui.tooling)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
@@ -60,6 +59,7 @@ dependencies {
     implementation(libs.androidx.security.crypto)
     implementation(libs.androidx.biometric)
     implementation(libs.androidx.browser)
+    implementation(libs.androidx.activityCompose)
 
     implementation(libs.android.volley)
 

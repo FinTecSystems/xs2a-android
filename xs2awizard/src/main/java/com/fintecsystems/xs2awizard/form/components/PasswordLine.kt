@@ -1,9 +1,12 @@
 package com.fintecsystems.xs2awizard.form.components
 
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.TextFieldValue
 import com.fintecsystems.xs2awizard.form.PasswordLineData
 import com.fintecsystems.xs2awizard.form.components.shared.FormTextField
 import kotlinx.serialization.json.JsonPrimitive
@@ -18,9 +21,7 @@ import kotlinx.serialization.json.jsonPrimitive
 fun PasswordLine(formData: PasswordLineData) {
     var textFieldValue by remember {
         mutableStateOf(
-            TextFieldValue(
-                formData.value?.jsonPrimitive?.content ?: ""
-            )
+            formData.value?.jsonPrimitive?.content ?: ""
         )
     }
 
@@ -29,19 +30,22 @@ fun PasswordLine(formData: PasswordLineData) {
      *
      * @param newValue
      */
-    fun onValueChange(newValue: TextFieldValue) {
+    fun onValueChange(newValue: String) {
         textFieldValue = newValue
         // Update formData.value as well
-        formData.value = JsonPrimitive(newValue.text)
+        formData.value = JsonPrimitive(newValue)
     }
 
-    LabelledContainer(label = formData.label) {
-        FormTextField(
-            value = textFieldValue,
-            onValueChange = ::onValueChange,
-            placeholder = formData.placeholder,
-            visualTransformation = PasswordVisualTransformation(),
-            keyboardType = KeyboardType.Password,
-        )
-    }
+    // TODO: Migrated to SecureTextField/OutlinedSecureTextField
+    FormTextField(
+        value = textFieldValue,
+        onValueChange = ::onValueChange,
+        placeholder = formData.placeholder,
+        visualTransformation = PasswordVisualTransformation(),
+        keyboardType = KeyboardType.Password,
+        isError = formData.invalid,
+        required = formData.required,
+        errorMessage = formData.validationError,
+        label = formData.label
+    )
 }

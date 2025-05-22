@@ -12,7 +12,7 @@ A demo screencast of the test bank login flow can be found [here](https://demo.x
 
 ## Installation
 
-> Your projects `minSDK` has to be 21 or higher.
+> Your projects `minSdk` has to be 21 or higher.
 
 Add the dependency to your `build.gradle`.
 
@@ -34,10 +34,9 @@ Since we use reflection for our serialization, please add the following to your
 -keepclassmembers class com.fintecsystems.xs2awizard.** { *; }
 ```
 
-## Migration from v3
+## Migration from v5
 
-Please refer to the [v4 release notes](https://github.com/FinTecSystems/xs2a-android/releases/tag/4.0.0).
-
+Please refer to the [v6 release notes](https://github.com/FinTecSystems/xs2a-android/releases/tag/6.0.0).
 
 ## Initialization
 
@@ -104,7 +103,7 @@ override fun onCreate(savedInstanceState: Bundle?) {
 }
 ```
 
-You may also use the `FragmentResultOwner.setXs2aCallbacks` convencience method. Similar to the Jetpack Compose implementation this expects an `XS2AWizardCallbackListener`-instance.
+You may also use the `FragmentResultOwner.setXs2aCallbacks` convenience method. Similar to the Jetpack Compose implementation, this expects an `XS2AWizardCallbackListener`-instance.
 
 Use `FragmentResultOwner.clearXs2aCallbacks` to clear them.
 
@@ -154,7 +153,7 @@ On API-Level 23+ the user is able to decide to save their credentials for use in
 > Please note that this does *not* raise the `minSDK` to 23.<br>
 > Devices using `API-Level` 21/22 will ignore this feature.
 
-The user must have at least one fingerprint registered, otherwise this feature will be ignored and he will not be asked to save/load his credentials.
+The user must have at least one fingerprint registered, otherwise this feature will be ignored and they will not be asked to save/load their credentials.
 
 ### Deletion
 
@@ -167,9 +166,13 @@ You'll be able to delete the credentials by calling
 
 > For interoperability reasons wrapper classes are excusively used for the theme.
 
+> [!NOTE]  
+> `surfaceColor` is being used for dropdowns or other elevated surfaces like the Top-Bar of the WebView.
+> Meanwhile `onSurfaceColor` is used for unselected items & `onSurfaceColorVariant` for disabled elements and the supporting text below text fields.
+
 ```kotlin
 val theme = XS2ATheme(
-    tintColor = XS2AColor("#ff0000"),
+    primaryColor = XS2AColor("#ff0000"),
     backgroundColor = XS2AColor("#00ff00"),
     submitButtonStyle = ButtonStyle(
         backgroundColor = XS2AColor("#ffffff"),
@@ -202,9 +205,7 @@ Instead of within `XS2ATheme` a custom font has to be defined differently depend
 // Compose
 XS2AWizard(
     // ...
-    typography = Typography(
-        defaultFontFamily = FontFamily.Default
-    )
+    fontFamily = FontFamily.Default
 )
 
 //Fragment
@@ -226,6 +227,51 @@ Pass your ViewModel, using the `viewModels` function, and pass it to the `XS2AWi
 
 > It is possible to freely define the ViewModel-Scope.
 > Please refer to [this answer](https://stackoverflow.com/a/68971296) for more information.
+
+#### Example
+
+```kotlin
+val xS2AWizardViewModel = viewModel<XS2AWizardViewModel>()
+
+Column {
+    Button({
+        // Access form functions
+        xS2AWizardViewModel.abort()
+    }) {
+        Text("Abort")
+    }
+
+    XS2AWizard(
+        xS2AWizardConfig = <your-config>,
+        xs2aWizardViewModel = xS2AWizardViewModel
+    )
+}
+```
+
+### Fragment
+The ViewModel-Scope of `XS2AWizardFragment` is the Host-Activity, because of that just access the Activity's `viewModels()` directly or if you need to access it within a Fragment with `activityViewModels()`.
+
+#### Example
+
+```kotlin
+class MainActivity : AppCompatActivity() {
+    val xs2aWizardViewModel: XS2AWizardViewModel by viewModels()
+
+    ...
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setContentView(R.layout.activity_main)
+
+        findViewById<Button>(R.id.backButton).setOnClickListener {
+            xs2aWizardViewModel.goBack()
+        }
+    }
+
+    ...
+}
+```
 
 ## App to App redirection (Beta)
 Some banks support redirecting to their banking app.
@@ -272,51 +318,6 @@ XS2AWizardFragment(
 
 Now every time the SDK encounters an URL to a bank which is known by us to support App2App redirection, the user gets asked if they want
 to perform the action within the WebView or the banking app.
-
-#### Example
-
-```kotlin
-val xS2AWizardViewModel = viewModel<XS2AWizardViewModel>()
-
-Column {
-    Button({
-        // Access form functions
-        xS2AWizardViewModel.abort()
-    }) {
-        Text("Abort")
-    }
-
-    XS2AWizard(
-        xS2AWizardConfig = <your-config>,
-        xs2aWizardViewModel = xS2AWizardViewModel
-    )
-}
-```
-
-### Fragment
-The ViewModel-Scope of `XS2AWizardFragment` is the Host-Activity, because of that just access the Activity's `viewModels()` directly or if you need to access it within a Fragment with `activityViewModels()`.
-
-#### Example
-
-```kotlin
-class MainActivity : AppCompatActivity() {
-    val xs2aWizardViewModel: XS2AWizardViewModel by viewModels()
-
-    ...
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        setContentView(R.layout.activity_main)
-
-        findViewById<Button>(R.id.backButton).setOnClickListener {
-            xs2aWizardViewModel.goBack()
-        }
-    }
-
-    ...
-}
-```
 
 ## License
 

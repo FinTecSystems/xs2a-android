@@ -4,10 +4,23 @@ import androidx.compose.animation.Animatable
 import androidx.compose.animation.core.snap
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -16,7 +29,6 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.fintecsystems.xs2awizard.R
 import com.fintecsystems.xs2awizard.components.theme.XS2AColors
@@ -58,9 +70,7 @@ fun FlickerLine(formData: FlickerLineData) {
 
     var textFieldValue by remember {
         mutableStateOf(
-            TextFieldValue(
-                formData.value?.jsonPrimitive?.content ?: ""
-            )
+            formData.value?.jsonPrimitive?.content ?: ""
         )
     }
 
@@ -81,9 +91,9 @@ fun FlickerLine(formData: FlickerLineData) {
         }
     }
 
-    fun onValueChange(newValue: TextFieldValue) {
+    fun onValueChange(newValue: String) {
         textFieldValue = newValue
-        formData.value = JsonPrimitive(newValue.text)
+        formData.value = JsonPrimitive(newValue)
     }
 
     Column(
@@ -103,12 +113,18 @@ fun FlickerLine(formData: FlickerLineData) {
                     },
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
+                val buttonColors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary
+                )
                 // Size
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(5.dp)
                 ) {
+
                     Button(
-                        colors = ButtonDefaults.buttonColors(backgroundColor = XS2ATheme.CURRENT.tintColor.value),
+                        colors = buttonColors,
+                        shape = XS2ATheme.CURRENT.buttonShape.value,
                         onClick = {
                             flickerContainerWidth =
                                 max(
@@ -120,17 +136,18 @@ fun FlickerLine(formData: FlickerLineData) {
                         Image(
                             painter = painterResource(R.drawable.ic_flicker_smaller),
                             contentDescription = stringResource(id = R.string.flicker_smaller),
-                            colorFilter = ColorFilter.tint(XS2ATheme.CURRENT.onTintColor.value)
+                            colorFilter = ColorFilter.tint(buttonColors.contentColor)
                         )
                     }
                     Button(
-                        colors = ButtonDefaults.buttonColors(backgroundColor = XS2ATheme.CURRENT.tintColor.value),
+                        colors = buttonColors,
+                        shape = XS2ATheme.CURRENT.buttonShape.value,
                         onClick = { flickerContainerWidth += sizeStepSize }
                     ) {
                         Image(
                             painter = painterResource(R.drawable.ic_flicker_bigger),
                             contentDescription = stringResource(id = R.string.flicker_bigger),
-                            colorFilter = ColorFilter.tint(XS2ATheme.CURRENT.onTintColor.value)
+                            colorFilter = ColorFilter.tint(buttonColors.contentColor)
                         )
                     }
                 }
@@ -140,23 +157,25 @@ fun FlickerLine(formData: FlickerLineData) {
                     horizontalArrangement = Arrangement.spacedBy(5.dp)
                 ) {
                     Button(
-                        colors = ButtonDefaults.buttonColors(backgroundColor = XS2ATheme.CURRENT.tintColor.value),
+                        colors = buttonColors,
+                        shape = XS2ATheme.CURRENT.buttonShape.value,
                         onClick = { fps = max(fps - fpsStepSize, 1) }
                     ) {
                         Image(
                             painter = painterResource(R.drawable.ic_flicker_slower),
                             contentDescription = stringResource(id = R.string.flicker_slower),
-                            colorFilter = ColorFilter.tint(XS2ATheme.CURRENT.onTintColor.value)
+                            colorFilter = ColorFilter.tint(buttonColors.contentColor)
                         )
                     }
                     Button(
-                        colors = ButtonDefaults.buttonColors(backgroundColor = XS2ATheme.CURRENT.tintColor.value),
+                        colors = buttonColors,
+                        shape = XS2ATheme.CURRENT.buttonShape.value,
                         onClick = { fps = min(fps + fpsStepSize, 60) }
                     ) {
                         Image(
                             painter = painterResource(R.drawable.ic_flicker_faster),
                             contentDescription = stringResource(id = R.string.flicker_faster),
-                            colorFilter = ColorFilter.tint(XS2ATheme.CURRENT.onTintColor.value)
+                            colorFilter = ColorFilter.tint(buttonColors.contentColor)
                         )
                     }
                 }
@@ -181,7 +200,7 @@ fun FlickerLine(formData: FlickerLineData) {
                         if (index == 0 || index == barColors.lastIndex) {
                             Image(
                                 painter = painterResource(R.drawable.ic_flicker_marker),
-                                contentDescription = stringResource(id = R.string.flicker_marker),
+                                contentDescription = null,
                                 colorFilter = ColorFilter.tint(XS2AColors.flickerMarker.value),
                                 alignment = Alignment.TopCenter,
                                 modifier = Modifier.fillMaxWidth()
@@ -192,12 +211,14 @@ fun FlickerLine(formData: FlickerLineData) {
             }
         }
 
-        LabelledContainer(formData.label) {
-            FormTextField(
-                value = textFieldValue,
-                onValueChange = ::onValueChange,
-                placeholder = formData.placeholder
-            )
-        }
+        FormTextField(
+            value = textFieldValue,
+            onValueChange = ::onValueChange,
+            placeholder = formData.placeholder,
+            isError = formData.invalid,
+            required = formData.required,
+            errorMessage = formData.validationError,
+            label = formData.label
+        )
     }
 }

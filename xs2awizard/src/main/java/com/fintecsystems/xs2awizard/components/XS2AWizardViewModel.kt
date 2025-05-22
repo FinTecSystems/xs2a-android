@@ -14,8 +14,7 @@ import androidx.activity.ComponentActivity
 import androidx.annotation.RequiresApi
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
-import androidx.browser.customtabs.CustomTabsIntent
-import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.LinkAnnotation
 import androidx.core.net.toUri
 import androidx.core.util.Consumer
 import androidx.fragment.app.FragmentActivity
@@ -31,7 +30,6 @@ import com.fintecsystems.xs2awizard.helper.*
 import com.fintecsystems.xs2awizard.networking.NetworkingService
 import com.fintecsystems.xs2awizard.networking.utils.registerNetworkCallback
 import com.fintecsystems.xs2awizard.networking.utils.unregisterNetworkCallback
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.*
 import java.lang.ref.WeakReference
 import java.security.KeyStore
@@ -380,25 +378,15 @@ class XS2AWizardViewModel(
     }
 
     /**
-     * Handles onClick of ClickableText's with string annotations.
+     * Handles onClick of [LinkAnnotation]
      *
      * @param annotation clicked annotation
      */
-    internal fun handleAnnotationClick(
-        activity: Activity,
-        annotation: AnnotatedString.Range<String>
+    internal fun handleLinkAnnotationClick(
+        annotation: LinkAnnotation.Clickable
     ) {
-        when (annotation.tag) {
-            "autosubmit" -> {
-                val jsonBody = MarkupParser.parseAutoSubmitPayloadAsJson(annotation.item)
-
-                submitForm(constructJsonBody("autosubmit", jsonBody))
-            }
-
-            else -> CustomTabsIntent.Builder().build().launchUrl(
-                activity, Uri.parse(annotation.item)
-            )
-        }
+        val jsonBody = MarkupParser.parseAutoSubmitPayloadAsJson(annotation.tag)
+        submitForm(constructJsonBody("autosubmit", jsonBody))
     }
 
     /**
@@ -434,13 +422,34 @@ class XS2AWizardViewModel(
 
         parseCallback(formResponse)
 
-        _form.value = formResponse.form
+        _form.value = filterFormResponseForm(formResponse.form)
 
         if (Utils.isMarshmallow && Crypto.isDeviceSecure(context)) {
             tryToAutoFillCredentials()
         }
 
         _loadingIndicatorLock.value = false
+    }
+
+    /**
+     * Filters out duplicate ParagraphLines, which represent an Validation Error.
+     */
+    private fun filterFormResponseForm(form: List<FormLineData>?): List<FormLineData>? {
+        return form?.filter { formLineData ->
+            if (formLineData !is ParagraphLineData) {
+                return@filter true
+            }
+
+            if (formLineData.severity != "error") {
+                return@filter true
+            }
+
+            return@filter form.none {
+                it is ValueFormLineData
+                        && !it.validationError.isNullOrEmpty()
+                        && it.validationError == formLineData.text
+            }
+        }
     }
 
     /**

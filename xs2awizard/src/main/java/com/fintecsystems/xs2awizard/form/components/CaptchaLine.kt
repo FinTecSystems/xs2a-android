@@ -1,12 +1,18 @@
 package com.fintecsystems.xs2awizard.form.components
 
 import androidx.compose.foundation.Image
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.TextFieldValue
-import com.fintecsystems.xs2awizard.R
+import androidx.compose.ui.unit.dp
 import com.fintecsystems.xs2awizard.form.CaptchaLineData
 import com.fintecsystems.xs2awizard.form.components.shared.FormTextField
 import com.fintecsystems.xs2awizard.helper.Utils
@@ -24,29 +30,37 @@ fun CaptchaLine(formData: CaptchaLineData) {
 
     var textFieldValue by remember {
         mutableStateOf(
-            TextFieldValue(
-                formData.value?.jsonPrimitive?.content ?: ""
-            )
+            formData.value?.jsonPrimitive?.content ?: ""
         )
     }
 
-    fun onValueChange(newValue: TextFieldValue) {
+    fun onValueChange(newValue: String) {
         textFieldValue = newValue
-        formData.value = JsonPrimitive(newValue.text)
+        formData.value = JsonPrimitive(newValue)
     }
 
-    LabelledContainer(formData.label) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(5.dp)
+    ) {
         Image(
             bitmap = imageBitmap,
-            contentDescription = stringResource(id = R.string.captcha_image_description),
+            contentDescription = formData.description,
             modifier = Modifier
+                .fillMaxWidth()
+                .defaultMinSize(minHeight = 200.dp, minWidth = 200.dp)
                 .align(Alignment.CenterHorizontally)
         )
 
         FormTextField(
             value = textFieldValue,
             onValueChange = ::onValueChange,
-            placeholder = formData.placeholder
+            placeholder = formData.placeholder,
+            isError = formData.invalid,
+            required = formData.required,
+            errorMessage = formData.validationError,
+            label = formData.label
         )
     }
 }

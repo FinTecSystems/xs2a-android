@@ -1,29 +1,32 @@
 package com.fintecsystems.xs2awizard.form.components
 
-import android.app.Activity
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.focusable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.text.ClickableText
-import androidx.compose.material.Checkbox
-import androidx.compose.material.CheckboxDefaults
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.LocalRippleConfiguration
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.ripple
-import androidx.compose.runtime.*
+import androidx.compose.foundation.selection.toggleable
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
+import com.fintecsystems.xs2awizard.R
 import com.fintecsystems.xs2awizard.components.XS2AWizardViewModel
-import com.fintecsystems.xs2awizard.components.mutateInteractionSource
-import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.CheckBoxLineData
+import com.fintecsystems.xs2awizard.form.components.shared.FormText
 import com.fintecsystems.xs2awizard.helper.MarkupParser
-import com.fintecsystems.xs2awizard.helper.Utils.getActivity
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.boolean
 import kotlinx.serialization.json.jsonPrimitive
@@ -34,20 +37,14 @@ import kotlinx.serialization.json.jsonPrimitive
  * @param formData Data of this FormLine
  * @param viewModel ViewModel of the Wizard-Instance.
  */
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CheckBoxLine(formData: CheckBoxLineData, viewModel: XS2AWizardViewModel) {
     var checkBoxValue by remember {
         mutableStateOf(
-            formData.value?.jsonPrimitive?.boolean ?: false
+            formData.value?.jsonPrimitive?.boolean == true
         )
     }
-
-    val interactionSource = remember {
-        MutableInteractionSource()
-    }
-
-    val localFocusManager = LocalFocusManager.current
 
     val enabled = formData.disabled == false
 
@@ -60,60 +57,62 @@ fun CheckBoxLine(formData: CheckBoxLineData, viewModel: XS2AWizardViewModel) {
         checkBoxValue = newValue
         // Update formData.value as well
         formData.value = JsonPrimitive(newValue)
-
-        localFocusManager.clearFocus()
     }
+
+    val focusRequester = remember { FocusRequester() }
 
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .offset((-14).dp, 0.dp)
-            .clickable(
-                interactionSource = interactionSource,
-                indication = ripple(),
+            .focusRequester(focusRequester)
+            .focusable()
+            .toggleable(
+                value = checkBoxValue,
                 enabled = enabled,
-                onClick = {
+                onValueChange = {
+                    focusRequester.requestFocus()
                     onCheckedChange(!checkBoxValue)
-                }),
+                },
+                role = Role.Checkbox
+            ),
+        horizontalArrangement = Arrangement.spacedBy(14.dp)
     ) {
-
-        CompositionLocalProvider(LocalRippleConfiguration provides null) {
-            Checkbox(
-                checked = checkBoxValue,
-                onCheckedChange = ::onCheckedChange,
-                interactionSource = interactionSource,
-                enabled = enabled,
-                colors = CheckboxDefaults.colors(
-                    checkedColor = XS2ATheme.CURRENT.tintColor.value,
-                    uncheckedColor = XS2ATheme.CURRENT.unselectedColor.value,
-                    checkmarkColor = XS2ATheme.CURRENT.onTintColor.value
-                )
+        Checkbox(
+            checked = checkBoxValue,
+            onCheckedChange = null,
+            enabled = enabled,
+            colors = CheckboxDefaults.colors(
+                uncheckedColor = if (formData.invalid) MaterialTheme.colorScheme.error
+                else Color.Unspecified,
             )
-        }
+        )
 
-        if (!formData.label.isNullOrEmpty()) {
-            val annotatedString = MarkupParser.parseMarkupText(formData.label)
-            val activity = LocalContext.current.getActivity<Activity>()
+        Column {
+            if (!formData.label.isNullOrEmpty()) {
+                val parseResult = MarkupParser.parseMarkupText(formData.label)
 
-            ClickableText(
-                modifier = Modifier
-                    .mutateInteractionSource(
-                        interactionSource = interactionSource,
-                        enabled = enabled
+                FormText(
+                    parseResult = parseResult,
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        color = if (enabled) MaterialTheme.colorScheme.onBackground
+                        else MaterialTheme.colorScheme.onSurface
+                            .copy(alpha = 0.38f)
                     ),
-                text = annotatedString,
-                style = MaterialTheme.typography.body2.copy(
-                    color = if (enabled) XS2ATheme.CURRENT.textColor.value else XS2ATheme.CURRENT.disabledColor.value
-                ),
-                onClick = {
-                    annotatedString.getStringAnnotations(it, it)
-                        .firstOrNull().let { annotation ->
-                            if (annotation != null)
-                                viewModel.handleAnnotationClick(activity!!, annotation)
-                            else if (enabled) onCheckedChange(!checkBoxValue)
-                        }
-                }
-            )
+                    onLinkAnnotationClick = viewModel::handleLinkAnnotationClick
+                )
+            }
+
+            if (formData.required || !formData.validationError.isNullOrEmpty()) {
+                val supportText =
+                    formData.validationError ?: stringResource(R.string.input_required_label)
+                FormText(
+                    text = supportText,
+                    color = if (formData.invalid) MaterialTheme.colorScheme.error
+                    else MaterialTheme.colorScheme.onSurfaceVariant,
+                    style = MaterialTheme.typography.bodySmall
+                )
+            }
         }
+
     }
 }

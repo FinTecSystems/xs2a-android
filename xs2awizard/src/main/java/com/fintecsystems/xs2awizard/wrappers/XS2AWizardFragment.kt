@@ -4,8 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Typography
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.text.font.Font
@@ -91,25 +90,23 @@ class XS2AWizardFragment() : Fragment(), XS2AWizardCallbackListener {
 
                 assert(arguments.containsKey("sessionKey"))
 
-                val typography = if (arguments.containsKey(XS2AWizardBundleKeys.fontResId))
-                    Typography(
-                        defaultFontFamily = FontFamily(
-                            Font(
-                                arguments.getInt(
-                                    XS2AWizardBundleKeys.fontResId
-                                )
+                val fontFamily = if (arguments.containsKey(XS2AWizardBundleKeys.fontResId))
+                    FontFamily(
+                        Font(
+                            arguments.getInt(
+                                XS2AWizardBundleKeys.fontResId
                             )
                         )
                     )
                 else
-                    MaterialTheme.typography
+                    LocalTextStyle.current.fontFamily
 
 
                 XS2AWizard(
                     sessionKey = arguments.getString(XS2AWizardBundleKeys.sessionKey)!!,
                     backendURL = arguments.getString(XS2AWizardBundleKeys.backendURL),
                     theme = arguments.getParcelable(XS2AWizardBundleKeys.theme),
-                    typography = typography,
+                    fontFamily = fontFamily,
                     language = arguments.getSerializable(XS2AWizardBundleKeys.language) as? XS2AWizardLanguage,
                     enableScroll = arguments.getBoolean(XS2AWizardBundleKeys.enableScroll),
                     enableBackButton = arguments.getBoolean(XS2AWizardBundleKeys.enableBackButton),

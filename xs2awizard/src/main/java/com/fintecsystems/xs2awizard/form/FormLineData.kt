@@ -32,6 +32,12 @@ abstract class LabelFormLineData : FormLineData() {
 abstract class ValueFormLineData : LabelFormLineData() {
     abstract val name: String
     abstract var value: JsonElement?
+    abstract val invalid: Boolean
+    @SerialName("validation_error")
+    abstract val validationError: String?
+    abstract val validation: String?
+    open val required: Boolean
+        get() = validation?.contains("required") == true
 }
 
 /**
@@ -79,6 +85,7 @@ class SubmitLineData(
 class ImageLineData(
     val data: String,
     val align: String,
+    val description: String? = null
 ) : FormLineData()
 
 @SerialName("logo")
@@ -119,6 +126,10 @@ class TextLineData(
     override val name: String,
     override val label: String? = null,
     override var value: JsonElement? = null,
+    @SerialName("validation_error")
+    override val validationError: String? = null,
+    override val validation: String? = null,
+    override val invalid: Boolean = false,
     @SerialName("login_credential")
     override val isLoginCredential: Boolean? = false,
     val disabled: Boolean? = false,
@@ -137,6 +148,10 @@ class PasswordLineData(
     override val name: String,
     override val label: String? = null,
     override var value: JsonElement? = null,
+    @SerialName("validation_error")
+    override val validationError: String? = null,
+    override val validation: String? = null,
+    override val invalid: Boolean = false,
     @SerialName("login_credential")
     override val isLoginCredential: Boolean? = false,
     val placeholder: String? = null,
@@ -148,8 +163,13 @@ class CaptchaLineData(
     override val name: String,
     override val label: String? = null,
     override var value: JsonElement? = null,
+    @SerialName("validation_error")
+    override val validationError: String? = null,
+    override val validation: String? = null,
+    override val invalid: Boolean = false,
     val placeholder: String,
     val data: String,
+    val description: String? = null
 ) : ValueFormLineData()
 
 @SerialName("flicker")
@@ -158,6 +178,10 @@ class FlickerLineData(
     override val name: String,
     override val label: String? = null,
     override var value: JsonElement? = null,
+    @SerialName("validation_error")
+    override val validationError: String? = null,
+    override val validation: String? = null,
+    override val invalid: Boolean = false,
     val placeholder: String? = null,
     val code: List<List<Int>>,
 ) : ValueFormLineData()
@@ -168,6 +192,10 @@ class HiddenLineData(
     override val name: String,
     override val label: String? = null,
     override var value: JsonElement? = null,
+    @SerialName("validation_error")
+    override val validationError: String? = null,
+    override val validation: String? = null,
+    override val invalid: Boolean = false,
 ) : ValueFormLineData()
 
 @SerialName("checkbox")
@@ -179,6 +207,11 @@ class CheckBoxLineData(
     override val isLoginCredential: Boolean? = false,
     @SerialName("checked")
     override var value: JsonElement? = null,
+    @SerialName("validation_error")
+    override val validationError: String? = null,
+    override val validation: String? = null,
+    override val invalid: Boolean = false,
+    override val required: Boolean = false,
     val disabled: Boolean? = false,
 ) : CredentialFormLineData()
 
@@ -189,6 +222,10 @@ class RadioLineData(
     override val label: String? = null,
     @SerialName("checked")
     override var value: JsonElement? = null,
+    @SerialName("validation_error")
+    override val validationError: String? = null,
+    override val validation: String? = null,
+    override val invalid: Boolean = false,
     val options: List<JsonElement>,
 ) : ValueFormLineData()
 
@@ -199,6 +236,10 @@ class SelectLineData(
     override val label: String? = null,
     @SerialName("selected")
     override var value: JsonElement? = null,
+    @SerialName("validation_error")
+    override val validationError: String? = null,
+    override val validation: String? = null,
+    override val invalid: Boolean = false,
     val options: JsonElement,
 ) : ValueFormLineData()
 

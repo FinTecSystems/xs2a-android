@@ -1,23 +1,30 @@
 package com.fintecsystems.xs2awizard.form.components
 
-import android.app.Activity
 import android.util.DisplayMetrics
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.text.ClickableText
-import androidx.compose.material.AlertDialog
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.TextButton
-import androidx.compose.runtime.*
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.invisibleToUser
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextLinkStyles
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withLink
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -27,7 +34,6 @@ import com.fintecsystems.xs2awizard.components.XS2AWizardViewModel
 import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.components.theme.styles.LogoVariation
 import com.fintecsystems.xs2awizard.form.components.shared.FormText
-import com.fintecsystems.xs2awizard.helper.Utils.getActivity
 
 /**
  * Displays the Logo and shows the Imprint in an Alert on click.
@@ -63,15 +69,16 @@ fun LogoLine(viewModel: XS2AWizardViewModel) {
             .data(stringResource(id = getImageUrlId()))
             .crossfade(true)
             .build(),
-        contentDescription = stringResource(R.string.logo_image_description),
+        contentDescription = stringResource(R.string.dialog_imprint_title),
         modifier = Modifier
             .fillMaxWidth()
             .height(80.dp)
-            .clickable { showAlertDialog = true }
+            .clickable(
+                onClickLabel = stringResource(R.string.dialog_imprint_description)
+            ) { showAlertDialog = true }
     )
 
     if (showAlertDialog) {
-
         AlertDialog(
             onDismissRequest = { showAlertDialog = false },
             confirmButton = {},
@@ -85,54 +92,47 @@ fun LogoLine(viewModel: XS2AWizardViewModel) {
                     )
                 }
             },
-            backgroundColor = XS2ATheme.CURRENT.surfaceColor.value,
+            containerColor = MaterialTheme.colorScheme.surface,
             title = {
                 FormText(
+                    modifier = Modifier.semantics {
+                        invisibleToUser() // FIXME: Remove. At the moment the Title will never be focused first.
+                                          //        When the the title can be announced first, we can re-add it.
+                    },
                     text = stringResource(id = R.string.dialog_imprint_title),
-                    style = MaterialTheme.typography.h6.copy(
-                        color = XS2ATheme.CURRENT.tintColor.value,
+                    style = MaterialTheme.typography.titleLarge.copy(
+                        color = MaterialTheme.colorScheme.primary,
                         fontWeight = FontWeight.Bold,
                     )
                 )
             },
             text = {
                 val annotatedString = buildAnnotatedString {
-                    append(stringResource(id = R.string.dialog_imprint_message))
-                    append("\n")
+                    withStyle(SpanStyle(
+                        color = MaterialTheme.colorScheme.onSurface
+                    )) {
+                        appendLine(stringResource(id = R.string.dialog_imprint_message))
+                    }
 
-                    pushStringAnnotation(
-                        tag = "URL",
-                        annotation = stringResource(id = R.string.dialog_imprint_link_url)
-                    )
-
-                    withStyle(
-                        style = SpanStyle(
-                            color = XS2ATheme.CURRENT.tintColor.value,
-                            fontWeight = FontWeight.Bold
+                    withLink(
+                        LinkAnnotation.Url(
+                            url = stringResource(id = R.string.dialog_imprint_link_url),
+                            styles = TextLinkStyles(
+                                style = SpanStyle(
+                                    color = MaterialTheme.colorScheme.primary,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            )
                         )
                     ) {
                         append(stringResource(id = R.string.dialog_imprint_link_text))
                     }
-
-                    pop()
                 }
 
-                val activity = LocalContext.current.getActivity<Activity>()
-
-                val localFocusManager = LocalFocusManager.current
-
-                ClickableText(
+                Text(
                     modifier = Modifier.fillMaxWidth(),
                     text = annotatedString,
-                    style = MaterialTheme.typography.body1,
-                    onClick = {
-                        annotatedString.getStringAnnotations(it, it)
-                            .firstOrNull()?.let { annotation ->
-                                viewModel.handleAnnotationClick(activity!!, annotation)
-
-                                localFocusManager.clearFocus()
-                            }
-                    }
+                    style = MaterialTheme.typography.bodyLarge,
                 )
             }
         )

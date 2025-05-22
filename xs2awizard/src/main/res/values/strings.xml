@@ -2,15 +2,10 @@
     <!-- This single public declaration marks all other values as private. -->
     <public />
 
-    <string name="captcha_image_description">Captcha Image</string>
-    <string name="image_description">Image</string>
-    <string name="logo_image_description">Logo</string>
-
     <string name="flicker_faster">Faster</string>
     <string name="flicker_slower">Slower</string>
     <string name="flicker_bigger">Bigger</string>
     <string name="flicker_smaller">Smaller</string>
-    <string name="flicker_marker">Marker</string>
 
     <string name="dialog_dismiss">Dismiss</string>
     <string name="dialog_imprint_title">Imprint</string>
@@ -48,4 +43,11 @@
     <string name="networking_public_key_exponent" translatable="false">10001</string>
     <string name="networking_backend_url" translatable="false">https://api.xs2a.com/jsonp</string>
     <string name="networking_xs2a_client_tag" translatable="false">android_sdk</string>
+    <string name="dialog_imprint_description">Open Imprint.</string>
+    <string name="paragraph_severity_info">Info</string>
+    <string name="paragraph_severity_warning">Warning</string>
+    <string name="paragraph_severity_error">Error</string>
+    <string name="input_required_label">*required</string>
+    <string name="search_bar_search">Search</string>
+    <string name="search_bar_suggestions_available">Suggestions below</string>
 </resources>

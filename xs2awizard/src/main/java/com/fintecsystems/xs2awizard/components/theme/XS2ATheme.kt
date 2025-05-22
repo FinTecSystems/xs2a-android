@@ -2,18 +2,24 @@ package com.fintecsystems.xs2awizard.components.theme
 
 import android.os.Parcelable
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material.Colors
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Typography
-import androidx.compose.material.lightColors
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ProvideTextStyle
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import com.fintecsystems.xs2awizard.components.theme.interop.XS2AAlignmentHorizontal
 import com.fintecsystems.xs2awizard.components.theme.interop.XS2AColor
 import com.fintecsystems.xs2awizard.components.theme.interop.XS2AShape
-import com.fintecsystems.xs2awizard.components.theme.styles.*
+import com.fintecsystems.xs2awizard.components.theme.styles.ButtonStyle
+import com.fintecsystems.xs2awizard.components.theme.styles.LogoVariation
+import com.fintecsystems.xs2awizard.components.theme.styles.PaddingMarginConfiguration
+import com.fintecsystems.xs2awizard.components.theme.styles.ParagraphStyle
+import com.fintecsystems.xs2awizard.components.theme.styles.SizeConstraint
+import com.fintecsystems.xs2awizard.components.theme.styles.TextFieldType
 import kotlinx.parcelize.Parcelize
 
 private val LocalExtendedStyle = staticCompositionLocalOf { XS2ATheme.light }
@@ -26,89 +32,62 @@ private val LocalExtendedStyle = staticCompositionLocalOf { XS2ATheme.light }
 @Composable
 fun XS2ATheme(
     xS2ATheme: XS2ATheme? = null,
-    colors: Colors = lightColors(),
-    typography: Typography = MaterialTheme.typography,
+    fontFamily: FontFamily? = null,
     content: @Composable () -> Unit
 ) {
     val theme = xS2ATheme ?: if (isSystemInDarkTheme()) XS2ATheme.dark else XS2ATheme.light
     CompositionLocalProvider(LocalExtendedStyle provides theme) {
-        val patchedTypography = with(typography) {
-            copy(
-                h1.copy(
-                    color = XS2ATheme.CURRENT.textColor.value
+        MaterialTheme(
+            colorScheme = lightColorScheme(
+                primary = theme.primaryColor.value,
+                onPrimary = theme.onPrimaryColor.value,
+                background = theme.backgroundColor.value,
+                onBackground = theme.textColor.value,
+                error = theme.errorColor.value,
+                surface = theme.surfaceColor.value,
+                onSurface = theme.onSurfaceColor.value,
+                onSurfaceVariant = theme.onSurfaceVariantColor.value,
+                surfaceContainerHighest = theme.inputBackgroundColor.value,
+                surfaceContainerHigh = theme.inputBackgroundColor.value,
+            ),
+        ) {
+            ProvideTextStyle(
+                value = TextStyle(
+                    fontFamily = fontFamily,
+                    color = MaterialTheme.colorScheme.onBackground
                 ),
-                h2.copy(
-                    color = XS2ATheme.CURRENT.textColor.value
-                ),
-                h3.copy(
-                    color = XS2ATheme.CURRENT.textColor.value
-                ),
-                h4.copy(
-                    color = XS2ATheme.CURRENT.textColor.value
-                ),
-                h5.copy(
-                    color = XS2ATheme.CURRENT.textColor.value
-                ),
-                h6.copy(
-                    color = XS2ATheme.CURRENT.textColor.value
-                ),
-                subtitle1.copy(
-                    color = XS2ATheme.CURRENT.textColor.value
-                ),
-                subtitle2.copy(
-                    color = XS2ATheme.CURRENT.textColor.value
-                ),
-                body1.copy(
-                    color = XS2ATheme.CURRENT.textColor.value
-                ),
-                body2.copy(
-                    color = XS2ATheme.CURRENT.textColor.value
-                ),
-                button.copy(
-                    color = XS2ATheme.CURRENT.textColor.value
-                ),
-                caption.copy(
-                    color = XS2ATheme.CURRENT.textColor.value
-                ),
-                overline.copy(
-                    color = XS2ATheme.CURRENT.textColor.value
-                )
+                content = content
             )
         }
-
-        MaterialTheme(
-            colors = colors,
-            typography = patchedTypography,
-            content = content
-        )
     }
 }
 
 @Parcelize
 class XS2ATheme(
     // General
-    val tintColor: XS2AColor = XS2AColors.primary,
-    val onTintColor: XS2AColor = XS2AColors.textColorLight,
+    val primaryColor: XS2AColor = XS2AColors.primary,
+    val onPrimaryColor: XS2AColor = XS2AColors.textColorLight,
+    val errorColor: XS2AColor = XS2AColors.error,
     val backgroundColor: XS2AColor = XS2AColors.backgroundLight,
     val surfaceColor: XS2AColor = XS2AColors.surfaceColor,
+    val onSurfaceColor: XS2AColor = XS2AColors.onSurfaceColor,
+    val onSurfaceVariantColor: XS2AColor = XS2AColors.onSurfaceVariantColor,
     val textColor: XS2AColor = XS2AColors.textColor,
-    val placeholderColor: XS2AColor = XS2AColors.darkGrey,
     val logoVariation: LogoVariation = LogoVariation.STANDARD,
     val loadingIndicatorBackgroundColor: XS2AColor = XS2AColors.backgroundTranslucent,
 
     // TextInput
-    val inputTextColor: XS2AColor = XS2AColors.textColor,
     val inputBackgroundColor: XS2AColor = XS2AColors.backgroundInput,
     val inputShape: XS2AShape = XS2AShape(4.dp, XS2AShape.ShapeType.ROUNDED),
     val inputType: TextFieldType = TextFieldType.NORMAL,
 
     // Button
     val submitButtonStyle: ButtonStyle = ButtonStyle(XS2AColors.primary, XS2AColors.textColorLight),
-    val abortButtonStyle: ButtonStyle = ButtonStyle(XS2AColors.darkGrey, XS2AColors.textColorLight),
-    val backButtonStyle: ButtonStyle = ButtonStyle(XS2AColors.darkGrey, XS2AColors.textColorLight),
+    val abortButtonStyle: ButtonStyle = ButtonStyle(XS2AColors.darkGrey, XS2AColors.textColor),
+    val backButtonStyle: ButtonStyle = ButtonStyle(XS2AColors.darkGrey, XS2AColors.textColor),
     val restartButtonStyle: ButtonStyle = ButtonStyle(
         XS2AColors.darkGrey,
-        XS2AColors.textColorLight
+        XS2AColors.textColor
     ),
     val redirectButtonStyle: ButtonStyle = ButtonStyle(
         XS2AColors.primary,
@@ -132,18 +111,8 @@ class XS2ATheme(
         XS2AColors.textColor
     ),
     val paragraphShape: XS2AShape = XS2AShape(4.dp, XS2AShape.ShapeType.ROUNDED),
-    val paragraphPadding: PaddingMarginConfiguration = PaddingMarginConfiguration(0.dp),
-    val paragraphMargin: PaddingMarginConfiguration = PaddingMarginConfiguration(4.dp, 8.dp),
-
-    // WebView
-    val webViewIconColor: XS2AColor = XS2AColors.textColor,
-    val webViewBackgroundColor: XS2AColor = XS2AColors.surfaceColor,
-    val webViewBorderColor: XS2AColor = XS2AColors.darkGrey,
-    val webViewTextColor: XS2AColor = XS2AColors.textColor,
-
-    // Checkbox/Radio
-    val unselectedColor: XS2AColor = XS2AColors.unselected,
-    val disabledColor: XS2AColor = XS2AColors.disabled,
+    val paragraphPadding: PaddingMarginConfiguration = PaddingMarginConfiguration(4.dp, 8.dp),
+    val paragraphMargin: PaddingMarginConfiguration = PaddingMarginConfiguration(0.dp),
 
     // Connection status Banner
     val connectionStatusBannerBackgroundColor: XS2AColor = XS2AColors.backgroundWarning,
@@ -166,21 +135,16 @@ class XS2ATheme(
          * Implementation of a Dark-Theme
          */
         val dark = XS2ATheme(
+            primaryColor = XS2AColors.primaryDark,
+            errorColor = XS2AColors.errorDark,
             backgroundColor = XS2AColors.backgroundDark,
-            surfaceColor = XS2AColors.backgroundDark,
+            surfaceColor = XS2AColors.surfaceColorDark,
+            onSurfaceColor = XS2AColors.onSurfaceColorDark,
+            onSurfaceVariantColor = XS2AColors.onSurfaceVariantColorDark,
             textColor = XS2AColors.textColorLight,
             logoVariation = LogoVariation.WHITE,
             loadingIndicatorBackgroundColor = XS2AColors.backgroundTranslucentDark,
-
-            inputTextColor = XS2AColors.textColorLight,
             inputBackgroundColor = XS2AColors.backgroundInputDark,
-
-            webViewIconColor = XS2AColors.textColorLight,
-            webViewBackgroundColor = XS2AColors.backgroundDark,
-            webViewTextColor = XS2AColors.textColorLight,
-
-            unselectedColor = XS2AColors.unselectedDark,
-            disabledColor = XS2AColors.disabledDark,
         )
     }
 }
