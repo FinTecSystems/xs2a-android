@@ -73,7 +73,7 @@ dependencies {
 }
 
 mavenPublishing {
-    publishToMavenCentral(SonatypeHost.S01)
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
 
     configure(AndroidSingleVariantLibrary(
         variant = "release",
