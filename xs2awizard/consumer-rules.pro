@@ -1,0 +1,2 @@
+-keep class com.fintecsystems.xs2awizard.** { *; }
+-keepclassmembers class com.fintecsystems.xs2awizard.** { *; }
