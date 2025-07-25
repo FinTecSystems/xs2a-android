@@ -24,16 +24,6 @@ dependencies {
 }
 ```
 
-### Update proguard rules
-
-Since we use reflection for our serialization, please add the following to your 
-`proguard-rules.pro` file:
-
-```
--keep class com.fintecsystems.xs2awizard.** { *; }
--keepclassmembers class com.fintecsystems.xs2awizard.** { *; }
-```
-
 ## Migration from v3
 
 Please refer to the [v4 release notes](https://github.com/FinTecSystems/xs2a-android/releases/tag/4.0.0).
