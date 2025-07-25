@@ -1,5 +1,5 @@
 import com.vanniktech.maven.publish.AndroidSingleVariantLibrary
-import com.vanniktech.maven.publish.SonatypeHost
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.android.library)
@@ -12,8 +12,14 @@ plugins {
 
 val versionName = providers.gradleProperty("versionName").getOrElse("LOCAL")
 
+kotlin {
+    compilerOptions {
+        jvmTarget = JvmTarget.JVM_11
+    }
+}
+
 android {
-    compileSdk = 35
+    compileSdk = 36
     namespace = "com.fintecsystems.xs2awizard"
 
     defaultConfig {
@@ -37,9 +43,6 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
-    }
-    kotlinOptions {
-        jvmTarget = "11"
     }
     buildFeatures {
         compose = true
@@ -73,7 +76,7 @@ dependencies {
 }
 
 mavenPublishing {
-    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+    publishToMavenCentral()
 
     configure(AndroidSingleVariantLibrary(
         variant = "release",
