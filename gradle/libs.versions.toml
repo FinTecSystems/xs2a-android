@@ -39,6 +39,8 @@ aesEverywhere = { group = "com.github.mervick", name = "aes-everywhere-java", ve
 
 android-volley = { group = "com.android.volley", name = "volley", version.ref = "volley" }
 
+kotlin-parcelizeRuntime = { group = "org.jetbrains.kotlin", name = "kotlin-parcelize-runtime", version.ref = "kotlin" }
+
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
