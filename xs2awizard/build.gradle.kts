@@ -66,6 +66,8 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.aesEverywhere)
 
+    api(libs.kotlin.parcelizeRuntime)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
