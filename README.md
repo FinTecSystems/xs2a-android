@@ -4,7 +4,7 @@
 ![License](https://img.shields.io/badge/License-MIT%20%2B%20File%20LICENSE-427783.svg)
 ![Platform](https://img.shields.io/badge/Platform-Android-427783.svg)
 ![Languages](https://img.shields.io/badge/Languages-Kotlin-427783.svg)
-[![Maven Central](https://img.shields.io/maven-central/v/com.fintecsystems/xs2awizard.svg?label=Maven%20Central&color=427783)](https://central.sonatype.com/search?q=g:com.fintecsystems%20a:xs2awizard)
+[![Maven Central](https://img.shields.io/maven-central/v/com.fintecsystems/xs2awizard.svg?label=Maven%20Central&color=427783)](https://central.sonatype.com/artifact/com.fintecsystems/xs2awizard)
 
 ## Demo Screencast
 
