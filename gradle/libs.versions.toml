@@ -17,7 +17,7 @@ volley = "1.2.1"
 aesEverywhere = "1.2.7"
 gradleMavenPublish = "0.35.0"
 material3 = "1.4.0"
-activity = "1.11.0"
+activity = "1.12.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
