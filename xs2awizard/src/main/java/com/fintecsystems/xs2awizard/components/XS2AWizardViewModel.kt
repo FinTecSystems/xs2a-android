@@ -480,7 +480,6 @@ class XS2AWizardViewModel(
      */
     @RequiresApi(Build.VERSION_CODES.M)
     private fun isProviderInStore(provider: String?) = runBlocking {
-        // TODO: Migrate to suspend function
         provider?.let { Crypto.dataStoreContainsProvider(context, it) } == true
     }
 
@@ -532,7 +531,6 @@ class XS2AWizardViewModel(
             }
         }
 
-        // TODO: Migrate to suspend function
         runBlocking {
             Crypto.saveProviderDataToDataStore(
                 context,
@@ -571,7 +569,6 @@ class XS2AWizardViewModel(
      */
     @RequiresApi(Build.VERSION_CODES.M)
     private fun autoFillCredentials() {
-        // TODO: Migrate to suspend function
         runBlocking {
             val providerData = Crypto.loadProviderDataFromDataStore(
                 context,
@@ -737,7 +734,6 @@ class XS2AWizardViewModel(
         @RequiresApi(Build.VERSION_CODES.M)
         @Suppress("unused")
         fun clearCredentials(context: Context) {
-            // TODO: Migrate to suspend function
             runBlocking {
                 Crypto.clearDataStore(context)
             }
