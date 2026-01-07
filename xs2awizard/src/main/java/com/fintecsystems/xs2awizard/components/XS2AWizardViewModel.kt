@@ -25,15 +25,34 @@ import androidx.lifecycle.SavedStateHandle
 import com.fintecsystems.xs2awizard.BuildConfig
 import com.fintecsystems.xs2awizard.R
 import com.fintecsystems.xs2awizard.components.networking.ConnectionState
-import com.fintecsystems.xs2awizard.form.*
-import com.fintecsystems.xs2awizard.helper.*
+import com.fintecsystems.xs2awizard.form.CheckBoxLineData
+import com.fintecsystems.xs2awizard.form.CredentialFormLineData
+import com.fintecsystems.xs2awizard.form.FormLineData
+import com.fintecsystems.xs2awizard.form.FormResponse
+import com.fintecsystems.xs2awizard.form.ParagraphLineData
+import com.fintecsystems.xs2awizard.form.RedirectLineData
+import com.fintecsystems.xs2awizard.form.SubmitLineData
+import com.fintecsystems.xs2awizard.form.ValueFormLineData
+import com.fintecsystems.xs2awizard.helper.Crypto
+import com.fintecsystems.xs2awizard.helper.JSONFormatter
+import com.fintecsystems.xs2awizard.helper.MarkupParser
+import com.fintecsystems.xs2awizard.helper.Utils
 import com.fintecsystems.xs2awizard.networking.NetworkingService
 import com.fintecsystems.xs2awizard.networking.utils.registerNetworkCallback
 import com.fintecsystems.xs2awizard.networking.utils.unregisterNetworkCallback
-import kotlinx.serialization.json.*
+import kotlinx.coroutines.runBlocking
+import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonNull
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.boolean
+import kotlinx.serialization.json.booleanOrNull
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.contentOrNull
+import kotlinx.serialization.json.jsonPrimitive
+import kotlinx.serialization.json.put
 import java.lang.ref.WeakReference
-import java.security.KeyStore
-import java.util.*
+import java.util.Locale
 
 /**
  * Holds data of the Wizard-Instance and performs all Business-Logic.
@@ -459,29 +478,10 @@ class XS2AWizardViewModel(
      *
      * @return true if exists.
      */
-    private fun isProviderInStore(provider: String?) =
-        context.getSharedPreferences(sharedPreferencesFileName, Context.MODE_PRIVATE)
-            .getStringSet(storedProvidersKey, null)?.contains(provider) == true
-
-    /**
-     * Saves provider into store if it's not existing.
-     *
-     * @param provider - Provider to store.
-     */
-    private fun storeProvider(provider: String) {
-        context.getSharedPreferences(sharedPreferencesFileName, Context.MODE_PRIVATE).apply {
-            getStringSet(storedProvidersKey, null).let {
-                // Copy store providers
-                val providers = mutableSetOf<String>()
-                if (it != null) providers.addAll(providers)
-
-                providers.add(provider)
-
-                edit()
-                    .putStringSet(storedProvidersKey, providers)
-                    .apply()
-            }
-        }
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun isProviderInStore(provider: String?) = runBlocking {
+        // TODO: Migrate to suspend function
+        provider?.let { Crypto.dataStoreContainsProvider(context, it) } == true
     }
 
     /**
@@ -522,27 +522,23 @@ class XS2AWizardViewModel(
      */
     @RequiresApi(Build.VERSION_CODES.M)
     private fun storeCredentials(form: List<FormLineData>) {
-        storeProvider(provider!!)
-
-        Crypto.createEncryptedSharedPreferences(
-            context,
-            sharedPreferencesFileName,
-            masterKeyAlias
-        ).edit().apply {
-            form.forEach {
-                if (it is CredentialFormLineData && it.isLoginCredential == true) {
-                    if (it is CheckBoxLineData) putBoolean(
-                        it.getProviderName(provider!!),
-                        it.value?.jsonPrimitive?.boolean ?: false
-                    )
-                    else putString(
-                        it.getProviderName(provider!!),
-                        it.value?.jsonPrimitive?.content ?: ""
-                    )
+        val valuesToSave = form.mapNotNull { formLineData ->
+            if (formLineData is CredentialFormLineData && formLineData.isLoginCredential == true) {
+                formLineData.value?.jsonPrimitive?.contentOrNull?.let {
+                    formLineData.name to it
                 }
+            } else {
+                null
             }
+        }
 
-            apply()
+        // TODO: Migrate to suspend function
+        runBlocking {
+            Crypto.saveProviderDataToDataStore(
+                context,
+                provider!!,
+                valuesToSave
+            )
         }
     }
 
@@ -575,21 +571,22 @@ class XS2AWizardViewModel(
      */
     @RequiresApi(Build.VERSION_CODES.M)
     private fun autoFillCredentials() {
-        val sharedPreferences = Crypto.createEncryptedSharedPreferences(
-            context,
-            sharedPreferencesFileName,
-            masterKeyAlias
-        )
+        // TODO: Migrate to suspend function
+        runBlocking {
+            val providerData = Crypto.loadProviderDataFromDataStore(
+                context,
+                provider!!
+            )
 
-        form.value!!.forEach {
-            if (it is CredentialFormLineData && it.isLoginCredential == true) {
-                val key = it.getProviderName(provider!!)
-                if (it is CheckBoxLineData) {
-                    if (sharedPreferences.contains(key)) it.value =
-                        JsonPrimitive(sharedPreferences.getBoolean(key, false))
-                } else {
-                    if (sharedPreferences.contains(key)) it.value =
-                        JsonPrimitive(sharedPreferences.getString(key, ""))
+            if (providerData.isNotEmpty()) {
+                form.value!!.forEach { formLineData ->
+                    if (formLineData is CredentialFormLineData
+                        && formLineData.isLoginCredential == true
+                    ) {
+                        providerData[formLineData.name]?.let { providerDataValue ->
+                            formLineData.value = JsonPrimitive(providerDataValue)
+                        }
+                    }
                 }
             }
         }
@@ -726,9 +723,6 @@ class XS2AWizardViewModel(
 
     companion object {
         private const val rememberLoginName = "store_credentials"
-        private const val sharedPreferencesFileName = "xs2a_credentials"
-        private const val storedProvidersKey = "providers"
-        private const val masterKeyAlias = "xs2a_credentials_master_key"
 
         private val supportedAppRedirectionURLs = listOf(
             "manage.xs2a.com",
@@ -740,17 +734,12 @@ class XS2AWizardViewModel(
          *
          * @param context - Context to use.
          */
+        @RequiresApi(Build.VERSION_CODES.M)
         @Suppress("unused")
         fun clearCredentials(context: Context) {
-            context.getSharedPreferences(sharedPreferencesFileName, Context.MODE_PRIVATE).edit()
-                .apply {
-                    clear()
-                    apply()
-                }
-
-            KeyStore.getInstance("AndroidKeyStore").apply {
-                load(null)
-                deleteEntry(masterKeyAlias)
+            // TODO: Migrate to suspend function
+            runBlocking {
+                Crypto.clearDataStore(context)
             }
         }
     }

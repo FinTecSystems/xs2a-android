@@ -59,10 +59,10 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.fragmentKtx)
     implementation(libs.androidx.compose.runtime.livedata)
-    implementation(libs.androidx.security.crypto)
     implementation(libs.androidx.biometric)
     implementation(libs.androidx.browser)
     implementation(libs.androidx.activityCompose)
+    implementation(libs.androidx.datastorePreferences)
 
     implementation(libs.android.volley)
 
