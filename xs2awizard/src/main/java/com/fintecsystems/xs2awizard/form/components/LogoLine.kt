@@ -17,7 +17,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.invisibleToUser
+import androidx.compose.ui.semantics.hideFromAccessibility
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
@@ -96,8 +96,8 @@ fun LogoLine(viewModel: XS2AWizardViewModel) {
             title = {
                 FormText(
                     modifier = Modifier.semantics {
-                        invisibleToUser() // FIXME: Remove. At the moment the Title will never be focused first.
-                                          //        When the the title can be announced first, we can re-add it.
+                        hideFromAccessibility() // FIXME: Remove. At the moment the Title will never be focused first.
+                                                //        When the the title can be announced first, we can re-add it.
                     },
                     text = stringResource(id = R.string.dialog_imprint_title),
                     style = MaterialTheme.typography.titleLarge.copy(
