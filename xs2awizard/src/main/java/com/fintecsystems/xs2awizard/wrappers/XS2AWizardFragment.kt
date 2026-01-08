@@ -105,9 +105,11 @@ class XS2AWizardFragment() : Fragment(), XS2AWizardCallbackListener {
                 XS2AWizard(
                     sessionKey = arguments.getString(XS2AWizardBundleKeys.sessionKey)!!,
                     backendURL = arguments.getString(XS2AWizardBundleKeys.backendURL),
-                    theme = arguments.getParcelable(XS2AWizardBundleKeys.theme),
+                    theme = arguments.getPlatformSafeParcelable<XS2ATheme>(XS2AWizardBundleKeys.theme),
                     fontFamily = fontFamily,
-                    language = arguments.getSerializable(XS2AWizardBundleKeys.language) as? XS2AWizardLanguage,
+                    language = arguments.getPlatformSafeSerializable<XS2AWizardLanguage>(
+                        XS2AWizardBundleKeys.language
+                    ),
                     enableScroll = arguments.getBoolean(XS2AWizardBundleKeys.enableScroll),
                     enableBackButton = arguments.getBoolean(XS2AWizardBundleKeys.enableBackButton),
                     enableAutomaticRetry = arguments.getBoolean(XS2AWizardBundleKeys.enableAutomaticRetry),
