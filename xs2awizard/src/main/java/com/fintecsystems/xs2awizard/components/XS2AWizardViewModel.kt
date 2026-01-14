@@ -657,7 +657,7 @@ class XS2AWizardViewModel(
      * @param url The URl to open.
      */
     private fun openExternalUrl(url: String) {
-        val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        val webIntent = Intent(Intent.ACTION_VIEW, url.toUri())
 
         currentActivity.get()!!.startActivity(webIntent)
     }
