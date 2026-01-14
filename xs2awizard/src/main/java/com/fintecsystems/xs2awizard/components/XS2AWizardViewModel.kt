@@ -40,7 +40,11 @@ import com.fintecsystems.xs2awizard.helper.Utils
 import com.fintecsystems.xs2awizard.networking.NetworkingService
 import com.fintecsystems.xs2awizard.networking.utils.registerNetworkCallback
 import com.fintecsystems.xs2awizard.networking.utils.unregisterNetworkCallback
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonObject
@@ -474,14 +478,13 @@ class XS2AWizardViewModel(
     /**
      * Checks if specified provider is in store.
      *
-     * @param provider - Provider to check.
+     * @param providerName - Provider to check.
      *
      * @return true if exists.
      */
     @RequiresApi(Build.VERSION_CODES.M)
-    private fun isProviderInStore(provider: String?) = runBlocking {
-        provider?.let { Crypto.dataStoreContainsProvider(context, it) } == true
-    }
+    private suspend fun isProviderInStore(providerName: String) =
+        Crypto.dataStoreContainsProvider(context, providerName)
 
     /**
      * Tries to encrypt and store credentials if
@@ -491,7 +494,9 @@ class XS2AWizardViewModel(
      */
     @RequiresApi(Build.VERSION_CODES.M)
     private fun tryToStoreCredentials() {
-        if (form.value == null || provider.isNullOrEmpty()) return
+        val providerName = provider
+
+        if (providerName.isNullOrEmpty() || form.value == null) return
 
         val consentCheckBoxLineData =
             form.value!!.firstOrNull { it is CheckBoxLineData && it.name == rememberLoginName } as CheckBoxLineData?
@@ -508,7 +513,9 @@ class XS2AWizardViewModel(
             context.getString(R.string.cancel),
             BiometricManager.Authenticators.BIOMETRIC_STRONG,
             {
-                storeCredentials(formCopy)
+                viewModelScope.launch {
+                    storeCredentials(formCopy, providerName)
+                }
             },
             { _, _ -> /* no-op */ }
         )
@@ -520,7 +527,7 @@ class XS2AWizardViewModel(
      * @param form - Form to save.
      */
     @RequiresApi(Build.VERSION_CODES.M)
-    private fun storeCredentials(form: List<FormLineData>) {
+    private suspend fun storeCredentials(form: List<FormLineData>, providerName: String) {
         val valuesToSave = form.mapNotNull { formLineData ->
             if (formLineData is CredentialFormLineData && formLineData.isLoginCredential == true) {
                 formLineData.value?.jsonPrimitive?.contentOrNull?.let {
@@ -531,13 +538,11 @@ class XS2AWizardViewModel(
             }
         }
 
-        runBlocking {
-            Crypto.saveProviderDataToDataStore(
-                context,
-                provider!!,
-                valuesToSave
-            )
-        }
+        Crypto.saveProviderDataToDataStore(
+            context,
+            providerName,
+            valuesToSave
+        )
     }
 
     /**
@@ -547,42 +552,46 @@ class XS2AWizardViewModel(
      */
     @RequiresApi(Build.VERSION_CODES.M)
     private fun tryToAutoFillCredentials() {
-        if (form.value == null || form.value?.none { it is CredentialFormLineData && it.isLoginCredential == true } == true) return
+        val providerName = this.provider
+        if (providerName.isNullOrEmpty() || form.value == null || form.value?.none { it is CredentialFormLineData && it.isLoginCredential == true } == true) return
 
-        if (provider.isNullOrEmpty() || !isProviderInStore(provider)) return
 
-        currentBiometricPromp = Crypto.openBiometricPrompt(
-            currentActivity.get() as FragmentActivity,
-            context.getString(R.string.fill_credentials_prompt_title),
-            context.getString(R.string.fill_credentials_prompt_description),
-            context.getString(R.string.cancel),
-            BiometricManager.Authenticators.BIOMETRIC_STRONG,
-            {
-                autoFillCredentials()
-            },
-            { _, _ -> /* no-op */ }
-        )
+        viewModelScope.launch {
+            if (!isProviderInStore(providerName)) return@launch
+
+            currentBiometricPromp = Crypto.openBiometricPrompt(
+                currentActivity.get() as FragmentActivity,
+                context.getString(R.string.fill_credentials_prompt_title),
+                context.getString(R.string.fill_credentials_prompt_description),
+                context.getString(R.string.cancel),
+                BiometricManager.Authenticators.BIOMETRIC_STRONG,
+                {
+                    viewModelScope.launch {
+                        autoFillCredentials(providerName)
+                    }
+                },
+                { _, _ -> /* no-op */ }
+            )
+        }
     }
 
     /**
      * AutoFills credentials from the store.
      */
     @RequiresApi(Build.VERSION_CODES.M)
-    private fun autoFillCredentials() {
-        runBlocking {
-            val providerData = Crypto.loadProviderDataFromDataStore(
-                context,
-                provider!!
-            )
+    private suspend fun autoFillCredentials(providerName: String) {
+        val providerData = Crypto.loadProviderDataFromDataStore(
+            context,
+            providerName
+        )
 
-            if (providerData.isNotEmpty()) {
-                form.value!!.forEach { formLineData ->
-                    if (formLineData is CredentialFormLineData
-                        && formLineData.isLoginCredential == true
-                    ) {
-                        providerData[formLineData.name]?.let { providerDataValue ->
-                            formLineData.value = JsonPrimitive(providerDataValue)
-                        }
+        if (providerData.isNotEmpty()) {
+            form.value!!.forEach { formLineData ->
+                if (formLineData is CredentialFormLineData
+                    && formLineData.isLoginCredential == true
+                ) {
+                    providerData[formLineData.name]?.let { providerDataValue ->
+                        formLineData.value = JsonPrimitive(providerDataValue)
                     }
                 }
             }
@@ -731,10 +740,11 @@ class XS2AWizardViewModel(
          *
          * @param context - Context to use.
          */
+        @OptIn(DelicateCoroutinesApi::class)
         @Suppress("unused")
         fun clearCredentials(context: Context) {
             if (Utils.isMarshmallow) {
-                runBlocking {
+                GlobalScope.launch(Dispatchers.IO) {
                     Crypto.clearDataStore(context)
                 }
             }
