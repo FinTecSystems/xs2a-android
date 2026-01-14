@@ -731,11 +731,12 @@ class XS2AWizardViewModel(
          *
          * @param context - Context to use.
          */
-        @RequiresApi(Build.VERSION_CODES.M)
         @Suppress("unused")
         fun clearCredentials(context: Context) {
-            runBlocking {
-                Crypto.clearDataStore(context)
+            if (Utils.isMarshmallow) {
+                runBlocking {
+                    Crypto.clearDataStore(context)
+                }
             }
         }
     }
