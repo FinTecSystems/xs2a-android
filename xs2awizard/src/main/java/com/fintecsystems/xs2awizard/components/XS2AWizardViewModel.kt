@@ -40,9 +40,11 @@ import com.fintecsystems.xs2awizard.helper.Utils
 import com.fintecsystems.xs2awizard.networking.NetworkingService
 import com.fintecsystems.xs2awizard.networking.utils.registerNetworkCallback
 import com.fintecsystems.xs2awizard.networking.utils.unregisterNetworkCallback
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonNull
@@ -739,13 +741,42 @@ class XS2AWizardViewModel(
          *
          * @param context - Context to use.
          */
+        @Suppress("unused")
+        suspend fun clearCredentialsAsync(context: Context) {
+            if (Utils.isMarshmallow) {
+                Crypto.clearDataStore(context)
+            }
+        }
+
+        /**
+         * Delete all saved credentials.
+         *
+         * @param context - Context to use.
+         * @param scope - CoroutineScope to launch the operation in. Defaults to GlobalScope for
+         *                backward compatibility, but using a lifecycle-aware scope is recommended.
+         * @return Job that can be used to wait for completion or cancel the operation.
+         */
+        @Deprecated(
+            message = "Use the suspend function clearCredentialsAsync(context) from within a coroutine scope instead. " +
+                    "Example: lifecycleScope.launch { clearCredentialsAsync(context) }",
+            replaceWith = ReplaceWith(
+                "clearCredentialsAsync(context)",
+                "androidx.lifecycle.lifecycleScope"
+            ),
+            level = DeprecationLevel.WARNING
+        )
         @OptIn(DelicateCoroutinesApi::class)
         @Suppress("unused")
-        fun clearCredentials(context: Context) {
-            if (Utils.isMarshmallow) {
-                GlobalScope.launch(Dispatchers.IO) {
-                    Crypto.clearDataStore(context)
+        fun clearCredentials(
+            context: Context,
+            scope: CoroutineScope = GlobalScope
+        ): Job? {
+            return if (Utils.isMarshmallow) {
+                scope.launch(Dispatchers.IO) {
+                    clearCredentialsAsync(context)
                 }
+            } else {
+                null
             }
         }
     }
