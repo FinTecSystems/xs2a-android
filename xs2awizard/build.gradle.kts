@@ -1,9 +1,10 @@
 import com.vanniktech.maven.publish.AndroidSingleVariantLibrary
+import com.vanniktech.maven.publish.JavadocJar
+import com.vanniktech.maven.publish.SourcesJar
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.kotlinParcelize)
@@ -82,8 +83,8 @@ mavenPublishing {
 
     configure(AndroidSingleVariantLibrary(
         variant = "release",
-        sourcesJar = false,
-        publishJavadocJar = false
+        sourcesJar = SourcesJar.Empty(),
+        javadocJar = JavadocJar.None()
     ))
 
     coordinates(
