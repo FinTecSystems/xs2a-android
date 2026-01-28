@@ -120,8 +120,8 @@ internal object Crypto {
             val secretKey = getOrCreateSecretKey()
             context.xs2aCredentialsDataStore
                 .edit { settings ->
+                    val cipher = Cipher.getInstance(CIPHER_TRANSFORMATION)
                     valuesToSave.forEach { (key, value) ->
-                        val cipher = Cipher.getInstance(CIPHER_TRANSFORMATION)
                         cipher.init(Cipher.ENCRYPT_MODE, secretKey)
 
                         val encryptedData = cipher.doFinal(value.toByteArray(CHARSET))
