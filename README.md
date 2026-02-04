@@ -138,6 +138,9 @@ Refer to [Accessing the ViewModel](#accessing-the-viewmodel) for accessing these
 > This feature must be activated on your XS2A-Account.<br>
 > For more details on this feature contact the technical support of Tink Germany.
 
+> [!NOTE]  
+> Make sure to include the `android.permission.USE_BIOMETRIC` permission in your `AndroidManifest.xml`.
+
 On API-Level 23+ the user is able to decide to save their credentials for use in future transactions.
 
 > Please note that this does *not* raise the `minSDK` to 23.<br>
