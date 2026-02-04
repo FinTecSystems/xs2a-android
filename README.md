@@ -157,7 +157,7 @@ You'll be able to delete the credentials by calling
 
 ## Customization
 
-> For interoperability reasons wrapper classes are excusively used for the theme.
+> For interoperability reasons wrapper classes are exclusively used for the theme.
 
 > [!NOTE]  
 > `surfaceColor` is being used for dropdowns or other elevated surfaces like the Top-Bar of the WebView.
@@ -291,7 +291,7 @@ Modify your `AndroidManifest.xml` with the following:
 </activity>
 ```
 
-Populate `host` and `scheme` with your the URL of your App.
+Populate `host` and `scheme` with the URL of your App.
 
 After that just pass your URL to the SDK:
 
