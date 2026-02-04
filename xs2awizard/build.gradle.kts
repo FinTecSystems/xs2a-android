@@ -83,8 +83,8 @@ mavenPublishing {
 
     configure(AndroidSingleVariantLibrary(
         variant = "release",
-        sourcesJar = SourcesJar.Empty(),
-        javadocJar = JavadocJar.None()
+        sourcesJar = SourcesJar.Sources(),
+        javadocJar = JavadocJar.Javadoc()
     ))
 
     coordinates(
