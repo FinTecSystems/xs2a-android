@@ -81,7 +81,7 @@ internal object Crypto {
     suspend fun clearDataStore(
         context: Context,
     ) {
-        context.xs2aCredentialsDataStore
+        context.applicationContext.xs2aCredentialsDataStore
             .edit {
                 it.clear()
             }
@@ -97,7 +97,9 @@ internal object Crypto {
         providerName: String
     ): Boolean {
         val prefix = "${providerName}_"
-        return context.xs2aCredentialsDataStore
+        return context
+            .applicationContext
+            .xs2aCredentialsDataStore
             .data
             .firstOrNull()
             ?.asMap()
@@ -119,7 +121,9 @@ internal object Crypto {
     ): Boolean {
         return try {
             val secretKey = getOrCreateSecretKey()
-            context.xs2aCredentialsDataStore
+            context
+                .applicationContext
+                .xs2aCredentialsDataStore
                 .edit { settings ->
                     val cipher = Cipher.getInstance(CIPHER_TRANSFORMATION)
                     valuesToSave.forEach { (key, value) ->
@@ -156,7 +160,9 @@ internal object Crypto {
             val secretKey = getOrCreateSecretKey()
             val prefix = "${providerName}_"
 
-            val dataStoreMap = context.xs2aCredentialsDataStore
+            val dataStoreMap = context
+                .applicationContext
+                .xs2aCredentialsDataStore
                 .data
                 .firstOrNull()
                 ?.asMap()
