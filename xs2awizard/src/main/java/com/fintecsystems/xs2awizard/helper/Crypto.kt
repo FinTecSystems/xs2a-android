@@ -66,6 +66,7 @@ internal object Crypto {
                 return keyGenerator.generateKey()
             } catch (_: Exception) {
                 // StrongBox not available, continue with regular TEE
+                keyGenSpec.setIsStrongBoxBacked(false)
             }
         }
 
