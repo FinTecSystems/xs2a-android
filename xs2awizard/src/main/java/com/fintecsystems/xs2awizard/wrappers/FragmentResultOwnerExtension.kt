@@ -3,8 +3,8 @@ package com.fintecsystems.xs2awizard.wrappers
 import androidx.fragment.app.FragmentResultListener
 import androidx.fragment.app.FragmentResultOwner
 import androidx.lifecycle.LifecycleOwner
-import com.fintecsystems.xs2awizard.components.XS2AWizardError
 import com.fintecsystems.xs2awizard.components.XS2AWizardCallbackListener
+import com.fintecsystems.xs2awizard.components.XS2AWizardError
 import com.fintecsystems.xs2awizard.components.XS2AWizardStep
 
 /**
@@ -22,18 +22,25 @@ fun FragmentResultOwner.setXs2aCallbacks(
                     XS2AWizardFragment.onFinishArgumentKey
                 )
             )
+
             XS2AWizardFragment.onAbortKey -> xS2AWizardCallbackListener.onAbort()
             XS2AWizardFragment.onErrorKey -> xS2AWizardCallbackListener.onError(
-                result.getSerializable(
-                    XS2AWizardFragment.onErrorArgumentKey
-                ) as XS2AWizardError
+                xs2aWizardError = requireNotNull(
+                    result.getPlatformSafeSerializable<XS2AWizardError>(
+                        XS2AWizardFragment.onErrorArgumentKey
+                    )
+                )
             )
+
             XS2AWizardFragment.onNetworkErrorKey -> xS2AWizardCallbackListener.onNetworkError()
             XS2AWizardFragment.onStepKey -> xS2AWizardCallbackListener.onStep(
-                result.getSerializable(
-                    XS2AWizardFragment.onStepArgumentKey
-                ) as XS2AWizardStep
+                newStep = requireNotNull(
+                    result.getPlatformSafeSerializable<XS2AWizardStep>(
+                        XS2AWizardFragment.onStepArgumentKey
+                    )
+                )
             )
+
             XS2AWizardFragment.onBackKey -> xS2AWizardCallbackListener.onBack()
         }
     }

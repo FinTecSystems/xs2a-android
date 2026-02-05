@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.Network
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -22,18 +21,43 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
 import com.fintecsystems.xs2awizard.BuildConfig
 import com.fintecsystems.xs2awizard.R
 import com.fintecsystems.xs2awizard.components.networking.ConnectionState
-import com.fintecsystems.xs2awizard.form.*
-import com.fintecsystems.xs2awizard.helper.*
+import com.fintecsystems.xs2awizard.form.CheckBoxLineData
+import com.fintecsystems.xs2awizard.form.CredentialFormLineData
+import com.fintecsystems.xs2awizard.form.FormLineData
+import com.fintecsystems.xs2awizard.form.FormResponse
+import com.fintecsystems.xs2awizard.form.ParagraphLineData
+import com.fintecsystems.xs2awizard.form.RedirectLineData
+import com.fintecsystems.xs2awizard.form.SubmitLineData
+import com.fintecsystems.xs2awizard.form.ValueFormLineData
+import com.fintecsystems.xs2awizard.helper.Crypto
+import com.fintecsystems.xs2awizard.helper.JSONFormatter
+import com.fintecsystems.xs2awizard.helper.MarkupParser
+import com.fintecsystems.xs2awizard.helper.Utils
 import com.fintecsystems.xs2awizard.networking.NetworkingService
 import com.fintecsystems.xs2awizard.networking.utils.registerNetworkCallback
 import com.fintecsystems.xs2awizard.networking.utils.unregisterNetworkCallback
-import kotlinx.serialization.json.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonNull
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.boolean
+import kotlinx.serialization.json.booleanOrNull
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.contentOrNull
+import kotlinx.serialization.json.jsonPrimitive
+import kotlinx.serialization.json.put
 import java.lang.ref.WeakReference
-import java.security.KeyStore
-import java.util.*
+import java.util.Locale
 
 /**
  * Holds data of the Wizard-Instance and performs all Business-Logic.
@@ -455,34 +479,13 @@ class XS2AWizardViewModel(
     /**
      * Checks if specified provider is in store.
      *
-     * @param provider - Provider to check.
+     * @param providerName - Provider to check.
      *
      * @return true if exists.
      */
-    private fun isProviderInStore(provider: String?) =
-        context.getSharedPreferences(sharedPreferencesFileName, Context.MODE_PRIVATE)
-            .getStringSet(storedProvidersKey, null)?.contains(provider) == true
-
-    /**
-     * Saves provider into store if it's not existing.
-     *
-     * @param provider - Provider to store.
-     */
-    private fun storeProvider(provider: String) {
-        context.getSharedPreferences(sharedPreferencesFileName, Context.MODE_PRIVATE).apply {
-            getStringSet(storedProvidersKey, null).let {
-                // Copy store providers
-                val providers = mutableSetOf<String>()
-                if (it != null) providers.addAll(providers)
-
-                providers.add(provider)
-
-                edit()
-                    .putStringSet(storedProvidersKey, providers)
-                    .apply()
-            }
-        }
-    }
+    @RequiresApi(Build.VERSION_CODES.M)
+    private suspend fun isProviderInStore(providerName: String) =
+        Crypto.dataStoreContainsProvider(context, providerName)
 
     /**
      * Tries to encrypt and store credentials if
@@ -492,7 +495,9 @@ class XS2AWizardViewModel(
      */
     @RequiresApi(Build.VERSION_CODES.M)
     private fun tryToStoreCredentials() {
-        if (form.value == null || provider.isNullOrEmpty()) return
+        val providerName = provider
+
+        if (providerName.isNullOrEmpty() || form.value == null) return
 
         val consentCheckBoxLineData =
             form.value!!.firstOrNull { it is CheckBoxLineData && it.name == rememberLoginName } as CheckBoxLineData?
@@ -509,7 +514,9 @@ class XS2AWizardViewModel(
             context.getString(R.string.cancel),
             BiometricManager.Authenticators.BIOMETRIC_STRONG,
             {
-                storeCredentials(formCopy)
+                viewModelScope.launch {
+                    storeCredentials(formCopy, providerName)
+                }
             },
             { _, _ -> /* no-op */ }
         )
@@ -521,29 +528,22 @@ class XS2AWizardViewModel(
      * @param form - Form to save.
      */
     @RequiresApi(Build.VERSION_CODES.M)
-    private fun storeCredentials(form: List<FormLineData>) {
-        storeProvider(provider!!)
-
-        Crypto.createEncryptedSharedPreferences(
-            context,
-            sharedPreferencesFileName,
-            masterKeyAlias
-        ).edit().apply {
-            form.forEach {
-                if (it is CredentialFormLineData && it.isLoginCredential == true) {
-                    if (it is CheckBoxLineData) putBoolean(
-                        it.getProviderName(provider!!),
-                        it.value?.jsonPrimitive?.boolean ?: false
-                    )
-                    else putString(
-                        it.getProviderName(provider!!),
-                        it.value?.jsonPrimitive?.content ?: ""
-                    )
+    private suspend fun storeCredentials(form: List<FormLineData>, providerName: String) {
+        val valuesToSave = form.mapNotNull { formLineData ->
+            if (formLineData is CredentialFormLineData && formLineData.isLoginCredential == true) {
+                formLineData.value?.jsonPrimitive?.contentOrNull?.let {
+                    formLineData.name to it
                 }
+            } else {
+                null
             }
-
-            apply()
         }
+
+        Crypto.saveProviderDataToDataStore(
+            context,
+            providerName,
+            valuesToSave
+        )
     }
 
     /**
@@ -553,43 +553,47 @@ class XS2AWizardViewModel(
      */
     @RequiresApi(Build.VERSION_CODES.M)
     private fun tryToAutoFillCredentials() {
-        if (form.value == null || form.value?.none { it is CredentialFormLineData && it.isLoginCredential == true } == true) return
+        val providerName = this.provider
+        if (providerName.isNullOrEmpty() || form.value == null || form.value?.none { it is CredentialFormLineData && it.isLoginCredential == true } == true) return
 
-        if (provider.isNullOrEmpty() || !isProviderInStore(provider)) return
 
-        currentBiometricPromp = Crypto.openBiometricPrompt(
-            currentActivity.get() as FragmentActivity,
-            context.getString(R.string.fill_credentials_prompt_title),
-            context.getString(R.string.fill_credentials_prompt_description),
-            context.getString(R.string.cancel),
-            BiometricManager.Authenticators.BIOMETRIC_STRONG,
-            {
-                autoFillCredentials()
-            },
-            { _, _ -> /* no-op */ }
-        )
+        viewModelScope.launch {
+            if (!isProviderInStore(providerName)) return@launch
+
+            currentBiometricPromp = Crypto.openBiometricPrompt(
+                currentActivity.get() as FragmentActivity,
+                context.getString(R.string.fill_credentials_prompt_title),
+                context.getString(R.string.fill_credentials_prompt_description),
+                context.getString(R.string.cancel),
+                BiometricManager.Authenticators.BIOMETRIC_STRONG,
+                {
+                    viewModelScope.launch {
+                        autoFillCredentials(providerName)
+                    }
+                },
+                { _, _ -> /* no-op */ }
+            )
+        }
     }
 
     /**
      * AutoFills credentials from the store.
      */
     @RequiresApi(Build.VERSION_CODES.M)
-    private fun autoFillCredentials() {
-        val sharedPreferences = Crypto.createEncryptedSharedPreferences(
+    private suspend fun autoFillCredentials(providerName: String) {
+        val providerData = Crypto.loadProviderDataFromDataStore(
             context,
-            sharedPreferencesFileName,
-            masterKeyAlias
+            providerName
         )
 
-        form.value!!.forEach {
-            if (it is CredentialFormLineData && it.isLoginCredential == true) {
-                val key = it.getProviderName(provider!!)
-                if (it is CheckBoxLineData) {
-                    if (sharedPreferences.contains(key)) it.value =
-                        JsonPrimitive(sharedPreferences.getBoolean(key, false))
-                } else {
-                    if (sharedPreferences.contains(key)) it.value =
-                        JsonPrimitive(sharedPreferences.getString(key, ""))
+        if (providerData.isNotEmpty()) {
+            form.value!!.forEach { formLineData ->
+                if (formLineData is CredentialFormLineData
+                    && formLineData.isLoginCredential == true
+                ) {
+                    providerData[formLineData.name]?.let { providerDataValue ->
+                        formLineData.value = JsonPrimitive(providerDataValue)
+                    }
                 }
             }
         }
@@ -654,7 +658,7 @@ class XS2AWizardViewModel(
      * @param url The URl to open.
      */
     private fun openExternalUrl(url: String) {
-        val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        val webIntent = Intent(Intent.ACTION_VIEW, url.toUri())
 
         currentActivity.get()!!.startActivity(webIntent)
     }
@@ -726,9 +730,6 @@ class XS2AWizardViewModel(
 
     companion object {
         private const val rememberLoginName = "store_credentials"
-        private const val sharedPreferencesFileName = "xs2a_credentials"
-        private const val storedProvidersKey = "providers"
-        private const val masterKeyAlias = "xs2a_credentials_master_key"
 
         private val supportedAppRedirectionURLs = listOf(
             "manage.xs2a.com",
@@ -741,16 +742,41 @@ class XS2AWizardViewModel(
          * @param context - Context to use.
          */
         @Suppress("unused")
-        fun clearCredentials(context: Context) {
-            context.getSharedPreferences(sharedPreferencesFileName, Context.MODE_PRIVATE).edit()
-                .apply {
-                    clear()
-                    apply()
-                }
+        suspend fun clearCredentialsAsync(context: Context) {
+            if (Utils.isMarshmallow) {
+                Crypto.clearDataStore(context)
+            }
+        }
 
-            KeyStore.getInstance("AndroidKeyStore").apply {
-                load(null)
-                deleteEntry(masterKeyAlias)
+        /**
+         * Delete all saved credentials.
+         *
+         * @param context - Context to use.
+         * @param scope - CoroutineScope to launch the operation in. Defaults to GlobalScope for
+         *                backward compatibility, but using a lifecycle-aware scope is recommended.
+         * @return Job that can be used to wait for completion or cancel the operation.
+         */
+        @Deprecated(
+            message = "Use the suspend function clearCredentialsAsync(context) from within a coroutine scope instead. " +
+                    "Example: lifecycleScope.launch { clearCredentialsAsync(context) }",
+            replaceWith = ReplaceWith(
+                "clearCredentialsAsync(context)",
+                "androidx.lifecycle.lifecycleScope"
+            ),
+            level = DeprecationLevel.WARNING
+        )
+        @OptIn(DelicateCoroutinesApi::class)
+        @Suppress("unused")
+        fun clearCredentials(
+            context: Context,
+            scope: CoroutineScope = GlobalScope
+        ): Job? {
+            return if (Utils.isMarshmallow) {
+                scope.launch(Dispatchers.IO) {
+                    clearCredentialsAsync(context)
+                }
+            } else {
+                null
             }
         }
     }

@@ -138,6 +138,9 @@ Refer to [Accessing the ViewModel](#accessing-the-viewmodel) for accessing these
 > This feature must be activated on your XS2A-Account.<br>
 > For more details on this feature contact the technical support of Tink Germany.
 
+> [!NOTE]  
+> Make sure to include the `android.permission.USE_BIOMETRIC` permission in your `AndroidManifest.xml`.
+
 On API-Level 23+ the user is able to decide to save their credentials for use in future transactions.
 
 > Please note that this does *not* raise the `minSDK` to 23.<br>
@@ -154,7 +157,7 @@ You'll be able to delete the credentials by calling
 
 ## Customization
 
-> For interoperability reasons wrapper classes are excusively used for the theme.
+> For interoperability reasons wrapper classes are exclusively used for the theme.
 
 > [!NOTE]  
 > `surfaceColor` is being used for dropdowns or other elevated surfaces like the Top-Bar of the WebView.
@@ -288,7 +291,7 @@ Modify your `AndroidManifest.xml` with the following:
 </activity>
 ```
 
-Populate `host` and `scheme` with your the URL of your App.
+Populate `host` and `scheme` with the URL of your App.
 
 After that just pass your URL to the SDK:
 

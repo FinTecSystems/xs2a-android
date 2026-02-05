@@ -1,9 +1,10 @@
 import com.vanniktech.maven.publish.AndroidSingleVariantLibrary
+import com.vanniktech.maven.publish.JavadocJar
+import com.vanniktech.maven.publish.SourcesJar
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.kotlinParcelize)
@@ -59,10 +60,10 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.fragmentKtx)
     implementation(libs.androidx.compose.runtime.livedata)
-    implementation(libs.androidx.security.crypto)
     implementation(libs.androidx.biometric)
     implementation(libs.androidx.browser)
     implementation(libs.androidx.activityCompose)
+    implementation(libs.androidx.datastorePreferences)
 
     implementation(libs.android.volley)
 
@@ -82,8 +83,8 @@ mavenPublishing {
 
     configure(AndroidSingleVariantLibrary(
         variant = "release",
-        sourcesJar = false,
-        publishJavadocJar = false
+        sourcesJar = SourcesJar.Sources(),
+        javadocJar = JavadocJar.Javadoc()
     ))
 
     coordinates(

@@ -21,7 +21,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.invisibleToUser
+import androidx.compose.ui.semantics.hideFromAccessibility
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.fintecsystems.xs2awizard.form.RadioLineData
@@ -118,7 +118,7 @@ fun RadioLine(formData: RadioLineData) {
                 text = it,
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.semantics {
-                    invisibleToUser()
+                    hideFromAccessibility()
                 }
             )
         }

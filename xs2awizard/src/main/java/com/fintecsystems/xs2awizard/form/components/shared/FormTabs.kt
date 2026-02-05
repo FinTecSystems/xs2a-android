@@ -4,10 +4,11 @@ import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SecondaryTabRow
 import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRow
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -28,9 +29,9 @@ fun FormTabs(
     BoxWithConstraints(
         modifier = Modifier
             .fillMaxWidth()
-            .height(48.dp) // Material SmallTab height.
+            .height(48.dp)
     ) {
-        TabRow(
+        SecondaryTabRow(
             modifier = Modifier
                 .width(maxWidth)
                 .height(maxHeight),
@@ -38,7 +39,9 @@ fun FormTabs(
         ) {
             tabs.forEachIndexed { index, label ->
                 Tab(
-                    modifier = Modifier.fillMaxHeight(),
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .padding(10.dp),
                     selected = index == selected,
                     onClick = {
                         onSelectedChange(index)
