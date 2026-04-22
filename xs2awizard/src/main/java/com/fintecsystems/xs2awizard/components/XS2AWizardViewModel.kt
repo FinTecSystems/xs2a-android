@@ -175,7 +175,7 @@ class XS2AWizardViewModel(
         redirectDeepLink: String?,
         activity: Activity
     ) {
-        this.language = language
+        this.language = language?.conformToSupportedLanguage()
         this.enableScroll = enableScroll
         this.enableBackButton = enableBackButton
         this.enableAutomaticRetry = enableAutomaticRetry

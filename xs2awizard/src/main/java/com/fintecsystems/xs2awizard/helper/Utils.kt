@@ -92,8 +92,7 @@ object Utils {
                 Locale.getDefault().language
             )
 
-            return XS2AWizardLanguage.values()
-                .contains(languageToCheck) && languageToCheck != language
+            return XS2AWizardLanguage.isSupported(languageToCheck) && languageToCheck != language
         }
 
         return false
