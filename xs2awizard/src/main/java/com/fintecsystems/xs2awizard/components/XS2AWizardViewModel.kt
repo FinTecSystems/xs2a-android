@@ -175,7 +175,7 @@ class XS2AWizardViewModel(
         redirectDeepLink: String?,
         activity: Activity
     ) {
-        this.language = language
+        this.language = language?.conformToSupportedLanguage()
         this.enableScroll = enableScroll
         this.enableBackButton = enableBackButton
         this.enableAutomaticRetry = enableAutomaticRetry
@@ -665,12 +665,12 @@ class XS2AWizardViewModel(
 
     /**
      * Open supplied [url] in either an external Browser or internal Webview,
-     * depending if the current provider supports it.
+     * depending if the current provider supports it and if the host app configured a [redirectDeepLink] for App2App redirection.
      *
      * @param url the URL to open.
      */
     internal fun openRedirectURL(url: String) {
-        if (urlSupportsAppRedirection(url)) {
+        if (!redirectDeepLink.isNullOrEmpty() && urlSupportsAppRedirection(url)) {
             AlertDialog.Builder(currentActivity.get()!!).apply {
                 setTitle(R.string.redirect_dialog_title)
                 setMessage(R.string.redirect_dialog_message)
