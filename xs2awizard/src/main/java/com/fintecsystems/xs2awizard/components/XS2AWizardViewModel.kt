@@ -329,7 +329,8 @@ class XS2AWizardViewModel(
      * @param showIndicator show loading indicator during request.
      */
     private fun submitForm(jsonBody: String, showIndicator: Boolean) {
-        val networkingService = requireNotNull(networkingService)
+        // When networkingService is null, the ViewModel is not yet initialized or already cleaned up, so we have to abort.
+        val networkingService = networkingService ?: return
 
         if (shouldAbortNetworkRequest()) {
             return
@@ -363,7 +364,8 @@ class XS2AWizardViewModel(
      * @param onSuccess on success callback to use.
      */
     internal fun submitFormWithCallback(action: String, onSuccess: (String) -> Unit) {
-        val networkingService = requireNotNull(networkingService)
+        // When networkingService is null, the ViewModel is not yet initialized or already cleaned up, so we have to abort.
+        val networkingService = networkingService ?: return
 
         if (shouldAbortNetworkRequest()) {
             return
