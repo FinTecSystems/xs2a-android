@@ -29,14 +29,13 @@ import com.fintecsystems.xs2awizard.form.CheckBoxLineData
 import com.fintecsystems.xs2awizard.form.CredentialFormLineData
 import com.fintecsystems.xs2awizard.form.FormLineData
 import com.fintecsystems.xs2awizard.form.FormResponse
-import com.fintecsystems.xs2awizard.form.ParagraphLineData
-import com.fintecsystems.xs2awizard.form.RedirectLineData
-import com.fintecsystems.xs2awizard.form.SubmitLineData
-import com.fintecsystems.xs2awizard.form.ValueFormLineData
 import com.fintecsystems.xs2awizard.helper.Crypto
 import com.fintecsystems.xs2awizard.helper.JSONFormatter
 import com.fintecsystems.xs2awizard.helper.MarkupParser
 import com.fintecsystems.xs2awizard.helper.Utils
+import com.fintecsystems.xs2awizard.helper.buildFormJsonBody
+import com.fintecsystems.xs2awizard.helper.filterFormLines
+import com.fintecsystems.xs2awizard.helper.isBackButtonPresent
 import com.fintecsystems.xs2awizard.networking.NetworkingService
 import com.fintecsystems.xs2awizard.networking.utils.registerNetworkCallback
 import com.fintecsystems.xs2awizard.networking.utils.unregisterNetworkCallback
@@ -47,11 +46,9 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.JsonElement
-import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.boolean
-import kotlinx.serialization.json.booleanOrNull
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.jsonPrimitive
@@ -241,10 +238,7 @@ class XS2AWizardViewModel(
      *  Returns true if a back button is present on the current form.
      */
     @Suppress("MemberVisibilityCanBePrivate")
-    fun backButtonIsPresent() = form.value?.any {
-        (it is SubmitLineData && !it.backLabel.isNullOrEmpty())
-                || (it is RedirectLineData && !it.backLabel.isNullOrEmpty())
-    } ?: false
+    fun backButtonIsPresent() = isBackButtonPresent(form.value)
 
     /**
      * Returns true, if network requests should abort.
@@ -298,26 +292,8 @@ class XS2AWizardViewModel(
      *
      * @return built [JsonObject]
      */
-    internal fun constructJsonBody(action: String, values: JsonObject? = null) = buildJsonObject {
-        form.value?.forEach {
-            if (it is ValueFormLineData) {
-                if (it is CheckBoxLineData && it.value?.jsonPrimitive?.booleanOrNull != true) {
-                    return@forEach
-                }
-
-                put(
-                    it.name,
-                    it.value?.jsonPrimitive ?: JsonNull
-                )
-            }
-        }
-
-        put("action", JsonPrimitive(action))
-
-        values?.entries?.forEach {
-            put(it.key, it.value.jsonPrimitive.content)
-        }
-    }
+    internal fun constructJsonBody(action: String, values: JsonObject? = null) =
+        buildFormJsonBody(form.value, action, values)
 
     /**
      * Submits form using standard "submit" action.
@@ -448,34 +424,13 @@ class XS2AWizardViewModel(
 
         parseCallback(formResponse)
 
-        _form.value = filterFormResponseForm(formResponse.form)
+        _form.value = filterFormLines(formResponse.form)
 
         if (Utils.isMarshmallow && Crypto.isDeviceSecure(context)) {
             tryToAutoFillCredentials()
         }
 
         _loadingIndicatorLock.value = false
-    }
-
-    /**
-     * Filters out duplicate ParagraphLines, which represent an Validation Error.
-     */
-    private fun filterFormResponseForm(form: List<FormLineData>?): List<FormLineData>? {
-        return form?.filter { formLineData ->
-            if (formLineData !is ParagraphLineData) {
-                return@filter true
-            }
-
-            if (formLineData.severity != "error") {
-                return@filter true
-            }
-
-            return@filter form.none {
-                it is ValueFormLineData
-                        && !it.validationError.isNullOrEmpty()
-                        && it.validationError == formLineData.text
-            }
-        }
     }
 
     /**

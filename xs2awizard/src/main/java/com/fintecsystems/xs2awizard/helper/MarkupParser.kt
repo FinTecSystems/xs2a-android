@@ -85,7 +85,6 @@ object MarkupParser {
         }
     }
 
-    @Composable
     fun parseMarkupText(textToParse: String): ParseResult {
         // Replace HTML linebreak and middot with Kotlin String counterparts.
         val text = lineBreakRegex
