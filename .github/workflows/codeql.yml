@@ -11,7 +11,6 @@ on:
 jobs:
   analyze:
     name: Analyze
-    if: ${{ !matrix.skip }}
     runs-on: ubuntu-latest
 
     permissions:
@@ -32,30 +31,33 @@ jobs:
 
     steps:
     - name: Checkout repository
+      if: ${{ !matrix.skip }}
       uses: actions/checkout@v6
 
     - name: Set up JDK 17
-      if: matrix.build-mode == 'manual'
+      if: ${{ !matrix.skip && matrix.build-mode == 'manual' }}
       uses: actions/setup-java@v5
       with:
         java-version: '17'
         distribution: 'temurin'
 
     - name: Setup Gradle
-      if: matrix.build-mode == 'manual'
+      if: ${{ !matrix.skip && matrix.build-mode == 'manual' }}
       uses: gradle/actions/setup-gradle@v6
 
     - name: Initialize CodeQL
+      if: ${{ !matrix.skip }}
       uses: github/codeql-action/init@v4
       with:
         languages: ${{ matrix.language }}
         build-mode: ${{ matrix.build-mode }}
 
     - name: Build project for CodeQL
-      if: matrix.build-mode == 'manual'
+      if: ${{ !matrix.skip && matrix.build-mode == 'manual' }}
       run: ./gradlew :xs2awizard:assembleDebug --no-daemon
 
     - name: Perform CodeQL Analysis
+      if: ${{ !matrix.skip }}
       uses: github/codeql-action/analyze@v4
       with:
         category: "/language:${{matrix.language}}"
