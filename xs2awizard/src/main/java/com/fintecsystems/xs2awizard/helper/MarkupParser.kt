@@ -17,7 +17,7 @@ import kotlinx.serialization.json.buildJsonObject
 
 object MarkupParser {
     private val markupRegex =
-        Regex("\\[([\\w\\s\\-().'!?]+)(\\|(\\w+)(::([&=\\w:/\\\\.\\-_?]+))?)?]")
+        Regex("\\[([\\w\\s\\-().,'!?]+)(\\|(\\w+)(::([&=\\w:/\\\\.\\-_?]+))?)?]")
     private val lineBreakRegex = Regex("[<\\[]br[>\\]]")
     private val middotRegex = Regex("&middot;")
     private val autoSubmitPayloadRegex = Regex("(\\w+)=(\\w+)")
