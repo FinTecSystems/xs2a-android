@@ -162,4 +162,47 @@ class MarkupParserTest {
         val result = MarkupParser.ParseResult(emptyList())
         assertEquals("", result.getText())
     }
+
+    // --- Comma parsing ---
+
+    @Test
+    fun `parseMarkupText parses annotation text containing a comma`() {
+        val result = MarkupParser.parseMarkupText("[Yes, I agree|bold]")
+
+        assertEquals(1, result.items.size)
+        val item = result.items[0]
+        assertTrue(item is MarkupParser.ParseResult.Item.Text)
+        assertEquals("Yes, I agree", item.text)
+    }
+
+    @Test
+    fun `parseMarkupText parses link annotation with comma in label`() {
+        val result = MarkupParser.parseMarkupText("[Terms, Privacy|link::https://example.com]")
+
+        assertEquals(1, result.items.size)
+        val item = result.items[0]
+        assertTrue(item is MarkupParser.ParseResult.Item.Link)
+        assertEquals("Terms, Privacy", item.text)
+        assertEquals("https://example.com", (item as MarkupParser.ParseResult.Item.Link).url)
+    }
+
+    @Test
+    fun `parseMarkupText handles plain text with commas unchanged`() {
+        val input = "Hello, World!"
+        val result = MarkupParser.parseMarkupText(input)
+
+        assertEquals(1, result.items.size)
+        assertEquals(input, result.getText())
+    }
+
+    @Test
+    fun `parseMarkupText parses mixed content where annotation label contains comma`() {
+        val result = MarkupParser.parseMarkupText("Please read [our terms, conditions|link::https://example.com] carefully.")
+
+        assertEquals(3, result.items.size)
+        assertTrue(result.items[0] is MarkupParser.ParseResult.Item.Text)
+        assertTrue(result.items[1] is MarkupParser.ParseResult.Item.Link)
+        assertTrue(result.items[2] is MarkupParser.ParseResult.Item.Text)
+        assertEquals("our terms, conditions", result.items[1].text)
+    }
 }
