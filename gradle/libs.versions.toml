@@ -19,6 +19,8 @@ material3 = "1.4.0"
 activity = "1.13.0"
 datastore = "1.2.1"
 
+bouncycastle = "1.70"
+
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 
@@ -42,6 +44,7 @@ android-volley = { group = "com.android.volley", name = "volley", version.ref = 
 kotlin-parcelizeRuntime = { group = "org.jetbrains.kotlin", name = "kotlin-parcelize-runtime", version.ref = "kotlin" }
 
 junit = { group = "junit", name = "junit", version.ref = "junit" }
+bouncycastle-bcprov = { group = "org.bouncycastle", name = "bcprov-jdk15on", version.ref = "bouncycastle" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 

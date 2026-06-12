@@ -74,6 +74,7 @@ dependencies {
     api(libs.kotlin.parcelizeRuntime)
 
     testImplementation(libs.junit)
+    testImplementation(libs.bouncycastle.bcprov)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }
