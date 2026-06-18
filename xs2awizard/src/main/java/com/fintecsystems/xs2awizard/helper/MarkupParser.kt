@@ -17,7 +17,7 @@ import kotlinx.serialization.json.buildJsonObject
 
 object MarkupParser {
     private val markupRegex =
-        Regex("\\[([\\w\\s\\-().'!?]+)(\\|(\\w+)(::([&=\\w:/\\\\.\\-_?]+))?)?]")
+        Regex("\\[([\\w\\s\\-().,'!?]+)(\\|(\\w+)(::([&=\\w:/\\\\.\\-_?]+))?)?]")
     private val lineBreakRegex = Regex("[<\\[]br[>\\]]")
     private val middotRegex = Regex("&middot;")
     private val autoSubmitPayloadRegex = Regex("(\\w+)=(\\w+)")
@@ -85,7 +85,6 @@ object MarkupParser {
         }
     }
 
-    @Composable
     fun parseMarkupText(textToParse: String): ParseResult {
         // Replace HTML linebreak and middot with Kotlin String counterparts.
         val text = lineBreakRegex

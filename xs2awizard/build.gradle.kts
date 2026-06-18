@@ -20,7 +20,7 @@ kotlin {
 }
 
 android {
-    compileSdk = 36
+    compileSdk = 37
     namespace = "com.fintecsystems.xs2awizard"
 
     defaultConfig {
@@ -74,6 +74,7 @@ dependencies {
     api(libs.kotlin.parcelizeRuntime)
 
     testImplementation(libs.junit)
+    testImplementation(libs.bouncycastle.bcprov)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }
