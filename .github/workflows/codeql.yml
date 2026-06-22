@@ -32,7 +32,7 @@ jobs:
     steps:
     - name: Checkout repository
       if: ${{ !matrix.skip }}
-      uses: actions/checkout@v6
+      uses: actions/checkout@v7
 
     - name: Set up JDK 17
       if: ${{ !matrix.skip && matrix.build-mode == 'manual' }}
