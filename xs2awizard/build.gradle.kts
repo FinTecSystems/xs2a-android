@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.kotlinParcelize)
     alias(libs.plugins.gradleMavenPublish)
+    alias(libs.plugins.roborazzi)
 }
 
 val versionName = providers.gradleProperty("versionName").getOrElse("LOCAL")
@@ -49,6 +50,11 @@ android {
         compose = true
         buildConfig = true
     }
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
@@ -75,6 +81,11 @@ dependencies {
 
     testImplementation(libs.junit)
     testImplementation(libs.bouncycastle.bcprov)
+    testImplementation(libs.roborazzi)
+    testImplementation(libs.roborazzi.compose)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.androidx.compose.ui.test.junit4)
+    debugImplementation(libs.androidx.compose.ui.test.manifest)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }
