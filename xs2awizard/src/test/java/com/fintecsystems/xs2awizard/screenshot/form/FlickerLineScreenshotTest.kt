@@ -1,27 +1,17 @@
 package com.fintecsystems.xs2awizard.screenshot.form
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.test.junit4.v2.createComposeRule
-import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.FlickerLineData
 import com.fintecsystems.xs2awizard.form.components.FlickerLine
-import com.fintecsystems.xs2awizard.screenshot.captureForTheme
-import org.junit.Rule
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
-import org.robolectric.annotation.Config
-import org.robolectric.annotation.GraphicsMode
+import com.fintecsystems.xs2awizard.screenshot.SingleContentScreenshotTest
+import com.fintecsystems.xs2awizard.screenshot.ScreenshotTheme
 
-@RunWith(RobolectricTestRunner::class)
-@Config(sdk = [34])
-@GraphicsMode(GraphicsMode.Mode.NATIVE)
-class FlickerLineScreenshotTest {
-    @get:Rule
-    val composeRule = createComposeRule()
+class FlickerLineScreenshotTest(screenshotTheme: ScreenshotTheme) : SingleContentScreenshotTest(screenshotTheme) {
+
+    override val baseName = "flicker_line"
 
     @Composable
-    private fun Content() = FlickerLine(
+    override fun Content() = FlickerLine(
         formData = FlickerLineData(
             name = "flicker",
             label = "ChipTAN",
@@ -30,6 +20,4 @@ class FlickerLineScreenshotTest {
         ),
     )
 
-    @Test fun flickerLine_light() = composeRule.captureForTheme("flicker_line_light", XS2ATheme.light) { Content() }
-    @Test fun flickerLine_dark() = composeRule.captureForTheme("flicker_line_dark", XS2ATheme.dark) { Content() }
 }

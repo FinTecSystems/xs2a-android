@@ -1,34 +1,22 @@
 package com.fintecsystems.xs2awizard.screenshot.form
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.test.junit4.v2.createComposeRule
-import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.ImageLineData
 import com.fintecsystems.xs2awizard.form.components.ImageLine
-import com.fintecsystems.xs2awizard.screenshot.captureForTheme
-import org.junit.Rule
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
-import org.robolectric.annotation.Config
-import org.robolectric.annotation.GraphicsMode
+import com.fintecsystems.xs2awizard.screenshot.SingleContentScreenshotTest
+import com.fintecsystems.xs2awizard.screenshot.ScreenshotTheme
 
-@RunWith(RobolectricTestRunner::class)
-@Config(sdk = [34])
-@GraphicsMode(GraphicsMode.Mode.NATIVE)
-class ImageLineScreenshotTest {
-    @get:Rule
-    val composeRule = createComposeRule()
+class ImageLineScreenshotTest(screenshotTheme: ScreenshotTheme) : SingleContentScreenshotTest(screenshotTheme) {
 
     // A minimal 1×1 black PNG encoded as Base64.
     private val testImageBase64 =
         "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVQI12NgAAIABQAABjkB6QAAAABJRU5ErkJggg=="
 
+    override val baseName = "image_line"
+
     @Composable
-    private fun Content() = ImageLine(
+    override fun Content() = ImageLine(
         formData = ImageLineData(data = testImageBase64, align = "center", description = "Bank logo"),
     )
 
-    @Test fun imageLine_light() = composeRule.captureForTheme("image_line_light", XS2ATheme.light) { Content() }
-    @Test fun imageLine_dark() = composeRule.captureForTheme("image_line_dark", XS2ATheme.dark) { Content() }
 }
