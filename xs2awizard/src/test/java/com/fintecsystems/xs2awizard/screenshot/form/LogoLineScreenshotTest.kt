@@ -1,13 +1,14 @@
 package com.fintecsystems.xs2awizard.screenshot.form
 
-import androidx.compose.ui.test.junit4.createComposeRule
-import com.fintecsystems.xs2awizard.form.LogoLineData
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.test.junit4.v2.createComposeRule
+import com.fintecsystems.xs2awizard.components.theme.XS2ATheme
 import com.fintecsystems.xs2awizard.form.components.LogoLine
-import com.fintecsystems.xs2awizard.screenshot.captureForThemes
+import com.fintecsystems.xs2awizard.screenshot.captureForTheme
 import com.fintecsystems.xs2awizard.screenshot.createViewModel
 import org.junit.Rule
-import org.junit.runner.RunWith
 import org.junit.Test
+import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
@@ -19,13 +20,9 @@ class LogoLineScreenshotTest {
     @get:Rule
     val composeRule = createComposeRule()
 
+    @Composable
+    private fun Content() = LogoLine(viewModel = createViewModel())
 
-    @Test
-    fun logoLine() {
-        // LogoLine loads the logo from a URL via Coil; in Robolectric/offline the image area will
-        // render as an empty placeholder — which is the intended regression baseline.
-        composeRule.captureForThemes("logo_line") {
-            LogoLine(viewModel = createViewModel())
-        }
-    }
+    @Test fun logoLine_light() = composeRule.captureForTheme("logo_line_light", XS2ATheme.light) { Content() }
+    @Test fun logoLine_dark() = composeRule.captureForTheme("logo_line_dark", XS2ATheme.dark) { Content() }
 }

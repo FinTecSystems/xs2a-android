@@ -24,23 +24,19 @@ internal fun createViewModel(): XS2AWizardViewModel =
     )
 
 /**
- * Renders [content] twice — once wrapped in [XS2ATheme.light] and once in [XS2ATheme.dark] — and
- * captures a screenshot for each.
+ * Renders [content] wrapped in [theme] and captures a screenshot to
+ * `src/test/snapshots/{name}.png`.
  *
- * Generated images land in `src/test/snapshots/` under the names `{name}_light.png` and
- * `{name}_dark.png` so they can be committed and tracked via Git LFS.
+ * Call this once per `@Test` method — one method per theme — so that verify mode failures for the
+ * light and dark variants are independent and both appear in CI diff artifacts.
  */
-internal fun ComposeContentTestRule.captureForThemes(
+internal fun ComposeContentTestRule.captureForTheme(
     name: String,
+    theme: XS2ATheme,
     content: @Composable () -> Unit,
 ) {
-    listOf(
-        XS2ATheme.light to "light",
-        XS2ATheme.dark to "dark",
-    ).forEach { (theme, suffix) ->
-        setContent {
-            XS2ATheme(xS2ATheme = theme) { content() }
-        }
-        onRoot().captureRoboImage("$SNAPSHOTS_DIR/${name}_$suffix.png")
+    setContent {
+        XS2ATheme(xS2ATheme = theme) { content() }
     }
+    onRoot().captureRoboImage("$SNAPSHOTS_DIR/$name.png")
 }
