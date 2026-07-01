@@ -81,19 +81,17 @@ fun ComposeContentTestRule.captureForTheme(
  * Tests with a single content variant should extend [SingleContentScreenshotTest] instead,
  * which reduces them further to just [SingleContentScreenshotTest.baseName] and
  * [SingleContentScreenshotTest.Content].
- *
- * Each concrete subclass must declare its own companion object with a `@Parameters` method
- * (Java does not inherit static methods, so the runner cannot find it on a superclass):
- * ```kotlin
- * companion object {
- *     @JvmStatic @Parameters(name = "{0}") fun themes() = SCREENSHOT_THEMES
- * }
- * ```
  */
 @RunWith(ParameterizedRobolectricTestRunner::class)
 @Config(sdk = [34])
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 abstract class ScreenshotTestBase(protected val screenshotTheme: ScreenshotTheme) {
+    companion object {
+        @JvmStatic
+        @ParameterizedRobolectricTestRunner.Parameters(name = "{0}")
+        fun themes() = SCREENSHOT_THEMES
+    }
+
     @get:Rule
     val composeRule = createComposeRule()
 }
