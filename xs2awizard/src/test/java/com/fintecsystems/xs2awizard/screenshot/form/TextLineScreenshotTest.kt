@@ -4,12 +4,18 @@ import androidx.compose.runtime.Composable
 import com.fintecsystems.xs2awizard.form.TextLineData
 import com.fintecsystems.xs2awizard.form.components.textLine.TextLine
 import com.fintecsystems.xs2awizard.screenshot.ScreenshotTestBase
+import com.fintecsystems.xs2awizard.screenshot.SCREENSHOT_THEMES
 import com.fintecsystems.xs2awizard.screenshot.ScreenshotTheme
+import org.robolectric.ParameterizedRobolectricTestRunner.Parameters
 import com.fintecsystems.xs2awizard.screenshot.captureForTheme
 import com.fintecsystems.xs2awizard.screenshot.createViewModel
 import org.junit.Test
 
 class TextLineScreenshotTest(screenshotTheme: ScreenshotTheme) : ScreenshotTestBase(screenshotTheme) {
+    companion object {
+        @JvmStatic @Parameters(name = "{0}") fun themes() = SCREENSHOT_THEMES
+    }
+
 
     @Composable
     private fun Empty() = TextLine(formData = TextLineData(name = "iban", label = "IBAN", placeholder = "DE00 0000 0000 0000 0000 00"), viewModel = createViewModel())

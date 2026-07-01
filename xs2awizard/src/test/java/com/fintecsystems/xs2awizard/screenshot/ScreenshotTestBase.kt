@@ -13,7 +13,6 @@ import com.github.takahirom.roborazzi.captureRoboImage
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.junit.runners.Parameterized.Parameters
 import org.robolectric.ParameterizedRobolectricTestRunner
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
@@ -23,17 +22,21 @@ internal const val SNAPSHOTS_DIR = "src/test/snapshots"
 /**
  * A theme variant used as a JUnit parameterized test parameter.
  *
+ * The [XS2ATheme] is created lazily via [buildTheme] so that no Compose/Color code runs during
+ * runner construction (before Robolectric's sandbox classloader is active).
+ *
  * Add entries to [SCREENSHOT_THEMES] to cover additional themes — every test class picks them up
  * automatically without any code changes.
  */
-data class ScreenshotTheme(val label: String, val theme: XS2ATheme) {
+class ScreenshotTheme(val label: String, private val createTheme: () -> XS2ATheme) {
+    fun buildTheme(): XS2ATheme = createTheme()
     override fun toString() = label
 }
 
 /** Single source of truth for all theme variants exercised by screenshot tests. */
 val SCREENSHOT_THEMES = listOf(
-    ScreenshotTheme("light", XS2ATheme.light),
-    ScreenshotTheme("dark", XS2ATheme.dark),
+    ScreenshotTheme("light") { XS2ATheme.light },
+    ScreenshotTheme("dark") { XS2ATheme.dark },
 )
 
 /**
@@ -60,7 +63,7 @@ fun ComposeContentTestRule.captureForTheme(
     content: @Composable () -> Unit,
 ) {
     setContent {
-        XS2ATheme(xS2ATheme = screenshotTheme.theme) { content() }
+        XS2ATheme(xS2ATheme = screenshotTheme.buildTheme()) { content() }
     }
     onRoot().captureRoboImage("$SNAPSHOTS_DIR/${baseName}_${screenshotTheme.label}.png")
 }
@@ -78,17 +81,19 @@ fun ComposeContentTestRule.captureForTheme(
  * Tests with a single content variant should extend [SingleContentScreenshotTest] instead,
  * which reduces them further to just [SingleContentScreenshotTest.baseName] and
  * [SingleContentScreenshotTest.Content].
+ *
+ * Each concrete subclass must declare its own companion object with a `@Parameters` method
+ * (Java does not inherit static methods, so the runner cannot find it on a superclass):
+ * ```kotlin
+ * companion object {
+ *     @JvmStatic @Parameters(name = "{0}") fun themes() = SCREENSHOT_THEMES
+ * }
+ * ```
  */
 @RunWith(ParameterizedRobolectricTestRunner::class)
 @Config(sdk = [34])
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 abstract class ScreenshotTestBase(protected val screenshotTheme: ScreenshotTheme) {
-    companion object {
-        @JvmStatic
-        @Parameters(name = "{0}")
-        fun themes() = SCREENSHOT_THEMES
-    }
-
     @get:Rule
     val composeRule = createComposeRule()
 }
