@@ -27,7 +27,15 @@ jobs:
         uses: gradle/actions/setup-gradle@v6
 
       - name: Build with Gradle Wrapper
-        run: ./gradlew build
+        run: ./gradlew build -Proborazzi.test.verify=true
+
+      - name: Upload screenshot diffs on failure
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: screenshot-diffs
+          path: xs2awizard/build/outputs/roborazzi/
+          retention-days: 7
 
   verify-screenshots:
 

@@ -57,18 +57,6 @@ android {
     }
 }
 
-// -PrunScreenshotTests=true  → include only screenshot tests (used by Roborazzi verify/record tasks)
-// missing or false           → exclude screenshot tests (standard unit-test runs)
-if (project.findProperty("runScreenshotTests") == "true") {
-    tasks.withType<Test>().configureEach {
-        include("**/screenshot/**")
-    }
-} else {
-    tasks.withType<Test>().configureEach {
-        exclude("**/screenshot/**")
-    }
-}
-
 dependencies {
 
     implementation(libs.androidx.core.ktx)
