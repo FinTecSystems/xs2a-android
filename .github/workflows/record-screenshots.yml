@@ -45,7 +45,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v6
 
       - name: Record screenshot golden images
-        run: ./gradlew recordRoborazziDebug
+        run: ./gradlew recordRoborazziDebug -PrunScreenshotTests=true
 
       - name: Commit updated golden images
         run: |

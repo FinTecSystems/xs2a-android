@@ -57,10 +57,14 @@ android {
     }
 }
 
-// Exclude screenshot tests from the standard unit-test run — they are exercised exclusively
-// via the Roborazzi verify/record tasks so that Roborazzi's verify/record mode is always active.
-tasks.withType<Test>().configureEach {
-    if (name == "testDebugUnitTest") {
+// -PrunScreenshotTests=true  → include only screenshot tests (used by Roborazzi verify/record tasks)
+// missing or false           → exclude screenshot tests (standard unit-test runs)
+if (project.findProperty("runScreenshotTests") == "true") {
+    tasks.withType<Test>().configureEach {
+        include("**/screenshot/**")
+    }
+} else {
+    tasks.withType<Test>().configureEach {
         exclude("**/screenshot/**")
     }
 }

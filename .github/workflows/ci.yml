@@ -70,7 +70,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v6
 
       - name: Verify screenshot tests
-        run: ./gradlew verifyRoborazziDebug
+        run: ./gradlew verifyRoborazziDebug -PrunScreenshotTests=true
 
       - name: Upload screenshot diffs on failure
         if: failure()
