@@ -3,18 +3,16 @@ package com.fintecsystems.xs2awizard.screenshot.components
 import androidx.compose.runtime.Composable
 import com.fintecsystems.xs2awizard.components.networking.ConnectivityStatusBanner
 import com.fintecsystems.xs2awizard.components.networking.ConnectionState
-import com.fintecsystems.xs2awizard.screenshot.ScreenshotTestBase
+import com.fintecsystems.xs2awizard.screenshot.SingleContentScreenshotTest
 import com.fintecsystems.xs2awizard.screenshot.ScreenshotTheme
-import com.fintecsystems.xs2awizard.screenshot.captureForTheme
-import org.junit.Test
 
-class ConnectivityStatusBannerScreenshotTest(screenshotTheme: ScreenshotTheme) : ScreenshotTestBase(screenshotTheme) {
+// Only the DISCONNECTED state is tested: it renders the visible banner.
+// The CONNECTED state renders nothing (AnimatedVisibility visible=false on first composition
+// produces a zero-size layout), which causes Roborazzi to throw when capturing an empty root.
+class ConnectivityStatusBannerScreenshotTest(screenshotTheme: ScreenshotTheme) : SingleContentScreenshotTest(screenshotTheme) {
+
+    override val baseName = "connectivity_status_banner"
 
     @Composable
-    private fun Disconnected() = ConnectivityStatusBanner(connectionState = ConnectionState.DISCONNECTED)
-    @Composable
-    private fun Connected() = ConnectivityStatusBanner(connectionState = ConnectionState.CONNECTED)
-
-    @Test fun connectivityBanner_disconnected() = composeRule.captureForTheme("connectivity_status_banner_disconnected", screenshotTheme) { Disconnected() }
-    @Test fun connectivityBanner_connected() = composeRule.captureForTheme("connectivity_status_banner_connected", screenshotTheme) { Connected() }
+    override fun Content() = ConnectivityStatusBanner(connectionState = ConnectionState.DISCONNECTED)
 }
