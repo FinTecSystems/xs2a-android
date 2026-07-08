@@ -53,19 +53,22 @@ android {
     testOptions {
         unitTests {
             isIncludeAndroidResources = true
+            all {
+                // Pass -PrunScreenshotTests=true from the CLI to run only screenshot tests
+                // (used by verifyRoborazziDebug and recordRoborazziDebug).
+                // Without the property (e.g. plain `build` or `testDebugUnitTest`), only regular
+                // unit tests run so that screenshot tests don't run twice.
+                if (project.findProperty("runScreenshotTests") == "true") {
+                    it.filter {
+                        includeTestsMatching("*.screenshot.*")
+                    }
+                } else {
+                    it.filter {
+                        excludeTestsMatching("*.screenshot.*")
+                    }
+                }
+            }
         }
-    }
-}
-
-// -PrunScreenshotTests=true  → include only screenshot tests (used by Roborazzi verify/record tasks)
-// missing or false           → exclude screenshot tests (standard unit-test runs)
-if (project.findProperty("runScreenshotTests") == "true") {
-    tasks.withType<Test>().configureEach {
-        include("**/screenshot/**")
-    }
-} else {
-    tasks.withType<Test>().configureEach {
-        exclude("**/screenshot/**")
     }
 }
 
