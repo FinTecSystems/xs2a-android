@@ -36,10 +36,11 @@ jobs:
         run: ./gradlew testDebugUnitTest
 
       - name: Verify screenshot tests
+        id: verify-screenshots
         run: ./gradlew verifyRoborazziDebug -PrunScreenshotTests=true
 
       - name: Upload screenshot diffs on failure
-        if: failure()
+        if: failure() && steps.verify-screenshots.conclusion == 'failure'
         uses: actions/upload-artifact@v7
         with:
           name: screenshot-diffs
