@@ -30,7 +30,13 @@ jobs:
         uses: gradle/actions/setup-gradle@v6
 
       - name: Build with Gradle Wrapper
-        run: ./gradlew build -Proborazzi.test.compare=true -Proborazzi.test.verify=true
+        run: ./gradlew build -x test
+
+      - name: Run unit tests
+        run: ./gradlew testDebugUnitTest
+
+      - name: Verify screenshot tests
+        run: ./gradlew verifyRoborazziDebug -PrunScreenshotTests=true
 
       - name: Upload screenshot diffs on failure
         if: failure()
