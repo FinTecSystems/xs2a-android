@@ -22,7 +22,7 @@ datastore = "1.2.1"
 bouncycastle = "1.70"
 
 roborazzi = "1.59.0"
-robolectric = "4.14.1"
+robolectric = "4.16.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
