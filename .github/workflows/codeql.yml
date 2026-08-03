@@ -43,7 +43,7 @@ jobs:
 
     - name: Setup Gradle
       if: ${{ !matrix.skip && matrix.build-mode == 'manual' }}
-      uses: gradle/actions/setup-gradle@v6
+      uses: gradle/actions/setup-gradle@v6.2.0
 
     - name: Initialize CodeQL
       if: ${{ !matrix.skip }}
