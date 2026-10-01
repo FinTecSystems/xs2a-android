@@ -1,0 +1,2 @@
+xs2awizard/src/test/snapshots/**/*.png filter=lfs diff=lfs merge=lfs -text
+xs2awizard/src/test/snapshots/**/*.jpg filter=lfs diff=lfs merge=lfs -text

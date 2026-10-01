@@ -179,7 +179,7 @@ fun TextLine(formData: TextLineData, viewModel: XS2AWizardViewModel) {
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun AutoCompleteDropdownContent(
+internal fun AutoCompleteDropdownContent(
     autoCompleteData: AutoCompleteData?,
     onItemClick: (String) -> Unit,
 ) {

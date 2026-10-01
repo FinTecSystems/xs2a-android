@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.kotlinParcelize)
     alias(libs.plugins.gradleMavenPublish)
+    alias(libs.plugins.roborazzi)
 }
 
 val versionName = providers.gradleProperty("versionName").getOrElse("LOCAL")
@@ -20,7 +21,7 @@ kotlin {
 }
 
 android {
-    compileSdk = 37
+    compileSdk = 36
     namespace = "com.fintecsystems.xs2awizard"
 
     defaultConfig {
@@ -49,6 +50,26 @@ android {
         compose = true
         buildConfig = true
     }
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+            all {
+                // Pass -PrunScreenshotTests=true from the CLI to run only screenshot tests
+                // (used by verifyRoborazziDebug and recordRoborazziDebug).
+                // Without the property (e.g. plain `build` or `testDebugUnitTest`), only regular
+                // unit tests run so that screenshot tests don't run twice.
+                if (project.findProperty("runScreenshotTests") == "true") {
+                    it.filter {
+                        includeTestsMatching("*.screenshot.*")
+                    }
+                } else {
+                    it.filter {
+                        excludeTestsMatching("*.screenshot.*")
+                    }
+                }
+            }
+        }
+    }
 }
 
 dependencies {
@@ -75,6 +96,11 @@ dependencies {
 
     testImplementation(libs.junit)
     testImplementation(libs.bouncycastle.bcprov)
+    testImplementation(libs.roborazzi)
+    testImplementation(libs.roborazzi.compose)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.androidx.compose.ui.test.junit4)
+    debugImplementation(libs.androidx.compose.ui.test.manifest)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }
