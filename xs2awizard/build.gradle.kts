@@ -21,7 +21,7 @@ kotlin {
 }
 
 android {
-    compileSdk = 37
+    compileSdk = 36
     namespace = "com.fintecsystems.xs2awizard"
 
     defaultConfig {
