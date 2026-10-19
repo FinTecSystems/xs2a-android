@@ -1,6 +1,6 @@
 [versions]
 agp = "9.4.1"
-kotlin = "2.4.10"
+kotlin = "2.4.21"
 compose = "1.11.4"
 coreKtx = "1.17.0"
 junit = "4.13.2"
@@ -21,7 +21,7 @@ datastore = "1.2.1"
 
 bouncycastle = "1.70"
 
-roborazzi = "1.75.0"
+roborazzi = "1.76.0"
 robolectric = "4.17"
 
 [libraries]
