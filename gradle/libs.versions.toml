@@ -21,7 +21,7 @@ datastore = "1.2.1"
 
 bouncycastle = "1.70"
 
-roborazzi = "1.76.0"
+roborazzi = "1.77.0"
 robolectric = "4.17"
 
 [libraries]
