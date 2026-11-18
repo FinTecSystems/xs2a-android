@@ -84,7 +84,7 @@ fun FormTextField(
             }
         } else null,
         isError = isError,
-        shape = XS2ATheme.CURRENT.inputShape.value,
+        shape = MaterialTheme.shapes.large,
         visualTransformation = visualTransformation,
         keyboardOptions = KeyboardOptions(
             imeAction = ImeAction.Next, // TODO: Add some way to identify the last TextInput of a form
